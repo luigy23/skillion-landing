@@ -1,0 +1,45 @@
+---
+interface Props {
+  text: string;
+  variant?: 'primary' | 'secondary' | 'accent';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  onClick?: string;
+  class?: string;
+}
+
+const { 
+  text, 
+  variant = 'primary', 
+  size = 'md', 
+  href, 
+  onClick, 
+  class: className = '' 
+} = Astro.props;
+
+const baseClasses = "font-poppins font-bold transition-all duration-300 shadow-pixel hover:shadow-pixel-hover transform hover:-translate-y-1 active:translate-y-0 active:shadow-pixel border-2";
+
+const variantClasses = {
+  primary: "bg-gaming-gold text-gaming-dark border-yellow-600 hover:bg-yellow-400 hover:shadow-glow",
+  secondary: "bg-secondary-500 text-white border-secondary-600 hover:bg-secondary-400 hover:shadow-glow",
+  accent: "bg-accent-500 text-white border-accent-600 hover:bg-accent-400 hover:shadow-glow"
+};
+
+const sizeClasses = {
+  sm: "px-4 py-2 text-sm",
+  md: "px-6 py-3 text-base",
+  lg: "px-8 py-4 text-lg"
+};
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+---
+
+{href ? (
+  <a href={href} class={classes}>
+    {text}
+  </a>
+) : (
+  <button class={classes} onclick={onClick}>
+    {text}
+  </button>
+)}

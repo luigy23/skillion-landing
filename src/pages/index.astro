@@ -1,11 +1,269 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import PixelButton from '../components/PixelButton.astro';
+import PreRegisterForm from '../components/PreRegisterForm.astro';
+import FeatureCard from '../components/FeatureCard.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Skillion - La vida es un juego. Sube de nivel.">
+	<main class="bg-pixel-gradient text-pixel-text">
+		
+		<!-- Sección 1: Héroe de la Aventura -->
+		<section class="min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden">
+
+			<div class="container mx-auto text-center z-10">
+				<div class="animate-float">
+					<!-- Placeholder para el personaje pixel art -->
+					<div class="w-32 h-32 mx-auto mb-8 bg-pixel-card border-4 border-gaming-gold shadow-glow flex items-center justify-center text-6xl">
+						🎮
+					</div>
+				</div>
+				
+				<h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 font-poppins">
+					<span class="bg-gradient-to-r from-gaming-gold to-yellow-400 bg-clip-text text-transparent">
+						La vida es un juego.
+					</span>
+					<br>
+					<span class="text-pixel-text animate-pulse-glow">
+						Sube de nivel.
+					</span>
+				</h1>
+				
+				<p class="text-xl md:text-2xl mb-12 text-pixel-text-secondary max-w-3xl mx-auto leading-relaxed font-poppins">
+					<strong class="text-gaming-gold">Skillion</strong> es la app que convierte tus hábitos y metas en una aventura RPG. 
+					<span class="text-gaming-cyan">Gana XP en la vida real</span> por cada tarea que completas.
+				</p>
+				
+				<div class="mb-8">
+					<PreRegisterForm />
+				</div>
+				
+				<p class="text-sm text-pixel-text-secondary">
+					Los aventureros pre-registrados recibirán un <span class="text-gaming-gold font-semibold">ítem cosmético exclusivo</span> en el lanzamiento
+				</p>
+			</div>
+		</section>
+
+		<!-- Sección 2: El Problema -->
+		<section class="py-20 px-4 bg-pixel-bg2">
+			<div class="container mx-auto text-center">
+				<div class="max-w-4xl mx-auto">
+					<h2 class="text-3xl md:text-5xl font-bold mb-8 font-poppins">
+						¿Las apps de hábitos te <span class="text-gaming-health">aburren</span>?
+						<br>
+						¿La motivación no te <span class="text-gaming-health">dura</span>?
+					</h2>
+					
+					<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8 mb-8">
+						<div class="text-6xl mb-4">😴</div>
+						<p class="text-xl text-pixel-text-secondary leading-relaxed font-poppins">
+							Dejar de procrastinar no debería ser un castigo. Las listas de tareas son aburridas 
+							y no reflejan tu progreso real. Es hora de un cambio.
+						</p>
+					</div>
+					
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+						<div class="bg-pixel-card border-2 border-red-600 p-6 shadow-pixel">
+							<div class="text-3xl mb-2">❌</div>
+							<h3 class="font-bold text-gaming-health mb-2">Aburrido</h3>
+							<p class="text-sm text-pixel-text-secondary">Solo listas y checks</p>
+						</div>
+						<div class="bg-pixel-card border-2 border-red-600 p-6 shadow-pixel">
+							<div class="text-3xl mb-2">📉</div>
+							<h3 class="font-bold text-gaming-health mb-2">Sin progreso</h3>
+							<p class="text-sm text-pixel-text-secondary">No ves tu crecimiento</p>
+						</div>
+						<div class="bg-pixel-card border-2 border-red-600 p-6 shadow-pixel">
+							<div class="text-3xl mb-2">😔</div>
+							<h3 class="font-bold text-gaming-health mb-2">Desmotivación</h3>
+							<p class="text-sm text-pixel-text-secondary">Pierdes interés rápido</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Sección 3: La Solución -->
+		<section class="py-20 px-4">
+			<div class="container mx-auto">
+				<div class="text-center mb-16">
+					<h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
+						Tu vida, tus reglas, <span class="text-gaming-gold">tu juego</span>
+					</h2>
+					<p class="text-xl text-pixel-text-secondary max-w-2xl mx-auto">
+						Descubre cómo Skillion transforma tu rutina diaria en una épica aventura
+					</p>
+				</div>
+				
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+					<FeatureCard 
+						icon="🧠"
+						title="Crea tus Propias Skills"
+						description="Define qué quieres mejorar: desde 'Carisma' y 'Salud' hasta 'Flutter' o 'Copywriting'. Tú decides tu destino."
+					/>
+					<FeatureCard 
+						icon="⚔️"
+						title="Completa Misiones Reales"
+						description="Cada tarea que completas (leer un libro, ir al gym, programar una hora) te da XP para tus skills."
+					/>
+					<FeatureCard 
+						icon="🏆"
+						title="Sube de Nivel y Desbloquea"
+						description="Observa cómo tus barras de progreso crecen. Gana ítems y personaliza tu aventura épica."
+					/>
+				</div>
+			</div>
+		</section>
+
+		<!-- Sección 4: Galería "Instagrammable" -->
+		<section class="py-20 px-4 bg-pixel-bg2">
+			<div class="container mx-auto text-center">
+				<h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
+					Diseñado para que <span class="text-gaming-gold">presumas</span> tu progreso
+				</h2>
+				<p class="text-xl text-pixel-text-secondary mb-12 max-w-2xl mx-auto">
+					Capturas de pantalla que querrás compartir en todas tus redes sociales
+				</p>
+				
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+					<!-- Mockup 1 -->
+					<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-6 hover:shadow-pixel-hover hover:border-gaming-gold transition-all duration-300 transform hover:-translate-y-2">
+						<div class="aspect-[9/16] bg-gradient-to-b from-gaming-purple to-gaming-blue rounded-lg mb-4 flex items-center justify-center text-6xl">
+							📊
+						</div>
+						<h3 class="font-bold text-lg mb-2">Perfil de Aventurero</h3>
+						<p class="text-pixel-text-secondary text-sm">Tu progreso en cada skill, nivel actual y próximas recompensas</p>
+					</div>
+					
+					<!-- Mockup 2 -->
+					<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-6 hover:shadow-pixel-hover hover:border-gaming-gold transition-all duration-300 transform hover:-translate-y-2">
+						<div class="aspect-[9/16] bg-gradient-to-b from-gaming-cyan to-gaming-blue rounded-lg mb-4 flex items-center justify-center text-6xl">
+							📈
+						</div>
+						<h3 class="font-bold text-lg mb-2">Resumen Semanal</h3>
+						<p class="text-pixel-text-secondary text-sm">Tu "Spotify Wrapped" personal con las skills que más subieron</p>
+					</div>
+					
+					<!-- Mockup 3 -->
+					<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-6 hover:shadow-pixel-hover hover:border-gaming-gold transition-all duration-300 transform hover:-translate-y-2">
+						<div class="aspect-[9/16] bg-gradient-to-b from-gaming-gold to-accent-500 rounded-lg mb-4 flex items-center justify-center text-6xl">
+							🎉
+						</div>
+						<h3 class="font-bold text-lg mb-2">¡Misión Completada!</h3>
+						<p class="text-pixel-text-secondary text-sm">Animación épica cuando subes de nivel y desbloqueas rewards</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Sección 5: Únete a la Comunidad -->
+		<section class="py-20 px-4">
+			<div class="container mx-auto text-center">
+				<h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
+					Sé uno de los primeros <span class="text-gaming-gold">aventureros</span>
+				</h2>
+				<p class="text-xl text-pixel-text-secondary mb-12 max-w-2xl mx-auto">
+					Forma parte de la comunidad fundadora de Skillion. Tendrás acceso anticipado, 
+					recompensas exclusivas y tu feedback dará forma al juego.
+				</p>
+				
+				<div class="flex flex-wrap justify-center gap-6 mb-12">
+					<a href="https://instagram.com/skillion.app" target="_blank" class="bg-pixel-card border-2 border-pixel-border shadow-pixel hover:shadow-pixel-hover hover:border-gaming-gold p-6 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-3">
+						<span class="text-3xl">📸</span>
+						<div class="text-left">
+							<div class="font-bold">Instagram</div>
+							<div class="text-sm text-pixel-text-secondary">@skillion.app</div>
+						</div>
+					</a>
+					
+					<a href="https://instagram.com/skillion.es" target="_blank" class="bg-pixel-card border-2 border-pixel-border shadow-pixel hover:shadow-pixel-hover hover:border-gaming-gold p-6 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-3">
+						<span class="text-3xl">🇪🇸</span>
+						<div class="text-left">
+							<div class="font-bold">Instagram ES</div>
+							<div class="text-sm text-pixel-text-secondary">@skillion.es</div>
+						</div>
+					</a>
+					
+					<a href="https://tiktok.com/@skillion.app" target="_blank" class="bg-pixel-card border-2 border-pixel-border shadow-pixel hover:shadow-pixel-hover hover:border-gaming-gold p-6 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-3">
+						<span class="text-3xl">🎵</span>
+						<div class="text-left">
+							<div class="font-bold">TikTok</div>
+							<div class="text-sm text-pixel-text-secondary">@skillion.app</div>
+						</div>
+					</a>
+				</div>
+				
+				<div class="bg-pixel-card border-2 border-gaming-gold p-8 shadow-glow max-w-2xl mx-auto">
+					<div class="text-4xl mb-4">🎁</div>
+					<h3 class="text-2xl font-bold mb-4 text-gaming-gold">Recompensas de Fundador</h3>
+					<p class="text-pixel-text-secondary">
+						Los primeros aventureros recibirán acceso beta, ítems cosméticos exclusivos 
+						y su nombre en los créditos del juego. ¡La leyenda comienza contigo!
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Sección 6: CTA Final -->
+		<section class="py-20 px-4 bg-pixel-bg2">
+			<div class="container mx-auto text-center">
+				<h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
+					¿Listo para empezar <span class="text-gaming-gold">la partida</span>?
+				</h2>
+				<p class="text-xl text-pixel-text-secondary mb-12 max-w-2xl mx-auto">
+					Tu aventura épica está a punto de comenzar. No dejes que la procrastinación sea el boss final.
+				</p>
+				
+				<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8 max-w-2xl mx-auto mb-8">
+					<PreRegisterForm 
+						placeholder="aventurero@email.com"
+						buttonText="¡Comenzar mi aventura!"
+					/>
+				</div>
+				
+				<div class="flex justify-center items-center gap-4 text-pixel-text-secondary text-sm">
+					<span>⚔️</span>
+					<span>Derrota al boss de la procrastinación</span>
+					<span>🏆</span>
+					<span>Forja tu leyenda</span>
+					<span>🎮</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="py-12 px-4 border-t-2 border-pixel-border">
+			<div class="container mx-auto text-center">
+				<div class="text-4xl mb-4">🎮</div>
+				<h3 class="text-2xl font-bold mb-2 text-gaming-gold font-poppins">Skillion</h3>
+				<p class="text-pixel-text-secondary mb-6">La vida es un juego. Sube de nivel.</p>
+				
+				<div class="flex justify-center gap-6 mb-8">
+					<a href="https://instagram.com/skillion.app" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Instagram</a>
+					<a href="https://instagram.com/skillion.es" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Instagram ES</a>
+					<a href="https://tiktok.com/@skillion.app" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">TikTok</a>
+				</div>
+				
+				<p class="text-xs text-pixel-text-secondary">
+					© 2025 Skillion. Hecho con ❤️ y mucho ☕ para aventureros como tú.
+				</p>
+			</div>
+		</footer>
+	</main>
 </Layout>
+
+<style>
+	/* Efectos adicionales para mejorar la experiencia pixel art */
+	@keyframes glitch {
+		0% { transform: translate(0) }
+		20% { transform: translate(-2px, 2px) }
+		40% { transform: translate(-2px, -2px) }
+		60% { transform: translate(2px, 2px) }
+		80% { transform: translate(2px, -2px) }
+		100% { transform: translate(0) }
+	}
+	
+	.hover\:animate-glitch:hover {
+		animation: glitch 0.3s ease-in-out;
+	}
+</style>
