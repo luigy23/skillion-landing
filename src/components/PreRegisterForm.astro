@@ -2,15 +2,17 @@
 interface Props {
   placeholder?: string;
   buttonText?: string;
+  idform?: string;
 }
 
 const { 
   placeholder = 'tu-email@aventurero.com',
-  buttonText = '¡Quiero acceso anticipado!'
+  buttonText = '¡Quiero acceso anticipado!',
+  idform = 'preregister-form'
 } = Astro.props;
 ---
 
-<form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" id="preregister-form">
+<form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" id={idform}>
   <div class="flex-1">
     <input 
       type="email" 
@@ -28,14 +30,17 @@ const {
   </button>
 </form>
 
-<script>
-  document.getElementById('preregister-form')?.addEventListener('submit', async function(e) {
+<script define:vars={{ formId: idform }}>
+ // La variable "formId" viene desde el frontmatter gracias a define:vars
+  const formElement = document.getElementById(formId);
+
+  formElement?.addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    const form = e.target as HTMLFormElement;
-    const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const form = e.target;
+    const submitButton = form.querySelector('button[type="submit"]');
     const originalButtonText = submitButton.textContent;
-    const emailInput = form.querySelector('input[name="email"]') as HTMLInputElement;
+    const emailInput = form.querySelector('input[name="email"]');
     
     // Mostrar estado de carga
     submitButton.disabled = true;
@@ -56,36 +61,32 @@ const {
       const result = await response.json();
       
       if (result.success) {
-        // Mostrar mensaje breve de éxito
         showNotification('¡Registrado! Redirigiendo...', 'success');
-        
-        // Limpiar formulario
         form.reset();
-        
-        // Redirigir a página de agradecimiento después de un breve delay
         setTimeout(() => {
           window.location.href = `/gracias?email=${encodeURIComponent(email)}`;
         }, 1500);
-        
       } else {
-        // Mostrar mensaje de error
         showNotification(result.message || 'Error al registrar el email', 'error');
+        // Si hay error, restauramos el botón aquí
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+        submitButton.classList.remove('opacity-75', 'cursor-not-allowed');
       }
       
     } catch (error) {
       console.error('Error:', error);
       showNotification('Error de conexión. Inténtalo de nuevo.', 'error');
-    } finally {
-      // Solo restaurar botón si no fue exitoso (porque si fue exitoso, redirigimos)
-      if (!submitButton.textContent?.includes('Registrado')) {
-        submitButton.disabled = false;
-        submitButton.textContent = originalButtonText;
-        submitButton.classList.remove('opacity-75', 'cursor-not-allowed');
-      }
+      // Si hay error, también restauramos el botón
+      submitButton.disabled = false;
+      submitButton.textContent = originalButtonText;
+      submitButton.classList.remove('opacity-75', 'cursor-not-allowed');
     }
+    // El bloque finally ya no es necesario si manejas la restauración del botón en los casos de error.
   });
   
-  function showNotification(message: string, type: 'success' | 'error') {
+  
+  function showNotification(message, type) {
     // Crear notificación personalizada en lugar de alert
     const notification = document.createElement('div');
     notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm notification-enter ${
