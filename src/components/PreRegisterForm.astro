@@ -56,11 +56,17 @@ const {
       const result = await response.json();
       
       if (result.success) {
-        // Mostrar mensaje de éxito
-        showNotification(result.message, 'success');
+        // Mostrar mensaje breve de éxito
+        showNotification('¡Registrado! Redirigiendo...', 'success');
         
         // Limpiar formulario
         form.reset();
+        
+        // Redirigir a página de agradecimiento después de un breve delay
+        setTimeout(() => {
+          window.location.href = `/gracias?email=${encodeURIComponent(email)}`;
+        }, 1500);
+        
       } else {
         // Mostrar mensaje de error
         showNotification(result.message || 'Error al registrar el email', 'error');
@@ -70,10 +76,12 @@ const {
       console.error('Error:', error);
       showNotification('Error de conexión. Inténtalo de nuevo.', 'error');
     } finally {
-      // Restaurar botón
-      submitButton.disabled = false;
-      submitButton.textContent = originalButtonText;
-      submitButton.classList.remove('opacity-75', 'cursor-not-allowed');
+      // Solo restaurar botón si no fue exitoso (porque si fue exitoso, redirigimos)
+      if (!submitButton.textContent?.includes('Registrado')) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+        submitButton.classList.remove('opacity-75', 'cursor-not-allowed');
+      }
     }
   });
   
@@ -82,7 +90,7 @@ const {
     const notification = document.createElement('div');
     notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm notification-enter ${
       type === 'success' 
-        ? 'bg-gaming-gold text-gaming-dark border-2 border-yellow-600' 
+        ? 'bg-white text-gaming-dark border-2 border-yellow-600' 
         : 'bg-gaming-health text-white border-2 border-red-600'
     }`;
     
@@ -101,11 +109,14 @@ const {
       notification.classList.add('notification-show');
     }, 100);
     
-    // Remover después de 5 segundos
+    // Para mensajes de éxito (que redirigen), mostrar menos tiempo
+    const displayTime = type === 'success' ? 2000 : 5000;
+    
+    // Remover después del tiempo especificado
     setTimeout(() => {
       notification.classList.remove('notification-show');
       notification.classList.add('notification-exit');
       setTimeout(() => notification.remove(), 300);
-    }, 5000);
+    }, displayTime);
   }
 </script>
