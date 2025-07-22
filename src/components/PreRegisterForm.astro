@@ -29,18 +29,83 @@ const {
 </form>
 
 <script>
-  document.getElementById('preregister-form')?.addEventListener('submit', function(e) {
+  document.getElementById('preregister-form')?.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const email = formData.get('email');
     
-    // Aquí puedes integrar con tu servicio de email (Mailchimp, ConvertKit, etc.)
-    console.log('Email registrado:', email);
+    const form = e.target as HTMLFormElement;
+    const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const originalButtonText = submitButton.textContent;
+    const emailInput = form.querySelector('input[name="email"]') as HTMLInputElement;
     
-    // Mostrar mensaje de éxito
-    alert('¡Gracias, aventurero! Te notificaremos cuando Skillion esté listo para tu épica aventura. 🎮✨');
+    // Mostrar estado de carga
+    submitButton.disabled = true;
+    submitButton.textContent = 'Registrando...';
+    submitButton.classList.add('opacity-75', 'cursor-not-allowed');
     
-    // Limpiar formulario
-    (e.target as HTMLFormElement).reset();
+    try {
+      const email = emailInput.value;
+      
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        // Mostrar mensaje de éxito
+        showNotification(result.message, 'success');
+        
+        // Limpiar formulario
+        form.reset();
+      } else {
+        // Mostrar mensaje de error
+        showNotification(result.message || 'Error al registrar el email', 'error');
+      }
+      
+    } catch (error) {
+      console.error('Error:', error);
+      showNotification('Error de conexión. Inténtalo de nuevo.', 'error');
+    } finally {
+      // Restaurar botón
+      submitButton.disabled = false;
+      submitButton.textContent = originalButtonText;
+      submitButton.classList.remove('opacity-75', 'cursor-not-allowed');
+    }
   });
+  
+  function showNotification(message: string, type: 'success' | 'error') {
+    // Crear notificación personalizada en lugar de alert
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm notification-enter ${
+      type === 'success' 
+        ? 'bg-gaming-gold text-gaming-dark border-2 border-yellow-600' 
+        : 'bg-gaming-health text-white border-2 border-red-600'
+    }`;
+    
+    notification.innerHTML = `
+      <div class="flex items-center gap-2">
+        <span class="text-xl">${type === 'success' ? '🎮' : '⚠️'}</span>
+        <p class="font-poppins font-bold">${message}</p>
+      </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animar entrada
+    setTimeout(() => {
+      notification.classList.remove('notification-enter');
+      notification.classList.add('notification-show');
+    }, 100);
+    
+    // Remover después de 5 segundos
+    setTimeout(() => {
+      notification.classList.remove('notification-show');
+      notification.classList.add('notification-exit');
+      setTimeout(() => notification.remove(), 300);
+    }, 5000);
+  }
 </script>

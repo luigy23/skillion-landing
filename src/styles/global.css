@@ -24,3 +24,21 @@
 .text-glow-strong {
   text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
 }
+
+/* Estilos para notificaciones */
+.notification-enter {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+.notification-show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.notification-exit {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s ease-in;
+}
