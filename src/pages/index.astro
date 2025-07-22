@@ -3,28 +3,31 @@ import Layout from '../layouts/Layout.astro';
 import PixelButton from '../components/PixelButton.astro';
 import PreRegisterForm from '../components/PreRegisterForm.astro';
 import FeatureCard from '../components/FeatureCard.astro';
+import Image from 'astro/components/Image.astro';
+import Logo from '../assets/Skillion.png';
+import Background from '../assets/bgHero.png';
+
 ---
 
 <Layout title="Skillion - La vida es un juego. Sube de nivel.">
 	<main class="bg-pixel-gradient text-pixel-text">
 		
 		<!-- Sección 1: Héroe de la Aventura -->
-		<section class="min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden">
-
+		<section class="text-white min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden bg-cover bg-center" style={`background-image: url(${Background.src})`}>
+			<!-- Overlay para crear contraste -->
+			<div class="absolute inset-0 bg-sky-950 opacity-60 z-0"></div>
+			
 			<div class="container mx-auto text-center z-10">
 				<div class="animate-float">
-					<!-- Placeholder para el personaje pixel art -->
-					<div class="w-32 h-32 mx-auto mb-8 bg-pixel-card border-4 border-gaming-gold shadow-glow flex items-center justify-center text-6xl">
-						🎮
-					</div>
+					<Image src={Logo} alt="Skillion Hero Image" class="w-32 h-32 mx-auto mb-8 rounded-2xl" />
 				</div>
 				
 				<h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 font-poppins">
-					<span class="bg-gradient-to-r from-gaming-gold to-yellow-400 bg-clip-text text-transparent">
+					<span class="text-white">
 						La vida es un juego.
 					</span>
 					<br>
-					<span class="text-pixel-text animate-pulse-glow">
+					<span class="text-white">
 						Sube de nivel.
 					</span>
 				</h1>

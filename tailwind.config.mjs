@@ -78,10 +78,12 @@ export default {
         },
         'pulse-glow': {
           '0%, 100%': { 
-            boxShadow: '0 0 5px rgba(217, 70, 239, 0.5)' 
+            textShadow: '0 0 5px rgba(255, 215, 0, 0.5)',
+            transform: 'scale(1)'
           },
           '50%': { 
-            boxShadow: '0 0 20px rgba(217, 70, 239, 0.8), 0 0 30px rgba(217, 70, 239, 0.6)' 
+            textShadow: '0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6)',
+            transform: 'scale(1.05)'
           },
         },
         'pixel-shimmer': {
