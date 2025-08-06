@@ -4,14 +4,12 @@ import '../styles/global.css';
 export interface Props {
 	title: string;
 	description?: string;
-	keywords?: string;
 	ogImage?: string;
 }
 
 const { 
 	title, 
 	description = "Skillion - La app que gamifica tu vida real. Convierte tus hábitos en un RPG, gana XP por cada tarea completada y sube de nivel en la vida real. Descarga la app de gamificación de hábitos más divertida.",
-	keywords = "Skillion, gamificación, gamificar vida, app hábitos, RPG vida real, productividad gamificada, subir nivel vida, XP vida real, juego hábitos, app motivación",
 	ogImage = "/assets/Skillion.png"
 } = Astro.props;
 ---
@@ -21,13 +19,12 @@ const {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
 		
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<meta name="keywords" content={keywords} />
 		<meta name="author" content="Skillion Team" />
 		<meta name="robots" content="index, follow" />
 		<link rel="canonical" href={Astro.url} />
