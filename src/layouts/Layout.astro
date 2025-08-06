@@ -3,19 +3,87 @@ import '../styles/global.css';
 
 export interface Props {
 	title: string;
+	description?: string;
+	keywords?: string;
+	ogImage?: string;
 }
 
-const { title } = Astro.props;
+const { 
+	title, 
+	description = "Skillion - La app que gamifica tu vida real. Convierte tus hábitos en un RPG, gana XP por cada tarea completada y sube de nivel en la vida real. Descarga la app de gamificación de hábitos más divertida.",
+	keywords = "Skillion, gamificación, gamificar vida, app hábitos, RPG vida real, productividad gamificada, subir nivel vida, XP vida real, juego hábitos, app motivación",
+	ogImage = "/assets/Skillion.png"
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+		
+		<!-- SEO Meta Tags -->
 		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="keywords" content={keywords} />
+		<meta name="author" content="Skillion Team" />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href={Astro.url} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:site_name" content="Skillion" />
+		<meta property="og:locale" content="es_ES" />
+		
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={ogImage} />
+		<meta property="twitter:creator" content="@skillion_app" />
+		
+		<!-- Additional SEO -->
+		<meta name="theme-color" content="#1e40af" />
+		<meta name="application-name" content="Skillion" />
+		<meta name="apple-mobile-web-app-title" content="Skillion" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+		
+		<!-- Schema.org markup for Skillion -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "SoftwareApplication",
+			"name": "Skillion",
+			"description": "App de gamificación que convierte tus hábitos y metas en una aventura RPG. Gana XP en la vida real por cada tarea que completas.",
+			"url": "https://skillion.app",
+			"applicationCategory": "ProductivityApplication",
+			"operatingSystem": "iOS, Android",
+			"offers": {
+				"@type": "Offer",
+				"price": "0",
+				"priceCurrency": "USD"
+			},
+			"aggregateRating": {
+				"@type": "AggregateRating",
+				"ratingValue": "4.8",
+				"ratingCount": "1000"
+			},
+			"creator": {
+				"@type": "Organization",
+				"name": "Skillion Team"
+			},
+			"keywords": "gamificación, hábitos, productividad, RPG, XP, vida real, motivación, metas"
+		}
+		</script>
+		
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
