@@ -3,12 +3,14 @@ interface Props {
   placeholder?: string;
   buttonText?: string;
   idform?: string;
+  lang?: 'en' | 'es';
 }
 
 const { 
   placeholder = 'tu-email@aventurero.com',
   buttonText = '¡Quiero acceso anticipado!',
-  idform = 'preregister-form'
+  idform = 'preregister-form',
+  lang = 'es'
 } = Astro.props;
 ---
 
@@ -30,7 +32,7 @@ const {
   </button>
 </form>
 
-<script define:vars={{ formId: idform }}>
+<script define:vars={{ formId: idform, preferredLang: lang }}>
  // La variable "formId" viene desde el frontmatter gracias a define:vars
   const formElement = document.getElementById(formId);
 
@@ -64,7 +66,8 @@ const {
         showNotification('¡Registrado! Redirigiendo...', 'success');
         form.reset();
         setTimeout(() => {
-          window.location.href = `/gracias?email=${encodeURIComponent(email)}`;
+          var url = `/gracias?lang=${encodeURIComponent(preferredLang)}&email=${encodeURIComponent(email)}`;
+          window.location.href = url;
         }, 1500);
       } else {
         showNotification(result.message || 'Error al registrar el email', 'error');

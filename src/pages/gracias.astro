@@ -6,20 +6,37 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="¡Bienvenido Aventurero! - Skillion"> 
   <!-- Overlay de bienvenida -->
 
-<div class="p-4">
-  <!-- Formulario de Tally embebido -->
-<iframe data-tally-src="https://tally.so/embed/nGOORL?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="715" frameborder="0" marginheight="0" marginwidth="0" title="¡Bienvenido Jugador!"></iframe>
+<div class="p-4" id="tally-container"></div>
 
-</div> 
-
-<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+<script>
+  (function(){
+    var d=document;
+    var params = new URLSearchParams(window.location.search);
+    var qLang = params.get('lang');
+    var isSpanish = qLang ? qLang.toLowerCase().startsWith('es') : (navigator.language || '').toLowerCase().startsWith('es');
+    var src = isSpanish
+      ? 'https://tally.so/embed/nGOORL?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1'
+      : 'https://tally.so/embed/n0W046?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1';
+    var iframe = d.createElement('iframe');
+    iframe.src = src;
+    iframe.loading = 'lazy';
+    iframe.width = '100%';
+    iframe.height = '752';
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('marginheight', '0');
+    iframe.setAttribute('marginwidth', '0');
+    iframe.title = isSpanish ? '¡Bienvenido Jugador!' : 'Welcome Player!';
+    var container = d.getElementById('tally-container');
+    if (container) container.appendChild(iframe);
+  })();
+  </script>
 
   <!-- Botón para volver -->
   <a 
     href="/" 
     class="fixed bottom-4 right-4 md:bottom-6 md:right-6 bg-pixel-card/90 border-2 border-pixel-border text-pixel-text-secondary px-3 py-2 md:px-4 md:py-2 rounded font-poppins text-xs md:text-sm cursor-pointer transition-all duration-300 z-20 no-underline hover:bg-gaming-gold/10 hover:border-gaming-gold hover:text-gaming-gold hover:-translate-y-1 backdrop-blur-sm"
   >
-    ← Volver al inicio
+    ← Volver al inicio / Go back home
   </a>
 
   <script>
@@ -27,8 +44,8 @@ import Layout from '../layouts/Layout.astro';
     console.log('Usuario llegó a página de agradecimiento');
     
     // Si hay parámetros de email en la URL, podríamos hacer tracking adicional
-    const urlParams = new URLSearchParams(window.location.search);
-    const email = urlParams.get('email');
+    var urlParams = new URLSearchParams(window.location.search);
+    var email = urlParams.get('email');
     if (email) {
       console.log('Email del usuario:', email);
     }

@@ -5,17 +5,22 @@ export interface Props {
 	title: string;
 	description?: string;
 	ogImage?: string;
+	lang?: string;
 }
 
 const { 
 	title, 
 	description = "Skillion - La app que gamifica tu vida real. Convierte tus hábitos en un RPG, gana XP por cada tarea completada y sube de nivel en la vida real. Descarga la app de gamificación de hábitos más divertida.",
-	ogImage = "/assets/Skillion.png"
+	ogImage = "/assets/Skillion.png",
+	lang = "es"
 } = Astro.props;
+
+const urlEs = new URL('/es/', Astro.url);
+const urlEn = new URL('/', Astro.url);
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -36,7 +41,12 @@ const {
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={ogImage} />
 		<meta property="og:site_name" content="Skillion" />
-		<meta property="og:locale" content="es_ES" />
+		<meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+
+		<!-- Hreflang alternates -->
+		<link rel="alternate" hreflang="es" href={urlEs} />
+		<link rel="alternate" hreflang="en" href={urlEn} />
+		<link rel="alternate" hreflang="x-default" href={urlEn} />
 		
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />

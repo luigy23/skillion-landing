@@ -1,8 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PixelButton from '../components/PixelButton.astro';
-import PreRegisterForm from '../components/PreRegisterForm.astro';
 import FeatureCard from '../components/FeatureCard.astro';
+import PreRegisterForm from '../components/PreRegisterForm.astro';
 import Image from 'astro/components/Image.astro';
 import Logo from '../assets/Skillion.png';
 import Background from '../assets/bgHero.png';
@@ -10,10 +9,25 @@ import Background from '../assets/bgHero.png';
 ---
 
 <Layout 
-	title="Skillion - Gamifica tu Vida Real | App RPG de Hábitos y Productividad"
-	description="🎮 Skillion convierte tus hábitos en un RPG épico. Gana XP real, sube de nivel en la vida y derrota la procrastinación. La app de gamificación más divertida para mejorar tu productividad y crear hábitos duraderos."
+	lang="en"
+	title="Skillion - Gamify Your Real Life | Habit & Productivity RPG App"
+	description="🎮 Skillion turns your habits into an epic RPG. Earn real-life XP, level up personalized skills, and defeat procrastination. The most fun habit gamification app."
 >
 	<main class="bg-pixel-gradient text-pixel-text">
+		<script>
+		{`
+		  (function(){
+			try {
+			  var ua = navigator.userAgent.toLowerCase();
+			  var isBot = /(bot|crawler|spider|crawling)/.test(ua);
+			  if (isBot) return;
+			  if (window.location.pathname === '/' && navigator.language && navigator.language.toLowerCase().startsWith('es')) {
+				window.location.replace('/es/');
+			  }
+			} catch(e) {}
+		  })();
+		`}
+		</script>
 		
 		<!-- Sección 1: Héroe de la Aventura -->
 		<section class="text-white min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden bg-cover bg-center" style={`background-image: url(${Background.src})`}>
@@ -26,32 +40,33 @@ import Background from '../assets/bgHero.png';
 				</div>
 				
 				<h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 font-poppins">
-					<span class="text-white">
-						Skillion: Gamifica tu Vida Real
-					</span>
+					<span class="text-white">Skillion: Gamify Your Real Life</span>
 					<br>
-					<span class="text-white">
-						Convierte Hábitos en RPG
-					</span>
+					<span class="text-white">Turn Habits into an RPG</span>
 				</h1>
 				
 				<p class="text-xl md:text-2xl mb-12 text-pixel-text-secondary max-w-3xl mx-auto leading-relaxed font-poppins">
-					<strong class="text-gaming-gold">Skillion</strong> es la app de gamificación que transforma tus hábitos y metas diarias en una aventura RPG épica. 
-					<span class="text-gaming-cyan">Gana XP en la vida real</span> por cada tarea que completas, sube de nivel en habilidades personalizadas y derrota al boss final: la procrastinación.
+					<strong class="text-gaming-gold">Skillion</strong> is the habit gamification app that turns your daily goals into an epic RPG. 
+					<span class="text-gaming-cyan">Earn real-life XP</span> for every task you complete, level up personalized skills, and defeat the final boss: procrastination.
 				</p>
 				
 				<div class="mb-8">
-					<PreRegisterForm />
+					<PreRegisterForm 
+						idform='pre-register-form-en-hero'
+						placeholder="player@email.com"
+						buttonText="Get early access"
+						lang="en"
+					/>
 				</div>
 				
 				<p class="text-sm text-pixel-text-secondary">
-					Los jugadores pre-registrados recibirán un <span class="text-gaming-gold font-semibold">descuento exclusivo</span> en el lanzamiento
+					Early players will receive an <span class="text-gaming-gold font-semibold">exclusive launch discount</span>
 				</p>
 			</div>
 		</section>
 
-		<!-- Sección 2: El Problema -->
-		<section class="py-20 px-4 bg-pixel-bg2 hidden	">
+		<!-- Section 2: The Problem -->
+		<section class="py-20 px-4 bg-pixel-bg2 hidden">
 			<div class="container mx-auto text-center">
 				<div class="max-w-4xl mx-auto">
 					<h2 class="text-3xl md:text-5xl font-bold mb-8 font-poppins">
@@ -89,39 +104,39 @@ import Background from '../assets/bgHero.png';
 			</div>
 		</section>
 
-		<!-- Sección 3: La Solución -->
+		<!-- Section 3: The Solution -->
 		<section class="py-20 px-4">
 			<div class="container mx-auto">
 				<div class="text-center mb-16">
-					<h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
-						Cómo Skillion Gamifica <span class="text-gaming-gold">tu Productividad</span>
-					</h2>
-					<p class="text-xl text-pixel-text-secondary max-w-2xl mx-auto">
-						Descubre la app de gamificación que convierte tu rutina diaria en la aventura más épica de tu vida
-					</p>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
+                        How Skillion Gamifies <span class="text-gaming-gold">Your Productivity</span>
+                    </h2>
+                    <p class="text-xl text-pixel-text-secondary max-w-2xl mx-auto">
+                        Discover the gamified productivity app that turns your daily routine into your most epic adventure
+                    </p>
 				</div>
 				
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-					<FeatureCard 
-						icon="🧠"
-						title="Personaliza tus Skills de Vida Real"
-						description="Crea habilidades únicas como 'Fitness', 'Programación', 'Lectura' o 'Networking'. Con Skillion, cada área de tu vida se convierte en una skill RPG que puedes subir de nivel."
-					/>
-					<FeatureCard 
-						icon="⚔️"
-						title="Misiones que Transforman Hábitos"
-						description="Cada tarea diaria (ejercicio, estudio, trabajo) se convierte en una misión épica. Completa challenges y gana XP real que se refleja en tu progreso de vida."
-					/>
-					<FeatureCard 
-						icon="🏆"
-						title="Sistema de Progreso Gamificado"
-						description="Observa barras de XP crecer, desbloquea achievements únicos y personaliza tu aventura. La gamificación hace que mantener hábitos sea adictivamente divertido."
-					/>
+                    <FeatureCard 
+                        icon="🧠"
+                        title="Customize Your Real-Life Skills"
+                        description="Create unique skills like 'Fitness', 'Programming', 'Reading' or 'Networking'. With Skillion, every area of your life becomes an RPG skill you can level up."
+                    />
+                    <FeatureCard 
+                        icon="⚔️"
+                        title="Missions that Transform Habits"
+                        description="Every daily task (workout, study, work) becomes an epic quest. Complete challenges and earn real XP that reflects in your life progress."
+                    />
+                    <FeatureCard 
+                        icon="🏆"
+                        title="Gamified Progress System"
+                        description="Watch XP bars grow, unlock unique achievements and customize your journey. Gamification makes habit-building addictively fun."
+                    />
 				</div>
 			</div>
 		</section>
 
-		<!-- Sección 4: Galería "Instagrammable" -->
+		<!-- Section 4: "Instagrammable" Gallery -->
 		<section class="py-20 px-4 bg-pixel-bg2 hidden">
 			<div class="container mx-auto text-center">
 				<h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
@@ -162,15 +177,14 @@ import Background from '../assets/bgHero.png';
 			</div>
 		</section>
 
-		<!-- Sección 5: Únete a la Comunidad -->
+		<!-- Section 5: Join the Community -->
 		<section class="py-20 px-4">
 			<div class="container mx-auto text-center">
 				<h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
-					Únete a la Revolución de la <span class="text-gaming-gold">Gamificación Personal</span>
+					Join the <span class="text-gaming-gold">Personal Gamification</span> Revolution
 				</h2>
 				<p class="text-xl text-pixel-text-secondary mb-12 max-w-2xl mx-auto">
-					Forma parte de la comunidad de pioneros que están gamificando su vida con Skillion. Acceso anticipado, 
-					recompensas exclusivas y la oportunidad de influir en el futuro de la productividad gamificada.
+					Be part of the pioneer community gamifying their lives with Skillion. Early access, exclusive rewards, and the chance to shape the future of gamified productivity.
 				</p>
 				
 				<div class="flex flex-wrap justify-center gap-6 mb-12">
@@ -201,37 +215,38 @@ import Background from '../assets/bgHero.png';
 				
 				<div class="bg-pixel-card border-2 border-gaming-gold p-8 shadow-glow max-w-2xl mx-auto">
 					<div class="text-4xl mb-4">🎁</div>
-					<h3 class="text-2xl font-bold mb-4 text-gaming-gold">Recompensas Beta de Skillion</h3>
+					<h3 class="text-2xl font-bold mb-4 text-gaming-gold">Skillion Beta Rewards</h3>
 					<p class="text-pixel-text-secondary">
-						Los early adopters de Skillion recibirán acceso beta exclusivo, periodo de prueba extendido y descuentos especiales en el lanzamiento. ¡Sé pionero en gamificar tu vida!
+						Early adopters get exclusive beta access, extended trial and special launch discounts. Be a pioneer in gamifying your life!
 					</p>
 				</div>
 			</div>
 		</section>
 
-		<!-- Sección 6: CTA Final -->
+		<!-- Section 6: Final CTA -->
 		<section class="py-20 px-4 bg-pixel-bg2">
 			<div class="container mx-auto text-center">
 				<h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
-					¿Listo para Gamificar <span class="text-gaming-gold">tu Vida Real</span>?
+					Ready to Gamify <span class="text-gaming-gold">Your Real Life</span>?
 				</h2>
 				<p class="text-xl text-pixel-text-secondary mb-12 max-w-2xl mx-auto">
-					Tu aventura de crecimiento personal comienza ahora. Descarga Skillion y convierte cada día en una épica quest de superación personal.
+					Your personal growth adventure starts now. Turn every day into an epic quest with Skillion.
 				</p>
 				
 				<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8 max-w-2xl mx-auto mb-8">
 					<PreRegisterForm 
-						idform='pre-register-form-2'
-						placeholder="aventurero@email.com"
-						buttonText="¡Comenzar mi aventura!"
+						idform='pre-register-form-en-cta'
+						placeholder="player@email.com"
+						buttonText="Get early access"
+						lang="en"
 					/>
 				</div>
 				
 				<div class="flex justify-center items-center gap-4 text-pixel-text-secondary text-sm">
 					<span>⚔️</span>
-					<span>Derrota al boss de la procrastinación</span>
+					<span>Defeat the procrastination boss</span>
 					<span>🏆</span>
-					<span>Forja tu leyenda</span>
+					<span>Forge your legend</span>
 					<span>🎮</span>
 				</div>
 			</div>
@@ -242,25 +257,23 @@ import Background from '../assets/bgHero.png';
 			<div class="container mx-auto text-center">
 				<div class="text-4xl mb-4">🎮</div>
 				<h3 class="text-2xl font-bold mb-2 text-gaming-gold font-poppins">Skillion</h3>
-				<p class="text-pixel-text-secondary mb-6">Gamifica tu vida real. La app RPG de productividad y hábitos.</p>
+				<p class="text-pixel-text-secondary mb-6">Gamify your real life. The RPG app for productivity and habits.</p>
 				
 				<div class="flex justify-center gap-6 mb-8">
-					<a href="https://instagram.com/skillion.app" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors" aria-label="Skillion en Instagram">Instagram</a>
-					<a href="https://instagram.com/skillion.es" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors" aria-label="Skillion España en Instagram">Instagram ES</a>
-					<a href="https://tiktok.com/@skillion.app" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors" aria-label="Skillion en TikTok">TikTok</a>
+					<a href="https://instagram.com/skillion.app" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors" aria-label="Skillion on Instagram">Instagram</a>
+					<a href="https://instagram.com/skillion.es" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors" aria-label="Skillion Spain on Instagram">Instagram ES</a>
+					<a href="https://tiktok.com/@skillion.app" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors" aria-label="Skillion on TikTok">TikTok</a>
 				</div>
 				
 				<!-- SEO Content Footer -->
 				<div class="text-xs text-pixel-text-secondary mb-4 max-w-4xl mx-auto">
 					<p class="mb-2">
-						<strong>Skillion</strong> es la aplicación líder en gamificación personal que transforma tus hábitos diarios en una experiencia RPG inmersiva. 
-						Nuestra plataforma de productividad gamificada te ayuda a mantener la motivación, crear rutinas duraderas y alcanzar tus metas personales 
-						mediante mecánicas de juego probadas. Únete a miles de usuarios que ya están subiendo de nivel en la vida real.
+						<strong>Skillion</strong> is the leading personal gamification app that turns daily habits into an immersive RPG experience. Our gamified productivity platform helps you stay motivated, build lasting routines, and achieve your goals using proven game mechanics. Join thousands already leveling up in real life.
 					</p>
 				</div>
 				
 				<p class="text-xs text-pixel-text-secondary">
-					© 2025 Skillion. Hecho con ❤️ y mucho ☕ para gamificar vidas extraordinarias.
+					© 2025 Skillion. Built with ❤️ and lots of ☕ to gamify extraordinary lives.
 				</p>
 			</div>
 		</footer>
