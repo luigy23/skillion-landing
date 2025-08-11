@@ -13,10 +13,14 @@ import Layout from '../layouts/Layout.astro';
     var d=document;
     var params = new URLSearchParams(window.location.search);
     var qLang = params.get('lang');
+    var email = params.get('email');
     var isSpanish = qLang ? qLang.toLowerCase().startsWith('es') : (navigator.language || '').toLowerCase().startsWith('es');
     var src = isSpanish
       ? 'https://tally.so/embed/nGOORL?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1'
       : 'https://tally.so/embed/n0W046?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1';
+    if (email) {
+      src += '&email=' + encodeURIComponent(email);
+    }
     var iframe = d.createElement('iframe');
     iframe.src = src;
     iframe.loading = 'lazy';
