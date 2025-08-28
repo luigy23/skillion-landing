@@ -18,6 +18,8 @@ const {
 
 const urlEs = new URL('/es/', Astro.url);
 const urlEn = new URL('/', Astro.url);
+const site = 'https://skillion.app';
+const isSpanish = (lang === 'es');
 ---
 
 <!doctype html>
@@ -46,7 +48,9 @@ const urlEn = new URL('/', Astro.url);
 
 		<!-- Hreflang alternates -->
 		<link rel="alternate" hreflang="es" href={urlEs} />
+		<link rel="alternate" hreflang="es-ES" href={urlEs} />
 		<link rel="alternate" hreflang="en" href={urlEn} />
+		<link rel="alternate" hreflang="en-US" href={urlEn} />
 		<link rel="alternate" hreflang="x-default" href={urlEn} />
 		
 		<!-- Twitter -->
