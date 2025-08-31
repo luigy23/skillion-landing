@@ -1,0 +1,137 @@
+---
+import FeatureCard from './FeatureCard.astro';
+import Image from 'astro/components/Image.astro';
+import InstagramIcon from '../assets/pixelartAssets/icons/ig_icon.png';
+import TikTokIcon from '../assets/pixelartAssets/icons/tt_icon.png';
+---
+
+<section
+  id="productivity-section"
+  class="relative w-full min-h-screen"
+  style="background-color: #97b7d1;"
+>
+  <!-- Content -->
+  <div class="relative z-10 py-16 px-4">
+    <div class="container mx-auto max-w-6xl">
+      <!-- First Section: How Skillion Gamifies Your Productivity -->
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-5xl font-bold mb-4 font-poppins text-gray-800">
+          How Skillion Gamifies <span class="text-gaming-gold">Your Productivity</span>
+        </h2>
+        <p class="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
+          Discover the gamified productivity app that turns your daily routine into your most epic adventure
+        </p>
+      </div>
+      
+      <!-- Simple grid layout for cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        <FeatureCard 
+          icon="🧠"
+          title="Customize Your Real-Life Skills"
+        >
+          Create unique skills like 'Fitness', 'Programming', 'Reading' or 'Networking'. With Skillion, every area of your life becomes an RPG skill you can level up.
+        </FeatureCard>
+        
+        <FeatureCard 
+          icon="⚔️"
+          title="Missions that Transform Habits"
+        >
+          Every daily task (workout, study, work) becomes an epic quest. Complete challenges and earn real XP that reflects in your life progress.
+        </FeatureCard>
+        
+        <FeatureCard 
+          icon="🏆"
+          title="Gamified Progress System"
+        >
+          Watch XP bars grow, unlock unique achievements and customize your journey. Gamification makes habit-building addictively fun.
+        </FeatureCard>
+      </div>
+
+      <!-- Second Section: Join the Personal Gamification Revolution -->
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins text-gray-800">
+          Join the <span class="text-gaming-gold">Personal Gamification</span> Revolution
+        </h2>
+        <p class="text-lg md:text-xl text-gray-700 mb-12 max-w-2xl mx-auto">
+          Be part of the pioneer community gamifying their lives with Skillion. Early access, exclusive rewards, and the chance to shape the future of gamified productivity.
+        </p>
+        
+        <div class="flex justify-center gap-4 mb-12">
+          <div class="social-button-container">
+            <a href="https://instagram.com/skillion.app" target="_blank" class="pixel-btn pixel-instagram">
+              <Image src={InstagramIcon} alt="Instagram" class="w-8 h-8 md:w-10 md:h-10 pixel-art" />
+            </a>
+            <span class="social-title">Instagram</span>
+          </div>
+          
+          <div class="social-button-container">
+            <a href="https://instagram.com/skillion_es" target="_blank" class="pixel-btn pixel-instagram">
+              <Image src={InstagramIcon} alt="Instagram ES" class="w-8 h-8 md:w-10 md:h-10 pixel-art" />
+            </a>
+            <span class="social-title">Instagram ES</span>
+          </div>
+          
+          <div class="social-button-container">
+            <a href="https://tiktok.com/@skillion.app" target="_blank" class="pixel-btn pixel-tiktok">
+              <Image src={TikTokIcon} alt="TikTok" class="w-8 h-8 md:w-10 md:h-10 pixel-art" />
+            </a>
+            <span class="social-title">TikTok</span>
+          </div>
+        </div>
+        
+        <div class="bg-white/80 backdrop-blur-sm pixel-frame p-6 md:p-8 shadow-glow max-w-2xl mx-auto">
+          <div class="text-4xl mb-4">🎁</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-4 text-gaming-gold">Skillion Beta Rewards</h3>
+          <p class="text-gray-700">
+            Early adopters get exclusive beta access, extended trial and special launch discounts. Be a pioneer in gamifying your life!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .social-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .social-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #374151;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    padding-top: 0.25rem;
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+
+  /* Mobile-first responsive adjustments */
+  @media (min-width: 640px) {
+    .social-button-container {
+      gap: 1.25rem;
+    }
+    
+    .social-title {
+      font-size: 0.875rem;
+      padding-top: 0.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .social-button-container {
+      gap: 1.5rem;
+    }
+    
+    .social-title {
+      font-size: 1rem;
+      padding-top: 0.75rem;
+    }
+  }
+</style>
