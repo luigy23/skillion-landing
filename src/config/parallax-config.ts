@@ -14,6 +14,7 @@ export type LayerCfg = {
 };
 
 type HeroCfg = Record<'sun'|'mountain'|'waterfallBg'|'waterfall'|'tree', LayerCfg>;
+type RewardsCfg = Record<'grass'|'knight'|'tree2', LayerCfg>;
 
 export const heroParallax: Record<'mobile'|'tablet'|'desktop', HeroCfg> = {
   mobile: {
@@ -104,6 +105,69 @@ export const heroParallax: Record<'mobile'|'tablet'|'desktop', HeroCfg> = {
   }
 };
 
+export const rewardsParallax: Record<'mobile'|'tablet'|'desktop', RewardsCfg> = {
+  mobile: {
+    grass: {
+      pos: { bottom: '-1.5rem', left: '0' },
+      size: { width: '100%', height: '7%' },
+      z: 1,
+      speedX: 0, speedY: 0, dirX: -1, dirY: undefined, fade: false
+    },
+    knight: {
+      pos: { bottom: '-1rem', right: '6rem' },
+      size: { width: '120px', height: 'auto' },
+      z: 3,
+      speedX: 0.04, speedY: 0, dirX: 1, dirY: undefined, fade: false
+    },
+    tree2: {
+      pos: { bottom: '2.5rem', right: '-1rem' },
+      size: { height: 'auto', width: '70%' },
+      z: 2,
+      speedX: 0.05, speedY: 0, dirX: 1, dirY: undefined, fade: false
+    }
+  },
+  tablet: {
+    grass: {
+      pos: { bottom: '0', left: '0' },
+      size: { width: '120%', height: 'auto' },
+      z: 1,
+      speedX: 0.18, speedY: 0.05, dirX: -1, dirY: 1, fade: false
+    },
+    knight: {
+      pos: { bottom: '3rem', right: '-20rem' },
+      size: { width: '80px', height: 'auto' },
+      z: 3,
+      speedX: 0.04, speedY: 0, dirX: 1, dirY: 1, fade: false
+    },
+    tree2: {
+      pos: { bottom: '0', right: '-20rem' },
+      size: { height: '90%', width: 'auto' },
+      z: 2,
+      speedX: 0.25, speedY: 0.05, dirX: -1, dirY: 1, fade: false
+    }
+  },
+  desktop: {
+    grass: {
+      pos: { bottom: '-4rem', right: '0', left: '0'},
+      size: { width: '100%', height: 'auto' },
+      z: 1,
+      speedX: 0, speedY: 0, dirX: -1, dirY: 1, fade: false
+    },
+    knight: {
+      pos: { bottom: '3rem', right: '12rem' },
+      size: { width: '20rem', height: 'auto' },
+      z: 3,
+      speedX: 0.1, speedY: 0, dirX: 1, dirY: 1, fade: false
+    },
+    tree2: {
+      pos: { bottom: '12rem', right: '-7rem' },
+      size: { height: '70%', width: 'auto' },
+      z: 2,
+      speedX: 0.2, speedY: 0, dirX: 1, dirY: 1, fade: false
+    }
+  }
+};
+
 export function currentBreakpoint(): 'mobile'|'tablet'|'desktop' {
   const w = window.innerWidth;
   if (w < 640) return 'mobile';
@@ -119,6 +183,49 @@ export function applyHeroConfig(root: HTMLElement) {
     'parallax-waterfall-bg': 'waterfallBg',
     'parallax-waterfall': 'waterfall',
     'parallax-tree': 'tree',
+  };
+
+  Object.entries(map).forEach(([id, key]) => {
+    const el = root.querySelector<HTMLElement>('#' + id);
+    if (!el) return;
+    const c = cfg[key];
+
+    // Reset conflicting inline positioning first
+    ['top','right','bottom','left','width','height'].forEach((p) => {
+      (el.style as any)[p] = '';
+    });
+
+    // Position & size (independent per breakpoint)
+    Object.entries(c.pos).forEach(([k, v]) => ((el.style as any)[k] = v));
+    Object.entries(c.size).forEach(([k, v]) => ((el.style as any)[k] = v));
+    el.style.zIndex = String(c.z);
+
+    // Parallax data
+    el.classList.add('parallax-layer');
+    el.dataset.speedX = String(c.speedX ?? 0);
+    el.dataset.speedY = String(c.speedY ?? 0);
+    el.dataset.dirX = String(c.dirX ?? 1);
+    el.dataset.dirY = String(c.dirY ?? 1);
+    if (c.fade) {
+      el.dataset.fade = 'true';
+      el.dataset.fadeStart = String(c.fadeStart ?? 0.2);
+      el.dataset.fadeEnd = String(c.fadeEnd ?? 0.7);
+    } else {
+      el.dataset.fade = 'false';
+    }
+
+    // Quality & perf
+    el.style.willChange = 'transform, opacity';
+    el.style.imageRendering = 'pixelated';
+  });
+}
+
+export function applyRewardsConfig(root: HTMLElement) {
+  const cfg = rewardsParallax[currentBreakpoint()];
+  const map: Record<string, keyof typeof cfg> = {
+    'parallax-grass': 'grass',
+    'parallax-knight': 'knight',
+    'parallax-tree2': 'tree2',
   };
 
   Object.entries(map).forEach(([id, key]) => {

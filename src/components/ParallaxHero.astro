@@ -69,9 +69,7 @@ const waterfallBgUrl = "/src/assets/pixelartAssets/hero/waterfallbg.png";
 <!-- Client script: configure + start -->
 <script type="module">
   
-  import { initParallax } from '/src/lib/parallax.ts';
   import { applyHeroConfig } from '/src/config/parallax-config.ts';
-
 
   const root = document.querySelector('[data-parallax-root]');
 
@@ -96,12 +94,12 @@ const waterfallBgUrl = "/src/assets/pixelartAssets/hero/waterfallbg.png";
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       applyNow();
-      initParallax();
+      // Don't call initParallax() here as it's now handled globally
     });
   } else {
     // DOM is already ready
     applyNow();
-    initParallax();
+    // Don't call initParallax() here as it's now handled globally
   }
 
   // Re-apply positions & speeds on resize/orientation change

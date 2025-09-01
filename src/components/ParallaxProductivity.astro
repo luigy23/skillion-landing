@@ -3,20 +3,35 @@ import FeatureCard from './FeatureCard.astro';
 import { Image } from 'astro:assets';
 import InstagramIcon from '../assets/pixelartAssets/icons/ig_icon.png';
 import TikTokIcon from '../assets/pixelartAssets/icons/tt_icon.png';
+
+// Reward Asset URLs
+const grassUrl = "/src/assets/pixelartAssets/rewards/grass.png";
+const knightUrl = "/src/assets/pixelartAssets/rewards/knight.png";
+const tree2Url = "/src/assets/pixelartAssets/rewards/tree2.png";
 ---
 
 <section
   id="productivity-section"
-  class="relative w-full min-h-screen"
+  class="relative w-full min-h-screen overflow-visible"
   style="background-color: #97b7d1;"
 >
+  <!-- Parallax container for reward assets -->
+  <div data-parallax-root-rewards class="absolute inset-0 overflow-visible pointer-events-none">
+    <img id="parallax-grass" src={grassUrl} alt="Grass"
+         class="absolute pixel-art" />
+    <img id="parallax-knight" src={knightUrl} alt="Knight"
+         class="absolute pixel-art" />
+    <img id="parallax-tree2" src={tree2Url} alt="Tree 2"
+         class="absolute pixel-art" />
+  </div>
+
   <!-- Content -->
   <div class="relative z-10 py-16 px-4">
     <div class="container mx-auto max-w-6xl">
       <!-- First Section: How Skillion Gamifies Your Productivity -->
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-5xl font-bold mb-4 font-poppins text-gray-800">
-          How Skillion Gamifies <span class="text-gaming-gold">Your Productivity</span>
+          How <span class="text-shine">Skillion</span> Gamifies <span class="text-gaming-gold">Your Productivity</span>
         </h2>
         <p class="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
           Discover the gamified productivity app that turns your daily routine into your most epic adventure
@@ -49,7 +64,7 @@ import TikTokIcon from '../assets/pixelartAssets/icons/tt_icon.png';
 
       <!-- Second Section: Join the Personal Gamification Revolution -->
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins text-gray-800">
+        <h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins text-gray-800 text-stroke-blue">
           Join the <span class="text-gaming-gold">Personal Gamification</span> Revolution
         </h2>
         <p class="text-lg md:text-xl text-gray-700 mb-12 max-w-2xl mx-auto">
@@ -79,10 +94,10 @@ import TikTokIcon from '../assets/pixelartAssets/icons/tt_icon.png';
           </div>
         </div>
         
-        <div class="bg-white/80 backdrop-blur-sm pixel-frame p-6 md:p-8 shadow-glow max-w-2xl mx-auto">
+        <div class="bg-white/80 backdrop-blur-sm pixel-frame p-4 md:p-6 mb-25 max-w-4xl mx-auto hero-text-container">
           <div class="text-4xl mb-4">🎁</div>
           <h3 class="text-xl md:text-2xl font-bold mb-4 text-gaming-gold">Skillion Beta Rewards</h3>
-          <p class="text-gray-700">
+          <p class="text-base md:text-lg lg:text-xl leading-relaxed font-poppins text-gray-800">
             Early adopters get exclusive beta access, extended trial and special launch discounts. Be a pioneer in gamifying your life!
           </p>
         </div>
@@ -164,3 +179,59 @@ import TikTokIcon from '../assets/pixelartAssets/icons/tt_icon.png';
     }
   }
 </style>
+
+<!-- Client script: configure + start rewards parallax -->
+<script type="module">
+  import { initParallax } from '/src/lib/parallax.ts';
+  import { applyRewardsConfig } from '/src/config/parallax-config.ts';
+
+  const root = document.querySelector('[data-parallax-root-rewards]');
+
+  function applyNow() {
+    if (root) {
+      console.log('ParallaxProductivity: Applying rewards config to', root);
+      applyRewardsConfig(root);
+      
+      // Debug: Check if elements have the right classes and data attributes
+      const layers = root.querySelectorAll('.parallax-layer');
+      console.log('ParallaxProductivity: Found', layers.length, 'parallax layers');
+      
+      layers.forEach((layer, index) => {
+        console.log(`Layer ${index}:`, {
+          id: layer.id,
+          speedX: layer.dataset.speedX,
+          speedY: layer.dataset.speedY,
+          dirX: layer.dataset.dirX,
+          dirY: layer.dataset.dirY
+        });
+      });
+    } else {
+      console.warn('ParallaxProductivity: No rewards parallax root found');
+    }
+  }
+
+  // Wait for DOM to be ready before initializing
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      applyNow();
+      // Don't call initParallax() here as it might be called by the hero section
+    });
+  } else {
+    // DOM is already ready
+    applyNow();
+    // Don't call initParallax() here as it might be called by the hero section
+  }
+
+  // Re-apply positions & speeds on resize/orientation change
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      applyNow();
+    }, 120);
+  });
+  window.addEventListener('orientationchange', () => {
+    console.log('ParallaxProductivity: Orientation change detected, reapplying config...');
+    applyNow();
+  });
+</script>

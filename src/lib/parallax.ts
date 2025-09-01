@@ -8,12 +8,12 @@ function clamp(n: number, min = 0, max = 1) {
 export function initParallax() {
   
   const containers = Array.from(
-    document.querySelectorAll<HTMLElement>('[data-parallax-root]')
+    document.querySelectorAll<HTMLElement>('[data-parallax-root], [data-parallax-root-rewards]')
   );
   
   
   if (!containers.length) {
-    console.warn('Parallax: No containers found with [data-parallax-root]');
+    console.warn('Parallax: No containers found with [data-parallax-root] or [data-parallax-root-rewards]');
     return;
   }
 
