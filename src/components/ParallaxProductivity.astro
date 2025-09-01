@@ -1,6 +1,6 @@
 ---
 import FeatureCard from './FeatureCard.astro';
-import Image from 'astro/components/Image.astro';
+import { Image } from 'astro:assets';
 import InstagramIcon from '../assets/pixelartAssets/icons/ig_icon.png';
 import TikTokIcon from '../assets/pixelartAssets/icons/tt_icon.png';
 ---
@@ -110,6 +110,35 @@ import TikTokIcon from '../assets/pixelartAssets/icons/tt_icon.png';
 
   .shadow-glow {
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+
+  /* Enhanced card styling for better visual appeal */
+  .feature-card {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Enhanced section styling */
+  #productivity-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  #productivity-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(0, 0, 0, 0.05) 100%);
+    pointer-events: none;
+    z-index: 1;
   }
 
   /* Mobile-first responsive adjustments */

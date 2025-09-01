@@ -15,18 +15,18 @@ const {
 ---
 
 <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" id={idform}>
-  <div class="flex-1">
+  <div class="flex-1 pixel-input p-1 bg-white/95">
     <input 
       type="email" 
       name="email"
       placeholder={placeholder}
       required
-      class="w-full px-4 py-3 bg-pixel-card border-2 border-pixel-border text-pixel-text placeholder-pixel-text-secondary rounded-none font-poppins focus:border-gaming-gold focus:outline-none focus:shadow-glow transition-all duration-300"
+      class="w-full px-3 py-2 bg-white text-gray-800 placeholder-pixel-text-secondary rounded-none font-poppins border-0 outline-none focus:outline-none focus:ring-0"
     />
   </div>
   <button 
     type="submit"
-    class="px-6 py-3 bg-gaming-gold text-gaming-dark font-poppins font-bold border-2 border-yellow-600 shadow-pixel hover:shadow-pixel-hover hover:bg-yellow-400 hover:shadow-glow transform hover:-translate-y-1 active:translate-y-0 active:shadow-pixel transition-all duration-300 whitespace-nowrap"
+    class="pixel-button px-6 py-3 bg-gaming-gold text-gaming-dark font-poppins font-bold border-2 border-yellow-600 shadow-pixel hover:shadow-pixel-hover hover:bg-yellow-400 hover:shadow-glow transform hover:-translate-y-1 active:translate-y-0 active:shadow-pixel transition-all duration-300 whitespace-nowrap"
   >
     {buttonText}
   </button>

@@ -1,115 +1,54 @@
 ---
-import Image from 'astro/components/Image.astro';
-import Logo from '../assets/pixelartAssets/skillionlogotransparent.png';
-import PreRegisterForm from './PreRegisterForm.astro';
-import { parallaxConfig, getResponsiveConfig } from '../config/parallax-config.js';
+import { Image } from 'astro:assets';
+import Logo from '../assets/pixelartAssets/hero/skillionlogotransparent.png';
+import PreRegisterForm from '/src/components/PreRegisterForm.astro';
 
-const skyUrl = "/src/assets/pixelartAssets/skyhd.png";
-const treeUrl = "/src/assets/pixelartAssets/tree.png";
-const mountainUrl = "/src/assets/pixelartAssets/mountaintrees.png";
-const sunUrl = "/src/assets/pixelartAssets/sun.png";
-const waterfallUrl = "/src/assets/pixelartAssets/waterfallgif.gif";
-const waterfallBgUrl = "/src/assets/pixelartAssets/waterfallbg.png";
-
-// Get responsive config based on screen size
-const config = getResponsiveConfig();
+// Asset URLs
+const skyUrl = "/src/assets/pixelartAssets/hero/Sky.png";
+const treeUrl = "/src/assets/pixelartAssets/hero/tree.png";
+const mountainUrl = "/src/assets/pixelartAssets/hero/mountaintrees.png";
+const sunUrl = "/src/assets/pixelartAssets/hero/sun.png";
+const waterfallUrl = "/src/assets/pixelartAssets/hero/waterfallgif.gif";
+const waterfallBgUrl = "/src/assets/pixelartAssets/hero/waterfallbg.png";
 ---
 
-<section
-  data-parallax-root
-  id="hero"
-  class="relative w-full h-[100svh] md:h-screen overflow-hidden"
->
-  <!-- Extended sky background - wider than viewport for full coverage -->
-  <div class="absolute inset-0 w-[150%] left-[-25%] 
-              bg-[image:var(--sky)] bg-no-repeat bg-top bg-cover"
+<section id="hero" class="relative w-full h-[100svh] md:h-screen overflow-visible">
+  <!-- Sky -->
+  <div class="absolute inset-0 w-[150%] left-[-25%] bg-[image:var(--sky)] bg-no-repeat bg-top bg-cover"
        style={`--sky: url('${skyUrl}')`}>
   </div>
-  <!-- Stage that clips everything -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none will-change-transform">
-    <!-- Sun (slow) -->
-    <img
-      src={sunUrl}
-      alt="Sun"
-      class={`parallax-layer pixel-art ${config.sun.position} ${typeof config.sun.size.width === 'string' ? (config.sun.size.width === 'auto' ? 'w-auto' : `w-[${config.sun.size.width}]`) : `w-[${config.sun.size.width}px]`} ${typeof config.sun.size.height === 'string' ? (config.sun.size.height === 'auto' ? 'h-auto' : `h-[${config.sun.size.height}]`) : `h-[${config.sun.size.height}px]`}`}
-      style={config.sun.zIndex ? `z-index: ${config.sun.zIndex};` : ''}
-      data-speed-x={config.sun.parallax.speedX}
-      data-speed-y={config.sun.parallax.speedY}
-      data-fade={config.sun.parallax.fade}
-      data-asset-name="sun"
-    />
 
-    <!-- Mountains (far) -->
-    <img
-      src={mountainUrl}
-      alt="Mountains"
-      class={`parallax-layer pixel-art ${config.mountain.position} ${typeof config.mountain.size.width === 'string' ? (config.mountain.size.width === 'auto' ? 'w-auto' : `w-[${config.mountain.size.width}]`) : `w-[${config.mountain.size.width}px]`} ${typeof config.mountain.size.height === 'string' ? (config.mountain.size.height === 'auto' ? 'h-auto' : `h-[${config.mountain.size.height}]`) : `h-[${config.mountain.size.height}px]`} max-w-none`}
-      style={config.mountain.zIndex ? `z-index: ${config.mountain.zIndex};` : ''}
-      data-speed-x={config.mountain.parallax.speedX}
-      data-speed-y={config.mountain.parallax.speedY}
-      data-fade={config.mountain.parallax.fade}
-      data-asset-name="mountain"
-    />
-
-    <!-- Waterfall background (full width, bottom anchored, behind waterfall gif) -->
-    <img
-      src={waterfallBgUrl}
-      alt="Waterfall Background"
-      class={`parallax-layer pixel-art ${config.waterfallBg.position} ${typeof config.waterfallBg.size.width === 'string' ? (config.waterfallBg.size.width === 'auto' ? 'w-auto' : `w-[${config.waterfallBg.size.width}]`) : `w-[${config.waterfallBg.size.width}px]`} ${typeof config.waterfallBg.size.height === 'string' ? (config.waterfallBg.size.height === 'auto' ? 'h-auto' : `h-[${config.waterfallBg.size.height}]`) : `h-[${config.waterfallBg.size.height}px]`} object-contain object-right-bottom`}
-      style={config.waterfallBg.zIndex !== undefined ? `z-index: ${config.waterfallBg.zIndex};` : ''}
-      data-speed-x={config.waterfallBg.parallax.speedX}
-      data-speed-y={config.waterfallBg.parallax.speedY}
-      data-fade={config.waterfallBg.parallax.fade}
-      data-asset-name="waterfallBg"
-    />
-
-    <!-- Waterfall (mid) -->
-    <img
-      src={waterfallUrl}
-      alt="Waterfall"
-      class={`parallax-layer pixel-art ${config.waterfall.position} ${typeof config.waterfall.size.width === 'string' ? (config.waterfall.size.width === 'auto' ? 'w-auto' : `w-[${config.waterfall.size.width}]`) : `w-[${config.waterfall.size.width}px]`} ${typeof config.waterfall.size.height === 'string' ? (config.waterfall.size.height === 'auto' ? 'h-auto' : `h-[${config.waterfall.size.height}]`) : `h-[${config.waterfall.size.height}px]`} max-w-none`}
-      style={config.waterfall.zIndex ? `z-index: ${config.waterfall.zIndex};` : ''}
-      data-speed-x={config.waterfall.parallax.speedX}
-      data-speed-y={config.waterfall.parallax.speedY}
-      data-fade={config.waterfall.parallax.fade}
-      data-asset-name="waterfall"
-    />
-
-    <!-- Tree (foreground): responsive like sky, moves left on scroll, fades on down only -->
-    <img
-      id="tree"
-      src={treeUrl}
-      alt="Tree"
-      class={`parallax-layer pixel-art ${config.tree.position} ${typeof config.tree.size.width === 'string' ? (config.tree.size.width === 'auto' ? 'w-auto' : `w-[${config.tree.size.width}]`) : `w-[${config.tree.size.width}px]`} ${typeof config.tree.size.height === 'string' ? (config.tree.size.height === 'auto' ? 'h-auto' : `h-[${config.tree.size.height}]`) : `h-[${config.tree.size.height}px]`} object-contain`}
-      style={config.tree.zIndex ? `z-index: ${config.tree.zIndex};` : ''}
-      data-speed-x={config.tree.parallax.speedX}
-      data-speed-y={config.tree.parallax.speedY}
-      data-fade={config.tree.parallax.fade}
-      data-fade-start={config.tree.parallax.fadeStart}
-      data-fade-end={config.tree.parallax.fadeEnd}
-      data-asset-name="tree"
-    />
+  <!-- Parallax container -->
+  <div data-parallax-root class="absolute inset-0 overflow-visible pointer-events-none">
+    <img id="parallax-sun" src={sunUrl} alt="Sun"
+         class="absolute pixel-art" />
+    <img id="parallax-mountain" src={mountainUrl} alt="Mountains"
+         class="absolute pixel-art" />
+    <img id="parallax-waterfall-bg" src={waterfallBgUrl} alt="Waterfall Background"
+         class="absolute pixel-art object-contain object-right-bottom" />
+    <img id="parallax-waterfall" src={waterfallUrl} alt="Waterfall"
+         class="absolute pixel-art" />
+    <img id="parallax-tree" src={treeUrl} alt="Tree"
+         class="absolute pixel-art object-contain" />
   </div>
 
-  <!-- Content, non-parallax -->
+  <!-- Non-parallax content -->
   <div class="relative z-10 flex items-center justify-center h-full px-4">
-    <div class="text-center text-white max-w-4xl mx-auto -mt-8">
+    <div class="text-center text-white max-w-4xl mx-auto mt-16 md:-mt-8">
       <div class="animate-float mb-6">
         <Image src={Logo} alt="Skillion Hero Image" class="w-16 h-16 md:w-32 md:h-32 mx-auto rounded-2xl" />
       </div>
-
       <h1 class="text-2xl md:text-4xl lg:text-5xl mb-8 font-poppins text-extra-bold text-stroke-gold">
-        <span class="text-[#203239]">Skillion: Gamify Your Real Life</span><br />
+        <span class="text-[#203239]">Skillion: Gamify Your Real Life</span><br/>
         <span class="text-[#203239]">Turn Habits into an RPG</span>
       </h1>
-
       <div class="bg-white/80 backdrop-blur-sm pixel-frame p-4 md:p-6 mb-25 max-w-4xl mx-auto hero-text-container">
         <p class="text-base md:text-lg lg:text-xl leading-relaxed font-poppins text-gray-800">
           <strong class="text-gaming-gold">Skillion</strong> is the habit gamification app that turns your daily goals into an epic RPG. Earn real-life XP for every task you complete, level up personalized skills, and defeat the final boss: <i>procrastination</i>.
         </p>
       </div>
 
-      <div class="mb-6">
+      <div class="mb-6 -mt-15 md:mt-0">
         <PreRegisterForm 
           idform='pre-register-form-en-hero'
           placeholder="player@email.com"
@@ -124,98 +63,58 @@ const config = getResponsiveConfig();
     </div>
   </div>
 
-  <!-- Optional overlay for text contrast -->
   <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-[5]"></div>
 </section>
 
-<!-- Load the parallax engine once -->
-<script type="module" src="/src/scripts/parallax.ts"></script>
+<!-- Client script: configure + start -->
+<script type="module">
+  
+  import { initParallax } from '/src/lib/parallax.ts';
+  import { applyHeroConfig } from '/src/config/parallax-config.ts';
 
-<!-- Responsive config handler -->
-<script>
-  import { getResponsiveConfig } from '../config/parallax-config.js';
-  
-  // Update configs on resize
-  function updateResponsiveConfigs() {
-    const config = getResponsiveConfig();
-    // Scope to only section1 elements to avoid conflicts with section2
-    const section1Container = document.getElementById('hero');
-    if (!section1Container) return;
+
+  const root = document.querySelector('[data-parallax-root]');
+
+  function applyNow() {
     
-    const layers = section1Container.querySelectorAll('.parallax-layer') as NodeListOf<HTMLElement>;
-    
-    console.log('Updating responsive configs, screen width:', window.innerWidth);
-    console.log('Current config:', config);
-    
-    layers.forEach((element) => {
-      const assetName = element.dataset.assetName;
-      if (assetName && config[assetName as keyof typeof config]) {
-        const assetConfig = config[assetName as keyof typeof config];
+    if (root) {
+      applyHeroConfig(root);
+      
+      
+      // Debug: Check if elements have the right classes and data attributes
+      const layers = root.querySelectorAll('.parallax-layer');
+      
+      layers.forEach((layer, index) => {
         
-        // Update position using inline styles
-        if (assetConfig.position) {
-          // Parse position classes and convert to inline styles
-          const positionClasses = assetConfig.position.split(' ');
-          element.style.position = 'absolute';
-          
-          // Clear any existing transform to avoid conflicts
-          element.style.transform = '';
-          
-          positionClasses.forEach(cls => {
-            if (cls.startsWith('top-')) {
-              element.style.top = cls.replace('top-', '');
-            } else if (cls.startsWith('bottom-')) {
-              element.style.bottom = cls.replace('bottom-', '');
-            } else if (cls.startsWith('left-')) {
-              element.style.left = cls.replace('left-', '');
-            } else if (cls.startsWith('right-')) {
-              element.style.right = cls.replace('right-', '');
-            } else if (cls.startsWith('-translate-x-')) {
-              element.style.transform = `translateX(${cls.replace('-translate-x-', '')})`;
-            } else if (cls.startsWith('-translate-y-')) {
-              element.style.transform = `translateY(${cls.replace('-translate-y-', '')})`;
-            }
-          });
-          
-          console.log(`Updated ${assetName} position:`, assetConfig.position);
-        }
-        
-        // Update size using inline styles (more reliable than classes)
-        if (assetConfig.size) {
-          if (assetConfig.size.width === 'auto') {
-            element.style.width = 'auto';
-          } else if (typeof assetConfig.size.width === 'number') {
-            element.style.width = `${assetConfig.size.width}px`;
-          } else {
-            element.style.width = assetConfig.size.width;
-          }
-          
-          if (assetConfig.size.height === 'auto') {
-            element.style.height = 'auto';
-          } else if (typeof assetConfig.size.height === 'number') {
-            element.style.height = `${assetConfig.size.height}px`;
-          } else {
-            element.style.height = assetConfig.size.height;
-          }
-          
-          console.log(`Updated ${assetName} size:`, assetConfig.size);
-        }
-        
-        // Update z-index
-        if (assetConfig.zIndex !== undefined) {
-          element.style.zIndex = assetConfig.zIndex.toString();
-        }
-      }
-    });
+      });
+    } else {
+      
+    }
   }
-  
-  // Run on load and resize
-  document.addEventListener('DOMContentLoaded', updateResponsiveConfigs);
-  window.addEventListener('resize', updateResponsiveConfigs);
-  
-  // Also run after a short delay to ensure everything is loaded
-  setTimeout(updateResponsiveConfigs, 100);
-  
-  // Debug: log current config
-  console.log('Responsive config loaded:', getResponsiveConfig());
+
+  // Wait for DOM to be ready before initializing
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      applyNow();
+      initParallax();
+    });
+  } else {
+    // DOM is already ready
+    applyNow();
+    initParallax();
+  }
+
+  // Re-apply positions & speeds on resize/orientation change
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      console.log('ParallaxHero: Resize detected, reapplying config...');
+      applyNow();
+    }, 120);
+  });
+  window.addEventListener('orientationchange', () => {
+    console.log('ParallaxHero: Orientation change detected, reapplying config...');
+    applyNow();
+  });
 </script>

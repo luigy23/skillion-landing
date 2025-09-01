@@ -2,7 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import FeatureCard from '../components/FeatureCard.astro';
 import PreRegisterForm from '../components/PreRegisterForm.astro';
-import Image from 'astro/components/Image.astro';
+import ParallaxHero from '../components/ParallaxHero.astro';
+import ParallaxProductivity from '../components/ParallaxProductivity.astro';
+import { Image } from 'astro:assets';
 import Logo from '../assets/Skillion.png';
 import Background from '../assets/bgHero.png';
 
@@ -29,41 +31,8 @@ import Background from '../assets/bgHero.png';
 		`}
 		</script>
 		
-		<!-- Sección 1: Héroe de la Aventura -->
-		<section class="text-white min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden bg-cover bg-center" style={`background-image: url(${Background.src})`}>
-			<!-- Overlay para crear contraste -->
-			<div class="absolute inset-0 bg-sky-950 opacity-60 z-0"></div>
-			
-			<div class="container mx-auto text-center z-10">
-				<div class="animate-float">
-					<Image src={Logo} alt="Skillion Hero Image" class="w-32 h-32 mx-auto mb-8 rounded-2xl" />
-				</div>
-				
-				<h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 font-poppins">
-					<span class="text-white">Skillion: Gamify Your Real Life</span>
-					<br>
-					<span class="text-white">Turn Habits into an RPG</span>
-				</h1>
-				
-				<p class="text-xl md:text-2xl mb-12 text-pixel-text-secondary max-w-3xl mx-auto leading-relaxed font-poppins">
-					<strong class="text-gaming-gold">Skillion</strong> is the habit gamification app that turns your daily goals into an epic RPG. 
-					<span class="text-gaming-cyan">Earn real-life XP</span> for every task you complete, level up personalized skills, and defeat the final boss: procrastination.
-				</p>
-				
-				<div class="mb-8">
-					<PreRegisterForm 
-						idform='pre-register-form-en-hero'
-						placeholder="player@email.com"
-						buttonText="Get early access"
-						lang="en"
-					/>
-				</div>
-				
-				<p class="text-sm text-pixel-text-secondary">
-					Early players will receive an <span class="text-gaming-gold font-semibold">exclusive launch discount</span>
-				</p>
-			</div>
-		</section>
+		<!-- Parallax Hero Section -->
+		<ParallaxHero />
 
 		<!-- Section 2: The Problem -->
 		<section class="py-20 px-4 bg-pixel-bg2 hidden">
@@ -105,36 +74,7 @@ import Background from '../assets/bgHero.png';
 		</section>
 
 		<!-- Section 3: The Solution -->
-		<section class="py-20 px-4">
-			<div class="container mx-auto">
-				<div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
-                        How Skillion Gamifies <span class="text-gaming-gold">Your Productivity</span>
-                    </h2>
-                    <p class="text-xl text-pixel-text-secondary max-w-2xl mx-auto">
-                        Discover the gamified productivity app that turns your daily routine into your most epic adventure
-                    </p>
-				</div>
-				
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-                    <FeatureCard 
-                        icon="🧠"
-                        title="Customize Your Real-Life Skills"
-                        description="Create unique skills like 'Fitness', 'Programming', 'Reading' or 'Networking'. With Skillion, every area of your life becomes an RPG skill you can level up."
-                    />
-                    <FeatureCard 
-                        icon="⚔️"
-                        title="Missions that Transform Habits"
-                        description="Every daily task (workout, study, work) becomes an epic quest. Complete challenges and earn real XP that reflects in your life progress."
-                    />
-                    <FeatureCard 
-                        icon="🏆"
-                        title="Gamified Progress System"
-                        description="Watch XP bars grow, unlock unique achievements and customize your journey. Gamification makes habit-building addictively fun."
-                    />
-				</div>
-			</div>
-		</section>
+		<ParallaxProductivity />
 
 		<!-- Section 4: "Instagrammable" Gallery -->
 		<section class="py-20 px-4 bg-pixel-bg2 hidden">
@@ -177,51 +117,7 @@ import Background from '../assets/bgHero.png';
 			</div>
 		</section>
 
-		<!-- Section 5: Join the Community -->
-		<section class="py-20 px-4">
-			<div class="container mx-auto text-center">
-				<h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
-					Join the <span class="text-gaming-gold">Personal Gamification</span> Revolution
-				</h2>
-				<p class="text-xl text-pixel-text-secondary mb-12 max-w-2xl mx-auto">
-					Be part of the pioneer community gamifying their lives with Skillion. Early access, exclusive rewards, and the chance to shape the future of gamified productivity.
-				</p>
-				
-				<div class="flex flex-wrap justify-center gap-6 mb-12">
-					<a href="https://instagram.com/skillion.app" target="_blank" class="bg-pixel-card border-2 border-pixel-border shadow-pixel hover:shadow-pixel-hover hover:border-gaming-gold p-6 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-3">
-						<span class="text-3xl">📸</span>
-						<div class="text-left">
-							<div class="font-bold">Instagram</div>
-							<div class="text-sm text-pixel-text-secondary">@skillion.app</div>
-						</div>
-					</a>
-					
-					<a href="https://instagram.com/skillion_es" target="_blank" class="bg-pixel-card border-2 border-pixel-border shadow-pixel hover:shadow-pixel-hover hover:border-gaming-gold p-6 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-3">
-						<span class="text-3xl">🇪🇸</span>
-						<div class="text-left">
-							<div class="font-bold">Instagram ES</div>
-							<div class="text-sm text-pixel-text-secondary">@skillion_es</div>
-						</div>
-					</a>
-					
-					<a href="https://tiktok.com/@skillion.app" target="_blank" class="bg-pixel-card border-2 border-pixel-border shadow-pixel hover:shadow-pixel-hover hover:border-gaming-gold p-6 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-3">
-						<span class="text-3xl">🎵</span>
-						<div class="text-left">
-							<div class="font-bold">TikTok</div>
-							<div class="text-sm text-pixel-text-secondary">@skillion.app</div>
-						</div>
-					</a>
-				</div>
-				
-				<div class="bg-pixel-card border-2 border-gaming-gold p-8 shadow-glow max-w-2xl mx-auto">
-					<div class="text-4xl mb-4">🎁</div>
-					<h3 class="text-2xl font-bold mb-4 text-gaming-gold">Skillion Beta Rewards</h3>
-					<p class="text-pixel-text-secondary">
-						Early adopters get exclusive beta access, extended trial and special launch discounts. Be a pioneer in gamifying your life!
-					</p>
-				</div>
-			</div>
-		</section>
+
 
 		<!-- Section 6: Final CTA -->
 		<section class="py-20 px-4 bg-pixel-bg2">
@@ -233,7 +129,7 @@ import Background from '../assets/bgHero.png';
 					Your personal growth adventure starts now. Turn every day into an epic quest with Skillion.
 				</p>
 				
-				<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8 max-w-2xl mx-auto mb-8">
+				<div class="pixel-frame pixel-corners-white p-8 max-w-2xl mx-auto mb-8">
 					<PreRegisterForm 
 						idform='pre-register-form-en-cta'
 						placeholder="player@email.com"

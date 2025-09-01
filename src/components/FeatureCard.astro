@@ -1,23 +1,188 @@
 ---
+import { Image } from 'astro:assets';
+import BrainIcon from '../assets/pixelartAssets/icons/brain.png';
+import CupIcon from '../assets/pixelartAssets/icons/cup.png';
+
 interface Props {
-  icon: string;
-  title: string;
+  title?: string;
+  icon?: string;
+  class?: string;
   description?: string;
 }
 
-const { icon, title, description } = Astro.props;
+const { title, icon, class: className, description } = Astro.props;
 ---
 
-<div class="flex flex-col items-center text-center group">
-  <div class="w-16 h-16 mb-4 flex items-center justify-center bg-pixel-card border-2 border-pixel-border shadow-pixel group-hover:shadow-pixel-hover group-hover:border-gaming-gold transition-all duration-300 transform group-hover:-translate-y-1">
-    <span class="text-2xl">{icon}</span>
-  </div>
-  <h3 class="text-xl font-bold text-pixel-text mb-2 font-poppins">{title}</h3>
-  {description ? (
-    <p class="text-pixel-text-secondary font-poppins leading-relaxed">{description}</p>
-  ) : (
-    <div class="text-pixel-text-secondary font-poppins leading-relaxed">
-      <slot />
+<div class={`feature-card ${className || ''}`}>
+  <div class="card-overlay"></div>
+  {icon && (
+    <div class="icon-container">
+      {icon === "🧠" ? (
+        <Image src={BrainIcon} alt="Brain" class="icon-image" />
+      ) : icon === "🏆" ? (
+        <Image src={CupIcon} alt="Cup" class="icon-image" />
+      ) : (
+        <div class="icon">{icon}</div>
+      )}
     </div>
   )}
+  {title && <h3 class="card-title">{title}</h3>}
+  <div class="card-content">
+    {description ? (
+      <p>{description}</p>
+    ) : (
+      <slot />
+    )}
+  </div>
 </div>
+
+<style>
+  .feature-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #005849 0%, #004642 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    min-height: 200px;
+    width: 100%;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .card-overlay {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    background: linear-gradient(0deg, #005849 0%, transparent 0%, #FFFFFF 100%);
+    border-radius: 14px;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(0, 0, 0, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  .feature-card:hover::before {
+    opacity: 1;
+  }
+
+  .icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    z-index: 2;
+  }
+
+  .icon {
+    font-size: 2.5rem;
+    z-index: 2;
+    position: relative;
+  }
+
+  .icon-image {
+    width: 2.5rem;
+    height: 2.5rem;
+    z-index: 2;
+    position: relative;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  .card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    text-align: center;
+    color: white;
+    position: relative;
+    z-index: 2;
+    line-height: 1.3;
+  }
+
+  .card-content {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    text-align: center;
+    color: #e0e0e0;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Mobile-first responsive design */
+  @media (min-width: 640px) {
+    .feature-card {
+      padding: 2rem;
+      min-height: 240px;
+      border-radius: 20px;
+    }
+
+    .card-overlay {
+      top: 0.5rem;
+      left: 0.5rem;
+      right: 0.5rem;
+      bottom: 0.5rem;
+      border-radius: 18px;
+    }
+
+    .icon {
+      font-size: 3rem;
+    }
+
+    .icon-image {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-content {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .feature-card {
+      padding: 2.5rem;
+      min-height: 280px;
+    }
+
+    .card-title {
+      font-size: 1.375rem;
+    }
+
+    .card-content {
+      font-size: 1.125rem;
+    }
+  }
+</style>
