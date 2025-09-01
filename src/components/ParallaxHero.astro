@@ -72,6 +72,7 @@ const waterfallBgUrl = "/src/assets/pixelartAssets/hero/waterfallbg.png";
   import { applyHeroConfig } from '/src/config/parallax-config.ts';
 
   const root = document.querySelector('[data-parallax-root]');
+  let cursorFollowEnabled = false;
 
   function applyNow() {
     
@@ -90,15 +91,62 @@ const waterfallBgUrl = "/src/assets/pixelartAssets/hero/waterfallbg.png";
     }
   }
 
+  // Cursor following effect
+  function initCursorFollow() {
+    if (!root) return;
+
+    const layers = root.querySelectorAll('.parallax-layer');
+    let mouseX = 0;
+    let mouseY = 0;
+
+    // Mouse movement
+    function handleMouseMove(e) {
+      const rect = root.getBoundingClientRect();
+      mouseX = (e.clientX - rect.left - rect.width / 2) / rect.width;
+      mouseY = (e.clientY - rect.top - rect.height / 2) / rect.height;
+      updateCursorFollow();
+    }
+
+    function updateCursorFollow() {
+      layers.forEach((layer) => {
+        // Get scroll-based transform from data attributes (set by parallax system)
+        const scrollX = parseFloat(layer.dataset.scrollX || '0');
+        const scrollY = parseFloat(layer.dataset.scrollY || '0');
+        
+        // Different layers move at different intensities for cursor follow
+        const intensity = layer.id.includes('sun') ? 20 : 
+                         layer.id.includes('mountain') ? 5 :
+                         layer.id.includes('tree') ? 15 :
+                         layer.id.includes('waterfall') ? 8 : 10;
+        
+        const followX = mouseX * intensity;
+        const followY = mouseY * intensity;
+        
+        // Combine scroll-based parallax with cursor follow
+        const finalX = scrollX + followX;
+        const finalY = scrollY + followY;
+        
+        layer.style.transform = `translate3d(${finalX}px, ${finalY}px, 0)`;
+      });
+    }
+
+    // Desktop mouse events
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
+    
+    cursorFollowEnabled = true;
+  }
+
   // Wait for DOM to be ready before initializing
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       applyNow();
+      initCursorFollow();
       // Don't call initParallax() here as it's now handled globally
     });
   } else {
     // DOM is already ready
     applyNow();
+    initCursorFollow();
     // Don't call initParallax() here as it's now handled globally
   }
 

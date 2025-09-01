@@ -51,34 +51,34 @@ export const heroParallax: Record<'mobile'|'tablet'|'desktop', HeroCfg> = {
   },
   tablet: {
     sun: {
-      pos: { top: '3rem', left: '50%' },
+      pos: { bottom: '27rem', left: '46%' },
       size: { width: '60px', height: '60px' },
-      z: 1, speedX: 0.10, speedY: 0.05, dirX: -1, dirY: 1, fade: false
+      z: 1, speedX: 0, speedY: 0.05, dirX: -1, dirY: 1, fade: false
     },
     mountain: {
-      pos: { bottom: '-30px', left: '0' },
-      size: { width: '110%', height: 'auto' },
-      z: 2, speedX: 0.25, speedY: 0.10, dirX: 1, dirY: undefined, fade: false
+      pos: { bottom: '-40px', right: '0' },
+      size: { width: '90%', height: 'auto' },
+      z: 6, speedX: 0.25, speedY: 0, dirX: 1, dirY: undefined, fade: false
     },
     waterfallBg: {
-      pos: { bottom: '0', right: '0' },
+      pos: { bottom: '-1rem', left: '-5rem'},
       size: { width: '100%', height: 'auto' },
-      z: 3, speedX: 0.18, speedY: 0.12, dirX: -1, dirY: undefined, fade: false
+      z: 3, speedX: 0.05, speedY: 0, dirX: 1, dirY: undefined, fade: false
     },
     waterfall: {
-      pos: { bottom: '0', right: '0' },
+      pos: { bottom: '1rem', left: '-5rem' },
       size: { width: '100%', height: 'auto' },
-      z: 4, speedX: 0.30, speedY: 0.15, dirX: -1, dirY: undefined, fade: false
+      z: 4, speedX: 0.1, speedY: 0, dirX: -1, dirY: undefined, fade: false
     },
     tree: {
-      pos: { bottom: '0', left: '0' },
-      size: { height: '60%', width: 'auto' },
-      z: 5, speedX: 0.45, speedY: 0.12, dirX: -1, dirY: undefined, fade: true, fadeStart: 0.3, fadeEnd: 0.8
+      pos: { bottom: '0', left: '-0.5rem' },
+      size: { height: '80%', width: 'auto' },
+      z: 5, speedX: 0.45, speedY: 0, dirX: -1, dirY: undefined, fade: true, fadeStart: 0.3, fadeEnd: 0.8
     }
   },
   desktop: {
     sun: {
-      pos: { top: '20rem', right: '50rem' },
+      pos: { top: '20rem', right: '50%', left: '50%' },
       size: { width: '80px', height: '80px' },
       z: 1, speedX: 0, speedY: 0.08, dirX: undefined, dirY: 1, fade: false
     },
@@ -128,22 +128,22 @@ export const rewardsParallax: Record<'mobile'|'tablet'|'desktop', RewardsCfg> = 
   },
   tablet: {
     grass: {
-      pos: { bottom: '0', left: '0' },
-      size: { width: '120%', height: 'auto' },
+      pos: { bottom: '-5rem', left: '0', right: '0'},
+      size: { width: 'auto', height: '18%' },
       z: 1,
-      speedX: 0.18, speedY: 0.05, dirX: -1, dirY: 1, fade: false
+      speedX: 0, speedY: 0, dirX: -1, dirY: 1, fade: false
     },
     knight: {
-      pos: { bottom: '3rem', right: '-20rem' },
-      size: { width: '80px', height: 'auto' },
+      pos: { bottom: '-1rem', right: '12rem' },
+      size: { width: '220px', height: 'auto' },
       z: 3,
-      speedX: 0.04, speedY: 0, dirX: 1, dirY: 1, fade: false
+      speedX: 0.1, speedY: 0, dirX: 1, dirY: 1, fade: false
     },
     tree2: {
-      pos: { bottom: '0', right: '-20rem' },
-      size: { height: '90%', width: 'auto' },
+      pos: { bottom: '5rem', right: '-1rem' },
+      size: { height: '50%', width: 'auto' },
       z: 2,
-      speedX: 0.25, speedY: 0.05, dirX: -1, dirY: 1, fade: false
+      speedX: 0.2, speedY: 0, dirX: 1, dirY: 1, fade: false
     }
   },
   desktop: {

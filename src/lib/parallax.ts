@@ -77,6 +77,11 @@ export function initParallax() {
         const translateX = baseX + scrollY * speedX * dirX;
         const translateY = baseY + scrollY * speedY * dirY;
 
+        // Store scroll-based transform in data attributes for cursor follow to use
+        layer.dataset.scrollX = String(translateX);
+        layer.dataset.scrollY = String(translateY);
+
+        // Apply transform (cursor follow may override this)
         layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
 
         // Fade by progress
