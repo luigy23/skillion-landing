@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Logo from '../assets/pixelartAssets/hero/skillionlogotransparent.png';
-import PreRegisterForm from '/src/components/PreRegisterForm.astro';
+import PreRegisterForm from './PreRegisterForm.astro';
 
 // Asset URLs
 const skyUrl = "/src/assets/pixelartAssets/hero/Sky.png";
@@ -109,7 +109,6 @@ const waterfallBgUrl = "/src/assets/pixelartAssets/hero/waterfallbg.png";
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      console.log('ParallaxHero: Resize detected, reapplying config...');
       applyNow();
     }, 120);
   });
