@@ -3,11 +3,15 @@ import FeatureCard from './FeatureCard.astro';
 import { Image } from 'astro:assets';
 import InstagramIcon from './../assets/pixelartAssets/icons/ig_icon.png';
 import TikTokIcon from './../assets/pixelartAssets/icons/tt_icon.png';
+import { rewardsParallax } from '../config/parallax-config.ts';
 
 // Reward Asset URLs
 import grassUrl from "./../assets/pixelartAssets/rewards/grass.png";
 import knightUrl from "./../assets/pixelartAssets/rewards/knight.png";
 import tree2Url from "./../assets/pixelartAssets/rewards/tree2.png";
+
+// Generate config for all breakpoints
+const rewardsConfig = JSON.stringify(rewardsParallax);
 ---
 
 <section
@@ -17,11 +21,11 @@ import tree2Url from "./../assets/pixelartAssets/rewards/tree2.png";
 >
   <!-- Parallax container for reward assets -->
   <div data-parallax-root-rewards class="absolute inset-0 overflow-visible pointer-events-none">
-    <Image id="parallax-grass" src={grassUrl} alt="Grass"
+    <img id="parallax-grass" src={grassUrl.src} alt="Grass"
          class="absolute pixel-art" />
-    <Image id="parallax-knight" src={knightUrl} alt="Knight"
+    <img id="parallax-knight" src={knightUrl.src} alt="Knight"
          class="absolute pixel-art" />
-    <Image id="parallax-tree2" src={tree2Url} alt="Tree 2"
+    <img id="parallax-tree2" src={tree2Url.src} alt="Tree 2"
          class="absolute pixel-art" />
   </div>
 
@@ -182,11 +186,62 @@ import tree2Url from "./../assets/pixelartAssets/rewards/tree2.png";
 </style>
 
 <!-- Client script: configure + start rewards parallax -->
-<script type="module">
-  import { initParallax } from '../lib/parallax.ts';
-  import { applyRewardsConfig } from '../config/parallax-config.ts';
+<script type="module" define:vars={{ rewardsConfig }}>
+  
+  // Parse the config passed from server
+  const rewardsParallax = JSON.parse(rewardsConfig);
 
   const root = document.querySelector('[data-parallax-root-rewards]');
+
+  function currentBreakpoint() {
+    const w = window.innerWidth;
+    if (w < 640) return 'mobile';
+    if (w < 1024) return 'tablet';
+    return 'desktop';
+  }
+
+  function applyRewardsConfig(root) {
+    const cfg = rewardsParallax[currentBreakpoint()];
+    const map = {
+      'parallax-grass': 'grass',
+      'parallax-knight': 'knight',
+      'parallax-tree2': 'tree2',
+    };
+
+    Object.entries(map).forEach(([id, key]) => {
+      const el = root.querySelector('#' + id);
+      if (!el) return;
+      const c = cfg[key];
+
+      // Reset conflicting inline positioning first
+      ['top','right','bottom','left','width','height'].forEach((p) => {
+        el.style[p] = '';
+      });
+
+      // Position & size (independent per breakpoint)
+      Object.entries(c.pos).forEach(([k, v]) => (el.style[k] = v));
+      Object.entries(c.size).forEach(([k, v]) => (el.style[k] = v));
+      el.style.zIndex = String(c.z);
+
+      // Parallax data
+      el.classList.add('parallax-layer');
+      el.dataset.speedX = String(c.speedX ?? 0);
+      el.dataset.speedY = String(c.speedY ?? 0);
+      el.dataset.dirX = String(c.dirX ?? 1);
+      el.dataset.dirY = String(c.dirY ?? 1);
+      if (c.fade) {
+        el.dataset.fade = 'true';
+        el.dataset.fadeStart = String(c.fadeStart ?? 0.2);
+        el.dataset.fadeEnd = String(c.fadeEnd ?? 0.7);
+      } else {
+        el.dataset.fade = 'false';
+      }
+
+      // Quality & perf
+      el.style.willChange = 'transform, opacity';
+      el.style.imageRendering = 'pixelated';
+    });
+  }
 
   function applyNow() {
     if (root) {

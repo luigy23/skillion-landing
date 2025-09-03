@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Logo from '../assets/pixelartAssets/hero/skillionlogotransparent.png';
 import PreRegisterForm from './PreRegisterForm.astro';
+import { heroParallax, currentBreakpoint } from '../config/parallax-config.ts';
 
 // Asset URLs
 const skyUrl = "/Sky.png";
@@ -10,6 +11,9 @@ import mountainUrl from "../assets/pixelartAssets/hero/mountaintrees.png";
 import sunUrl from "../assets/pixelartAssets/hero/sun.png";
 import waterfallUrl from "../assets/pixelartAssets/hero/waterfallgif.gif";
 import waterfallBgUrl from "../assets/pixelartAssets/hero/waterfallbg.png";
+
+// Generate config for all breakpoints
+const heroConfig = JSON.stringify(heroParallax);
 ---
 
 <section id="hero" class="relative w-full h-[100svh] md:h-screen overflow-visible">
@@ -20,15 +24,15 @@ import waterfallBgUrl from "../assets/pixelartAssets/hero/waterfallbg.png";
 
   <!-- Parallax container -->
   <div data-parallax-root class="absolute inset-0 overflow-visible pointer-events-none">
-    <Image id="parallax-sun" src={sunUrl} alt="Sun"
+    <img id="parallax-sun" src={sunUrl.src} alt="Sun"
          class="absolute pixel-art" />
-    <Image id="parallax-mountain" src={mountainUrl} alt="Mountains"
+    <img id="parallax-mountain" src={mountainUrl.src} alt="Mountains"
          class="absolute pixel-art" />
-    <Image id="parallax-waterfall-bg" src={waterfallBgUrl} alt="Waterfall Background"
+    <img id="parallax-waterfall-bg" src={waterfallBgUrl.src} alt="Waterfall Background"
          class="absolute pixel-art object-contain object-right-bottom" />
-    <Image id="parallax-waterfall" src={waterfallUrl} alt="Waterfall"
+    <img id="parallax-waterfall" src={waterfallUrl.src} alt="Waterfall"
          class="absolute pixel-art" />
-    <Image id="parallax-tree" src={treeUrl} alt="Tree"
+    <img id="parallax-tree" src={treeUrl.src} alt="Tree"
          class="absolute pixel-art object-contain" />
   </div>
 
@@ -67,27 +71,90 @@ import waterfallBgUrl from "../assets/pixelartAssets/hero/waterfallbg.png";
 </section>
 
 <!-- Client script: configure + start -->
-<script type="module">
+<script type="module" define:vars={{ heroConfig }}>
   
-  import { applyHeroConfig } from '../config/parallax-config.ts';
+  // Parse the config passed from server
+  const heroParallax = JSON.parse(heroConfig);
 
   const root = document.querySelector('[data-parallax-root]');
   let cursorFollowEnabled = false;
 
+  function currentBreakpoint() {
+    const w = window.innerWidth;
+    if (w < 640) return 'mobile';
+    if (w < 1024) return 'tablet';
+    return 'desktop';
+  }
+
+  function applyHeroConfig(root) {
+    const cfg = heroParallax[currentBreakpoint()];
+    const map = {
+      'parallax-sun': 'sun',
+      'parallax-mountain': 'mountain',
+      'parallax-waterfall-bg': 'waterfallBg',
+      'parallax-waterfall': 'waterfall',
+      'parallax-tree': 'tree',
+    };
+
+    Object.entries(map).forEach(([id, key]) => {
+      const el = root.querySelector('#' + id);
+      if (!el) return;
+      const c = cfg[key];
+
+      // Reset conflicting inline positioning first
+      ['top','right','bottom','left','width','height'].forEach((p) => {
+        el.style[p] = '';
+      });
+
+      // Position & size (independent per breakpoint)
+      Object.entries(c.pos).forEach(([k, v]) => (el.style[k] = v));
+      Object.entries(c.size).forEach(([k, v]) => (el.style[k] = v));
+      el.style.zIndex = String(c.z);
+
+      // Parallax data
+      el.classList.add('parallax-layer');
+      el.dataset.speedX = String(c.speedX ?? 0);
+      el.dataset.speedY = String(c.speedY ?? 0);
+      el.dataset.dirX = String(c.dirX ?? 1);
+      el.dataset.dirY = String(c.dirY ?? 1);
+      if (c.fade) {
+        el.dataset.fade = 'true';
+        el.dataset.fadeStart = String(c.fadeStart ?? 0.2);
+        el.dataset.fadeEnd = String(c.fadeEnd ?? 0.7);
+      } else {
+        el.dataset.fade = 'false';
+      }
+
+      // Quality & perf
+      el.style.willChange = 'transform, opacity';
+      el.style.imageRendering = 'pixelated';
+    });
+  }
+
   function applyNow() {
+    console.log('ParallaxHero: applyNow called, root:', root);
     
     if (root) {
+      console.log('ParallaxHero: Applying hero config...');
       applyHeroConfig(root);
-      
       
       // Debug: Check if elements have the right classes and data attributes
       const layers = root.querySelectorAll('.parallax-layer');
+      console.log('ParallaxHero: Found', layers.length, 'parallax layers after config');
       
       layers.forEach((layer, index) => {
-        
+        console.log(`ParallaxHero Layer ${index}:`, {
+          id: layer.id,
+          speedX: layer.dataset.speedX,
+          speedY: layer.dataset.speedY,
+          dirX: layer.dataset.dirX,
+          dirY: layer.dataset.dirY,
+          classes: layer.className,
+          style: layer.style.cssText
+        });
       });
     } else {
-      
+      console.error('ParallaxHero: No parallax root found!');
     }
   }
 

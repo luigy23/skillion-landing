@@ -6,11 +6,13 @@ function clamp(n: number, min = 0, max = 1) {
 }
 
 export function initParallax() {
+  console.log('initParallax: Starting initialization...');
   
   const containers = Array.from(
     document.querySelectorAll<HTMLElement>('[data-parallax-root], [data-parallax-root-rewards]')
   );
   
+  console.log('initParallax: Found', containers.length, 'containers');
   
   if (!containers.length) {
     console.warn('Parallax: No containers found with [data-parallax-root] or [data-parallax-root-rewards]');
@@ -62,6 +64,10 @@ export function initParallax() {
       const progress = clamp((scrollY - containerTop) / containerH);
 
       const layers = container.querySelectorAll<HTMLElement>('.parallax-layer');
+
+      if (layers.length === 0) {
+        console.warn('initParallax: No .parallax-layer elements found in container');
+      }
 
       layers.forEach((layer) => {
         // Always apply parallax when container is in view, regardless of activeLayers
