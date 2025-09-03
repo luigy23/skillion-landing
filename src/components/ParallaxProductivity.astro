@@ -1,13 +1,13 @@
 ---
 import FeatureCard from './FeatureCard.astro';
 import { Image } from 'astro:assets';
-import InstagramIcon from '../../public/assets/pixelartAssets/icons/ig_icon.png';
-import TikTokIcon from '../../public/assets/pixelartAssets/icons/tt_icon.png';
+import InstagramIcon from './../assets/pixelartAssets/icons/ig_icon.png';
+import TikTokIcon from './../assets/pixelartAssets/icons/tt_icon.png';
 
 // Reward Asset URLs
-const grassUrl = "../../public/assets/pixelartAssets/rewards/grass.png";
-const knightUrl = "../../public/assets/pixelartAssets/rewards/knight.png";
-const tree2Url = "../../public/assets/pixelartAssets/rewards/tree2.png";
+import grassUrl from "./../assets/pixelartAssets/rewards/grass.png";
+import knightUrl from "./../assets/pixelartAssets/rewards/knight.png";
+import tree2Url from "./../assets/pixelartAssets/rewards/tree2.png";
 ---
 
 <section
@@ -17,11 +17,11 @@ const tree2Url = "../../public/assets/pixelartAssets/rewards/tree2.png";
 >
   <!-- Parallax container for reward assets -->
   <div data-parallax-root-rewards class="absolute inset-0 overflow-visible pointer-events-none">
-    <img id="parallax-grass" src={grassUrl} alt="Grass"
+    <Image id="parallax-grass" src={grassUrl} alt="Grass"
          class="absolute pixel-art" />
-    <img id="parallax-knight" src={knightUrl} alt="Knight"
+    <Image id="parallax-knight" src={knightUrl} alt="Knight"
          class="absolute pixel-art" />
-    <img id="parallax-tree2" src={tree2Url} alt="Tree 2"
+    <Image id="parallax-tree2" src={tree2Url} alt="Tree 2"
          class="absolute pixel-art" />
   </div>
 

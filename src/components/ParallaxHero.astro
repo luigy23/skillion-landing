@@ -1,15 +1,15 @@
 ---
 import { Image } from 'astro:assets';
-import Logo from '../../public/assets/pixelartAssets/hero/skillionlogotransparent.png';
+import Logo from '../assets/pixelartAssets/hero/skillionlogotransparent.png';
 import PreRegisterForm from './PreRegisterForm.astro';
 
 // Asset URLs
-const skyUrl = "../../public/assets/pixelartAssets/hero/Sky.png";
-const treeUrl = "../../public/assets/pixelartAssets/hero/tree.png"; 
-const mountainUrl = "../../public/assets/pixelartAssets/hero/mountaintrees.png";  
-const sunUrl = "../../public/assets/pixelartAssets/hero/sun.png";
-const waterfallUrl = "../../public/assets/pixelartAssets/hero/waterfallgif.gif";
-const waterfallBgUrl = "../../public/assets/pixelartAssets/hero/waterfallbg.png";
+const skyUrl = "/Sky.png";
+import treeUrl from "../assets/pixelartAssets/hero/tree.png"; 
+import mountainUrl from "../assets/pixelartAssets/hero/mountaintrees.png";  
+import sunUrl from "../assets/pixelartAssets/hero/sun.png";
+import waterfallUrl from "../assets/pixelartAssets/hero/waterfallgif.gif";
+import waterfallBgUrl from "../assets/pixelartAssets/hero/waterfallbg.png";
 ---
 
 <section id="hero" class="relative w-full h-[100svh] md:h-screen overflow-visible">
@@ -20,15 +20,15 @@ const waterfallBgUrl = "../../public/assets/pixelartAssets/hero/waterfallbg.png"
 
   <!-- Parallax container -->
   <div data-parallax-root class="absolute inset-0 overflow-visible pointer-events-none">
-    <img id="parallax-sun" src={sunUrl} alt="Sun"
+    <Image id="parallax-sun" src={sunUrl} alt="Sun"
          class="absolute pixel-art" />
-    <img id="parallax-mountain" src={mountainUrl} alt="Mountains"
+    <Image id="parallax-mountain" src={mountainUrl} alt="Mountains"
          class="absolute pixel-art" />
-    <img id="parallax-waterfall-bg" src={waterfallBgUrl} alt="Waterfall Background"
+    <Image id="parallax-waterfall-bg" src={waterfallBgUrl} alt="Waterfall Background"
          class="absolute pixel-art object-contain object-right-bottom" />
-    <img id="parallax-waterfall" src={waterfallUrl} alt="Waterfall"
+    <Image id="parallax-waterfall" src={waterfallUrl} alt="Waterfall"
          class="absolute pixel-art" />
-    <img id="parallax-tree" src={treeUrl} alt="Tree"
+    <Image id="parallax-tree" src={treeUrl} alt="Tree"
          class="absolute pixel-art object-contain" />
   </div>
 
