@@ -36,6 +36,26 @@ const {
  // La variable "formId" viene desde el frontmatter gracias a define:vars
   const formElement = document.getElementById(formId);
 
+  // Language-specific text
+  const text = {
+    en: {
+      loading: 'Registering...',
+      success: 'Registered! Redirecting...',
+      error: 'Error registering email',
+      connectionError: 'Connection error. Please try again.',
+      registered: 'Registered! Redirecting...'
+    },
+    es: {
+      loading: 'Registrando...',
+      success: '¡Registrado! Redirigiendo...',
+      error: 'Error al registrar el email',
+      connectionError: 'Error de conexión. Inténtalo de nuevo.',
+      registered: '¡Registrado! Redirigiendo...'
+    }
+  };
+
+  const currentText = text[preferredLang] || text.es;
+
   formElement?.addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -46,7 +66,7 @@ const {
     
     // Mostrar estado de carga
     submitButton.disabled = true;
-    submitButton.textContent = 'Registrando...';
+    submitButton.textContent = currentText.loading;
     submitButton.classList.add('opacity-75', 'cursor-not-allowed');
     
     try {
@@ -63,14 +83,14 @@ const {
       const result = await response.json();
       
       if (result.success) {
-        showNotification('¡Registrado! Redirigiendo...', 'success');
+        showNotification(currentText.success, 'success');
         form.reset();
         setTimeout(() => {
           var url = `/gracias?lang=${encodeURIComponent(preferredLang)}&email=${encodeURIComponent(email)}`;
           window.location.href = url;
         }, 1500);
       } else {
-        showNotification(result.message || 'Error al registrar el email', 'error');
+        showNotification(result.message || currentText.error, 'error');
         // Si hay error, restauramos el botón aquí
         submitButton.disabled = false;
         submitButton.textContent = originalButtonText;
@@ -79,7 +99,7 @@ const {
       
     } catch (error) {
       console.error('Error:', error);
-      showNotification('Error de conexión. Inténtalo de nuevo.', 'error');
+      showNotification(currentText.connectionError, 'error');
       // Si hay error, también restauramos el botón
       submitButton.disabled = false;
       submitButton.textContent = originalButtonText;

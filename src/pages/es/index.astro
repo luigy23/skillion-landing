@@ -2,6 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import PreRegisterForm from '../../components/PreRegisterForm.astro';
 import FeatureCard from '../../components/FeatureCard.astro';
+import ParallaxHero from '../../components/ParallaxHero.astro';
+import ParallaxProductivity from '../../components/ParallaxProductivity.astro';
 import { Image } from 'astro:assets';
 import Logo from '../../assets/Skillion.png';
 import Background from '../../assets/bgHero.png';
@@ -14,44 +16,31 @@ import Background from '../../assets/bgHero.png';
     description="🎮 Skillion convierte tus hábitos en un RPG épico. Gana XP real, sube de nivel en la vida y derrota la procrastinación. La app de gamificación más divertida para mejorar tu productividad y crear hábitos duraderos."
 >
     <main class="bg-pixel-gradient text-pixel-text">
+        <script>
+        {`
+          (function(){
+            try {
+              var ua = navigator.userAgent.toLowerCase();
+              var isBot = /(bot|crawler|spider|crawling)/.test(ua);
+              if (isBot) return;
+              var pref = null;
+              try { pref = localStorage.getItem('preferredLang'); } catch(e) {}
+              if (window.location.pathname === '/es/' || window.location.pathname === '/es') {
+                if (pref === 'en') {
+                  window.location.replace('/');
+                  return;
+                }
+              }
+            } catch(e) {}
+          })();
+        `}
+        </script>
         
-        <!-- Sección 1: Héroe de la Aventura -->
-        <section class="text-white min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden bg-cover bg-center" style={`background-image: url(${Background.src})`}>
-            <!-- Overlay para crear contraste -->
-            <div class="absolute inset-0 bg-sky-950 opacity-60 z-0"></div>
-            
-            <div class="container mx-auto text-center z-10">
-                <div class="animate-float">
-                    <Image src={Logo} alt="Skillion Hero Image" class="w-32 h-32 mx-auto mb-8 rounded-2xl" />
-                </div>
-                
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 font-poppins">
-                    <span class="text-white">
-                        Skillion: Gamifica tu Vida Real
-                    </span>
-                    <br>
-                    <span class="text-white">
-                        Convierte Hábitos en RPG
-                    </span>
-                </h1>
-                
-                <p class="text-xl md:text-2xl mb-12 text-pixel-text-secondary max-w-3xl mx-auto leading-relaxed font-poppins">
-                    <strong class="text-gaming-gold">Skillion</strong> es la app de gamificación que transforma tus hábitos y metas diarias en una aventura RPG épica. 
-                    <span class="text-gaming-cyan">Gana XP en la vida real</span> por cada tarea que completas, sube de nivel en habilidades personalizadas y derrota al boss final: la procrastinación.
-                </p>
-                
-                <div class="mb-8">
-                    <PreRegisterForm lang="es" />
-                </div>
-                
-                <p class="text-sm text-pixel-text-secondary">
-                    Los jugadores pre-registrados recibirán un <span class="text-gaming-gold font-semibold">descuento exclusivo</span> en el lanzamiento
-                </p>
-            </div>
-        </section>
+        <!-- Sección 1: Héroe de la Aventura con Parallax -->
+        <ParallaxHero lang="es" />
 
         <!-- Sección 2: El Problema -->
-        <section class="py-20 px-4 bg-pixel-bg2 hidden	">
+        <section class="py-20 px-4 bg-pixel-bg2 hidden">
             <div class="container mx-auto text-center">
                 <div class="max-w-4xl mx-auto">
                     <h2 class="text-3xl md:text-5xl font-bold mb-8 font-poppins">
@@ -89,37 +78,8 @@ import Background from '../../assets/bgHero.png';
             </div>
         </section>
 
-        <!-- Sección 3: La Solución -->
-        <section class="py-20 px-4">
-            <div class="container mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
-                        Cómo Skillion Gamifica <span class="text-gaming-gold">tu Productividad</span>
-                    </h2>
-                    <p class="text-xl text-pixel-text-secondary max-w-2xl mx-auto">
-                        Descubre la app de gamificación que convierte tu rutina diaria en la aventura más épica de tu vida
-                    </p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-                    <FeatureCard 
-                        icon="🧠"
-                        title="Personaliza tus Skills de Vida Real"
-                        description="Crea habilidades únicas como 'Fitness', 'Programación', 'Lectura' o 'Networking'. Con Skillion, cada área de tu vida se convierte en una skill RPG que puedes subir de nivel."
-                    />
-                    <FeatureCard 
-                        icon="⚔️"
-                        title="Misiones que Transforman Hábitos"
-                        description="Cada tarea diaria (ejercicio, estudio, trabajo) se convierte en una misión épica. Completa challenges y gana XP real que se refleja en tu progreso de vida."
-                    />
-                    <FeatureCard 
-                        icon="🏆"
-                        title="Sistema de Progreso Gamificado"
-                        description="Observa barras de XP crecer, desbloquea achievements únicos y personaliza tu aventura. La gamificación hace que mantener hábitos sea adictivamente divertido."
-                    />
-                </div>
-            </div>
-        </section>
+        <!-- Sección 3: La Solución (reemplazada por ParallaxProductivity) -->
+        <ParallaxProductivity lang="es" />
 
         <!-- Sección 4: Galería "Instagrammable" -->
         <section class="py-20 px-4 bg-pixel-bg2 hidden">
@@ -151,60 +111,13 @@ import Background from '../../assets/bgHero.png';
                     </div>
                     
                     <!-- Mockup 3 -->
-                    <div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-6 hover:shadow-pixel-hover hover:border-gaming-gold transition-all duración-300 transform hover:-translate-y-2">
+                    <div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-6 hover:shadow-pixel-hover hover:border-gaming-gold transition-all duration-300 transform hover:-translate-y-2">
                         <div class="aspect-[9/16] bg-gradient-to-b from-gaming-gold to-accent-500 rounded-lg mb-4 flex items-center justify-center text-6xl">
                             🎉
                         </div>
                         <h3 class="font-bold text-lg mb-2">¡Misión Completada!</h3>
                         <p class="text-pixel-text-secondary text-sm">Animación épica cuando subes de nivel y desbloqueas rewards</p>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección 5: Únete a la Comunidad -->
-        <section class="py-20 px-4">
-            <div class="container mx-auto text-center">
-                <h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins">
-                    Únete a la Revolución de la <span class="text-gaming-gold">Gamificación Personal</span>
-                </h2>
-                <p class="text-xl text-pixel-text-secondary mb-12 max-w-2xl mx-auto">
-                    Forma parte de la comunidad de pioneros que están gamificando su vida con Skillion. Acceso anticipado, 
-                    recompensas exclusivas y la oportunidad de influir en el futuro de la productividad gamificada.
-                </p>
-                
-                <div class="flex flex-wrap justify-center gap-6 mb-12">
-                    <a href="https://instagram.com/skillion.app" target="_blank" class="bg-pixel-card border-2 border-pixel-border shadow-pixel hover:shadow-pixel-hover hover:border-gaming-gold p-6 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-3">
-                        <span class="text-3xl">📸</span>
-                        <div class="text-left">
-                            <div class="font-bold">Instagram</div>
-                            <div class="text-sm text-pixel-text-secondary">@skillion.app</div>
-                        </div>
-                    </a>
-                    
-                    <a href="https://instagram.com/skillion_es" target="_blank" class="bg-pixel-card border-2 border-pixel-border shadow-pixel hover:shadow-pixel-hover hover:border-gaming-gold p-6 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-3">
-                        <span class="text-3xl">🇪🇸</span>
-                        <div class="text-left">
-                            <div class="font-bold">Instagram ES</div>
-                            <div class="text-sm text-pixel-text-secondary">@skillion_es</div>
-                        </div>
-                    </a>
-                    
-                    <a href="https://tiktok.com/@skillion.app" target="_blank" class="bg-pixel-card border-2 border-pixel-border shadow-pixel hover:shadow-pixel-hover hover:border-gaming-gold p-6 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-3">
-                        <span class="text-3xl">🎵</span>
-                        <div class="text-left">
-                            <div class="font-bold">TikTok</div>
-                            <div class="text-sm text-pixel-text-secondary">@skillion.app</div>
-                        </div>
-                    </a>
-                </div>
-                
-                <div class="bg-pixel-card border-2 border-gaming-gold p-8 shadow-glow max-w-2xl mx-auto">
-                    <div class="text-4xl mb-4">🎁</div>
-                    <h3 class="text-2xl font-bold mb-4 text-gaming-gold">Recompensas Beta de Skillion</h3>
-                    <p class="text-pixel-text-secondary">
-                        Los early adopters de Skillion recibirán acceso beta exclusivo, periodo de prueba extendido y descuentos especiales en el lanzamiento. ¡Sé pionero en gamificar tu vida!
-                    </p>
                 </div>
             </div>
         </section>
@@ -219,7 +132,7 @@ import Background from '../../assets/bgHero.png';
                     Tu aventura de crecimiento personal comienza ahora. Descarga Skillion y convierte cada día en una épica quest de superación personal.
                 </p>
                 
-                <div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8 max-w-2xl mx-auto mb-8">
+                <div class="pixel-frame pixel-corners-white p-8 max-w-2xl mx-auto mb-8">
                     <PreRegisterForm 
                         idform='pre-register-form-2'
                         placeholder="aventurero@email.com"
@@ -266,6 +179,138 @@ import Background from '../../assets/bgHero.png';
             </div>
         </footer>
     </main>
+
+    <!-- Inicialización global de parallax (igual que en la página EN) -->
+    <script type="module">
+        // Inline parallax functionality to avoid TypeScript import issues
+        function clamp(n, min = 0, max = 1) {
+            return Math.max(min, Math.min(max, n));
+        }
+
+        function initParallax() {
+            console.log('initParallax: Starting initialization...');
+            
+            const containers = Array.from(
+                document.querySelectorAll('[data-parallax-root], [data-parallax-root-rewards]')
+            );
+            
+            console.log('initParallax: Found', containers.length, 'containers');
+            
+            if (!containers.length) {
+                console.warn('Parallax: No containers found with [data-parallax-root] or [data-parallax-root-rewards]');
+                return;
+            }
+
+            const activeLayers = new Set();
+
+            // Observe visibility (perf) - more lenient threshold
+            const io = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        const layers = e.target.querySelectorAll('.parallax-layer');
+                        layers.forEach((l) => {
+                            if (e.isIntersecting) activeLayers.add(l);
+                            else activeLayers.delete(l);
+                        });
+                    });
+                },
+                { root: null, threshold: 0, rootMargin: '100px' }
+            );
+
+            containers.forEach((c) => io.observe(c));
+
+            let ticking = false;
+            const onScroll = () => {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(() => {
+                    update();
+                    ticking = false;
+                });
+            };
+
+            const getScrollY = () => {
+                // Cross-browser scroll position (iOS/Safari quirks)
+                return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+            };
+
+            const update = () => {
+                const scrollY = getScrollY();
+
+                containers.forEach((container) => {
+                    const rect = container.getBoundingClientRect();
+                    const containerTop = rect.top + window.scrollY;
+                    const containerH = container.offsetHeight || 1;
+
+                    // progress: 0 when container top hits top of viewport; 1 near container bottom
+                    const progress = clamp((scrollY - containerTop) / containerH);
+
+                    const layers = container.querySelectorAll('.parallax-layer');
+
+                    if (layers.length === 0) {
+                        console.warn('initParallax: No .parallax-layer elements found in container');
+                    }
+
+                    layers.forEach((layer) => {
+                        // Always apply parallax when container is in view, regardless of activeLayers
+                        const speedX = parseFloat(layer.dataset.speedX || '0');
+                        const speedY = parseFloat(layer.dataset.speedY || '0');
+                        const dirX = parseFloat(layer.dataset.dirX || '1');
+                        const dirY = parseFloat(layer.dataset.dirY || '1');
+
+                        const baseX = parseFloat(layer.dataset.baseX || '0'); // px offset if you want
+                        const baseY = parseFloat(layer.dataset.baseY || '0');
+
+                        // Translate based on window scroll (simple, smooth)
+                        const translateX = baseX + scrollY * speedX * dirX;
+                        const translateY = baseY + scrollY * speedY * dirY;
+
+                        // Store scroll-based transform in data attributes for cursor follow to use
+                        layer.dataset.scrollX = String(translateX);
+                        layer.dataset.scrollY = String(translateY);
+
+                        // Apply transform (cursor follow may override this)
+                        layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+
+                        // Fade by progress
+                        if (layer.dataset.fade === 'true') {
+                            const start = parseFloat(layer.dataset.fadeStart || '0.2');
+                            const end = parseFloat(layer.dataset.fadeEnd || '0.7');
+                            let opacity = 1;
+                            if (progress <= start) opacity = 1;
+                            else if (progress >= end) opacity = 0;
+                            else opacity = 1 - (progress - start) / (end - start);
+                            layer.style.opacity = String(clamp(opacity, 0, 1));
+                        } else {
+                            layer.style.opacity = '1';
+                        }
+                    });
+                });
+            };
+
+            // Kick off
+            // Ensure DOM is ready before first update
+            setTimeout(() => {
+                update();
+            }, 100);
+            
+            window.addEventListener('scroll', onScroll, { passive: true });
+            document.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', () => {
+                // A resize changes geometry -> re-run once
+                requestAnimationFrame(update);
+            });
+        }
+        
+        // Initialize parallax for all containers (hero + rewards)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                initParallax();
+            });
+        } else {
+            initParallax();
+        }
+    </script>
 </Layout>
 
 <style>

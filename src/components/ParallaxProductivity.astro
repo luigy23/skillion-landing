@@ -5,6 +5,12 @@ import InstagramIcon from './../assets/pixelartAssets/icons/ig_icon.png';
 import TikTokIcon from './../assets/pixelartAssets/icons/tt_icon.png';
 import { rewardsParallax } from '../config/parallax-config.ts';
 
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props as Props;
+
 // Reward Asset URLs
 import grassUrl from "./../assets/pixelartAssets/rewards/grass.png";
 import knightUrl from "./../assets/pixelartAssets/rewards/knight.png";
@@ -12,6 +18,45 @@ import tree2Url from "./../assets/pixelartAssets/rewards/tree2.png";
 
 // Generate config for all breakpoints
 const rewardsConfig = JSON.stringify(rewardsParallax);
+
+const content = {
+  en: {
+    heading1: 'How Skillion Gamifies Your Productivity',
+    subheading1: 'Discover the gamified productivity app that turns your daily routine into your most epic adventure',
+    card1Title: 'Customize Your Real-Life Skills',
+    card1Body: "Create unique skills like 'Fitness', 'Programming', 'Reading' or 'Networking'. With Skillion, every area of your life becomes an RPG skill you can level up.",
+    card2Title: 'Missions that Transform Habits',
+    card2Body: 'Every daily task (workout, study, work) becomes an epic quest. Complete challenges and earn real XP that reflects in your life progress.',
+    card3Title: 'Gamified Progress System',
+    card3Body: 'Watch XP bars grow, unlock unique achievements and customize your journey. Gamification makes habit-building addictively fun.',
+    heading2: 'Join the Personal Gamification Revolution',
+    subheading2: 'Be part of the pioneer community gamifying their lives with Skillion. Early access, exclusive rewards, and the chance to shape the future of gamified productivity.',
+    socialInstagram: 'Instagram',
+    socialInstagramEs: 'Instagram ES',
+    socialTikTok: 'TikTok',
+    betaTitle: 'Skillion Beta Rewards',
+    betaBody: 'Early adopters get exclusive beta access, extended trial and special launch discounts. Be a pioneer in gamifying your life!'
+  },
+  es: {
+    heading1: 'Cómo Skillion Gamifica tu Productividad',
+    subheading1: 'Descubre la app de gamificación que convierte tu rutina diaria en tu aventura más épica',
+    card1Title: 'Personaliza tus Skills de Vida Real',
+    card1Body: "Crea habilidades únicas como 'Fitness', 'Programación', 'Lectura' o 'Networking'. Con Skillion, cada área de tu vida se convierte en una skill RPG que puedes subir de nivel.",
+    card2Title: 'Misiones que Transforman Hábitos',
+    card2Body: 'Cada tarea diaria (ejercicio, estudio, trabajo) se convierte en una misión épica. Completa challenges y gana XP real que se refleja en tu progreso de vida.',
+    card3Title: 'Sistema de Progreso Gamificado',
+    card3Body: 'Observa barras de XP crecer, desbloquea achievements únicos y personaliza tu aventura. La gamificación hace que mantener hábitos sea adictivamente divertido.',
+    heading2: 'Únete a la Revolución de la Gamificación Personal',
+    subheading2: 'Forma parte de la comunidad de pioneros que están gamificando su vida con Skillion. Acceso anticipado, recompensas exclusivas y la oportunidad de influir en el futuro de la productividad gamificada.',
+    socialInstagram: 'Instagram',
+    socialInstagramEs: 'Instagram ES',
+    socialTikTok: 'TikTok',
+    betaTitle: 'Recompensas Beta de Skillion',
+    betaBody: 'Los early adopters de Skillion recibirán acceso beta exclusivo, periodo de prueba extendido y descuentos especiales en el lanzamiento. ¡Sé pionero en gamificar tu vida!'
+  }
+} as const;
+
+const t = content[lang];
 ---
 
 <section
@@ -21,11 +66,11 @@ const rewardsConfig = JSON.stringify(rewardsParallax);
 >
   <!-- Parallax container for reward assets -->
   <div data-parallax-root-rewards class="absolute inset-0 overflow-visible pointer-events-none">
-    <img id="parallax-grass" src={grassUrl.src} alt="Grass"
+    <img id="parallax-grass" src={grassUrl.src} alt={lang === 'es' ? 'Césped' : 'Grass'}
          class="absolute pixel-art" />
-    <img id="parallax-knight" src={knightUrl.src} alt="Knight"
+    <img id="parallax-knight" src={knightUrl.src} alt={lang === 'es' ? 'Caballero' : 'Knight'}
          class="absolute pixel-art" />
-    <img id="parallax-tree2" src={tree2Url.src} alt="Tree 2"
+    <img id="parallax-tree2" src={tree2Url.src} alt={lang === 'es' ? 'Árbol' : 'Tree 2'}
          class="absolute pixel-art" />
   </div>
 
@@ -35,10 +80,10 @@ const rewardsConfig = JSON.stringify(rewardsParallax);
       <!-- First Section: How Skillion Gamifies Your Productivity -->
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-5xl font-bold mb-4 font-poppins text-gray-800">
-          How <span class="text-shine">Skillion</span> Gamifies <span class="text-gaming-gold">Your Productivity</span>
+          {lang === 'es' ? 'Cómo ' : 'How '}<span class="text-shine">Skillion</span> {lang === 'es' ? 'Gamifica ' : 'Gamifies '}<span class="text-gaming-gold">{lang === 'es' ? 'tu Productividad' : 'Your Productivity'}</span>
         </h2>
         <p class="text-lg md:text-xl text-white max-w-2xl mx-auto">
-          Discover the gamified productivity app that turns your daily routine into your most epic adventure
+          {t.subheading1}
         </p>
       </div>
       
@@ -46,34 +91,36 @@ const rewardsConfig = JSON.stringify(rewardsParallax);
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
         <FeatureCard 
           icon="🧠"
-          title="Customize Your Real-Life Skills"
+          title={t.card1Title}
         >
-          Create unique skills like 'Fitness', 'Programming', 'Reading' or 'Networking'. With Skillion, every area of your life becomes an RPG skill you can level up.
+          {t.card1Body}
         </FeatureCard>
         
         <FeatureCard 
           icon="⚔️"
-          title="Missions that Transform Habits"
+          title={t.card2Title}
         >
-          Every daily task (workout, study, work) becomes an epic quest. Complete challenges and earn real XP that reflects in your life progress.
+          {t.card2Body}
         </FeatureCard>
         
         <FeatureCard 
           icon="🏆"
-          title="Gamified Progress System"
+          title={t.card3Title}
           class="md:col-span-2 md:col-start-1 md:justify-self-center md:max-w-md lg:col-span-1 lg:col-start-auto lg:justify-self-auto lg:max-w-none"
         >
-          Watch XP bars grow, unlock unique achievements and customize your journey. Gamification makes habit-building addictively fun.
+          {t.card3Body}
         </FeatureCard>
       </div>
 
       <!-- Second Section: Join the Personal Gamification Revolution -->
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins text-gray-800 text-stroke-blue">
-          Join the <span class="text-gaming-gold">Personal Gamification</span> Revolution
+          {lang === 'es' 
+            ? 'Únete a la Revolución de la Gamificación Personal' 
+            : 'Join the Personal Gamification Revolution'}
         </h2>
         <p class="text-lg md:text-xl text-white mb-12 max-w-2xl mx-auto">
-          Be part of the pioneer community gamifying their lives with Skillion. Early access, exclusive rewards, and the chance to shape the future of gamified productivity.
+          {t.subheading2}
         </p>
         
         <div class="flex justify-center gap-4 mb-12">
@@ -81,29 +128,29 @@ const rewardsConfig = JSON.stringify(rewardsParallax);
             <a href="https://instagram.com/skillion.app" target="_blank" class="pixel-btn pixel-instagram">
               <Image src={InstagramIcon} alt="Instagram" class="w-8 h-8 md:w-10 md:h-10 pixel-art" />
             </a>
-            <span class="social-title">Instagram</span>
+            <span class="social-title">{t.socialInstagram}</span>
           </div>
           
           <div class="social-button-container">
             <a href="https://instagram.com/skillion_es" target="_blank" class="pixel-btn pixel-instagram">
               <Image src={InstagramIcon} alt="Instagram ES" class="w-8 h-8 md:w-10 md:h-10 pixel-art" />
             </a>
-            <span class="social-title">Instagram ES</span>
+            <span class="social-title">{t.socialInstagramEs}</span>
           </div>
           
           <div class="social-button-container">
             <a href="https://tiktok.com/@skillion.app" target="_blank" class="pixel-btn pixel-tiktok">
               <Image src={TikTokIcon} alt="TikTok" class="w-8 h-8 md:w-10 md:h-10 pixel-art" />
             </a>
-            <span class="social-title">TikTok</span>
+            <span class="social-title">{t.socialTikTok}</span>
           </div>
         </div>
         
         <div class="bg-white/80 backdrop-blur-sm pixel-frame p-4 md:p-6 mb-25 max-w-4xl mx-auto hero-text-container">
           <div class="text-4xl mb-4">🎁</div>
-          <h3 class="text-xl md:text-2xl font-bold mb-4 text-gaming-gold">Skillion Beta Rewards</h3>
+          <h3 class="text-xl md:text-2xl font-bold mb-4 text-gaming-gold">{t.betaTitle}</h3>
           <p class="text-base md:text-lg lg:text-xl leading-relaxed font-poppins text-gray-800">
-            Early adopters get exclusive beta access, extended trial and special launch discounts. Be a pioneer in gamifying your life!
+            {t.betaBody}
           </p>
         </div>
       </div>

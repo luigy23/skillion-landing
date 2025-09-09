@@ -19,8 +19,16 @@ import ParallaxProductivity from '../components/ParallaxProductivity.astro';
 			  var ua = navigator.userAgent.toLowerCase();
 			  var isBot = /(bot|crawler|spider|crawling)/.test(ua);
 			  if (isBot) return;
-			  if (window.location.pathname === '/' && navigator.language && navigator.language.toLowerCase().startsWith('es')) {
-				window.location.replace('/es/');
+			  var pref = null;
+			  try { pref = localStorage.getItem('preferredLang'); } catch(e) {}
+			  if (window.location.pathname === '/') {
+				if (pref === 'es') {
+				  window.location.replace('/es/');
+				  return;
+				}
+				if (!pref && navigator.language && navigator.language.toLowerCase().startsWith('es')) {
+				  window.location.replace('/es/');
+				}
 			  }
 			} catch(e) {}
 		  })();
@@ -28,7 +36,7 @@ import ParallaxProductivity from '../components/ParallaxProductivity.astro';
 		</script>
 		
 		<!-- Parallax Hero Section -->
-		<ParallaxHero />
+		<ParallaxHero lang="en" />
 
 		<!-- Section 2: The Problem -->
 		<section class="py-20 px-4 bg-pixel-bg2 hidden">

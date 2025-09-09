@@ -4,6 +4,12 @@ import Logo from '../assets/pixelartAssets/hero/skillionlogotransparent.png';
 import PreRegisterForm from './PreRegisterForm.astro';
 import { heroParallax, currentBreakpoint } from '../config/parallax-config.ts';
 
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props;
+
 // Asset URLs
 const skyUrl = "/Sky.png";
 import treeUrl from "../assets/pixelartAssets/hero/tree.png"; 
@@ -14,6 +20,30 @@ import waterfallBgUrl from "../assets/pixelartAssets/hero/waterfallbg.png";
 
 // Generate config for all breakpoints
 const heroConfig = JSON.stringify(heroParallax);
+
+// Language-specific content
+const content = {
+  en: {
+    title: "Skillion: Gamify Your Real Life",
+    subtitle: "Turn Habits into an RPG",
+    description: "Skillion is the habit gamification app that turns your daily goals into an epic RPG. Earn real-life XP for every task you complete, level up personalized skills, and defeat the final boss: procrastination.",
+    buttonText: "Get early access",
+    placeholder: "player@email.com",
+    earlyAccess: "Early players will receive an exclusive launch discount",
+    formId: "pre-register-form-en-hero"
+  },
+  es: {
+    title: "Skillion: Gamifica tu Vida Real",
+    subtitle: "Convierte Hábitos en RPG",
+    description: "Skillion es la app de gamificación que transforma tus hábitos y metas diarias en una aventura RPG épica. Gana XP en la vida real por cada tarea que completas, sube de nivel en habilidades personalizadas y derrota al boss final: la procrastinación.",
+    buttonText: "¡Quiero acceso anticipado!",
+    placeholder: "aventurero@email.com",
+    earlyAccess: "Los jugadores pre-registrados recibirán un descuento exclusivo en el lanzamiento",
+    formId: "pre-register-form-es-hero"
+  }
+};
+
+const currentContent = content[lang];
 ---
 
 <section id="hero" class="relative w-full h-[100svh] md:h-screen overflow-visible">
@@ -39,30 +69,63 @@ const heroConfig = JSON.stringify(heroParallax);
   <!-- Non-parallax content -->
   <div class="relative z-10 flex items-center justify-center h-full px-4">
     <div class="text-center text-white max-w-4xl mx-auto mt-16 md:-mt-8">
-      <div class="animate-float mb-6">
+      <div class="animate-float mb-6 -mt-10 md:mt-0">
         <Image src={Logo} alt="Skillion Hero Image" class="w-16 h-16 md:w-32 md:h-32 mx-auto rounded-2xl" />
       </div>
       <h1 class="text-2xl md:text-4xl lg:text-5xl mb-8 font-poppins text-extra-bold text-stroke-gold">
-        <span class="text-[#203239]">Skillion: Gamify Your Real Life</span><br/>
-        <span class="text-[#203239]">Turn Habits into an RPG</span>
+        <span class="text-[#203239]">{currentContent.title}</span><br/>
+        <span class="text-[#203239]">{currentContent.subtitle}</span>
       </h1>
-      <div class="bg-white/80 backdrop-blur-sm pixel-frame p-4 md:p-6 mb-25 max-w-4xl mx-auto hero-text-container">
+      <div class="bg-white/80 backdrop-blur-sm pixel-frame p-4 md:p-6 mb-8 max-w-4xl mx-auto hero-text-container">
         <p class="text-base md:text-lg lg:text-xl leading-relaxed font-poppins text-gray-800">
-          <strong class="text-gaming-gold">Skillion</strong> is the habit gamification app that turns your daily goals into an epic RPG. Earn real-life XP for every task you complete, level up personalized skills, and defeat the final boss: <i>procrastination</i>.
+          {currentContent.description}
         </p>
       </div>
 
-      <div class="mb-6 -mt-15 md:mt-0">
+      <!-- App Store Buttons -->
+      <div class="mb-6 flex flex-row items-center justify-center gap-3">
+        <!-- Google Play Button -->
+        <a href="https://play.google.com/store/apps/details?id=app.skillion&pcampaignid=web_share" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="group inline-flex items-center justify-center gap-2 sm:gap-4 bg-green-600 text-white px-4 py-2 sm:px-8 sm:py-4 rounded-lg hover:bg-green-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden">
+          <svg class="w-6 h-6 sm:w-10 sm:h-10" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+          </svg>
+          <div class="text-left">
+            <div class="text-xs sm:text-sm text-green-100">{lang === 'es' ? 'DESCÁRGALO EN' : 'GET IT ON'}</div>
+            <div class="text-xs sm:text-lg font-bold">Google Play</div>
+          </div>
+          <!-- Shine effect -->
+          <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30 transition-all duration-500 group-hover:left-[100%]"></div>
+          </div>
+        </a>
+
+        <!-- Apple Store Button -->
+        <a href="#" 
+           class="group inline-flex items-center justify-center gap-2 sm:gap-4 bg-gray-800 text-white px-4 py-2 sm:px-8 sm:py-4 rounded-lg hover:bg-gray-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden opacity-60 cursor-not-allowed">
+          <svg class="w-6 h-6 sm:w-10 sm:h-10" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+          </svg>
+          <div class="text-left">
+            <div class="text-xs sm:text-sm text-gray-300">{lang === 'es' ? 'PRÓXIMAMENTE' : 'COMING SOON'}</div>
+            <div class="text-xs sm:text-lg font-bold">App Store</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="mb-6">
         <PreRegisterForm 
-          idform='pre-register-form-en-hero'
-          placeholder="player@email.com"
-          buttonText="Get early access"
-          lang="en"
+          idform={currentContent.formId}
+          placeholder={currentContent.placeholder}
+          buttonText={currentContent.buttonText}
+          lang={lang}
         />
       </div>
 
       <p class="text-sm text-pixel-text-secondary">
-        Early players will receive an <span class="text-gaming-gold font-semibold">exclusive launch discount</span>
+        {currentContent.earlyAccess}
       </p>
     </div>
   </div>
