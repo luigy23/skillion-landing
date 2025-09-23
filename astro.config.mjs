@@ -2,12 +2,11 @@
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
-import vercelAdapter from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://skillion.app',
-  adapter: vercelAdapter(),
+  output: 'static',
   vite: {
     plugins: [tailwindcss()],
     define: {
