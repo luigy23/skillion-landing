@@ -111,15 +111,15 @@ const isSpanish = (lang === 'es');
 				class="bg-transparent text-white text-xs font-poppins border-0 outline-none cursor-pointer"
 				aria-label="Select language"
 			>
-				<option value="/" {!isSpanish ? 'selected' : ''}>EN</option>
-				<option value="/es/" {isSpanish ? 'selected' : ''}>ES</option>
+				<option value="/" selected={!isSpanish}>EN</option>
+				<option value="/es/" selected={isSpanish}>ES</option>
 			</select>
 		</nav>
 
 		<script>
 		  (function(){
 			try {
-			  var select = document.getElementById('language-selector');
+			  var select = document.getElementById('language-selector') as HTMLSelectElement;
 			  if (!select) return;
 			  
 			  // Set correct selection on page load
@@ -131,7 +131,9 @@ const isSpanish = (lang === 'es');
 			  }
 			  
 			  select.addEventListener('change', function(e){
-				var targetUrl = e.target.value;
+				var target = e.target as HTMLSelectElement;
+				if (!target) return;
+				var targetUrl = target.value;
 				try { 
 				  localStorage.setItem('preferredLang', targetUrl === '/es/' ? 'es' : 'en'); 
 				} catch(err) {}
