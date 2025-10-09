@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from "@vercel/speed-insights/astro";
 
 export interface Props {
 	title: string;
@@ -103,6 +105,8 @@ const isSpanish = (lang === 'es');
 	</head>
 	<body class="font-poppins">
 		<GoogleAnalytics />
+		<Analytics />
+		<SpeedInsights />
 
 		<!-- Language Switcher -->
 		<nav class="fixed top-3 right-3 z-50 pointer-events-auto">
