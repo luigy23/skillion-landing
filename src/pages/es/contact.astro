@@ -1,0 +1,169 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+---
+
+<Layout 
+	lang="es"
+	title="Contáctanos - Skillion | Ponte en Contacto"
+	description="Ponte en contacto con el equipo de Skillion. Estamos aquí para ayudarte en tu viaje de gamificación. Contáctanos en hello@skillion.app"
+>
+	<main class="bg-pixel-gradient text-pixel-text min-h-screen">
+		<!-- Language Switcher for Contact Page -->
+		<nav class="fixed top-3 right-3 z-50 pointer-events-auto">
+			<select 
+				id="language-selector-contact-es" 
+				class="bg-black text-white text-xs font-poppins border border-gray-600 rounded px-2 py-1 cursor-pointer"
+				aria-label="Select language"
+			>
+				<option value="/contact">EN</option>
+				<option value="/es/contact" selected>ES</option>
+			</select>
+		</nav>
+
+		<script>
+		  (function(){
+			try {
+			  var select = document.getElementById('language-selector-contact-es') as HTMLSelectElement;
+			  if (!select) return;
+			  
+			  select.addEventListener('change', function(e){
+				var target = e.target as HTMLSelectElement;
+				if (!target) return;
+				var targetUrl = target.value;
+				try { 
+				  localStorage.setItem('preferredLang', targetUrl === '/es/contact' ? 'es' : 'en'); 
+				} catch(err) {}
+				window.location.href = targetUrl;
+			  });
+			} catch(e) {}
+		  })();
+		</script>
+
+		<!-- Hero Section -->
+		<section class="py-12 px-4">
+			<div class="container mx-auto text-center">
+				<div class="text-6xl mb-4">📧</div>
+				<h1 class="text-4xl md:text-6xl font-bold mb-4 font-poppins">
+					Contácta<span class="text-gaming-gold">nos</span>
+				</h1>
+				<p class="text-xl text-pixel-text-secondary mb-8 max-w-2xl mx-auto">
+					¿Listo para comenzar tu épica aventura? ¿Tienes preguntas sobre Skillion? ¡Estamos aquí para ayudarte a subir de nivel en tu vida!
+				</p>
+			</div>
+		</section>
+
+		<!-- Contact Information -->
+		<section class="py-12 px-4 bg-pixel-bg2">
+			<div class="container mx-auto">
+				<div class="max-w-4xl mx-auto">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+						<!-- Email Contact -->
+						<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8 text-center">
+							<div class="text-4xl mb-4">✉️</div>
+							<h3 class="text-2xl font-bold mb-4 text-gaming-gold font-poppins">Escríbenos</h3>
+							<p class="text-pixel-text-secondary mb-4">
+								Envíanos un mensaje y te responderemos lo antes posible.
+							</p>
+							<a 
+								href="mailto:hello@skillion.app" 
+								class="inline-block bg-gaming-gold text-black px-6 py-3 rounded font-bold hover:bg-gaming-gold/80 transition-colors"
+							>
+								hello@skillion.app
+							</a>
+						</div>
+
+						<!-- Social Media -->
+						<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8 text-center">
+							<div class="text-4xl mb-4">🎮</div>
+							<h3 class="text-2xl font-bold mb-4 text-gaming-gold font-poppins">Síguenos</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								¡Únete a nuestra comunidad y mantente al día con las últimas noticias de Skillion!
+							</p>
+							<div class="flex justify-center gap-4">
+								<a 
+									href="https://instagram.com/skillion.app" 
+									class="text-pixel-text-secondary hover:text-gaming-gold transition-colors text-lg"
+									aria-label="Skillion en Instagram"
+								>
+									Instagram
+								</a>
+								<a 
+									href="https://instagram.com/skillion.es" 
+									class="text-pixel-text-secondary hover:text-gaming-gold transition-colors text-lg"
+									aria-label="Skillion España en Instagram"
+								>
+									Instagram ES
+								</a>
+								<a 
+									href="https://tiktok.com/@skillion.app" 
+									class="text-pixel-text-secondary hover:text-gaming-gold transition-colors text-lg"
+									aria-label="Skillion en TikTok"
+								>
+									TikTok
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ Section -->
+		<section class="py-16 px-4">
+			<div class="container mx-auto">
+				<div class="max-w-4xl mx-auto text-center">
+					<h2 class="text-3xl md:text-4xl font-bold mb-8 font-poppins">
+						Preguntas <span class="text-gaming-gold">Frecuentes</span>
+					</h2>
+					
+					<div class="space-y-6">
+
+						<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-6 text-left">
+							<h3 class="text-xl font-bold mb-3 text-gaming-gold">¿Dónde puedo descargar Skillion?</h3>
+							<p class="text-pixel-text-secondary mb-4">
+								¡Skillion está disponible en Google Play Store y próximamente en App Store!
+							</p>
+							<div class="flex justify-center">
+								<a 
+									href="https://play.google.com/store/apps/details?id=app.skillion&pcampaignid=web_share" 
+									target="_blank"
+									class="inline-block bg-gaming-gold text-black px-6 py-3 rounded font-bold hover:bg-gaming-gold/80 transition-colors"
+								>
+									Descargar en Google Play
+								</a>
+							</div>
+						</div>
+
+						<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-6 text-left">
+							<h3 class="text-xl font-bold mb-3 text-gaming-gold">¿Skillion es gratis?</h3>
+							<p class="text-pixel-text-secondary">
+								¡Sí! Skillion tendrá un nivel gratuito con funciones principales. 
+								Las funciones premium estarán disponibles para usuarios que quieran llevar su gamificación al siguiente nivel.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="py-12 px-4 border-t-2 border-pixel-border">
+			<div class="container mx-auto text-center">
+				<div class="text-4xl mb-4">🎮</div>
+				<h3 class="text-2xl font-bold mb-2 text-gaming-gold font-poppins">Skillion</h3>
+				<p class="text-pixel-text-secondary mb-6">Gamifica tu vida real. La app RPG de productividad y hábitos.</p>
+				
+				<div class="flex justify-center gap-6 mb-8">
+					<a href="/es/" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Inicio</a>
+					<a href="/es/contact" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Contacto</a>
+					<a href="/es/privacy" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Política de Privacidad</a>
+				</div>
+				
+				<p class="text-xs text-pixel-text-secondary">
+					© 2025 Skillion. Hecho con ❤️ y mucho ☕ para gamificar vidas extraordinarias.
+				</p>
+			</div>
+		</footer>
+	</main>
+</Layout>

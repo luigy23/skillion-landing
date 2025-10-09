@@ -1,0 +1,162 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+---
+
+<Layout 
+	lang="en"
+	title="Contact Us - Skillion | Get in Touch"
+	description="Get in touch with the Skillion team. We're here to help you on your gamification journey. Contact us at hello@skillion.app"
+>
+	<main class="bg-pixel-gradient text-pixel-text min-h-screen">
+		<!-- Language Switcher for Contact Page -->
+		<nav class="fixed top-3 right-3 z-50 pointer-events-auto">
+			<select 
+				id="language-selector-contact" 
+				class="bg-black text-white text-xs font-poppins border border-gray-600 rounded px-2 py-1 cursor-pointer"
+				aria-label="Select language"
+			>
+				<option value="/contact" selected>EN</option>
+				<option value="/es/contact">ES</option>
+			</select>
+		</nav>
+
+		<script>
+		  (function(){
+			try {
+			  var select = document.getElementById('language-selector-contact') as HTMLSelectElement;
+			  if (!select) return;
+			  
+			  select.addEventListener('change', function(e){
+				var target = e.target as HTMLSelectElement;
+				if (!target) return;
+				var targetUrl = target.value;
+				try { 
+				  localStorage.setItem('preferredLang', targetUrl === '/es/contact' ? 'es' : 'en'); 
+				} catch(err) {}
+				window.location.href = targetUrl;
+			  });
+			} catch(e) {}
+		  })();
+		</script>
+
+		<!-- Hero Section -->
+		<section class="py-12 px-4">
+			<div class="container mx-auto text-center">
+				<div class="text-6xl mb-4">📧</div>
+				<h1 class="text-4xl md:text-6xl font-bold mb-4 font-poppins">
+					Contact <span class="text-gaming-gold">Us</span>
+				</h1>
+				<p class="text-xl text-pixel-text-secondary mb-8 max-w-2xl mx-auto">
+					Ready to start your epic quest? Have questions about Skillion? We're here to help you level up your life!
+				</p>
+			</div>
+		</section>
+
+		<!-- Contact Information -->
+		<section class="py-12 px-4 bg-pixel-bg2">
+			<div class="container mx-auto">
+				<div class="max-w-4xl mx-auto">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+						<!-- Email Contact -->
+						<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8 text-center">
+							<div class="text-4xl mb-4">✉️</div>
+							<h3 class="text-2xl font-bold mb-4 text-gaming-gold font-poppins">Email Us</h3>
+							<p class="text-pixel-text-secondary mb-4">
+								Send us a message and we'll get back to you as soon as possible!
+							</p>
+							<a 
+								href="mailto:hello@skillion.app" 
+								class="inline-block bg-gaming-gold text-black px-6 py-3 rounded font-bold hover:bg-gaming-gold/80 transition-colors"
+							>
+								hello@skillion.app
+							</a>
+						</div>
+
+						<!-- Social Media -->
+						<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8 text-center">
+							<div class="text-4xl mb-4">🎮</div>
+							<h3 class="text-2xl font-bold mb-4 text-gaming-gold font-poppins">Follow Us</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								Join our community and stay updated on the latest Skillion news!
+							</p>
+							<div class="flex justify-center gap-4">
+								<a 
+									href="https://instagram.com/skillion.app" 
+									class="text-pixel-text-secondary hover:text-gaming-gold transition-colors text-lg"
+									aria-label="Skillion on Instagram"
+								>
+									Instagram
+								</a>
+								<a 
+									href="https://tiktok.com/@skillion.app" 
+									class="text-pixel-text-secondary hover:text-gaming-gold transition-colors text-lg"
+									aria-label="Skillion on TikTok"
+								>
+									TikTok
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ Section -->
+		<section class="py-16 px-4">
+			<div class="container mx-auto">
+				<div class="max-w-4xl mx-auto text-center">
+					<h2 class="text-3xl md:text-4xl font-bold mb-8 font-poppins">
+						Frequently Asked <span class="text-gaming-gold">Questions</span>
+					</h2>
+					
+					<div class="space-y-6">
+
+						<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-6 text-left">
+							<h3 class="text-xl font-bold mb-3 text-gaming-gold">Where can I download Skillion?</h3>
+							<p class="text-pixel-text-secondary mb-4">
+								Skillion is available on Google Play Store and coming soon to the App Store!
+							</p>
+							<div class="flex justify-center">
+								<a 
+									href="https://play.google.com/store/apps/details?id=app.skillion&pcampaignid=web_share" 
+									target="_blank"
+									class="inline-block bg-gaming-gold text-black px-6 py-3 rounded font-bold hover:bg-gaming-gold/80 transition-colors"
+								>
+									Download on Google Play
+								</a>
+							</div>
+						</div>
+
+						<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-6 text-left">
+							<h3 class="text-xl font-bold mb-3 text-gaming-gold">Is Skillion free to use?</h3>
+							<p class="text-pixel-text-secondary">
+								Yes! Skillion will have a free tier with core features. 
+								Premium features will be available for users who want to take their gamification to the next level.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="py-12 px-4 border-t-2 border-pixel-border">
+			<div class="container mx-auto text-center">
+				<div class="text-4xl mb-4">🎮</div>
+				<h3 class="text-2xl font-bold mb-2 text-gaming-gold font-poppins">Skillion</h3>
+				<p class="text-pixel-text-secondary mb-6">Gamify your real life. The RPG app for productivity and habits.</p>
+				
+				<div class="flex justify-center gap-6 mb-8">
+					<a href="/" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Home</a>
+					<a href="/contact" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Contact</a>
+					<a href="/privacy" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Privacy Policy</a>
+				</div>
+				
+				<p class="text-xs text-pixel-text-secondary">
+					© 2025 Skillion. Built with ❤️ and lots of ☕ to gamify extraordinary lives.
+				</p>
+			</div>
+		</footer>
+	</main>
+</Layout>

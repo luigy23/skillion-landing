@@ -1,0 +1,269 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+---
+
+<Layout 
+	lang="en"
+	title="Privacy Policy - Skillion | Your Data, Your Privacy"
+	description="Learn how Skillion protects your privacy and handles your data. Our comprehensive privacy policy explains our data collection, usage, and security practices."
+>
+	<main class="bg-pixel-gradient text-pixel-text min-h-screen">
+		<!-- Language Switcher for Privacy Page -->
+		<nav class="fixed top-3 right-3 z-50 pointer-events-auto">
+			<select 
+				id="language-selector-privacy" 
+				class="bg-black text-white text-xs font-poppins border border-gray-600 rounded px-2 py-1 cursor-pointer"
+				aria-label="Select language"
+			>
+				<option value="/privacy" selected>EN</option>
+				<option value="/es/privacy">ES</option>
+			</select>
+		</nav>
+
+		<script>
+		  (function(){
+			try {
+			  var select = document.getElementById('language-selector-privacy') as HTMLSelectElement;
+			  if (!select) return;
+			  
+			  select.addEventListener('change', function(e){
+				var target = e.target as HTMLSelectElement;
+				if (!target) return;
+				var targetUrl = target.value;
+				try { 
+				  localStorage.setItem('preferredLang', targetUrl === '/es/privacy' ? 'es' : 'en'); 
+				} catch(err) {}
+				window.location.href = targetUrl;
+			  });
+			} catch(e) {}
+		  })();
+		</script>
+
+		<!-- Hero Section -->
+		<section class="py-12 px-4">
+			<div class="container mx-auto text-center">
+                <div class="text-6xl mb-4">🕵️</div>
+				<h1 class="text-4xl md:text-6xl font-bold mb-4 font-poppins">
+					Privacy <span class="text-gaming-gold">Policy</span>
+				</h1>
+				<p class="text-xl text-pixel-text-secondary mb-8 max-w-2xl mx-auto">
+					Your privacy matters to us. Learn how we protect your data and give you control over your information.
+				</p>
+			</div>
+		</section>
+
+		<!-- Privacy Policy Content -->
+		<section class="py-12 px-4 bg-pixel-bg2">
+			<div class="container mx-auto">
+				<div class="max-w-4xl mx-auto">
+					<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8">
+						<div class="prose prose-invert max-w-none">
+							<h2 class="text-2xl font-bold mb-4 text-gaming-gold">Privacy Policy for Skillion</h2>
+							<p class="text-pixel-text-secondary mb-4">
+								<strong>Effective Date:</strong> January 1, 2025<br>
+								<strong>Last Updated:</strong> January 1, 2025
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">Introduction</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								Welcome to <strong>Skillion</strong>. We are committed to protecting your privacy and ensuring transparency about how we collect, use, and safeguard your personal information. This Privacy Policy explains our practices regarding data collection and your rights as a user.
+							</p>
+							<p class="text-pixel-text-secondary mb-6">
+								By using Skillion, you agree to the collection and use of information in accordance with this policy.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">1. Information We Collect</h3>
+							
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">1.1 Personal Information You Provide</h4>
+							<p class="text-pixel-text-secondary mb-4">When you create an account with Skillion, we collect:</p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li><strong>Email address</strong> (used for authentication and account recovery)</li>
+								<li><strong>Name</strong> (display name you provide during registration)</li>
+								<li><strong>Nickname</strong> (your chosen in-app username)</li>
+								<li><strong>Password</strong> (encrypted and securely stored via Firebase Authentication)</li>
+							</ul>
+
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">1.2 Automatically Collected Data</h4>
+							<p class="text-pixel-text-secondary mb-4">We collect the following data to improve your experience:</p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li><strong>Device information</strong> (device type, operating system version)</li>
+								<li><strong>Usage analytics</strong> (app interactions, feature usage, session duration)</li>
+								<li><strong>Game progress data</strong> (skills, tasks, XP, levels, energy points, avatar customization)</li>
+								<li><strong>Activity history</strong> (task completions, skill progress over the last 90 days by default)</li>
+							</ul>
+
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">1.3 Local Storage</h4>
+							<p class="text-pixel-text-secondary mb-6">
+								Most of your data is stored <strong>locally on your device</strong> using SQLite database:
+							</p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li>User profile and game statistics</li>
+								<li>Tasks and skills you create</li>
+								<li>Custom categories</li>
+								<li>Activity history</li>
+								<li>Avatar configuration</li>
+							</ul>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">2. How We Use Your Information</h3>
+							<p class="text-pixel-text-secondary mb-4">We use the collected information for the following purposes:</p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li><strong>Account Management:</strong> To create, maintain, and secure your account</li>
+								<li><strong>App Functionality:</strong> To provide core features like task tracking, skill progression, and gamification mechanics</li>
+								<li><strong>Analytics:</strong> To understand how users interact with the app and improve user experience</li>
+								<li><strong>Notifications:</strong> To send you reminders about tasks (if you enable notifications)</li>
+								<li><strong>Subscription Management:</strong> To process premium subscriptions and manage payment-related features</li>
+								<li><strong>Customer Support:</strong> To respond to your inquiries and provide assistance</li>
+							</ul>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">3. Data Storage and Security</h3>
+							
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">3.1 Local-First Architecture</h4>
+							<p class="text-pixel-text-secondary mb-4">Skillion uses a <strong>local-first architecture</strong>, meaning:</p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li>Most of your data is stored <strong>locally on your device</strong> and is not transmitted to our servers</li>
+								<li>Data remains private and accessible only to you</li>
+								<li>Your progress is tied to your device unless you create a backup</li>
+							</ul>
+
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">3.2 Third-Party Services</h4>
+							<p class="text-pixel-text-secondary mb-4">We use the following trusted third-party services:</p>
+							
+							<div class="bg-pixel-bg2 border border-pixel-border p-4 mb-4">
+								<h5 class="font-bold text-gaming-gold mb-2">Firebase (Google)</h5>
+								<ul class="list-disc list-inside text-pixel-text-secondary space-y-1">
+									<li><strong>Purpose:</strong> User authentication only</li>
+									<li><strong>Data Collected:</strong> Email, user ID (UID), authentication tokens</li>
+									<li><strong>Privacy Policy:</strong> <a href="https://firebase.google.com/support/privacy" class="text-gaming-gold hover:underline">https://firebase.google.com/support/privacy</a></li>
+								</ul>
+							</div>
+
+							<div class="bg-pixel-bg2 border border-pixel-border p-4 mb-4">
+								<h5 class="font-bold text-gaming-gold mb-2">Firebase Analytics (Google)</h5>
+								<ul class="list-disc list-inside text-pixel-text-secondary space-y-1">
+									<li><strong>Purpose:</strong> To analyze app usage patterns and improve functionality</li>
+									<li><strong>Data Collected:</strong> Anonymous usage events (e.g., task created, skill level up, screen views), device information</li>
+									<li><strong>Privacy Policy:</strong> <a href="https://firebase.google.com/support/privacy" class="text-gaming-gold hover:underline">https://firebase.google.com/support/privacy</a></li>
+								</ul>
+							</div>
+
+							<div class="bg-pixel-bg2 border border-pixel-border p-4 mb-6">
+								<h5 class="font-bold text-gaming-gold mb-2">RevenueCat</h5>
+								<ul class="list-disc list-inside text-pixel-text-secondary space-y-1">
+									<li><strong>Purpose:</strong> Subscription and in-app purchase management</li>
+									<li><strong>Data Collected:</strong> User ID, purchase receipts, subscription status</li>
+									<li><strong>Privacy Policy:</strong> <a href="https://www.revenuecat.com/privacy" class="text-gaming-gold hover:underline">https://www.revenuecat.com/privacy</a></li>
+								</ul>
+							</div>
+
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">3.3 Data Security</h4>
+							<p class="text-pixel-text-secondary mb-4">We implement industry-standard security measures:</p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li>Encrypted authentication via Firebase</li>
+								<li>Secure local database storage on your device</li>
+								<li>No server-side storage of your personal game data</li>
+								<li>HTTPS encryption for all network communications</li>
+							</ul>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">4. Data Retention</h3>
+							
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">4.1 Active Account Data</h4>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li>Your account data and game progress are retained <strong>as long as your account is active</strong></li>
+								<li>Activity history is automatically cleaned after <strong>90 days</strong> to maintain app performance (configurable)</li>
+								<li>Automatic backups are rotated, keeping only the <strong>3 most recent</strong> versions</li>
+							</ul>
+
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">4.2 Account Deletion</h4>
+							<p class="text-pixel-text-secondary mb-4">When you delete your account:</p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li>Your Firebase Authentication account is <strong>permanently deleted</strong></li>
+								<li>All local data (tasks, skills, history, profile) is <strong>permanently erased from your device</strong></li>
+								<li>RevenueCat retains minimal subscription data for <strong>billing and legal compliance</strong> purposes only</li>
+								<li><strong>This action is irreversible</strong></li>
+							</ul>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">5. Data Sharing and Disclosure</h3>
+							<p class="text-pixel-text-secondary mb-4">We <strong>do not sell, rent, or trade</strong> your personal information to third parties.</p>
+							<p class="text-pixel-text-secondary mb-4">We may share data only in the following limited circumstances:</p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li><strong>With your consent:</strong> If you explicitly authorize data sharing</li>
+								<li><strong>Service providers:</strong> Firebase and RevenueCat process data on our behalf under strict privacy agreements</li>
+								<li><strong>Legal obligations:</strong> If required by law, court order, or government regulation</li>
+								<li><strong>Business transfers:</strong> In the event of a merger, acquisition, or sale of assets (users will be notified)</li>
+							</ul>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">6. Your Rights and Choices</h3>
+							
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">6.1 Access and Portability</h4>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li>You can <strong>export your data</strong> using the in-app backup feature (creates a JSON file with your tasks, skills, and history)</li>
+								<li>You can <strong>view all your personal data</strong> within the app's profile section</li>
+							</ul>
+
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">6.2 Correction and Update</h4>
+							<p class="text-pixel-text-secondary mb-6">You can update your email, name, and nickname at any time in the app settings.</p>
+
+							<h4 class="text-lg font-bold mb-3 text-gaming-gold">6.3 Account Deletion</h4>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li>You can <strong>delete your account</strong> at any time via the profile screen</li>
+								<li>Deletion is <strong>permanent and irreversible</strong></li>
+								<li>For GDPR-related deletion requests involving RevenueCat data, contact us at hello@skillion.app</li>
+							</ul>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">7. Children's Privacy</h3>
+							<p class="text-pixel-text-secondary mb-4">Skillion is designed to be safe for users of all ages. However, we are committed to complying with the Children's Online Privacy Protection Act (COPPA) and similar regulations worldwide.</p>
+							
+							<p class="text-pixel-text-secondary mb-4"><strong>For users under 13 years of age:</strong></p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li>We recommend that parents or legal guardians supervise account creation and app usage</li>
+								<li>We collect only the minimum information necessary for app functionality (email, name, nickname)</li>
+								<li>All data is stored locally on the device and is not shared with third parties except as described in this policy</li>
+								<li>Parents can request to review, modify, or delete their child's information by contacting us</li>
+							</ul>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">8. International Data Transfers</h3>
+							<p class="text-pixel-text-secondary mb-6">Your data may be processed in countries other than your own (e.g., via Firebase servers in the United States). By using Skillion, you consent to the transfer of your information to these locations. We ensure that such transfers comply with applicable data protection laws.</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">9. Changes to This Privacy Policy</h3>
+							<p class="text-pixel-text-secondary mb-4">We may update this Privacy Policy from time to time. We will notify you of any significant changes by:</p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2">
+								<li>Posting the new policy in the app</li>
+								<li>Sending an email notification (if applicable)</li>
+								<li>Updating the "Last Updated" date at the top of this policy</li>
+							</ul>
+							<p class="text-pixel-text-secondary mb-6">Your continued use of Skillion after changes constitutes acceptance of the updated policy.</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">10. Contact Us</h3>
+							<p class="text-pixel-text-secondary mb-4">If you have questions, concerns, or requests regarding this Privacy Policy or your data, please contact us:</p>
+							<div class="bg-pixel-bg2 border border-pixel-border p-4">
+								<p class="text-pixel-text-secondary mb-2"><strong>Email:</strong> hello@skillion.app</p>
+								<p class="text-pixel-text-secondary mb-2"><strong>Website:</strong> https://skillion.app</p>
+								<p class="text-pixel-text-secondary"><strong>App:</strong> Skillion - Available on iOS and Android</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="py-12 px-4 border-t-2 border-pixel-border">
+			<div class="container mx-auto text-center">
+				<div class="text-4xl mb-4">🎮</div>
+				<h3 class="text-2xl font-bold mb-2 text-gaming-gold font-poppins">Skillion</h3>
+				<p class="text-pixel-text-secondary mb-6">Gamify your real life. The RPG app for productivity and habits.</p>
+				
+				<div class="flex justify-center gap-6 mb-8">
+					<a href="/" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Home</a>
+					<a href="/contact" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Contact</a>
+					<a href="/privacy" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Privacy Policy</a>
+				</div>
+				
+				<p class="text-xs text-pixel-text-secondary">
+					© 2025 Skillion. Built with ❤️ and lots of ☕ to gamify extraordinary lives.
+				</p>
+			</div>
+		</footer>
+	</main>
+</Layout>
