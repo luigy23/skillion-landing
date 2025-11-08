@@ -1,0 +1,340 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import Logo from '../../assets/pixelartAssets/hero/skillionlogotransparent.png';
+import Toast from '../../components/Toast.astro';
+---
+
+<Layout 
+	lang="es"
+	title="SkillionQuest - Gana hasta 1 Año de Premium Gratis | Skillion"
+	description="Únete al primer desafío oficial de Skillion y gana membresía Premium gratis. Comparte tu progreso con #SkillionQuest en TikTok, Instagram o X (Twitter) y gana recompensas basadas en likes."
+>
+	<main class="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-pixel-text min-h-screen text-amber-50">
+		<script>
+		{`
+		  (function(){
+			try {
+			  var ua = navigator.userAgent.toLowerCase();
+			  var isBot = /(bot|crawler|spider|crawling)/.test(ua);
+			  if (isBot) return;
+			  var pref = null;
+			  try { pref = localStorage.getItem('preferredLang'); } catch(e) {}
+			  if (window.location.pathname === '/es/free-premium' || window.location.pathname === '/es/free-premium/') {
+				if (pref === 'en') {
+				  window.location.replace('/free-premium');
+				  return;
+				}
+			  }
+			} catch(e) {}
+		  })();
+		`}
+		</script>
+
+		<!-- Hero Section -->
+		<section class="pt-24 pb-12 px-4">
+			<div class="container mx-auto max-w-4xl text-center">
+				<!-- Badge Premium -->
+				<div class="mb-6">
+					<span class="inline-block bg-yellow-400 text-black px-6 py-2 rounded-full font-bold text-sm md:text-base shadow-lg">
+						🎁 CONSIGUE PREMIUM GRATIS
+					</span>
+				</div>
+				
+				<div class="mb-6">
+					<Image src={Logo} alt="Skillion Logo" class="w-20 h-20 md:w-32 md:h-32 mx-auto rounded-2xl animate-float" />
+				</div>
+				<h1 class="text-3xl md:text-5xl font-bold mb-4 font-poppins leading-tight text-white">
+					<span class="text-gaming-gold">⚔️ El Skillion Quest Está Vivo</span>
+					<br>
+					<span class="text-white">— y te está retando</span>
+				</h1>
+			</div>
+		</section>
+
+		<!-- Introduction -->
+		<section class="py-8 px-4 bg-gray-800">
+			<div class="container mx-auto max-w-4xl">
+				<div class="bg-gray-900 border-2 border-gray-700 shadow-xl p-6 md:p-8 mb-6">
+					<p class="text-lg text-white leading-relaxed mb-4">
+						No se trata de jugar, se trata de vivir tu propio juego.
+					</p>
+					<p class="text-lg text-gray-300 leading-relaxed mb-4">
+						Cada habilidad que subes, cada reto que completas, es una historia que cuenta quién eres.
+					</p>
+					<p class="text-lg text-gray-300 leading-relaxed mb-4">
+						Y ahora queremos ver esa historia en acción.
+					</p>
+					<p class="text-xl text-gaming-gold font-bold leading-relaxed mb-4">
+						Porque arranca el reto oficial: #SkillionApp Quest ⚡️
+					</p>
+					<p class="text-lg text-gray-300 leading-relaxed mb-4">
+						Y no es un concurso más de postureo.
+					</p>
+					<p class="text-lg text-gray-300 leading-relaxed mb-4">
+						Es una oportunidad para mostrar cómo estás construyendo tu personaje en la vida real.
+					</p>
+					<p class="text-lg text-white leading-relaxed">
+						Disciplina, Carisma, Paz Interior, Programación, Energía Social…
+						<br><br>
+						<strong>Da igual cuál sea tu skill. Lo importante es que la estés subiendo.</strong>
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- How to Participate -->
+		<section class="py-8 px-4 bg-gray-900">
+			<div class="container mx-auto max-w-4xl">
+				<div class="mb-6 text-center">
+					<h2 class="text-3xl md:text-4xl font-bold text-gaming-gold font-poppins">
+						🎮 Cómo participar (sin dramas)
+					</h2>
+				</div>
+
+				<div class="bg-gray-900 border-2 border-gray-700 shadow-xl p-6 md:p-8 space-y-6">
+					<div>
+						<h3 class="text-xl font-bold text-gaming-gold mb-3">Crea y muestra.</h3>
+						<p class="text-gray-300 leading-relaxed mb-2">
+							Sube un screenshot o video usando Skillion.
+						</p>
+						<p class="text-gray-300 leading-relaxed mb-2">
+							Puede ser completando una tarea, creando tu avatar, o simplemente celebrando que subiste de nivel.
+						</p>
+						<p class="text-gray-300 leading-relaxed italic">
+							Otras ideas pueden ser: meme, tip, POV, sketch o contenido educativo.
+						</p>
+						<p class="text-sm text-gaming-cyan mt-2">
+							(Regla única: se tiene que ver la app).
+						</p>
+					</div>
+
+					<div>
+						<h3 class="text-xl font-bold text-gaming-gold mb-3">Publica.</h3>
+						<p class="text-gray-300 leading-relaxed">
+							TikTok, Instagram o X (Twitter). Donde quieras.
+						</p>
+					</div>
+
+					<div>
+						<h3 class="text-xl font-bold text-gaming-gold mb-3">Etiquétanos.</h3>
+						<p class="text-gray-300 leading-relaxed mb-3">
+							Usa el hashtag <strong class="text-gaming-gold">#SkillionApp</strong> y menciona:
+						</p>
+						<div class="space-y-2 ml-4">
+							<div class="flex items-center gap-2">
+								<p class="text-gray-300">📸 Instagram: <a href="https://instagram.com/skillion.app" target="_blank" rel="noopener noreferrer" class="text-gaming-gold hover:text-yellow-300 underline font-bold">@skillion.app</a></p>
+								<button onclick="navigator.clipboard.writeText('@skillion.app').then(() => window.showToast('¡Copiado! @skillion.app'))" class="text-gaming-gold hover:text-yellow-300 transition-colors" title="Copiar">
+									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M7 9.667A2.667 2.667 0 0 1 9.667 7h8.666A2.667 2.667 0 0 1 21 9.667v8.666A2.667 2.667 0 0 1 18.333 21H9.667A2.667 2.667 0 0 1 7 18.333z"/><path d="M4.012 16.737A2 2 0 0 1 3 15V5c0-1.1.9-2 2-2h10c.75 0 1.158.385 1.5 1"/></g></svg>
+								</button>
+							</div>
+							<div class="flex items-center gap-2">
+								<p class="text-gray-300">🎬 TikTok: <a href="https://tiktok.com/@skilliones" target="_blank" rel="noopener noreferrer" class="text-gaming-gold hover:text-yellow-300 underline font-bold">@skilliones</a></p>
+								<button onclick="navigator.clipboard.writeText('@skilliones').then(() => window.showToast('¡Copiado! @skilliones'))" class="text-gaming-gold hover:text-yellow-300 transition-colors" title="Copiar">
+									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M7 9.667A2.667 2.667 0 0 1 9.667 7h8.666A2.667 2.667 0 0 1 21 9.667v8.666A2.667 2.667 0 0 1 18.333 21H9.667A2.667 2.667 0 0 1 7 18.333z"/><path d="M4.012 16.737A2 2 0 0 1 3 15V5c0-1.1.9-2 2-2h10c.75 0 1.158.385 1.5 1"/></g></svg>
+								</button>
+							</div>
+							<div class="flex items-center gap-2">
+								<p class="text-gray-300">🐦 X: <a href="https://x.com/luigy_dev" target="_blank" rel="noopener noreferrer" class="text-gaming-gold hover:text-yellow-300 underline font-bold">@luigy_dev</a></p>
+								<button onclick="navigator.clipboard.writeText('@luigy_dev').then(() => window.showToast('¡Copiado! @luigy_dev'))" class="text-gaming-gold hover:text-yellow-300 transition-colors" title="Copiar">
+									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M7 9.667A2.667 2.667 0 0 1 9.667 7h8.666A2.667 2.667 0 0 1 21 9.667v8.666A2.667 2.667 0 0 1 18.333 21H9.667A2.667 2.667 0 0 1 7 18.333z"/><path d="M4.012 16.737A2 2 0 0 1 3 15V5c0-1.1.9-2 2-2h10c.75 0 1.158.385 1.5 1"/></g></svg>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Rewards -->
+		<section class="py-8 px-4 bg-gray-800">
+			<div class="container mx-auto max-w-4xl">
+				<div class="mb-6 text-center">
+					<h2 class="text-3xl md:text-4xl font-bold text-gaming-gold font-poppins">
+						💥 Recompensas reales (sin sorteos tontos)
+					</h2>
+				</div>
+
+				<div class="bg-gray-900 border-2 border-gaming-gold shadow-xl p-6 md:p-8 mb-6">
+					<p class="text-lg text-white mb-6 text-center font-bold">
+						Cuanto más muevas, más ganas:
+					</p>
+
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+						<div class="bg-gray-800 border-2 border-gaming-cyan p-4 text-center">
+							<div class="text-3xl mb-2">🥉</div>
+							<div class="text-2xl font-bold text-gaming-cyan mb-1">10+ Likes</div>
+							<p class="text-gray-300 text-sm">1 mes de Premium</p>
+						</div>
+
+						<div class="bg-gray-800 border-2 border-gaming-purple p-4 text-center">
+							<div class="text-3xl mb-2">🥈</div>
+							<div class="text-2xl font-bold text-gaming-purple mb-1">50+ Likes</div>
+							<p class="text-gray-300 text-sm">3 meses de Premium</p>
+						</div>
+
+						<div class="bg-gray-800 border-2 border-gaming-gold p-4 text-center transform hover:-translate-y-2 transition-transform">
+							<div class="text-3xl mb-2">🥇</div>
+							<div class="text-2xl font-bold text-gaming-gold mb-1">100+ Likes</div>
+							<p class="text-gray-300 text-sm font-bold">1 AÑO COMPLETO de Premium</p>
+						</div>
+					</div>
+
+					<div class="text-center space-y-2">
+						<p class="text-lg text-white">
+							Sí. Así de simple.
+						</p>
+						<p class="text-gray-300">
+							Nada de formularios, ni encuestas absurdas.
+						</p>
+						<p class="text-gaming-gold font-bold">
+							Solo tu impacto. Solo tu historia.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- How to Claim -->
+		<section class="py-8 px-4 bg-gray-900">
+			<div class="container mx-auto max-w-4xl">
+				<div class="mb-6 text-center">
+					<h2 class="text-3xl md:text-4xl font-bold text-gaming-gold font-poppins">
+						🛡️ Cómo reclamar tu recompensa
+					</h2>
+				</div>
+
+				<div class="bg-gray-900 border-2 border-gray-700 shadow-xl p-6 md:p-8 mb-6">
+					<p class="text-lg text-gray-300 mb-4">
+						Cuando alcances uno de los hitos, escribe a <a href="mailto:hello@skillion.app" class="text-gaming-gold hover:text-yellow-300 underline font-bold">hello@skillion.app</a>
+					</p>
+
+					<p class="text-gray-300 mb-4">Manda:</p>
+
+					<div class="space-y-3 mb-6 ml-4">
+						<div class="flex gap-3 items-start">
+							<span class="text-gaming-gold">▸</span>
+							<p class="text-gray-300">Un screenshot con los likes</p>
+						</div>
+						<div class="flex gap-3 items-start">
+							<span class="text-gaming-gold">▸</span>
+							<p class="text-gray-300">El link de tu post</p>
+						</div>
+						<div class="flex gap-3 items-start">
+							<span class="text-gaming-gold">▸</span>
+							<p class="text-gray-300">El correo de tu cuenta Skillion</p>
+						</div>
+					</div>
+
+					<p class="text-lg text-gaming-gold font-bold text-center">
+						Y en menos de 48 horas tendrás tu recompensa.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Final CTA -->
+		<section class="py-8 px-4 bg-gray-800">
+			<div class="container mx-auto max-w-4xl">
+				<div class="bg-gray-900 border-2 border-gaming-gold shadow-xl p-6 md:p-8 text-center">
+					<h2 class="text-2xl md:text-3xl font-bold text-gaming-gold mb-4 font-poppins">
+						⚡ Tu turno
+					</h2>
+					<div class="space-y-3 text-gray-300 leading-relaxed mb-6">
+						<p>Cada habilidad que desarrollas cambia algo en ti.</p>
+						<p>Cada post que compartes inspira a alguien.</p>
+						<p>Y cada acción que tomas te acerca a tu mejor versión.</p>
+					</div>
+					<div class="space-y-3 text-white leading-relaxed mb-6">
+						<p class="font-bold">Así que deja de mirar cómo otros suben de nivel.</p>
+						<p>Muestra tu progreso. Inspira. Lidera la partida.</p>
+					</div>
+					<p class="text-2xl md:text-3xl font-bold text-gaming-gold">
+						🔥 Empieza el Quest. El juego te está esperando.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Download Section -->
+		<section class="py-8 px-4 bg-gray-900">
+			<div class="container mx-auto text-center">
+				<h2 class="text-2xl md:text-3xl font-bold mb-4 font-poppins text-white">
+					¿Aún no Tienes <span class="text-gaming-gold">Skillion</span>?
+				</h2>
+				<p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+					¡Descarga ahora y comienza a construir tu build de personaje definitivo!
+				</p>
+				
+				<!-- Botones de descarga -->
+				<div class="mb-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+					<!-- Botón Google Play -->
+					<a href="https://play.google.com/store/apps/details?id=app.skillion&pcampaignid=web_share" 
+					   target="_blank" 
+					   rel="noopener noreferrer"
+					   class="group inline-flex items-center justify-center gap-4 bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden">
+						<svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+						</svg>
+						<div class="text-left">
+							<div class="text-sm text-green-100">DESCÁRGALO EN</div>
+							<div class="text-lg font-bold">Google Play</div>
+						</div>
+						<!-- Efecto de brillo -->
+						<div class="absolute inset-0 pointer-events-none">
+							<div class="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30 transition-all duration-500 group-hover:left-[100%]"></div>
+						</div>
+					</a>
+
+					<!-- Botón App Store -->
+					<a href="https://apps.apple.com/app/skillion-gamify-your-life/id6752905262" 
+					   target="_blank"
+					   rel="noopener noreferrer"
+					   class="group inline-flex items-center justify-center gap-4 bg-gray-800 text-white px-8 py-4 rounded-lg hover:bg-gray-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden">
+						<svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+						</svg>
+						<div class="text-left">
+							<div class="text-sm text-gray-300">DESCÁRGALO EN</div>
+							<div class="text-lg font-bold">App Store</div>
+						</div>
+						<!-- Efecto de brillo -->
+						<div class="absolute inset-0 pointer-events-none">
+							<div class="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30 transition-all duration-500 group-hover:left-[100%]"></div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="py-8 px-4 border-t-2 border-gray-700 bg-gray-900">
+			<div class="container mx-auto text-center">
+				<div class="text-4xl mb-4">🎮</div>
+				<h3 class="text-2xl font-bold mb-2 text-gaming-gold font-poppins">Skillion</h3>
+				<p class="text-gray-300 mb-6">Gamifica tu vida real. La app RPG de productividad y hábitos.</p>
+				
+				<div class="flex justify-center gap-6 mb-8">
+					<a href="https://instagram.com/skillion.app" class="text-gray-400 hover:text-gaming-gold transition-colors" aria-label="Skillion en Instagram">Instagram</a>
+					<a href="https://instagram.com/skillion.es" class="text-gray-400 hover:text-gaming-gold transition-colors" aria-label="Skillion España en Instagram">Instagram ES</a>
+					<a href="https://tiktok.com/@skillion.app" class="text-gray-400 hover:text-gaming-gold transition-colors" aria-label="Skillion en TikTok">TikTok</a>
+				</div>
+				
+				<div class="flex justify-center gap-6 mb-8">
+					<a href="/es/" class="text-gray-400 hover:text-gaming-gold transition-colors">Inicio</a>
+					<a href="/es/contact" class="text-gray-400 hover:text-gaming-gold transition-colors">Contacto</a>
+					<a href="/es/privacy" class="text-gray-400 hover:text-gaming-gold transition-colors">Política de Privacidad</a>
+					<a href="/es/terms" class="text-gray-400 hover:text-gaming-gold transition-colors">Términos de Uso</a>
+				</div>
+				
+				<p class="text-xs text-gray-400">
+					© 2025 Skillion. Hecho con ❤️ y mucho ☕ para gamificar vidas extraordinarias.
+				</p>
+			</div>
+		</footer>
+	</main>
+	
+	<!-- Toast Component -->
+	<Toast />
+</Layout>
+

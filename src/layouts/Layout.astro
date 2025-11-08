@@ -99,9 +99,15 @@ const isSpanish = (lang === 'es');
 		}
 		</script>
 		
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+	<!-- Poppins font now loaded from local files in global.css for better performance -->
+	<link rel="preload" href="/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin>
+	<link rel="preload" href="/fonts/Poppins-Bold.ttf" as="font" type="font/ttf" crossorigin>
+	
+	<!-- VT323 font loaded asynchronously (non-blocking) -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+	<noscript><link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"></noscript>
 	</head>
 	<body class="font-poppins">
 		<GoogleAnalytics />
@@ -112,11 +118,11 @@ const isSpanish = (lang === 'es');
 		<nav class="fixed top-3 right-3 z-50 pointer-events-auto">
 			<select 
 				id="language-selector" 
-				class="bg-transparent text-white text-xs font-poppins border-0 outline-none cursor-pointer"
+				class="bg-gray-900/80 backdrop-blur-sm text-white text-sm font-poppins border-2 border-gaming-gold rounded px-3 py-1 outline-none cursor-pointer hover:bg-gray-800/90 transition-colors"
 				aria-label="Select language"
 			>
-				<option value="/" selected={!isSpanish}>EN</option>
-				<option value="/es/" selected={isSpanish}>ES</option>
+				<option value="en" selected={!isSpanish}>🇺🇸 EN</option>
+				<option value="es" selected={isSpanish}>🇪🇸 ES</option>
 			</select>
 		</nav>
 
@@ -126,21 +132,41 @@ const isSpanish = (lang === 'es');
 			  var select = document.getElementById('language-selector') as HTMLSelectElement;
 			  if (!select) return;
 			  
-			  // Set correct selection on page load
+			  // Get current path and determine language
 			  var currentPath = window.location.pathname;
-			  if (currentPath === '/es/' || currentPath === '/es') {
-				select.value = '/es/';
-			  } else {
-				select.value = '/';
-			  }
+			  var isEsPath = currentPath.startsWith('/es/') || currentPath === '/es';
+			  
+			  // Set correct selection on page load
+			  select.value = isEsPath ? 'es' : 'en';
 			  
 			  select.addEventListener('change', function(e){
 				var target = e.target as HTMLSelectElement;
 				if (!target) return;
-				var targetUrl = target.value;
+				var selectedLang = target.value;
+				
+				// Save preference
 				try { 
-				  localStorage.setItem('preferredLang', targetUrl === '/es/' ? 'es' : 'en'); 
+				  localStorage.setItem('preferredLang', selectedLang); 
 				} catch(err) {}
+				
+				// Determine target URL based on current path
+				var targetUrl = '/';
+				
+				// Get the path without /es/ prefix
+				var pathWithoutLang = currentPath.replace(/^\/es\//, '/').replace(/^\/es$/, '/');
+				
+				if (selectedLang === 'es') {
+				  // Going to Spanish version
+				  if (pathWithoutLang === '/') {
+					targetUrl = '/es/';
+				  } else {
+					targetUrl = '/es' + pathWithoutLang;
+				  }
+				} else {
+				  // Going to English version
+				  targetUrl = pathWithoutLang;
+				}
+				
 				window.location.href = targetUrl;
 			  });
 			} catch(e) {}
