@@ -34,8 +34,8 @@ const content = {
     socialInstagram: 'Instagram',
     socialInstagramEs: 'Instagram ES',
     socialTikTok: 'TikTok',
-    rewardsTitle: 'Join the Skillion Community',
-    rewardsBody: 'Download Skillion now and start transforming your habits into an epic RPG adventure. Join thousands of users already leveling up their lives!'
+    rewardsTitle: 'Get Premium for Free!',
+    rewardsBody: 'Join the #SkillionApp Quest and earn up to 1 year of Premium by sharing your progress on social media. 🏆'
   },
   es: {
     heading1: 'Cómo Skillion Gamifica tu Productividad',
@@ -51,8 +51,8 @@ const content = {
     socialInstagram: 'Instagram',
     socialInstagramEs: 'Instagram ES',
     socialTikTok: 'TikTok',
-    rewardsTitle: 'Únete a la Comunidad Skillion',
-    rewardsBody: '¡Descarga Skillion ahora y comienza a transformar tus hábitos en una aventura RPG épica. Únete a miles de usuarios que ya están subiendo de nivel en la vida real!'
+    rewardsTitle: '¡Obtén Premium Gratis!',
+    rewardsBody: 'Únete al #SkillionApp Quest y gana hasta 1 año de Premium compartiendo tu progreso en redes sociales. 🏆'
   }
 } as const;
 
@@ -147,11 +147,17 @@ const t = content[lang];
         </div>
         
         <div class="bg-white/80 backdrop-blur-sm pixel-frame p-4 md:p-6 mb-25 max-w-4xl mx-auto hero-text-container">
-          <div class="text-4xl mb-4">🎮</div>
+          <div class="text-4xl mb-4">🎁</div>
           <h3 class="text-xl md:text-2xl font-bold mb-4 text-gaming-gold">{t.rewardsTitle}</h3>
-          <p class="text-base md:text-lg lg:text-xl leading-relaxed font-poppins text-gray-800">
+          <p class="text-base md:text-lg leading-relaxed font-poppins text-gray-800 mb-4">
             {t.rewardsBody}
           </p>
+          <a 
+            href={lang === 'es' ? '/es/free-premium' : '/free-premium'}
+            class="inline-block bg-gaming-gold text-gray-900 px-6 py-3 rounded-lg font-bold text-sm hover:bg-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+          >
+            ⚔️ {lang === 'es' ? 'Ver Cómo Participar' : 'See How to Participate'}
+          </a>
         </div>
       </div>
     </div>
