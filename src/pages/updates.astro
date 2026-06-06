@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ChangelogPage from '../components/ChangelogPage.astro';
+import { changelogUi } from '../data/changelog';
+---
+
+<Layout
+  lang="en"
+  title={changelogUi.metaTitle.en}
+  description={changelogUi.metaDescription.en}
+>
+  <ChangelogPage lang="en" />
+</Layout>
