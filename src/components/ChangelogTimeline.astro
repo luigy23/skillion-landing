@@ -1,0 +1,207 @@
+---
+import {
+  changelog,
+  changelogUi,
+  formatDate,
+  type Lang,
+  type ChangelogTag,
+} from '../data/changelog';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// Map each tag to its fantasy "rarity" chip class (defined in ChangelogPage).
+const tagClass: Record<ChangelogTag, string> = {
+  feature: 'tag tag--legendary',
+  fix: 'tag tag--rare',
+  improvement: 'tag tag--enchanted',
+};
+---
+
+<div class="relative mx-auto max-w-3xl">
+  <!-- Vertical quest line -->
+  <div class="quest-line" aria-hidden="true"></div>
+
+  <ol class="space-y-12">
+    {
+      changelog.map((release) => (
+        <li class="relative pl-14 md:pl-20">
+          {/* Seal medallion on the timeline */}
+          <div
+            class:list={[
+              'quest-node',
+              release.highlight ? 'quest-node--latest' : '',
+            ]}
+            aria-hidden="true"
+          >
+            <span class="text-lg md:text-2xl">{release.highlight ? '📜' : '🛡️'}</span>
+          </div>
+
+          {/* Release scroll */}
+          <article class="parchment overflow-hidden">
+            {/* Wooden plaque header */}
+            <header class="quest-band flex flex-wrap items-center gap-x-3 gap-y-2 px-5 py-4 md:px-6">
+              <span class="quest-version font-cinzel">
+                <span class="quest-version__label">{changelogUi.versionLabel[lang]}</span>
+                v{release.version}
+              </span>
+
+              {release.codename && (
+                <span class="font-cinzel font-semibold text-[#f0d98a]">
+                  {release.codename[lang]}
+                </span>
+              )}
+
+              {release.highlight && (
+                <span class="latest-ribbon font-cinzel">★ {changelogUi.latestBadge[lang]}</span>
+              )}
+
+              <time
+                datetime={release.date}
+                class:list={[
+                  'text-sm text-[#cdb98a]',
+                  release.highlight ? '' : 'ml-auto',
+                ]}
+              >
+                {formatDate(release.date, lang)}
+              </time>
+            </header>
+
+            {/* Entries */}
+            <ul class="divide-y divide-[#c9a86b]/50">
+              {release.entries.map((entry) => (
+                <li class="group flex gap-4 px-5 py-5 md:px-6">
+                  <div class="entry-seal">
+                    <span class="text-2xl">{entry.icon}</span>
+                  </div>
+
+                  <div class="min-w-0 flex-1">
+                    <div class="mb-1 flex flex-wrap items-center gap-2">
+                      <h3 class="font-cinzel text-lg font-bold leading-snug text-[#3a2c17]">
+                        {entry.title[lang]}
+                      </h3>
+                      <span class={tagClass[entry.tag]}>
+                        {changelogUi.tags[entry.tag][lang]}
+                      </span>
+                    </div>
+                    <p class="leading-relaxed text-[#5b4a2e]">{entry.description[lang]}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style is:global>
+  .quest-line {
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: 22px;
+    width: 3px;
+    background: linear-gradient(180deg, #d8b545 0%, #8a6a32 45%, transparent 100%);
+    border-radius: 2px;
+    opacity: 0.7;
+  }
+  @media (min-width: 768px) {
+    .quest-line {
+      left: 30px;
+    }
+  }
+
+  /* Seal medallion node */
+  .quest-node {
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    width: 2.75rem;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, #f4e8ca, #e0c98f);
+    border: 3px solid #8a6a32;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+  }
+  @media (min-width: 768px) {
+    .quest-node {
+      height: 3.5rem;
+      width: 3.5rem;
+    }
+  }
+  .quest-node--latest {
+    background: linear-gradient(180deg, #fbeaa7, #e3bb4e);
+    border-color: #b3852f;
+    box-shadow:
+      0 0 14px rgba(216, 181, 69, 0.55),
+      0 4px 10px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Wooden plaque header band on the parchment */
+  .quest-band {
+    background: linear-gradient(180deg, #3f2c18 0%, #2c1e10 100%);
+    border-bottom: 2px solid #6e4f25;
+    box-shadow: inset 0 -2px 0 #c9a86b;
+  }
+
+  .quest-version {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #f6e3a1;
+    font-weight: 700;
+    background: rgba(201, 162, 39, 0.12);
+    border: 1px solid rgba(216, 181, 69, 0.5);
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+  }
+  .quest-version__label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #cdb98a;
+  }
+
+  .latest-ribbon {
+    margin-left: auto;
+    color: #2a1c0a;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, #f6da7e, #d8b545);
+    border: 1px solid #b3852f;
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+    box-shadow: 0 0 12px rgba(216, 181, 69, 0.45);
+  }
+
+  /* Circular seal behind each entry icon */
+  .entry-seal {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 50% 35%, #fdf4d8, #e6d2a2);
+    border: 2px solid #b08d4e;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 2px 4px rgba(0, 0, 0, 0.25);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  .group:hover .entry-seal {
+    transform: translateY(-2px);
+    border-color: #d8b545;
+  }
+</style>
