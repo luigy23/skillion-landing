@@ -13,6 +13,10 @@ interface Props {
 
 const { lang } = Astro.props;
 
+// Cuántas versiones se ven de entrada. El resto llegan de tres en tres con el
+// botón: el historial sólo crece, y sin esto la página se haría infinita.
+const PAGE_SIZE = 3;
+
 // Mismo código de color que las categorías del blog, para que un chip
 // signifique lo mismo en todo el sitio.
 const tagClass: Record<ChangelogTag, string> = {
@@ -27,8 +31,8 @@ const tagClass: Record<ChangelogTag, string> = {
 
   <ol class="release-list">
     {
-      changelog.map((release) => (
-        <li class="release">
+      changelog.map((release, index) => (
+        <li class="release" hidden={index >= PAGE_SIZE}>
           <div
             class:list={['release-node', release.highlight ? 'release-node--latest' : '']}
             aria-hidden="true"
@@ -78,7 +82,49 @@ const tagClass: Record<ChangelogTag, string> = {
       ))
     }
   </ol>
+
+  {
+    changelog.length > PAGE_SIZE && (
+      <div class="show-more-row">
+        <button
+          type="button"
+          class="show-more"
+          id="changelog-show-more"
+          data-page-size={PAGE_SIZE}
+        >
+          {changelogUi.showMore[lang]}
+        </button>
+      </div>
+    )
+  }
 </div>
+
+<script>
+  function initShowMore() {
+    const button = document.getElementById('changelog-show-more') as HTMLButtonElement | null;
+    if (!button) return;
+    // Con el ClientRouter esto corre en la carga inicial Y en cada
+    // astro:page-load. Sin la marca, volver a la página engancharía un segundo
+    // listener y cada clic revelaría el doble de versiones.
+    if (button.dataset.bound === 'true') return;
+    button.dataset.bound = 'true';
+
+    const releases = Array.from(document.querySelectorAll<HTMLElement>('.release'));
+    const pageSize = Number(button.dataset.pageSize) || 3;
+    let visible = pageSize;
+
+    button.addEventListener('click', () => {
+      visible += pageSize;
+      releases.forEach((release, index) => {
+        release.hidden = index >= visible;
+      });
+      if (visible >= releases.length) button.hidden = true;
+    });
+  }
+
+  initShowMore();
+  document.addEventListener('astro:page-load', initShowMore);
+</script>
 
 <style>
   .timeline {
@@ -103,9 +149,13 @@ const tagClass: Record<ChangelogTag, string> = {
     list-style: none;
   }
 
+  /* El raíl y el nodo ocupan 58px a la izquierda. Sin el mismo hueco a la
+     derecha la tarjeta queda corrida: se ve descentrada respecto a la página
+     aunque el contenedor sí esté centrado. */
   .release {
     position: relative;
     padding-left: 58px;
+    padding-right: 58px;
   }
 
   /* Nodo cuadrado, no circular: el redondeo desentona con el resto del pixel art */
@@ -161,16 +211,23 @@ const tagClass: Record<ChangelogTag, string> = {
     color: #ffe6a0;
   }
 
+  /* Sin text-transform a proposito: la etiqueta va en Press Start 2P y en
+     español dice "Versión". En mayúsculas la Ó no existe en esa fuente y el
+     navegador la sacaba de otra, más grande y descuadrada. En minúsculas
+     sí está, así que se respeta el texto tal cual viene. */
   .release-version__label {
     font-size: 8px;
     letter-spacing: 0.08em;
-    text-transform: uppercase;
     color: #8fa6dd;
   }
 
+  /* Press Start 2P tiene un único grosor: con font-weight 900 el navegador
+     falsea la negrita y emborrona los píxeles. */
   .release-codename {
-    font-size: 15px;
-    font-weight: 900;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.6;
     color: #8fe3da;
   }
 
@@ -184,10 +241,15 @@ const tagClass: Record<ChangelogTag, string> = {
     line-height: 1;
   }
 
+  /* 9px: es metadato, va por debajo de la versión y del nombre (11px). El
+     peso vuelve a 400 porque Press Start 2P sólo tiene un grosor. Los meses
+     en español no llevan tilde, así que no hay riesgo de glifo ausente. */
   .release-date {
     margin-left: auto;
-    font-size: 13px;
-    font-weight: 700;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    font-weight: 400;
+    line-height: 1.6;
     color: #8fa6dd;
   }
 
@@ -276,9 +338,39 @@ const tagClass: Record<ChangelogTag, string> = {
     color: #2a1a06;
   }
 
+  .show-more-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  .show-more {
+    padding: 15px 20px;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow: inset 0 0 0 3px #3f5da8;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 10px;
+    line-height: 1.5;
+    color: #dceafe;
+    cursor: pointer;
+  }
+
+  .show-more:hover,
+  .show-more:focus-visible {
+    color: #ffffff;
+  }
+
+  .show-more[hidden] {
+    display: none;
+  }
+
   @media (max-width: 640px) {
     .release {
       padding-left: 46px;
+      /* En móvil el ancho escasea: se recupera el hueco de la derecha y se
+         acepta el pequeño descentrado, que a esta anchura no se nota. */
+      padding-right: 0;
     }
 
     .timeline-line {
