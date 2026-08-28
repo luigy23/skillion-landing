@@ -26,7 +26,8 @@ const content = {
     title: "Skillion: Gamify Your Real Life",
     subtitle: "Turn Habits into an RPG",
     description: "Skillion is the habit gamification app that turns your daily goals into an epic RPG. Earn real-life XP for every task you complete, level up personalized skills, and defeat the final boss: procrastination.",
-    blogCta: "GUIDES & TRICKS"
+    blogCta: "GUIDES & TRICKS",
+    updatesCta: "WHAT'S NEW"
   },
   es: {
     title: "Skillion: Gamifica tu Vida Real",
@@ -34,12 +35,14 @@ const content = {
     description: "Skillion es la app de gamificación que transforma tus hábitos y metas diarias en una aventura RPG épica. Gana XP en la vida real por cada tarea que completas, sube de nivel en habilidades personalizadas y derrota al boss final: la procrastinación.",
     // Sin tilde en GUIAS: va en Press Start 2P y esa fuente no tiene
     // mayúsculas acentuadas (el navegador cambiaría de fuente a mitad).
-    blogCta: "GUIAS Y TRUCOS"
+    blogCta: "GUIAS Y TRUCOS",
+    updatesCta: "NOVEDADES"
   }
 };
 
 const currentContent = content[lang];
 const blogHref = lang === 'es' ? '/es/blog' : '/blog';
+const updatesHref = lang === 'es' ? '/es/novedades' : '/updates';
 ---
 
 <section id="hero" class="relative w-full h-[100svh] md:h-screen overflow-visible">
@@ -78,13 +81,16 @@ const blogHref = lang === 'es' ? '/es/blog' : '/blog';
         </p>
       </div>
 
-      {/* Entrada al blog. Mismo mb-8 que el panel de arriba para que los tres
+      {/* Entradas al blog y al changelog. El azul es secundario a
+          proposito: dos dorados iguales se disputarian la mirada y el
+          principal es el blog. Mismo mb-8 que el panel de arriba para que los tres
           bloques queden a la misma distancia. Sin flecha "▸": Press Start 2P no
           tiene ese glifo y el navegador lo sacaba de otra fuente, más pequeño y
           desalineado (el mismo motivo por el que los emoji del footer van en un
           span aparte). */}
-      <div class="mb-8 flex justify-center">
-        <a href={blogHref} class="blog-cta">{currentContent.blogCta}</a>
+      <div class="mb-8 flex flex-wrap items-center justify-center gap-3">
+        <a href={blogHref} class="hero-cta hero-cta--gold">{currentContent.blogCta}</a>
+        <a href={updatesHref} class="hero-cta hero-cta--blue">{currentContent.updatesCta}</a>
       </div>
 
       <!-- App Store Buttons -->
@@ -316,16 +322,17 @@ const blogHref = lang === 'es' ? '/es/blog' : '/blog';
   /* Clon exacto de .quest-cta (el botón de "VER COMO PARTICIPAR" de
      ParallaxProductivity): mismo oro, mismo bisel y misma sombra dura. Si se
      retoca aquel, hay que retocar este. */
-  .blog-cta {
+  /* El relieve son dos insets: luz arriba-izquierda, sombra abajo-derecha.
+     Van en variables porque cada variante necesita el suyo —un bisel dorado
+     sobre fondo azul no parece relieve, parece un borde suelto. */
+  .hero-cta {
     display: inline-flex;
     align-items: center;
     padding: 15px 20px;
-    background: #ffc53d;
-    color: #2a1a06;
     border: 4px solid #0a0f1f;
     box-shadow:
-      inset -4px -4px 0 0 #c98a12,
-      inset 4px 4px 0 0 #ffe6a0,
+      inset -4px -4px 0 0 var(--bevel-dark),
+      inset 4px 4px 0 0 var(--bevel-light),
       6px 6px 0 0 rgba(5, 8, 18, 0.45);
     font-family: 'Press Start 2P', 'Courier New', monospace;
     font-size: clamp(9px, 1.4vw, 11px);
@@ -334,21 +341,35 @@ const blogHref = lang === 'es' ? '/es/blog' : '/blog';
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .blog-cta:hover,
-  .blog-cta:focus-visible {
+  .hero-cta--gold {
+    background: #ffc53d;
+    color: #2a1a06;
+    --bevel-light: #ffe6a0;
+    --bevel-dark: #c98a12;
+  }
+
+  .hero-cta--blue {
+    background: #3f5da8;
+    color: #eaf1ff;
+    --bevel-light: #7a97dd;
+    --bevel-dark: #26386a;
+  }
+
+  .hero-cta:hover,
+  .hero-cta:focus-visible {
     transform: translate(-2px, -2px);
     box-shadow:
-      inset -4px -4px 0 0 #c98a12,
-      inset 4px 4px 0 0 #ffe6a0,
+      inset -4px -4px 0 0 var(--bevel-dark),
+      inset 4px 4px 0 0 var(--bevel-light),
       8px 8px 0 0 rgba(5, 8, 18, 0.5);
   }
 
   /* Al pulsar, el bisel se invierte: el botón parece hundirse. */
-  .blog-cta:active {
+  .hero-cta:active {
     transform: translate(0, 0);
     box-shadow:
-      inset 4px 4px 0 0 #c98a12,
-      inset -4px -4px 0 0 #ffe6a0,
+      inset 4px 4px 0 0 var(--bevel-dark),
+      inset -4px -4px 0 0 var(--bevel-light),
       3px 3px 0 0 rgba(5, 8, 18, 0.45);
   }
 </style>
