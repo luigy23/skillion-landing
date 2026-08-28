@@ -25,16 +25,21 @@ const content = {
   en: {
     title: "Skillion: Gamify Your Real Life",
     subtitle: "Turn Habits into an RPG",
-    description: "Skillion is the habit gamification app that turns your daily goals into an epic RPG. Earn real-life XP for every task you complete, level up personalized skills, and defeat the final boss: procrastination."
+    description: "Skillion is the habit gamification app that turns your daily goals into an epic RPG. Earn real-life XP for every task you complete, level up personalized skills, and defeat the final boss: procrastination.",
+    blogCta: "GUIDES & TRICKS"
   },
   es: {
     title: "Skillion: Gamifica tu Vida Real",
     subtitle: "Convierte Hábitos en RPG",
-    description: "Skillion es la app de gamificación que transforma tus hábitos y metas diarias en una aventura RPG épica. Gana XP en la vida real por cada tarea que completas, sube de nivel en habilidades personalizadas y derrota al boss final: la procrastinación."
+    description: "Skillion es la app de gamificación que transforma tus hábitos y metas diarias en una aventura RPG épica. Gana XP en la vida real por cada tarea que completas, sube de nivel en habilidades personalizadas y derrota al boss final: la procrastinación.",
+    // Sin tilde en GUIAS: va en Press Start 2P y esa fuente no tiene
+    // mayúsculas acentuadas (el navegador cambiaría de fuente a mitad).
+    blogCta: "GUIAS Y TRUCOS"
   }
 };
 
 const currentContent = content[lang];
+const blogHref = lang === 'es' ? '/es/blog' : '/blog';
 ---
 
 <section id="hero" class="relative w-full h-[100svh] md:h-screen overflow-visible">
@@ -59,18 +64,27 @@ const currentContent = content[lang];
 
   <!-- Non-parallax content -->
   <div class="relative z-10 flex items-center justify-center h-full px-4">
-    <div class="text-center text-white max-w-4xl mx-auto mt-16 md:-mt-8">
+    <div class="text-center text-white max-w-6xl mx-auto mt-16 md:-mt-8">
       <div class="animate-float mb-6 -mt-10 md:mt-0">
         <Image src={Logo} alt="Skillion Hero Image" class="w-16 h-16 md:w-32 md:h-32 mx-auto rounded-2xl" />
       </div>
-      <h1 class="text-2xl md:text-4xl lg:text-5xl mb-8 font-poppins text-extra-bold text-stroke-gold">
+      <h1 class="hero-title mb-8 text-stroke-gold">
         <span class="text-[#203239]">{currentContent.title}</span><br/>
         <span class="text-[#203239]">{currentContent.subtitle}</span>
       </h1>
       <div class="bg-white/80 backdrop-blur-sm pixel-frame p-4 md:p-6 mb-8 max-w-4xl mx-auto hero-text-container">
-        <p class="text-base md:text-lg lg:text-xl leading-relaxed font-poppins text-gray-800">
+        <p class="hero-description text-base md:text-lg lg:text-xl leading-relaxed text-gray-800">
           {currentContent.description}
         </p>
+      </div>
+
+      {/* Entrada al blog. Mismo mb-8 que el panel de arriba para que los tres
+          bloques queden a la misma distancia. Sin flecha "▸": Press Start 2P no
+          tiene ese glifo y el navegador lo sacaba de otra fuente, más pequeño y
+          desalineado (el mismo motivo por el que los emoji del footer van en un
+          span aparte). */}
+      <div class="mb-8 flex justify-center">
+        <a href={blogHref} class="blog-cta">{currentContent.blogCta}</a>
       </div>
 
       <!-- App Store Buttons -->
@@ -277,3 +291,64 @@ const currentContent = content[lang];
     applyNow();
   });
 </script>
+
+<style>
+  /* Titular en pixel art. Conserva el efecto dorado (.text-stroke-gold), que
+     sigue en el markup y vive en global.css. */
+  .hero-title {
+    /* Press Start 2P es mucho más ancha que Poppins: a los 48px que tenía
+       antes el titular no entraba. El clamp lo mantiene en una medida legible
+       de móvil a desktop. */
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(13px, 4vw, 32px);
+    line-height: 1.7;
+    /* Sin text-extra-bold: la fuente sólo tiene un grosor y el font-weight:900
+       obligaba al navegador a fingir la negrita, emborronando los píxeles. */
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  .hero-description {
+    font-family: 'Nunito', 'Poppins', sans-serif;
+    font-weight: 700;
+  }
+
+  /* Clon exacto de .quest-cta (el botón de "VER COMO PARTICIPAR" de
+     ParallaxProductivity): mismo oro, mismo bisel y misma sombra dura. Si se
+     retoca aquel, hay que retocar este. */
+  .blog-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: #ffc53d;
+    color: #2a1a06;
+    border: 4px solid #0a0f1f;
+    box-shadow:
+      inset -4px -4px 0 0 #c98a12,
+      inset 4px 4px 0 0 #ffe6a0,
+      6px 6px 0 0 rgba(5, 8, 18, 0.45);
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(9px, 1.4vw, 11px);
+    line-height: 1.5;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .blog-cta:hover,
+  .blog-cta:focus-visible {
+    transform: translate(-2px, -2px);
+    box-shadow:
+      inset -4px -4px 0 0 #c98a12,
+      inset 4px 4px 0 0 #ffe6a0,
+      8px 8px 0 0 rgba(5, 8, 18, 0.5);
+  }
+
+  /* Al pulsar, el bisel se invierte: el botón parece hundirse. */
+  .blog-cta:active {
+    transform: translate(0, 0);
+    box-shadow:
+      inset 4px 4px 0 0 #c98a12,
+      inset -4px -4px 0 0 #ffe6a0,
+      3px 3px 0 0 rgba(5, 8, 18, 0.45);
+  }
+</style>

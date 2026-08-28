@@ -1,0 +1,217 @@
+---
+import swordUrl from '../assets/skillion-sword.svg';
+
+interface Props {
+  lang: 'en' | 'es';
+  /** Misma página en el otro idioma. En un artículo depende de la traducción. */
+  altHref: string;
+  /** Sección de la nav que se resalta. */
+  section?: 'blog' | 'updates' | 'premium';
+  /**
+   * True cuando estás EN la página principal de esa sección: entonces deja de
+   * ser un enlace, porque llevaría a donde ya estás, y el aria-current="page"
+   * dice la verdad. Un artículo del blog resalta "Blog" pero sí enlaza al
+   * índice, que es otra página.
+   */
+  isCurrent?: boolean;
+}
+
+const { lang, altHref, section = 'blog', isCurrent = false } = Astro.props as Props;
+
+const isEs = lang === 'es';
+const base = isEs ? '/es' : '';
+
+const content = {
+  en: { home: 'Home', blog: 'Blog', updates: "What's New", premium: 'Premium' },
+  es: { home: 'Inicio', blog: 'Blog', updates: 'Novedades', premium: 'Premium' },
+} as const;
+
+const t = content[lang];
+
+const languages = [
+  { code: 'en' as const, flag: '🇺🇸', label: 'EN', href: isEs ? altHref : Astro.url.pathname },
+  { code: 'es' as const, flag: '🇪🇸', label: 'ES', href: isEs ? Astro.url.pathname : altHref },
+];
+---
+
+<header class="site-nav">
+  {/* La espada va en SVG: es vectorial, así que sale nítida a cualquier
+      tamaño. El PNG que había antes era 163x163 —ya reescalado con pérdida
+      desde el maestro de 432— y volver a reducirlo a 40px lo emborronaba.
+      data-astro-reload: sale hacia la landing, que necesita carga completa
+      para que arranquen sus scripts de parallax. */}
+  <a href={`${base}/`} class="nav-logo" aria-label="Skillion" data-astro-reload>
+    <img src={swordUrl.src} alt="Skillion" width="27" height="40" />
+  </a>
+
+  <nav class="nav-links" aria-label="Skillion">
+    <a href={`${base}/`} data-astro-reload>{t.home}</a>
+
+    {
+      section === 'blog' && isCurrent ? (
+        <span class="is-active" aria-current="page">{t.blog}</span>
+      ) : (
+        <a href={`${base}/blog`} class={section === 'blog' ? 'is-active' : undefined}>{t.blog}</a>
+      )
+    }
+
+    {
+      section === 'updates' && isCurrent ? (
+        <span class="is-active" aria-current="page">{t.updates}</span>
+      ) : (
+        <a
+          href={isEs ? '/es/novedades' : '/updates'}
+          class={section === 'updates' ? 'is-active' : undefined}
+        >
+          {t.updates}
+        </a>
+      )
+    }
+
+    {
+      /* El enlace a premium NO lleva data-astro-reload: /free-premium ya monta
+         el ClientRouter, así que blog <-> premium va por transición y no da el
+         fogonazo blanco. "Inicio" sí lo lleva, porque el parallax de la landing
+         vive en scripts de módulo que sólo corren en una carga completa. */
+      section === 'premium' && isCurrent ? (
+        <span class="is-active" aria-current="page">{t.premium}</span>
+      ) : (
+        <a href={`${base}/free-premium`} class={section === 'premium' ? 'is-active' : undefined}>
+          {t.premium}
+        </a>
+      )
+    }
+
+    <span class="lang-switch">
+      {
+        languages.map((option) =>
+          option.code === lang ? (
+            // El idioma activo deja de ser clicable: enlazaba a sí mismo.
+            <span class="is-current" aria-current="true" lang={option.code}>
+              <span class="flag">{option.flag}</span> {option.label}
+            </span>
+          ) : (
+            <a href={option.href} hreflang={option.code} lang={option.code}>
+              <span class="flag">{option.flag}</span> {option.label}
+            </a>
+          ),
+        )
+      }
+    </span>
+  </nav>
+</header>
+
+<style>
+  .site-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 32px;
+    background: #0b1020;
+    border-bottom: 4px solid #3f5da8;
+  }
+
+  .nav-logo {
+    display: flex;
+    flex: none;
+  }
+
+  .nav-logo img {
+    display: block;
+    width: auto;
+    height: 40px;
+    /* Vectorial: nada de pixelated, que aquí sólo dentaría las diagonales. */
+    image-rendering: auto;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    /* 10px + los 6px de padding de cada enlace ≈ los 20px de separación
+       óptica del diseño, pero con el doble de superficie clicable. */
+    gap: 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  /* El texto son 9px: sin padding, el área de clic es una franja de 9px de
+     alto y fallarla es lo normal. El padding la sube a ~29px sin mover nada
+     de sitio, porque la altura de la barra la marca el logo (40px). */
+  .nav-links > a,
+  .nav-links > span:not(.lang-switch) {
+    padding: 9px 6px;
+    color: #8fa6dd;
+    text-decoration: none;
+    transition: color 0.15s steps(2);
+  }
+
+  .nav-links > a:hover,
+  .nav-links > a:focus-visible {
+    color: #dceafe;
+  }
+
+  /* Se nombra el elemento en los dos selectores para igualar especificidad
+     con la regla de arriba: `.nav-links > span:not(.lang-switch)` puntua
+     (0,2,1) y un `.nav-links > .is-active` a secas se queda en (0,2,0), asi
+     que el gris ganaba y el "Blog" del indice salia sin dorado. */
+  .nav-links > a.is-active,
+  .nav-links > span.is-active {
+    color: #ffc53d;
+  }
+
+  .lang-switch {
+    display: flex;
+    gap: 6px;
+    margin-left: 6px;
+  }
+
+  .lang-switch > a,
+  .lang-switch > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 9px;
+    background: #1b2547;
+    border: 3px solid #3f5da8;
+    color: #8fa6dd;
+    text-decoration: none;
+  }
+
+  .lang-switch > .is-current {
+    background: #ffc53d;
+    border-color: #0a0f1f;
+    color: #2a1a06;
+    /* Es un <span>, así que no hereda el cursor de mano de los enlaces:
+       queda claro al pasar por encima que no hay nada que pulsar. */
+  }
+
+  .lang-switch > a:hover {
+    color: #dceafe;
+    border-color: #8fa6dd;
+  }
+
+  /* Los emoji de bandera no existen en Press Start 2P: si no se saca de la
+     familia, el navegador cambia de fuente y descuadra la caja. */
+  .flag {
+    font-family:
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  @media (max-width: 720px) {
+    .site-nav {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 14px 16px;
+      gap: 12px;
+    }
+
+    .nav-links {
+      gap: 14px;
+      font-size: 8px;
+    }
+  }
+</style>

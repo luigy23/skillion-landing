@@ -13,81 +13,62 @@ interface Props {
 
 const { lang } = Astro.props;
 
-// Map each tag to its fantasy "rarity" chip class (defined in ChangelogPage).
+// Mismo código de color que las categorías del blog, para que un chip
+// signifique lo mismo en todo el sitio.
 const tagClass: Record<ChangelogTag, string> = {
-  feature: 'tag tag--legendary',
-  fix: 'tag tag--rare',
-  improvement: 'tag tag--enchanted',
+  feature: 'tag tag--feature',
+  fix: 'tag tag--fix',
+  improvement: 'tag tag--improvement',
 };
 ---
 
-<div class="relative mx-auto max-w-3xl">
-  <!-- Vertical quest line -->
-  <div class="quest-line" aria-hidden="true"></div>
+<div class="timeline">
+  <div class="timeline-line" aria-hidden="true"></div>
 
-  <ol class="space-y-12">
+  <ol class="release-list">
     {
       changelog.map((release) => (
-        <li class="relative pl-14 md:pl-20">
-          {/* Seal medallion on the timeline */}
+        <li class="release">
           <div
-            class:list={[
-              'quest-node',
-              release.highlight ? 'quest-node--latest' : '',
-            ]}
+            class:list={['release-node', release.highlight ? 'release-node--latest' : '']}
             aria-hidden="true"
           >
-            <span class="text-lg md:text-2xl">{release.highlight ? '📜' : '🛡️'}</span>
+            {release.highlight ? '★' : '▸'}
           </div>
 
-          {/* Release scroll */}
-          <article class="parchment overflow-hidden">
-            {/* Wooden plaque header */}
-            <header class="quest-band flex flex-wrap items-center gap-x-3 gap-y-2 px-5 py-4 md:px-6">
-              <span class="quest-version font-cinzel">
-                <span class="quest-version__label">{changelogUi.versionLabel[lang]}</span>
+          <article class="release-card">
+            <header class="release-head">
+              <span class="release-version">
+                <span class="release-version__label">{changelogUi.versionLabel[lang]}</span>
                 v{release.version}
               </span>
 
               {release.codename && (
-                <span class="font-cinzel font-semibold text-[#f0d98a]">
-                  {release.codename[lang]}
-                </span>
+                <span class="release-codename">{release.codename[lang]}</span>
               )}
 
               {release.highlight && (
-                <span class="latest-ribbon font-cinzel">★ {changelogUi.latestBadge[lang]}</span>
+                <span class="release-latest">{changelogUi.latestBadge[lang]}</span>
               )}
 
-              <time
-                datetime={release.date}
-                class:list={[
-                  'text-sm text-[#cdb98a]',
-                  release.highlight ? '' : 'ml-auto',
-                ]}
-              >
+              <time datetime={release.date} class="release-date">
                 {formatDate(release.date, lang)}
               </time>
             </header>
 
-            {/* Entries */}
-            <ul class="divide-y divide-[#c9a86b]/50">
+            <ul class="entry-list">
               {release.entries.map((entry) => (
-                <li class="group flex gap-4 px-5 py-5 md:px-6">
-                  <div class="entry-seal">
-                    <span class="text-2xl">{entry.icon}</span>
-                  </div>
+                <li class="entry">
+                  <div class="entry-icon" aria-hidden="true">{entry.icon}</div>
 
-                  <div class="min-w-0 flex-1">
-                    <div class="mb-1 flex flex-wrap items-center gap-2">
-                      <h3 class="font-cinzel text-lg font-bold leading-snug text-[#3a2c17]">
-                        {entry.title[lang]}
-                      </h3>
+                  <div class="entry-body">
+                    <div class="entry-head">
+                      <h3 class="entry-title">{entry.title[lang]}</h3>
                       <span class={tagClass[entry.tag]}>
                         {changelogUi.tags[entry.tag][lang]}
                       </span>
                     </div>
-                    <p class="leading-relaxed text-[#5b4a2e]">{entry.description[lang]}</p>
+                    <p class="entry-text">{entry.description[lang]}</p>
                   </div>
                 </li>
               ))}
@@ -99,109 +80,230 @@ const tagClass: Record<ChangelogTag, string> = {
   </ol>
 </div>
 
-<style is:global>
-  .quest-line {
-    position: absolute;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    left: 22px;
-    width: 3px;
-    background: linear-gradient(180deg, #d8b545 0%, #8a6a32 45%, transparent 100%);
-    border-radius: 2px;
-    opacity: 0.7;
-  }
-  @media (min-width: 768px) {
-    .quest-line {
-      left: 30px;
-    }
+<style>
+  .timeline {
+    position: relative;
   }
 
-  /* Seal medallion node */
-  .quest-node {
+  .timeline-line {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 17px;
+    width: 4px;
+    background: linear-gradient(180deg, #ffc53d 0%, #3f5da8 40%, transparent 100%);
+  }
+
+  .release-list {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .release {
+    position: relative;
+    padding-left: 58px;
+  }
+
+  /* Nodo cuadrado, no circular: el redondeo desentona con el resto del pixel art */
+  .release-node {
     position: absolute;
     left: 0;
-    top: 0.25rem;
+    top: 6px;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow: inset 0 0 0 3px #3f5da8;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1;
+    color: #8fa6dd;
+  }
+
+  .release-node--latest {
+    box-shadow: inset 0 0 0 3px #ffc53d;
+    color: #ffc53d;
+  }
+
+  .release-card {
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow: 8px 8px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  /* ---------- CABECERA DE VERSIÓN ---------- */
+  .release-head {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    height: 2.75rem;
-    width: 2.75rem;
-    border-radius: 9999px;
-    background: linear-gradient(180deg, #f4e8ca, #e0c98f);
-    border: 3px solid #8a6a32;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
-  }
-  @media (min-width: 768px) {
-    .quest-node {
-      height: 3.5rem;
-      width: 3.5rem;
-    }
-  }
-  .quest-node--latest {
-    background: linear-gradient(180deg, #fbeaa7, #e3bb4e);
-    border-color: #b3852f;
-    box-shadow:
-      0 0 14px rgba(216, 181, 69, 0.55),
-      0 4px 10px rgba(0, 0, 0, 0.45);
+    gap: 10px;
+    padding: 16px 20px;
+    background: #141b32;
+    border-bottom: 4px solid #0a0f1f;
   }
 
-  /* Wooden plaque header band on the parchment */
-  .quest-band {
-    background: linear-gradient(180deg, #3f2c18 0%, #2c1e10 100%);
-    border-bottom: 2px solid #6e4f25;
-    box-shadow: inset 0 -2px 0 #c9a86b;
-  }
-
-  .quest-version {
+  .release-version {
     display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: #f6e3a1;
-    font-weight: 700;
-    background: rgba(201, 162, 39, 0.12);
-    border: 1px solid rgba(216, 181, 69, 0.5);
-    padding: 0.25rem 0.6rem;
-    border-radius: 3px;
-  }
-  .quest-version__label {
-    font-family: 'Poppins', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #cdb98a;
-  }
-
-  .latest-ribbon {
-    margin-left: auto;
-    color: #2a1c0a;
-    font-weight: 800;
+    align-items: baseline;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #0f1730;
+    border: 3px solid #3f5da8;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
     font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    background: linear-gradient(180deg, #f6da7e, #d8b545);
-    border: 1px solid #b3852f;
-    padding: 0.25rem 0.6rem;
-    border-radius: 3px;
-    box-shadow: 0 0 12px rgba(216, 181, 69, 0.45);
+    line-height: 1.4;
+    color: #ffe6a0;
   }
 
-  /* Circular seal behind each entry icon */
-  .entry-seal {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 3rem;
-    width: 3rem;
-    border-radius: 9999px;
-    background: radial-gradient(circle at 50% 35%, #fdf4d8, #e6d2a2);
-    border: 2px solid #b08d4e;
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 2px 4px rgba(0, 0, 0, 0.25);
-    transition: transform 0.25s ease, border-color 0.25s ease;
+  .release-version__label {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8fa6dd;
   }
-  .group:hover .entry-seal {
-    transform: translateY(-2px);
-    border-color: #d8b545;
+
+  .release-codename {
+    font-size: 15px;
+    font-weight: 900;
+    color: #8fe3da;
+  }
+
+  .release-latest {
+    padding: 7px 9px;
+    background: #ffc53d;
+    color: #2a1a06;
+    border: 3px solid #0a0f1f;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1;
+  }
+
+  .release-date {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8fa6dd;
+  }
+
+  /* ---------- ENTRADAS ---------- */
+  .entry-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .entry {
+    display: flex;
+    gap: 16px;
+    padding: 18px 20px;
+  }
+
+  .entry + .entry {
+    border-top: 3px solid #243157;
+  }
+
+  .entry-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    background: #0f1730;
+    border: 3px solid #3f5da8;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .entry-body {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .entry-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .entry-title {
+    margin: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #ffe6a0;
+    text-wrap: balance;
+  }
+
+  .entry-text {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.55;
+    color: #c9d6f5;
+    text-wrap: pretty;
+  }
+
+  /* ---------- CHIPS ---------- */
+  .tag {
+    flex: none;
+    padding: 6px 8px;
+    border: 3px solid #0a0f1f;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1;
+  }
+
+  .tag--feature {
+    background: #8fe3da;
+    color: #0a2b28;
+  }
+
+  .tag--fix {
+    background: #b58fe3;
+    color: #1b0f2b;
+  }
+
+  .tag--improvement {
+    background: #ffc53d;
+    color: #2a1a06;
+  }
+
+  @media (max-width: 640px) {
+    .release {
+      padding-left: 46px;
+    }
+
+    .timeline-line {
+      left: 13px;
+    }
+
+    .release-node {
+      width: 30px;
+      height: 30px;
+      font-size: 10px;
+    }
+
+    .entry {
+      padding: 16px;
+    }
+
+    .entry-icon {
+      width: 38px;
+      height: 38px;
+      font-size: 18px;
+    }
+
+    .release-date {
+      margin-left: 0;
+      flex-basis: 100%;
+    }
   }
 </style>

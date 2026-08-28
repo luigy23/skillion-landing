@@ -1,0 +1,683 @@
+---
+import { render } from 'astro:content';
+import SiteNav from '../SiteNav.astro';
+import SiteFooter from '../SiteFooter.astro';
+import CoverFallback from './CoverFallback.astro';
+import {
+  CATEGORY_COLORS,
+  CATEGORY_LABELS,
+  blogIndexPath,
+  blogPostPath,
+  formatPixelDate,
+  isoDate,
+  type BlogPost,
+  type Lang,
+} from '../../lib/blog';
+import { pixelIcon } from '../../lib/pixel-icon';
+import magoUrl from '../../assets/pixelartAssets/blog/mago.png';
+import starUrl from '../../assets/pixelartAssets/blog/star.png';
+import coinUrl from '../../assets/pixelartAssets/blog/coin3.png';
+import lightbulbUrl from '../../assets/pixelartAssets/blog/lightbulb.png';
+
+interface Props {
+  post: BlogPost;
+  lang: Lang;
+  related: BlogPost[];
+  altHref: string;
+  showXpRewards?: boolean;
+}
+
+const { post, lang, related, altHref, showXpRewards = true } = Astro.props as Props;
+const { data } = post;
+
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2);
+
+const chip = CATEGORY_COLORS[data.category];
+// Caja de 160: el hueco de portada mide 280 de alto, sobra sitio.
+const coverIcon = pixelIcon(data.icon, 160);
+const categoryLabel = CATEGORY_LABELS[lang][data.category];
+
+const content = {
+  en: {
+    blog: 'BLOG',
+    inThisArticle: '▸ IN THIS ARTICLE',
+    related: '▸ RELATED QUESTS',
+    ctaTitle: 'Start your first quest today',
+    ctaBody: 'Skillion is free. Create your skills in two minutes.',
+    ctaButton: 'DOWNLOAD',
+    // Sin "1 YEAR": en español el equivalente lleva Ñ y Press Start 2P no la
+    // tiene en mayuscula. Se usa "12 MESES/MONTHS" en los dos idiomas.
+    premiumTitle: '12 MONTHS OF FREE PREMIUM',
+    premiumBody: 'Share your progress in the #SkillionApp Quest.',
+    premiumCta: 'JOIN →',
+    readingXp: 'READING XP',
+  },
+  es: {
+    blog: 'BLOG',
+    inThisArticle: '▸ EN ESTE ARTICULO',
+    related: '▸ MISIONES RELACIONADAS',
+    ctaTitle: 'Empieza tu primera quest hoy',
+    ctaBody: 'Skillion es gratis. Crea tus skills en dos minutos.',
+    ctaButton: 'DESCARGAR',
+    premiumTitle: '12 MESES DE PREMIUM GRATIS',
+    premiumBody: 'Comparte tu progreso en el #SkillionApp Quest.',
+    premiumCta: 'PARTICIPAR →',
+    readingXp: 'XP DE LECTURA',
+  },
+} as const;
+
+const t = content[lang];
+const base = lang === 'es' ? '/es' : '';
+---
+
+<div class="article-page">
+  <SiteNav lang={lang} altHref={altHref} section="blog" />
+
+  <div class="article-shell">
+    <article class="article">
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href={blogIndexPath(lang)}>{t.blog}</a> / <span>{categoryLabel}</span>
+      </nav>
+
+      <div class="article-meta">
+        <span class="chip-static" style={`background:${chip.bg};color:${chip.fg}`}>
+          {categoryLabel}
+        </span>
+        <time datetime={isoDate(data.publishedAt)}>{formatPixelDate(data.publishedAt, lang)}</time>
+        <span aria-hidden="true">·</span>
+        <span>{data.readingMinutes} MIN</span>
+        {showXpRewards && data.xp > 0 && <span class="meta-xp">+{data.xp} {t.readingXp}</span>}
+      </div>
+
+      <h1 class="article-title">{data.title}</h1>
+
+      <div class="author-box">
+        <img src={magoUrl.src} alt="" width="60" height="66" class="author-avatar" />
+        <div class="author-text">
+          <span class="author-name">{data.authorName}</span>
+          {data.authorBio && <span class="author-bio">{data.authorBio}</span>}
+        </div>
+      </div>
+
+      {data.coverImage && (
+        <img
+          class="article-cover"
+          src={data.coverImage}
+          alt={data.title}
+          width="1600"
+          height="900"
+          data-cover
+        />
+      )}
+      {/* Sin portada —o con una que no carga— se muestra el icono del post
+          sobre el patrón rayado, igual que las cards del índice. Antes había
+          aquí el texto "imagen de portada: 1600x900", que era una anotación
+          del mockup y se estaba publicando tal cual. */}
+      <div class="cover-placeholder" hidden={!!data.coverImage} data-cover-fallback>
+        <img
+          src={coverIcon.src}
+          alt=""
+          width={coverIcon.width}
+          height={coverIcon.height}
+        />
+      </div>
+
+      <div class="article-body">
+        <Content />
+      </div>
+
+      <aside class="inline-cta">
+        <img src={starUrl.src} alt="" width="64" height="64" class="cta-star" />
+        <div class="cta-text">
+          <h2 class="cta-title">{t.ctaTitle}</h2>
+          <p class="cta-body">{t.ctaBody}</p>
+        </div>
+        <a
+          class="cta-button"
+          href="https://play.google.com/store/apps/details?id=app.skillion&pcampaignid=web_share"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t.ctaButton}
+        </a>
+      </aside>
+    </article>
+
+    <aside class="sidebar">
+      {
+        toc.length > 0 && (
+          <nav class="panel" aria-label={t.inThisArticle}>
+            <div class="panel-head">{t.inThisArticle}</div>
+            <div class="panel-body toc">
+              {toc.map((heading) => (
+                <a href={`#${heading.slug}`}>{heading.text}</a>
+              ))}
+            </div>
+          </nav>
+        )
+      }
+
+      {
+        related.length > 0 && (
+          <nav class="panel" aria-label={t.related}>
+            <div class="panel-head">{t.related}</div>
+            <div class="panel-body related">
+              {related.map((item) => {
+                const icon = pixelIcon(item.data.icon, 64);
+                return (
+                  <a href={blogPostPath(lang, item.data.slug)}>
+                    <img
+                      src={icon.src}
+                      alt=""
+                      width={icon.width}
+                      height={icon.height}
+                      loading="lazy"
+                    />
+                    <span>{item.data.title}</span>
+                  </a>
+                );
+              })}
+            </div>
+          </nav>
+        )
+      }
+
+      <div class="premium-card">
+        <img src={coinUrl.src} alt="" width="48" height="48" />
+        <span class="premium-title">{t.premiumTitle}</span>
+        <p class="premium-body">{t.premiumBody}</p>
+        <a href={`${base}/free-premium`}>{t.premiumCta}</a>
+      </div>
+    </aside>
+  </div>
+
+  <SiteFooter lang={lang} />
+</div>
+
+<CoverFallback />
+
+<style define:vars={{ tipIcon: `url(${lightbulbUrl.src})` }}>
+  .article-page {
+    min-height: 100vh;
+    background-color: #0f1526;
+    background-image:
+      linear-gradient(rgba(63, 93, 168, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(63, 93, 168, 0.1) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .article-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 40px;
+    align-items: start;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 44px 40px 56px;
+  }
+
+  .article {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+  }
+
+  /* ---------------------------------------------------------- cabecera */
+  .breadcrumb {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    color: #4f68a8;
+  }
+
+  .breadcrumb a {
+    color: #4f68a8;
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: #8fa6dd;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    color: #8fa6dd;
+  }
+
+  .chip-static {
+    padding: 7px 9px;
+    line-height: 1;
+  }
+
+  .meta-xp {
+    color: #ffc53d;
+  }
+
+  .article-title {
+    margin: 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 23px;
+    line-height: 1.7;
+    color: #ffffff;
+    text-wrap: pretty;
+  }
+
+  .author-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+  }
+
+  /* mago.png es 60x66 nativo: se muestra a 1x. Reducirlo a los 36px del
+     artboard lo dejaria borroso, que es justo lo que queremos evitar. */
+  .author-avatar {
+    flex: none;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .author-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .author-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    line-height: 1.5;
+    color: #dceafe;
+  }
+
+  .author-bio {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #8fa6dd;
+  }
+
+  .article-cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 4px solid #0a0f1f;
+  }
+
+  .cover-placeholder {
+    display: grid;
+    place-items: center;
+    height: 280px;
+    border: 4px solid #0a0f1f;
+    background: repeating-linear-gradient(45deg, #243157 0 10px, #1d2848 10px 20px);
+  }
+
+  .cover-placeholder[hidden] {
+    display: none;
+  }
+
+  .cover-placeholder img {
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  /* ------------------------------------------------------------- cuerpo */
+  .article-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .article-body :global(p) {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #c9d6f5;
+    text-wrap: pretty;
+  }
+
+  /* Entradilla: el primer parrafo va mas grande y mas claro. */
+  .article-body :global(> p:first-of-type) {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.75;
+    color: #e3ecff;
+  }
+
+  .article-body :global(h2) {
+    margin: 14px 0 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #ffe6a0;
+    scroll-margin-top: 24px;
+  }
+
+  .article-body :global(h3) {
+    margin: 8px 0 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #ffe6a0;
+    scroll-margin-top: 24px;
+  }
+
+  .article-body :global(strong) {
+    color: #8fe3da;
+  }
+
+  .article-body :global(a) {
+    color: #8fe3da;
+    text-underline-offset: 3px;
+  }
+
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding-left: 24px;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #c9d6f5;
+  }
+
+  .article-body :global(li::marker) {
+    color: #8fa6dd;
+  }
+
+  .article-body :global(blockquote) {
+    margin: 0;
+    padding: 22px 26px;
+    background: #0f1730;
+    border-left: 8px solid #8fe3da;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.7;
+    color: #8fe3da;
+    text-wrap: pretty;
+  }
+
+  .article-body :global(blockquote p) {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+  }
+
+  /* ------------------------------------------- callout CONSEJO DEL MAGO */
+  .article-body :global(.mage-tip) {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 22px;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow: inset 0 0 0 4px #ffc53d;
+  }
+
+  /* El icono llega por CSS y no como <img> en el HTML: el loader que genera
+     el callout corre antes de que el bundler resuelva el hash del asset, asi
+     que alli no se conoce la URL final. 48px = 3x del sprite real (16x16). */
+  .article-body :global(.mage-tip-icon) {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    background-image: var(--tipIcon);
+    background-size: 48px 48px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+  }
+
+  .article-body :global(.mage-tip-body) {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .article-body :global(.mage-tip-label) {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    line-height: 1.6;
+    color: #ffe6a0;
+  }
+
+  .article-body :global(.mage-tip p) {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e3ecff;
+  }
+
+  /* --------------------------------------------------------- CTA inline */
+  .inline-cta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-top: 12px;
+    padding: 26px;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow:
+      inset 0 0 0 4px #3f5da8,
+      10px 10px 0 0 rgba(5, 8, 18, 0.5);
+  }
+
+  .cta-star {
+    flex: none;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .cta-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cta-title {
+    margin: 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #ffffff;
+  }
+
+  .cta-body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #c9d6f5;
+  }
+
+  .cta-button {
+    flex: none;
+    margin-left: auto;
+    padding: 15px 18px;
+    background: #ffc53d;
+    border: 4px solid #0a0f1f;
+    box-shadow:
+      inset -4px -4px 0 0 #c98a12,
+      inset 4px 4px 0 0 #ffe6a0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #2a1a06;
+    text-decoration: none;
+  }
+
+  .cta-button:active {
+    box-shadow:
+      inset 4px 4px 0 0 #c98a12,
+      inset -4px -4px 0 0 #ffe6a0;
+  }
+
+  /* ------------------------------------------------------------ sidebar */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: sticky;
+    top: 24px;
+  }
+
+  .panel {
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+  }
+
+  .panel-head {
+    padding: 11px 14px;
+    background: #3f5da8;
+    border-bottom: 4px solid #0a0f1f;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    line-height: 1.5;
+    color: #eaf2ff;
+  }
+
+  .panel-body {
+    display: flex;
+    flex-direction: column;
+    padding: 18px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .toc {
+    gap: 12px;
+  }
+
+  .toc a {
+    color: #dceafe;
+    text-decoration: none;
+    line-height: 1.5;
+  }
+
+  .toc a:hover {
+    color: #ffc53d;
+  }
+
+  .related {
+    gap: 16px;
+  }
+
+  .related a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: #dceafe;
+    text-decoration: none;
+    line-height: 1.4;
+  }
+
+  .related a:hover {
+    color: #ffc53d;
+  }
+
+  .related img {
+    flex: none;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .premium-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    background: #241a33;
+    border: 4px solid #0a0f1f;
+    box-shadow: inset 0 0 0 4px #ffc53d;
+  }
+
+  .premium-card img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .premium-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    line-height: 1.7;
+    color: #ffe6a0;
+  }
+
+  .premium-body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #e4d3f0;
+  }
+
+  .premium-card > a {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    color: #ffc53d;
+    text-decoration: none;
+  }
+
+  .premium-card > a:hover {
+    color: #ffe6a0;
+  }
+
+  /* --------------------------------------------------------- responsive */
+  @media (max-width: 900px) {
+    .article-shell {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 32px 24px 44px;
+    }
+
+    .sidebar {
+      position: static;
+    }
+
+    .article-title {
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .article-shell {
+      padding: 24px 16px 40px;
+    }
+
+    .article-title {
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .article-body :global(h2) {
+      font-size: 13px;
+    }
+
+    .inline-cta {
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .cta-button {
+      margin-left: 0;
+    }
+
+    .cover-placeholder {
+      height: 200px;
+    }
+  }
+</style>

@@ -6,9 +6,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "seed": "node db/seed.mjs",
+    "og": "node scripts/dump-posts.mjs .og-posts.json && python3 scripts/make-og-posts.py .og-posts.json && rm -f .og-posts.json"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@neondatabase/serverless": "^1.1.0",
     "@tailwindcss/vite": "^4.1.11",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ChangelogPage from '../components/ChangelogPage.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 import { changelogUi } from '../data/changelog';
 ---
 
@@ -8,6 +9,10 @@ import { changelogUi } from '../data/changelog';
   lang="en"
   title={changelogUi.metaTitle.en}
   description={changelogUi.metaDescription.en}
+  showLanguageSwitcher={false}
+  background="#0f1526"
+  clientRouter
 >
   <ChangelogPage lang="en" />
+  <SiteFooter lang="en" />
 </Layout>

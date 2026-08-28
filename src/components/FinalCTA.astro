@@ -1,0 +1,249 @@
+---
+// Colina con la base recortada: el asset original tiene las 8 ultimas filas
+// dentadas/semitransparentes y a escala completa dejaban una franja rota
+// de ~70px justo encima del footer.
+import mountainUrl from '../assets/pixelartAssets/features/mountains-cta.png';
+
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props as Props;
+
+const content = {
+  en: {
+    heading: ['Ready to gamify', 'your real life?'],
+    body: 'Your personal growth adventure starts now. Turn every day into a quest.',
+    play: 'GOOGLE PLAY',
+    appStore: 'APP STORE',
+  },
+  es: {
+    heading: ['¿Listo para gamificar', 'tu vida real?'],
+    body: 'Tu aventura de crecimiento personal empieza ahora. Convierte cada día en una quest.',
+    play: 'GOOGLE PLAY',
+    appStore: 'APP STORE',
+  },
+} as const;
+
+const t = content[lang];
+---
+
+<section class="final-cta">
+  <!-- Decorativa: sin <Image> para no resamplear el pixel art -->
+  <img
+    src={mountainUrl.src}
+    alt=""
+    class="cta-mountains"
+    aria-hidden="true"
+    data-cta-speed-x="90"
+    data-cta-speed-y="24"
+  />
+
+  <div class="cta-inner">
+    <h2 class="cta-title">
+      {t.heading[0]}<br />{t.heading[1]}
+    </h2>
+    <p class="cta-body">{t.body}</p>
+
+    <div class="cta-buttons">
+      <a
+        href="https://play.google.com/store/apps/details?id=app.skillion&pcampaignid=web_share"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="store-btn store-btn--play"
+      >
+        {t.play}
+      </a>
+      <a
+        href="https://apps.apple.com/app/skillion-gamify-your-life/id6752905262"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="store-btn store-btn--apple"
+      >
+        {t.appStore}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    position: relative;
+    overflow: hidden;
+    padding: 76px 24px 160px;
+    text-align: center;
+    background: linear-gradient(#141b32 0%, #3a2c5c 55%, #8a5a7a 100%);
+  }
+
+  .cta-mountains {
+    position: absolute;
+    bottom: 0;
+    /* 110px de holgura a cada lado: el recorrido lateral (±90px) queda
+       siempre dentro, así que nunca asoma el gradiente por un borde.
+       Holgura en px y no en %, para que en móvil siga siendo suficiente. */
+    left: -110px;
+    width: calc(100% + 220px);
+    max-width: none;
+    height: auto;
+    opacity: 0.5;
+    image-rendering: pixelated;
+    pointer-events: none;
+    will-change: transform;
+    /* Reposo = estado en progress 0, para que no haya salto al arrancar el JS */
+    transform: translate3d(-90px, 24px, 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-mountains {
+      /* Sin movimiento: centrada dentro de su holgura */
+      transform: none;
+    }
+  }
+
+  .cta-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .cta-title {
+    margin: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(16px, 3.6vw, 26px);
+    line-height: 1.6;
+    color: #ffffff;
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .cta-body {
+    margin: 0;
+    max-width: 620px;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+    font-size: clamp(15px, 2.2vw, 18px);
+    font-weight: 700;
+    line-height: 1.5;
+    color: #f4e6f0;
+    text-wrap: pretty;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 6px;
+  }
+
+  .store-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 17px 22px;
+    border: 4px solid #0a0f1f;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(9px, 1.4vw, 11px);
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .store-btn--play {
+    background: #ffc53d;
+    color: #2a1a06;
+    box-shadow:
+      inset -4px -4px 0 0 #c98a12,
+      inset 4px 4px 0 0 #ffe6a0,
+      6px 6px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  .store-btn--apple {
+    background: #8fe3da;
+    color: #0a2b28;
+    box-shadow:
+      inset -4px -4px 0 0 #3f8f86,
+      inset 4px 4px 0 0 #d5fbf6,
+      6px 6px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  .store-btn:hover {
+    transform: translate(-2px, -2px);
+  }
+
+  .store-btn--play:hover {
+    box-shadow:
+      inset -4px -4px 0 0 #c98a12,
+      inset 4px 4px 0 0 #ffe6a0,
+      8px 8px 0 0 rgba(5, 8, 18, 0.5);
+  }
+
+  .store-btn--apple:hover {
+    box-shadow:
+      inset -4px -4px 0 0 #3f8f86,
+      inset 4px 4px 0 0 #d5fbf6,
+      8px 8px 0 0 rgba(5, 8, 18, 0.5);
+  }
+
+  @media (max-width: 640px) {
+    .final-cta {
+      padding: 56px 20px 110px;
+    }
+  }
+</style>
+
+<script>
+  // Parallax de la sección final.
+  //
+  // No reusa el initParallax global a propósito: aquel traduce con el scrollY
+  // ABSOLUTO de la página (translateY = scrollY * speed), lo que funciona en el
+  // hero pero no al final del documento, donde scrollY vale miles de píxeles y
+  // empujaría la capa fuera de vista. Aquí el progreso es relativo a la propia
+  // sección, así que da igual lo larga que sea la página o el idioma.
+  (function () {
+    const section = document.querySelector<HTMLElement>('.final-cta');
+    if (!section) return;
+
+    const layers = Array.from(
+      section.querySelectorAll<HTMLElement>('[data-cta-speed-x], [data-cta-speed-y]')
+    );
+    if (!layers.length) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+
+      // 0 cuando el borde superior de la sección entra por abajo del viewport,
+      // 1 cuando ya llegó arriba del todo.
+      const progress = Math.max(0, Math.min(1, 1 - rect.top / vh));
+
+      for (const layer of layers) {
+        const speedX = parseFloat(layer.dataset.ctaSpeedX || '0');
+        const speedY = parseFloat(layer.dataset.ctaSpeedY || '0');
+
+        // Lateral: recorrido centrado, de -speedX a +speedX. Deriva hacia la
+        // derecha al bajar, igual que las montañas del hero (dirX: 1).
+        const x = (progress - 0.5) * 2 * speedX;
+        // Vertical: solo hacia abajo. La capa está anclada abajo con
+        // overflow:hidden, así que bajar recorta y nunca deja hueco.
+        const y = (1 - progress) * speedY;
+
+        layer.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
+      }
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+</script>

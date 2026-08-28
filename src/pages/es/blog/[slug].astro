@@ -1,0 +1,65 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import BlogArticle from '../../../components/blog/BlogArticle.astro';
+import {
+  SHOW_XP_REWARDS,
+  blogIndexPath,
+  blogPostPath,
+  getBlogPosts,
+  getRelated,
+  getTranslation,
+  postOgImage,
+  type BlogPost,
+} from '../../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = await getBlogPosts('es');
+
+  return Promise.all(
+    posts.map(async (post) => ({
+      params: { slug: post.data.slug },
+      props: {
+        post,
+        related: await getRelated(post),
+        translation: await getTranslation(post),
+      },
+    })),
+  );
+}
+
+interface Props {
+  post: BlogPost;
+  related: BlogPost[];
+  translation: BlogPost | undefined;
+}
+
+const { post, related, translation } = Astro.props as Props;
+const lang = 'es' as const;
+
+// El slug es distinto en cada idioma (viven en Neon), así que los hreflang no
+// se pueden deducir de la ruta: se pasan a mano. Si el artículo no está
+// traducido, se manda null y la página no emite alternates en vez de mentir.
+const altHref = translation ? blogPostPath('en', translation.data.slug) : blogIndexPath('en');
+const alternates = translation
+  ? { es: blogPostPath(lang, post.data.slug), en: blogPostPath('en', translation.data.slug) }
+  : null;
+---
+
+<Layout
+  lang={lang}
+  title={`${post.data.title} | Skillion`}
+  description={post.data.excerpt}
+  ogImage={postOgImage(lang, post.data.slug, post.data.coverImage)}
+  alternates={alternates}
+  showLanguageSwitcher={false}
+  background="#0f1526"
+  clientRouter
+>
+  <BlogArticle
+    post={post}
+    lang={lang}
+    related={related}
+    altHref={altHref}
+    showXpRewards={SHOW_XP_REWARDS}
+  />
+</Layout>
