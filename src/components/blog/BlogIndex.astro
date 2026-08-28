@@ -1,5 +1,5 @@
 ---
-import BlogNav from './BlogNav.astro';
+import SiteNav from '../SiteNav.astro';
 import PostCard from './PostCard.astro';
 import SiteFooter from '../SiteFooter.astro';
 import CoverFallback from './CoverFallback.astro';
@@ -60,7 +60,7 @@ const PAGE_SIZE = 4;
 ---
 
 <div class="blog-page">
-  <BlogNav lang={lang} altHref={altHref} isIndex />
+  <SiteNav lang={lang} altHref={altHref} section="blog" isCurrent />
 
   <main class="blog-main">
     <header class="blog-hero">

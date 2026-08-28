@@ -1,18 +1,22 @@
 ---
-import logoUrl from '../../assets/pixelartAssets/hero/skillionlogotransparent.png';
+import swordUrl from '../assets/skillion-sword.svg';
 
 interface Props {
   lang: 'en' | 'es';
   /** Misma página en el otro idioma. En un artículo depende de la traducción. */
   altHref: string;
+  /** Sección de la nav que se resalta. */
+  section?: 'blog' | 'premium';
   /**
-   * True en el índice del blog. Sirve para no enlazar "Blog" a la página en la
-   * que ya estás, y para que aria-current="page" no mienta en los artículos.
+   * True cuando estás EN la página principal de esa sección: entonces deja de
+   * ser un enlace, porque llevaría a donde ya estás, y el aria-current="page"
+   * dice la verdad. Un artículo del blog resalta "Blog" pero sí enlaza al
+   * índice, que es otra página.
    */
-  isIndex?: boolean;
+  isCurrent?: boolean;
 }
 
-const { lang, altHref, isIndex = false } = Astro.props as Props;
+const { lang, altHref, section = 'blog', isCurrent = false } = Astro.props as Props;
 
 const isEs = lang === 'es';
 const base = isEs ? '/es' : '';
@@ -30,31 +34,40 @@ const languages = [
 ];
 ---
 
-<header class="blog-nav">
-  {/* Único asset del blog que NO va pixelado: el logo es 163x163 (primo, no
-      admite division entera) y a 40px con nearest-neighbor se descompone.
-      El propio artboard lo marca con image-rendering:auto. */}
-  {/* data-astro-reload: sale del blog hacia la landing, que necesita carga
-      completa para que arranquen sus scripts de parallax. */}
+<header class="site-nav">
+  {/* La espada va en SVG: es vectorial, así que sale nítida a cualquier
+      tamaño. El PNG que había antes era 163x163 —ya reescalado con pérdida
+      desde el maestro de 432— y volver a reducirlo a 40px lo emborronaba.
+      data-astro-reload: sale hacia la landing, que necesita carga completa
+      para que arranquen sus scripts de parallax. */}
   <a href={`${base}/`} class="nav-logo" aria-label="Skillion" data-astro-reload>
-    <img src={logoUrl.src} alt="Skillion" width="40" height="40" />
+    <img src={swordUrl.src} alt="Skillion" width="27" height="40" />
   </a>
 
-  <nav class="nav-links" aria-label={t.blog}>
+  <nav class="nav-links" aria-label="Skillion">
     <a href={`${base}/`} data-astro-reload>{t.home}</a>
 
-    {/* En el índice no es un enlace: llevaría a la página en la que ya estás.
-        En un artículo sí, porque el índice es otra página — y por eso el
-        aria-current sólo dice "page" cuando de verdad lo es. */}
     {
-      isIndex ? (
+      section === 'blog' && isCurrent ? (
         <span class="is-active" aria-current="page">{t.blog}</span>
       ) : (
-        <a href={`${base}/blog`} class="is-active">{t.blog}</a>
+        <a href={`${base}/blog`} class={section === 'blog' ? 'is-active' : undefined}>{t.blog}</a>
       )
     }
 
-    <a href={`${base}/free-premium`} data-astro-reload>{t.premium}</a>
+    {
+      /* El enlace a premium NO lleva data-astro-reload: /free-premium ya monta
+         el ClientRouter, así que blog <-> premium va por transición y no da el
+         fogonazo blanco. "Inicio" sí lo lleva, porque el parallax de la landing
+         vive en scripts de módulo que sólo corren en una carga completa. */
+      section === 'premium' && isCurrent ? (
+        <span class="is-active" aria-current="page">{t.premium}</span>
+      ) : (
+        <a href={`${base}/free-premium`} class={section === 'premium' ? 'is-active' : undefined}>
+          {t.premium}
+        </a>
+      )
+    }
 
     <span class="lang-switch">
       {
@@ -76,7 +89,7 @@ const languages = [
 </header>
 
 <style>
-  .blog-nav {
+  .site-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -93,8 +106,9 @@ const languages = [
 
   .nav-logo img {
     display: block;
-    width: 40px;
+    width: auto;
     height: 40px;
+    /* Vectorial: nada de pixelated, que aquí sólo dentaría las diagonales. */
     image-rendering: auto;
   }
 
@@ -175,7 +189,7 @@ const languages = [
   }
 
   @media (max-width: 720px) {
-    .blog-nav {
+    .site-nav {
       flex-wrap: wrap;
       justify-content: center;
       padding: 14px 16px;

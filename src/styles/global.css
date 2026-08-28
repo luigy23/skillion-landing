@@ -419,3 +419,23 @@ select {
 .font-body {
   font-family: 'Nunito', 'Poppins', sans-serif;
 }
+
+/* ============================================================
+   Transiciones nativas entre documentos (cross-document).
+   Da el fundido al navegar landing <-> blog <-> concurso sin
+   enrutado por cliente: cada navegación sigue siendo una carga
+   real, así que los scripts del parallax de la landing arrancan
+   como siempre. Por eso la landing puede entrar aquí y no podía
+   entrar en el ClientRouter.
+   Los navegadores que no lo soportan (Firefox) simplemente
+   navegan sin fundido; no se rompe nada.
+   ============================================================ */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}

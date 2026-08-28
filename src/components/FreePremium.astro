@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import logoUrl from '../assets/pixelartAssets/hero/skillionlogotransparent.png';
+import swordUrl from '../assets/skillion-sword.svg';
+import SiteNav from './SiteNav.astro';
 // Recompensas: escalan de moneda pequeña a cetro. Todos a múltiplo entero del
 // sprite real (24→48 = 2x, 31→62 = 2x, 160→80 = 0.5x) para que no se emborronen.
 import coin3Url from '../assets/pixelartAssets/blog/coin3.png';
@@ -13,9 +14,11 @@ import coinUrl from '../assets/pixelartAssets/features/coin.png';
 
 interface Props {
   lang?: 'en' | 'es';
+  /** Esta misma página en el otro idioma. */
+  altHref: string;
 }
 
-const { lang = 'en' } = Astro.props as Props;
+const { lang = 'en', altHref } = Astro.props as Props;
 const isEs = lang === 'es';
 
 const content = {
@@ -145,16 +148,17 @@ const tiers = [
 ];
 ---
 
+<SiteNav lang={lang} altHref={altHref} section="premium" isCurrent />
+
 <main class="quest-page">
   <!-- ============ HERO ============ -->
   <section class="quest-hero">
     <span class="quest-badge">{t.badge}</span>
 
-    {/* El logo va por <Image> a propósito: es 163x163 (primo, no admite
-        división entera), así que NO debe pixelarse — mismo criterio que
-        BlogNav. Además es la única página que mantiene inicializado el
-        módulo de imágenes de Astro; ver nota en el README de la rama. */}
-    <Image src={logoUrl} alt={t.logoAlt} width={96} height={96} class="quest-logo" />
+    {/* Espada en SVG: vectorial, nítida a cualquier tamaño. El PNG anterior
+        era un reescalado con pérdida del maestro de 432 y a 96px se veía
+        blando. */}
+    <Image src={swordUrl} alt={t.logoAlt} width={66} height={96} class="quest-logo" />
 
     <h1 class="quest-h1">
       {t.title}<br /><span class="quest-h1-sub">— {t.subtitle}</span>
@@ -324,7 +328,7 @@ const tiers = [
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    padding: 88px 24px 64px;
+    padding: 64px 24px 64px;
     text-align: center;
     background: linear-gradient(#141b32 0%, #0f1526 100%);
     border-bottom: 4px solid #1b2547;
@@ -341,8 +345,8 @@ const tiers = [
   }
 
   .quest-logo {
-    height: auto;
-    border-radius: 16px;
+    width: auto;
+    height: 96px;
     animation: quest-float 3s ease-in-out infinite;
   }
 
@@ -789,7 +793,7 @@ const tiers = [
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 640px) {
     .quest-hero {
-      padding: 72px 20px 52px;
+      padding: 48px 20px 52px;
     }
 
     .quest-section {
@@ -820,39 +824,50 @@ const tiers = [
 <script>
   // Copiar handle. Sustituye a los onclick inline que llamaban a window.showToast:
   // delegación + feedback en el propio botón, sin depender del componente Toast.
-  document.querySelectorAll<HTMLButtonElement>('.handle-copy').forEach((button) => {
-    button.addEventListener('click', async () => {
-      const value = button.dataset.copy;
-      if (!value) return;
+  function initCopyButtons() {
+    document.querySelectorAll<HTMLButtonElement>('.handle-copy').forEach((button) => {
+      // Con View Transitions esto corre en la carga inicial Y en cada
+      // astro:page-load. Sin la marca, volver a esta página engancharía un
+      // segundo listener y cada clic copiaría dos veces.
+      if (button.dataset.bound === 'true') return;
+      button.dataset.bound = 'true';
 
-      try {
-        await navigator.clipboard.writeText(value);
-      } catch {
-        // Safari sin permiso de portapapeles, http, etc.
-        const helper = document.createElement('textarea');
-        helper.value = value;
-        helper.setAttribute('readonly', '');
-        helper.style.position = 'absolute';
-        helper.style.left = '-9999px';
-        document.body.appendChild(helper);
-        helper.select();
+      button.addEventListener('click', async () => {
+        const value = button.dataset.copy;
+        if (!value) return;
+
         try {
-          document.execCommand('copy');
+          await navigator.clipboard.writeText(value);
         } catch {
+          // Safari sin permiso de portapapeles, http, etc.
+          const helper = document.createElement('textarea');
+          helper.value = value;
+          helper.setAttribute('readonly', '');
+          helper.style.position = 'absolute';
+          helper.style.left = '-9999px';
+          document.body.appendChild(helper);
+          helper.select();
+          try {
+            document.execCommand('copy');
+          } catch {
+            document.body.removeChild(helper);
+            return;
+          }
           document.body.removeChild(helper);
-          return;
         }
-        document.body.removeChild(helper);
-      }
 
-      button.dataset.done = 'true';
-      const previous = button.getAttribute('aria-label') || '';
-      button.setAttribute('aria-label', button.dataset.copiedLabel || previous);
+        button.dataset.done = 'true';
+        const previous = button.getAttribute('aria-label') || '';
+        button.setAttribute('aria-label', button.dataset.copiedLabel || previous);
 
-      window.setTimeout(() => {
-        delete button.dataset.done;
-        button.setAttribute('aria-label', previous);
-      }, 1600);
+        window.setTimeout(() => {
+          delete button.dataset.done;
+          button.setAttribute('aria-label', previous);
+        }, 1600);
+      });
     });
-  });
+  }
+
+  initCopyButtons();
+  document.addEventListener('astro:page-load', initCopyButtons);
 </script>

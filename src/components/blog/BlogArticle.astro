@@ -1,6 +1,6 @@
 ---
 import { render } from 'astro:content';
-import BlogNav from './BlogNav.astro';
+import SiteNav from '../SiteNav.astro';
 import SiteFooter from '../SiteFooter.astro';
 import CoverFallback from './CoverFallback.astro';
 import {
@@ -72,7 +72,7 @@ const base = lang === 'es' ? '/es' : '';
 ---
 
 <div class="article-page">
-  <BlogNav lang={lang} altHref={altHref} />
+  <SiteNav lang={lang} altHref={altHref} section="blog" />
 
   <div class="article-shell">
     <article class="article">
