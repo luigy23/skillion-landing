@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from "@vercel/speed-insights/astro";
 
 export interface Props {
 	title: string;
@@ -62,10 +64,11 @@ const isSpanish = (lang === 'es');
 		<meta property="twitter:creator" content="@skillion_app" />
 		
 		<!-- Additional SEO -->
-		<meta name="theme-color" content="#1e40af" />
+		<meta name="theme-color" content="#90c5bf" />
 		<meta name="application-name" content="Skillion" />
 		<meta name="apple-mobile-web-app-title" content="Skillion" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 		
 		<!-- Schema.org markup for Skillion -->
@@ -96,12 +99,80 @@ const isSpanish = (lang === 'es');
 		}
 		</script>
 		
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+	<!-- Poppins font now loaded from local files in global.css for better performance -->
+	<link rel="preload" href="/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin>
+	<link rel="preload" href="/fonts/Poppins-Bold.ttf" as="font" type="font/ttf" crossorigin>
+	
+	<!-- VT323 font loaded asynchronously (non-blocking) -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+	<noscript><link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"></noscript>
 	</head>
 	<body class="font-poppins">
 		<GoogleAnalytics />
+		<Analytics />
+		<SpeedInsights />
+
+		<!-- Language Switcher -->
+		<nav class="fixed top-3 right-3 z-50 pointer-events-auto">
+			<select 
+				id="language-selector" 
+				class="bg-gray-900/80 backdrop-blur-sm text-white text-sm font-poppins border-2 border-gaming-gold rounded px-3 py-1 outline-none cursor-pointer hover:bg-gray-800/90 transition-colors"
+				aria-label="Select language"
+			>
+				<option value="en" selected={!isSpanish}>🇺🇸 EN</option>
+				<option value="es" selected={isSpanish}>🇪🇸 ES</option>
+			</select>
+		</nav>
+
+		<script>
+		  (function(){
+			try {
+			  var select = document.getElementById('language-selector') as HTMLSelectElement;
+			  if (!select) return;
+			  
+			  // Get current path and determine language
+			  var currentPath = window.location.pathname;
+			  var isEsPath = currentPath.startsWith('/es/') || currentPath === '/es';
+			  
+			  // Set correct selection on page load
+			  select.value = isEsPath ? 'es' : 'en';
+			  
+			  select.addEventListener('change', function(e){
+				var target = e.target as HTMLSelectElement;
+				if (!target) return;
+				var selectedLang = target.value;
+				
+				// Save preference
+				try { 
+				  localStorage.setItem('preferredLang', selectedLang); 
+				} catch(err) {}
+				
+				// Determine target URL based on current path
+				var targetUrl = '/';
+				
+				// Get the path without /es/ prefix
+				var pathWithoutLang = currentPath.replace(/^\/es\//, '/').replace(/^\/es$/, '/');
+				
+				if (selectedLang === 'es') {
+				  // Going to Spanish version
+				  if (pathWithoutLang === '/') {
+					targetUrl = '/es/';
+				  } else {
+					targetUrl = '/es' + pathWithoutLang;
+				  }
+				} else {
+				  // Going to English version
+				  targetUrl = pathWithoutLang;
+				}
+				
+				window.location.href = targetUrl;
+			  });
+			} catch(e) {}
+		  })();
+		</script>
+
 		<slot />
 	</body>
 </html>

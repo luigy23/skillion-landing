@@ -1,0 +1,172 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+---
+
+<Layout 
+	lang="en"
+	title="Terms and Conditions - Skillion | Legal Terms"
+	description="Read Skillion's Terms and Conditions. Understand your rights and responsibilities when using our gamification app. Last updated January 1, 2025."
+>
+	<main class="bg-pixel-gradient text-pixel-text min-h-screen">
+		<!-- Language Switcher for Terms Page -->
+		<nav class="fixed top-3 right-3 z-50 pointer-events-auto">
+			<select 
+				id="language-selector-terms" 
+				class="bg-black text-white text-xs font-poppins border border-gray-600 rounded px-2 py-1 cursor-pointer"
+				aria-label="Select language"
+			>
+				<option value="/terms" selected>EN</option>
+				<option value="/es/terms">ES</option>
+			</select>
+		</nav>
+
+		<script>
+		  (function(){
+			try {
+			  var select = document.getElementById('language-selector-terms') as HTMLSelectElement;
+			  if (!select) return;
+			  
+			  select.addEventListener('change', function(e){
+				var target = e.target as HTMLSelectElement;
+				if (!target) return;
+				var targetUrl = target.value;
+				try { 
+				  localStorage.setItem('preferredLang', targetUrl === '/es/terms' ? 'es' : 'en'); 
+				} catch(err) {}
+				window.location.href = targetUrl;
+			  });
+			} catch(e) {}
+		  })();
+		</script>
+
+		<!-- Hero Section -->
+		<section class="py-12 px-4">
+			<div class="container mx-auto text-center">
+				<h1 class="text-4xl md:text-6xl font-bold mb-4 font-poppins">
+					Terms and <span class="text-gaming-gold">Conditions</span>
+				</h1>
+				<p class="text-xl text-pixel-text-secondary mb-8 max-w-2xl mx-auto">
+					Please read these terms carefully. By using Skillion, you agree to be bound by these terms.
+				</p>
+			</div>
+		</section>
+
+		<!-- Terms of Use Content -->
+		<section class="py-12 px-4 bg-pixel-bg2">
+			<div class="container mx-auto">
+				<div class="max-w-4xl mx-auto">
+					<div class="bg-pixel-card border-2 border-pixel-border shadow-pixel p-8">
+						<div class="prose prose-invert max-w-none">
+							<h2 class="text-2xl font-bold mb-4 text-gaming-gold">TERMS AND CONDITIONS - SKILLION</h2>
+							<p class="text-pixel-text-secondary mb-6">
+								<strong>Effective Date:</strong> January 1, 2025
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">1. Introduction</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								Welcome to Skillion. These Terms and Conditions ("Terms") govern your use of our mobile application and services. By using Skillion, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use our app.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">2. Acceptance of Terms</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								By downloading, installing, or using Skillion, you acknowledge that you have read, understood, and agree to be bound by these Terms and our Privacy Policy. These Terms constitute a legally binding agreement between you and Skillion.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">3. User Accounts</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								To use certain features of Skillion, you may need to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must provide accurate and complete information when creating your account.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">4. App Usage</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								Skillion is designed to help you track tasks, develop skills, and achieve personal goals. You may use the app for personal, non-commercial purposes. You agree not to use the app for any unlawful purpose or in any way that could damage, disable, or impair the app.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">5. Premium Subscriptions</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								Skillion offers premium features through subscription services. Subscription fees are charged in advance and are non-refundable except as required by law. You may cancel your subscription at any time through your device's subscription settings. Cancellation will take effect at the end of your current billing period.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">6. Privacy and Data Protection</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your information. By using Skillion, you consent to the collection and use of your information as described in our Privacy Policy.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">7. Prohibited Uses</h3>
+							<p class="text-pixel-text-secondary mb-4">You may not use Skillion to:</p>
+							<ul class="list-disc list-inside text-pixel-text-secondary mb-6 space-y-2 ml-4">
+								<li>(a) violate any laws or regulations;</li>
+								<li>(b) infringe on the rights of others;</li>
+								<li>(c) distribute malware or harmful code;</li>
+								<li>(d) attempt to gain unauthorized access to our systems;</li>
+								<li>(e) use the app for commercial purposes without permission.</li>
+							</ul>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">8. Intellectual Property</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								Skillion and its original content, features, and functionality are owned by us and are protected by international copyright, trademark, and other intellectual property laws. You may not copy, modify, or distribute our content without permission.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">9. Disclaimers</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								Skillion is provided "as is" without warranties of any kind. We do not guarantee that the app will be error-free or uninterrupted. We are not responsible for any decisions you make based on the app's recommendations or features.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">10. Limitation of Liability</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of Skillion. Our total liability shall not exceed the amount you paid for the app in the 12 months preceding the claim.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">11. Termination</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								We may terminate or suspend your account and access to Skillion at any time, with or without notice, for any reason. You may terminate your account at any time by deleting the app or contacting us. Upon termination, your right to use the app will cease immediately.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">12. Changes to Terms</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								We reserve the right to modify these Terms at any time. We will notify you of any material changes by posting the new Terms in the app or by other means. Your continued use of Skillion after such changes constitutes acceptance of the new Terms.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">13. Governing Law</h3>
+							<p class="text-pixel-text-secondary mb-6">
+								These Terms shall be governed by and construed in accordance with the laws of the Republic of Colombia, without regard to conflict of law principles. Any disputes arising from these Terms shall be resolved in the courts of Neiva, Huila, Colombia.
+							</p>
+
+							<h3 class="text-xl font-bold mb-4 text-gaming-gold mt-8">14. Contact Information</h3>
+							<p class="text-pixel-text-secondary mb-4">If you have any questions about these Terms, please contact us at:</p>
+							<div class="bg-pixel-bg2 border border-pixel-border p-4 mb-6">
+								<p class="text-pixel-text-secondary mb-2"><strong>Email:</strong> <a href="mailto:hello@skillion.app" class="text-gaming-gold hover:underline">hello@skillion.app</a></p>
+								<p class="text-pixel-text-secondary"><strong>Website:</strong> <a href="https://skillion.app" class="text-gaming-gold hover:underline">https://skillion.app</a></p>
+							</div>
+
+							<p class="text-pixel-text-secondary text-sm italic mt-8">
+								*Last Updated: January 1, 2025*
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="py-12 px-4 border-t-2 border-pixel-border">
+			<div class="container mx-auto text-center">
+				<div class="text-4xl mb-4">🎮</div>
+				<h3 class="text-2xl font-bold mb-2 text-gaming-gold font-poppins">Skillion</h3>
+				<p class="text-pixel-text-secondary mb-6">Gamify your real life. The RPG app for productivity and habits.</p>
+				
+				<div class="flex justify-center gap-6 mb-8">
+					<a href="/" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Home</a>
+					<a href="/contact" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Contact</a>
+					<a href="/privacy" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Privacy Policy</a>
+					<a href="/terms" class="text-pixel-text-secondary hover:text-gaming-gold transition-colors">Terms of Use</a>
+				</div>
+				
+				<p class="text-xs text-pixel-text-secondary">
+					© 2025 Skillion. Built with ❤️ and lots of ☕ to gamify extraordinary lives.
+				</p>
+			</div>
+		</footer>
+	</main>
+</Layout>

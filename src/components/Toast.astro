@@ -1,0 +1,57 @@
+---
+// Toast notification component
+---
+
+<!-- Toast Container -->
+<div id="toast-container" class="fixed bottom-4 right-4 z-50 pointer-events-none">
+	<div id="toast" class="transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-auto">
+		<div class="bg-gray-900 border-2 border-gaming-gold text-white px-6 py-3 rounded-lg shadow-2xl flex items-center gap-3">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="text-gaming-gold">
+				<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+			</svg>
+			<span id="toast-message" class="font-medium">¡Copiado al portapapeles!</span>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Toast functionality
+	window.showToast = function(message) {
+		const toast = document.getElementById('toast');
+		const toastMessage = document.getElementById('toast-message');
+		
+		if (!toast || !toastMessage) return;
+		
+		// Set message
+		toastMessage.textContent = message;
+		
+		// Show toast
+		toast.classList.remove('translate-y-20', 'opacity-0');
+		toast.classList.add('translate-y-0', 'opacity-100');
+		
+		// Hide after 3 seconds
+		setTimeout(() => {
+			toast.classList.remove('translate-y-0', 'opacity-100');
+			toast.classList.add('translate-y-20', 'opacity-0');
+		}, 3000);
+	};
+</script>
+
+<style>
+	#toast-container {
+		max-width: 90vw;
+	}
+	
+	@media (max-width: 640px) {
+		#toast-container {
+			bottom: 1rem;
+			right: 1rem;
+			left: 1rem;
+		}
+		
+		#toast > div {
+			width: 100%;
+		}
+	}
+</style>
+
