@@ -2,6 +2,7 @@
 import BlogNav from './BlogNav.astro';
 import PostCard from './PostCard.astro';
 import SiteFooter from '../SiteFooter.astro';
+import CoverFallback from './CoverFallback.astro';
 import {
   CATEGORIES,
   CATEGORY_COLORS,
@@ -59,7 +60,7 @@ const PAGE_SIZE = 4;
 ---
 
 <div class="blog-page">
-  <BlogNav lang={lang} altHref={altHref} />
+  <BlogNav lang={lang} altHref={altHref} isIndex />
 
   <main class="blog-main">
     <header class="blog-hero">
@@ -87,17 +88,18 @@ const PAGE_SIZE = 4;
           data-category={featured.data.category}
         >
           <div class="featured-thumb">
-            {featured.data.coverImage ? (
-              <img src={featured.data.coverImage} alt="" width="800" height="450" />
-            ) : (
-              <img
-                class="featured-icon"
-                src={featuredIcon.src}
-                alt=""
-                width={featuredIcon.width}
-                height={featuredIcon.height}
-              />
+            {featured.data.coverImage && (
+              <img src={featured.data.coverImage} alt="" width="800" height="450" data-cover />
             )}
+            <img
+              class="featured-icon"
+              src={featuredIcon.src}
+              alt=""
+              width={featuredIcon.width}
+              height={featuredIcon.height}
+              hidden={!!featured.data.coverImage}
+              data-cover-fallback
+            />
           </div>
 
           <div class="featured-body">
@@ -160,13 +162,22 @@ const PAGE_SIZE = 4;
   <SiteFooter lang={lang} />
 </div>
 
+<CoverFallback />
+
 <script>
   // Filtro por categoría y "cargar más" en cliente: el sitio es estático y
   // con este volumen de posts no compensa una página por categoría.
-  (function () {
+  function initBlogFilters() {
     const grid = document.getElementById('post-grid');
     const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.chip[data-filter]'));
     if (chips.length === 0) return;
+
+    // Guarda contra doble enganche: con <ClientRouter /> este init corre en la
+    // carga inicial y otra vez en cada navegación. Sin esto, en la primera
+    // carga se atarían dos listeners al mismo botón y "cargar más" avanzaría
+    // dos páginas de golpe.
+    if (chips[0].dataset.filterBound) return;
+    for (const chip of chips) chip.dataset.filterBound = '1';
 
     const loadMore = document.getElementById('load-more') as HTMLButtonElement | null;
     const pageSize = Number(loadMore?.dataset.pageSize ?? 4);
@@ -208,7 +219,10 @@ const PAGE_SIZE = 4;
     });
 
     render();
-  })();
+  }
+
+  initBlogFilters();
+  document.addEventListener('astro:page-load', initBlogFilters);
 </script>
 
 <style>
@@ -336,6 +350,10 @@ const PAGE_SIZE = 4;
 
   .featured-thumb > img {
     display: block;
+  }
+
+  .featured-thumb > img[hidden] {
+    display: none;
   }
 
   .featured-thumb > img:not(.featured-icon) {

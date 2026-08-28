@@ -25,20 +25,21 @@ const minutes = lang === 'es' ? `${data.readingMinutes} MIN` : `${data.readingMi
 
 <a class="post-card" href={blogPostPath(lang, data.slug)}>
   <div class="card-thumb">
-    {
-      data.coverImage ? (
-        <img src={data.coverImage} alt="" width="640" height="360" loading="lazy" />
-      ) : (
-        <img
-          class="card-icon"
-          src={icon.src}
-          alt=""
-          width={icon.width}
-          height={icon.height}
-          loading="lazy"
-        />
-      )
-    }
+    {data.coverImage && (
+      <img src={data.coverImage} alt="" width="640" height="360" loading="lazy" data-cover />
+    )}
+    {/* Siempre presente. Visible si no hay portada, y si la hay pero se rompe
+        lo destapa CoverFallback.astro. */}
+    <img
+      class="card-icon"
+      src={icon.src}
+      alt=""
+      width={icon.width}
+      height={icon.height}
+      loading="lazy"
+      hidden={!!data.coverImage}
+      data-cover-fallback
+    />
   </div>
 
   <div class="card-body">
@@ -82,6 +83,11 @@ const minutes = lang === 'es' ? `${data.readingMinutes} MIN` : `${data.readingMi
 
   .card-thumb > img {
     display: block;
+  }
+
+  /* [hidden] no gana por sí solo contra el display:block de arriba. */
+  .card-thumb > img[hidden] {
+    display: none;
   }
 
   /* La portada sí llena la caja; el icono se muestra a su tamaño exacto. */

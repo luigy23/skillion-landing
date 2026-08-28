@@ -4,6 +4,7 @@ import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from "@vercel/speed-insights/astro";
 
+import { ClientRouter } from 'astro:transitions';
 import { getAlternates, type Alternates } from '../lib/i18n';
 
 export interface Props {
@@ -23,6 +24,24 @@ export interface Props {
 	showLanguageSwitcher?: boolean;
 	/** Deja fuera del índice páginas como /gracias. */
 	noindex?: boolean;
+	/**
+	 * Color de lienzo de la página.
+	 *
+	 * Va en línea sobre <html> a propósito: es lo primero que pinta el
+	 * navegador, antes de que llegue ninguna hoja de estilos. Si el fondo vive
+	 * solo en un div (como el #0f1526 del blog), al navegar entre páginas se
+	 * ve un destello blanco —el lienzo por defecto— hasta que carga el CSS.
+	 */
+	background?: string;
+	/**
+	 * Navegación por cliente con transiciones (View Transitions).
+	 *
+	 * Sólo la usa el blog. La landing queda fuera a propósito: su parallax vive
+	 * en scripts de módulo que se ejecutan una vez al cargar, y con el router
+	 * no se volverían a ejecutar al entrar. Por el mismo motivo, los enlaces
+	 * del blog que salen del blog llevan `data-astro-reload`.
+	 */
+	clientRouter?: boolean;
 }
 
 const {
@@ -33,6 +52,8 @@ const {
 	alternates,
 	showLanguageSwitcher = true,
 	noindex = false,
+	background,
+	clientRouter = false,
 } = Astro.props;
 
 const isSpanish = (lang === 'es');
@@ -45,8 +66,16 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url).href;
 // Los hreflang se calculan por ruta. Antes eran fijos al home: en /contact se
 // declaraba que la versión española era /es/.
 const alts = alternates === undefined ? getAlternates(Astro.url.pathname) : alternates;
-const urlEn = alts ? new URL(alts.en, Astro.site ?? Astro.url).href : null;
-const urlEs = alts ? new URL(alts.es, Astro.site ?? Astro.url).href : null;
+
+// El sitio se compila en formato "directorio": cada página se sirve en una URL
+// con barra final, y eso es lo que dicen la canónica y el sitemap. Los
+// hreflang tienen que apuntar EXACTAMENTE a esa misma URL — si unos llevan
+// barra y otros no, Google los ve como URLs distintas y no empareja los
+// idiomas, que es justo lo que se pretende con ellos.
+const withSlash = (path: string) => (path.endsWith('/') ? path : `${path}/`);
+
+const urlEn = alts ? new URL(withSlash(alts.en), Astro.site ?? Astro.url).href : null;
+const urlEs = alts ? new URL(withSlash(alts.es), Astro.site ?? Astro.url).href : null;
 
 // La canónica sale del sitio configurado, no de Astro.url: en build local
 // Astro.url apunta a localhost y se colaba en el HTML publicado.
@@ -54,12 +83,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} style={background ? `background-color:${background};color-scheme:dark` : undefined}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
+		{clientRouter && <ClientRouter />}
 		
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>

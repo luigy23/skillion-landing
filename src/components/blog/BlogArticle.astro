@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import BlogNav from './BlogNav.astro';
 import SiteFooter from '../SiteFooter.astro';
+import CoverFallback from './CoverFallback.astro';
 import {
   CATEGORY_COLORS,
   CATEGORY_LABELS,
@@ -33,6 +34,8 @@ const { Content, headings } = await render(post);
 const toc = headings.filter((h) => h.depth === 2);
 
 const chip = CATEGORY_COLORS[data.category];
+// Caja de 160: el hueco de portada mide 280 de alto, sobra sitio.
+const coverIcon = pixelIcon(data.icon, 160);
 const categoryLabel = CATEGORY_LABELS[lang][data.category];
 
 const content = {
@@ -40,7 +43,6 @@ const content = {
     blog: 'BLOG',
     inThisArticle: '▸ IN THIS ARTICLE',
     related: '▸ RELATED QUESTS',
-    coverAlt: ['cover image:', 'pixel art illustration 1600x900'],
     ctaTitle: 'Start your first quest today',
     ctaBody: 'Skillion is free. Create your skills in two minutes.',
     ctaButton: 'DOWNLOAD',
@@ -55,7 +57,6 @@ const content = {
     blog: 'BLOG',
     inThisArticle: '▸ EN ESTE ARTICULO',
     related: '▸ MISIONES RELACIONADAS',
-    coverAlt: ['imagen de portada:', 'ilustración pixel art 1600x900'],
     ctaTitle: 'Empieza tu primera quest hoy',
     ctaBody: 'Skillion es gratis. Crea tus skills en dos minutos.',
     ctaButton: 'DESCARGAR',
@@ -99,15 +100,28 @@ const base = lang === 'es' ? '/es' : '';
         </div>
       </div>
 
-      {
-        data.coverImage ? (
-          <img class="article-cover" src={data.coverImage} alt={data.title} width="1600" height="900" />
-        ) : (
-          <div class="cover-placeholder">
-            <span>{t.coverAlt[0]}<br />{t.coverAlt[1]}</span>
-          </div>
-        )
-      }
+      {data.coverImage && (
+        <img
+          class="article-cover"
+          src={data.coverImage}
+          alt={data.title}
+          width="1600"
+          height="900"
+          data-cover
+        />
+      )}
+      {/* Sin portada —o con una que no carga— se muestra el icono del post
+          sobre el patrón rayado, igual que las cards del índice. Antes había
+          aquí el texto "imagen de portada: 1600x900", que era una anotación
+          del mockup y se estaba publicando tal cual. */}
+      <div class="cover-placeholder" hidden={!!data.coverImage} data-cover-fallback>
+        <img
+          src={coverIcon.src}
+          alt=""
+          width={coverIcon.width}
+          height={coverIcon.height}
+        />
+      </div>
 
       <div class="article-body">
         <Content />
@@ -173,13 +187,15 @@ const base = lang === 'es' ? '/es' : '';
         <img src={coinUrl.src} alt="" width="48" height="48" />
         <span class="premium-title">{t.premiumTitle}</span>
         <p class="premium-body">{t.premiumBody}</p>
-        <a href={`${base}/free-premium`}>{t.premiumCta}</a>
+        <a href={`${base}/free-premium`} data-astro-reload>{t.premiumCta}</a>
       </div>
     </aside>
   </div>
 
   <SiteFooter lang={lang} />
 </div>
+
+<CoverFallback />
 
 <style define:vars={{ tipIcon: `url(${lightbulbUrl.src})` }}>
   .article-page {
@@ -304,11 +320,16 @@ const base = lang === 'es' ? '/es' : '';
     height: 280px;
     border: 4px solid #0a0f1f;
     background: repeating-linear-gradient(45deg, #243157 0 10px, #1d2848 10px 20px);
-    text-align: center;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    line-height: 2.2;
-    color: #8fa6dd;
+  }
+
+  .cover-placeholder[hidden] {
+    display: none;
+  }
+
+  .cover-placeholder img {
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
   }
 
   /* ------------------------------------------------------------- cuerpo */
