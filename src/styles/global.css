@@ -338,9 +338,14 @@ html {
   display: none;
 }
 
-/* Custom Cursor Styles */
+/* Custom Cursor Styles
+   El segundo par de numeros es el "hotspot": el pixel del PNG que actua como
+   punta real del cursor. Estaba en 24 24 (el centro de un asset de 48x48),
+   pero la punta de la flecha esta en (12,6) y la yema de la mano en (18,6).
+   Resultado: el clic caia hasta 18px por debajo de donde apuntabas y los
+   enlaces pequenos —la nav del blog— parecian no responder. */
 body {
-  cursor: url('/cursors/cursor.png?v=2') 24 24, auto;
+  cursor: url('/cursors/cursor.png?v=2') 12 6, auto;
 }
 
 /* Custom cursor for clickable elements */
@@ -350,7 +355,7 @@ a,
 .pixel-btn, 
 .pixel-input,
 .clickable {
-  cursor: url('/cursors/cursor-hover.png?v=2') 24 24, pointer;
+  cursor: url('/cursors/cursor-hover.png?v=2') 18 6, pointer;
 }
 
 /* Custom cursor for active/clicking state */
@@ -359,23 +364,23 @@ a:active,
 .pixel-button:active, 
 .pixel-btn:active,
 .clickable:active {
-  cursor: url('/cursors/cursor-click.png?v=2') 24 24, pointer;
+  cursor: url('/cursors/cursor-click.png?v=2') 18 0, pointer;
 }
 
 /* Custom cursor for form inputs */
 input, 
 textarea, 
 select {
-  cursor: url('/cursors/cursor-hover.png?v=2') 24 24, text;
+  cursor: url('/cursors/cursor-hover.png?v=2') 18 6, text;
 }
 
 /* Custom cursor for draggable elements */
 [draggable="true"] {
-  cursor: url('/cursors/cursor-hover.png?v=2') 24 24, grab;
+  cursor: url('/cursors/cursor-hover.png?v=2') 18 6, grab;
 }
 
 [draggable="true"]:active {
-  cursor: url('/cursors/cursor-click.png?v=2') 24 24, grabbing;
+  cursor: url('/cursors/cursor-click.png?v=2') 18 0, grabbing;
 }
 
 /* Hero text container styling */
