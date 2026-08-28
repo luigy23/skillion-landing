@@ -2,11 +2,22 @@
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://skillion.app',
   output: 'static',
+  integrations: [
+    // Sustituye al public/sitemap.xml escrito a mano, que listaba 3 de 13 URLs
+    // con lastmod de 2025-01-05. Sin esto el blog nacia invisible.
+    // Los hreflang NO se generan aqui: /updates <-> /es/novedades no es un
+    // mapeo mecanico y la opcion i18n del plugin los emitiria mal. Van en el
+    // <head> de cada pagina (src/lib/i18n.ts).
+    sitemap({
+      filter: (page) => !page.includes('/gracias'),
+    }),
+  ],
   build: {
     // Inline CSS crítico para reducir bloqueo de renderización
     inlineStylesheets: 'auto',

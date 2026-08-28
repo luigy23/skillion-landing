@@ -1,0 +1,29 @@
+---
+// Envoltorio fino: toda la UI vive en BlogIndex.astro con prop `lang`, para no
+// repetir el mismo marcado en /blog y /es/blog (que es lo que acabo generando
+// drift entre index.astro y es/index.astro).
+import Layout from '../../../layouts/Layout.astro';
+import BlogIndex from '../../../components/blog/BlogIndex.astro';
+import { BLOG_SEO, SHOW_XP_REWARDS, blogIndexPath, getBlogIndex } from '../../../lib/blog';
+
+const lang = 'es' as const;
+const { featured, rest } = await getBlogIndex(lang);
+const seo = BLOG_SEO[lang];
+---
+
+<Layout
+  lang={lang}
+  title={seo.title}
+  description={seo.description}
+  showLanguageSwitcher={false}
+  background="#0f1526"
+  clientRouter
+>
+  <BlogIndex
+    lang={lang}
+    featured={featured}
+    rest={rest}
+    altHref={blogIndexPath('en')}
+    showXpRewards={SHOW_XP_REWARDS}
+  />
+</Layout>

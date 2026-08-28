@@ -1,0 +1,51 @@
+---
+/**
+ * Cambia una portada rota por el icono pixel del post.
+ *
+ * Sin esto, un `cover_image` que apunte a una URL caída deja el icono de
+ * imagen rota del navegador en medio de la card. Con esto se ve exactamente lo
+ * mismo que cuando el post no tiene portada: el icono sobre el fondo rayado.
+ *
+ * Los iconos no necesitan red (son assets del bundle), así que el respaldo no
+ * puede fallar a su vez.
+ *
+ * Este componente sólo aporta el script. Astro lo agrupa una vez por página,
+ * así que da igual cuántas portadas haya: se incluye una sola copia.
+ */
+---
+
+<script>
+  (function () {
+    function swap(img: HTMLImageElement) {
+      const fallback = img.parentElement?.querySelector<HTMLElement>('[data-cover-fallback]');
+      if (!fallback) return;
+      img.hidden = true;
+      fallback.hidden = false;
+    }
+
+    function init() {
+      for (const img of document.querySelectorAll<HTMLImageElement>('[data-cover]')) {
+        // Guarda: con el router este init corre en cada navegación, y sin
+        // esto una portada ya procesada volvería a engancharse.
+        if (img.dataset.coverBound) continue;
+        img.dataset.coverBound = '1';
+
+        // Una imagen puede haber fallado ANTES de que corra este script: las
+        // imágenes empiezan a cargar durante el parseo del HTML. En ese caso el
+        // evento 'error' ya pasó y añadir el listener no serviría de nada, así
+        // que se comprueba el estado a mano.
+        if (img.complete && img.naturalWidth === 0) {
+          swap(img);
+        } else {
+          img.addEventListener('error', () => swap(img), { once: true });
+        }
+      }
+    }
+
+    init();
+    // Con <ClientRouter /> el módulo no se vuelve a ejecutar al navegar: el
+    // DOM se sustituye pero el script ya está cargado. Sin esto, tras cambiar
+    // de idioma las portadas nuevas se quedarían sin respaldo.
+    document.addEventListener('astro:page-load', init);
+  })();
+</script>
