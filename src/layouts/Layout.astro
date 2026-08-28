@@ -4,7 +4,6 @@ import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from "@vercel/speed-insights/astro";
 
-import { ClientRouter } from 'astro:transitions';
 import { getAlternates, type Alternates } from '../lib/i18n';
 
 export interface Props {
@@ -33,15 +32,6 @@ export interface Props {
 	 * ve un destello blanco —el lienzo por defecto— hasta que carga el CSS.
 	 */
 	background?: string;
-	/**
-	 * Navegación por cliente con transiciones (View Transitions).
-	 *
-	 * Sólo la usa el blog. La landing queda fuera a propósito: su parallax vive
-	 * en scripts de módulo que se ejecutan una vez al cargar, y con el router
-	 * no se volverían a ejecutar al entrar. Por el mismo motivo, los enlaces
-	 * del blog que salen del blog llevan `data-astro-reload`.
-	 */
-	clientRouter?: boolean;
 }
 
 const {
@@ -53,7 +43,6 @@ const {
 	showLanguageSwitcher = true,
 	noindex = false,
 	background,
-	clientRouter = false,
 } = Astro.props;
 
 const isSpanish = (lang === 'es');
@@ -89,7 +78,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
-		{clientRouter && <ClientRouter />}
 		
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>

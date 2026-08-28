@@ -422,11 +422,19 @@ select {
 
 /* ============================================================
    Transiciones nativas entre documentos (cross-document).
-   Da el fundido al navegar landing <-> blog <-> concurso sin
-   enrutado por cliente: cada navegación sigue siendo una carga
-   real, así que los scripts del parallax de la landing arrancan
-   como siempre. Por eso la landing puede entrar aquí y no podía
-   entrar en el ClientRouter.
+
+   Este es el UNICO mecanismo de transición del sitio: no queda
+   ningún <ClientRouter /> montado. Cada navegación sigue siendo
+   una carga real, así que los scripts de módulo (el parallax de
+   la landing, los filtros del blog) arrancan como siempre, y el
+   fundido lo pone el navegador.
+
+   No volver a mezclarlo con el ClientRouter. Cuando sólo unas
+   páginas lo montaban, el router interceptaba el clic hacia una
+   página que no lo llevaba y caía a recarga dura: blog <-> blog
+   fundía, pero blog <-> novedades daba el salto seco. Al ser una
+   regla CSS, esto vale para todas las páginas por igual.
+
    Los navegadores que no lo soportan (Firefox) simplemente
    navegan sin fundido; no se rompe nada.
    ============================================================ */
