@@ -32,7 +32,9 @@ const altHref = lang === 'es' ? '/updates' : '/es/novedades';
     <div class="outro-card">
       <h2 class="outro-title">{changelogUi.thanksTitle[lang]}</h2>
       <p class="outro-text">{changelogUi.thanksText[lang]}</p>
-      <a href={homeHref} class="outro-cta">
+      {/* data-astro-reload: vuelve a la landing, que necesita carga completa
+          para que arranquen sus scripts de parallax. */}
+      <a href={homeHref} class="outro-cta" data-astro-reload>
         {changelogUi.backHome[lang]}
       </a>
     </div>

@@ -59,16 +59,16 @@ const updatesHref = isEs ? '/es/novedades' : '/updates';
 
   <nav class="footer-col" aria-label={t.map}>
     <span class="col-title">{t.map}</span>
-    <a href={`${base}/`}>{t.home}</a>
+    <a href={`${base}/`} data-astro-reload>{t.home}</a>
     <a href={updatesHref}>{t.updates}</a>
     <a href={`${base}/blog`}>{t.blog}</a>
-    <a href={`${base}/contact`}>{t.contact}</a>
+    <a href={`${base}/contact`} data-astro-reload>{t.contact}</a>
   </nav>
 
   <nav class="footer-col" aria-label={t.legal}>
     <span class="col-title">{t.legal}</span>
-    <a href={`${base}/privacy`}>{t.privacy}</a>
-    <a href={`${base}/terms`}>{t.terms}</a>
+    <a href={`${base}/privacy`} data-astro-reload>{t.privacy}</a>
+    <a href={`${base}/terms`} data-astro-reload>{t.terms}</a>
   </nav>
 
   <nav class="footer-col" aria-label={t.guild}>

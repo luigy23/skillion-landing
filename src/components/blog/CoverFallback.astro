@@ -25,8 +25,8 @@
 
     function init() {
       for (const img of document.querySelectorAll<HTMLImageElement>('[data-cover]')) {
-        // Marca de idempotencia: sin ella una portada ya procesada
-        // volvería a engancharse si init se llamara dos veces.
+        // Guarda: con el router este init corre en cada navegación, y sin
+        // esto una portada ya procesada volvería a engancharse.
         if (img.dataset.coverBound) continue;
         img.dataset.coverBound = '1';
 
@@ -43,5 +43,9 @@
     }
 
     init();
+    // Con <ClientRouter /> el módulo no se vuelve a ejecutar al navegar: el
+    // DOM se sustituye pero el script ya está cargado. Sin esto, tras cambiar
+    // de idioma las portadas nuevas se quedarían sin respaldo.
+    document.addEventListener('astro:page-load', init);
   })();
 </script>

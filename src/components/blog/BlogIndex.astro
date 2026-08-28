@@ -222,6 +222,7 @@ const PAGE_SIZE = 4;
   }
 
   initBlogFilters();
+  document.addEventListener('astro:page-load', initBlogFilters);
 </script>
 
 <style>

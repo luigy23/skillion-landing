@@ -826,8 +826,9 @@ const tiers = [
   // delegación + feedback en el propio botón, sin depender del componente Toast.
   function initCopyButtons() {
     document.querySelectorAll<HTMLButtonElement>('.handle-copy').forEach((button) => {
-      // Marca de idempotencia: si initCopyButtons se llamara dos veces se
-      // engancharía un segundo listener y cada clic copiaría por duplicado.
+      // Con View Transitions esto corre en la carga inicial Y en cada
+      // astro:page-load. Sin la marca, volver a esta página engancharía un
+      // segundo listener y cada clic copiaría dos veces.
       if (button.dataset.bound === 'true') return;
       button.dataset.bound = 'true';
 
@@ -868,4 +869,5 @@ const tiers = [
   }
 
   initCopyButtons();
+  document.addEventListener('astro:page-load', initCopyButtons);
 </script>

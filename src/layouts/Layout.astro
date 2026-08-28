@@ -4,6 +4,7 @@ import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from "@vercel/speed-insights/astro";
 
+import { ClientRouter } from 'astro:transitions';
 import { getAlternates, type Alternates } from '../lib/i18n';
 
 export interface Props {
@@ -32,6 +33,24 @@ export interface Props {
 	 * ve un destello blanco —el lienzo por defecto— hasta que carga el CSS.
 	 */
 	background?: string;
+	/**
+	 * Navegación por cliente con transiciones (View Transitions).
+	 *
+	 * La regla: la monta TODA página de contenido —blog, concurso, novedades—
+	 * porque entre ellas el router cambia el DOM sin recargar y el fundido sale
+	 * limpio. La landing queda fuera a propósito: su parallax vive en scripts
+	 * de módulo que se ejecutan una vez al cargar, y con el router no se
+	 * volverían a ejecutar al entrar.
+	 *
+	 * Cuidado al añadir una página nueva a la nav: si se olvida esta prop, el
+	 * router de la página de origen intercepta el clic, ve que el destino no lo
+	 * lleva y cae a recarga dura. El fundido desaparece justo en esa pareja de
+	 * páginas y en ninguna otra, que es un bicho incómodo de ver. Si la página
+	 * necesita carga completa, entonces los enlaces que van hacia ella llevan
+	 * `data-astro-reload` para que la navegación sea normal desde el principio
+	 * y el fundido lo ponga la regla nativa de global.css.
+	 */
+	clientRouter?: boolean;
 }
 
 const {
@@ -43,6 +62,7 @@ const {
 	showLanguageSwitcher = true,
 	noindex = false,
 	background,
+	clientRouter = false,
 } = Astro.props;
 
 const isSpanish = (lang === 'es');
@@ -78,6 +98,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
+		{clientRouter && <ClientRouter />}
 		
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
