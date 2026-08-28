@@ -1,0 +1,142 @@
+---
+import logoUrl from '../../assets/pixelartAssets/hero/skillionlogotransparent.png';
+
+interface Props {
+  lang: 'en' | 'es';
+  /** Misma página en el otro idioma. En un artículo depende de la traducción. */
+  altHref: string;
+}
+
+const { lang, altHref } = Astro.props as Props;
+
+const isEs = lang === 'es';
+const base = isEs ? '/es' : '';
+
+const content = {
+  en: { home: 'Home', blog: 'Blog', premium: 'Premium' },
+  es: { home: 'Inicio', blog: 'Blog', premium: 'Premium' },
+} as const;
+
+const t = content[lang];
+
+const enHref = isEs ? altHref : Astro.url.pathname;
+const esHref = isEs ? Astro.url.pathname : altHref;
+---
+
+<header class="blog-nav">
+  {/* Único asset del blog que NO va pixelado: el logo es 163x163 (primo, no
+      admite division entera) y a 40px con nearest-neighbor se descompone.
+      El propio artboard lo marca con image-rendering:auto. */}
+  <a href={`${base}/`} class="nav-logo" aria-label="Skillion">
+    <img src={logoUrl.src} alt="Skillion" width="40" height="40" />
+  </a>
+
+  <nav class="nav-links" aria-label={t.blog}>
+    <a href={`${base}/`}>{t.home}</a>
+    <a href={`${base}/blog`} aria-current="page" class="is-active">{t.blog}</a>
+    <a href={`${base}/free-premium`}>{t.premium}</a>
+
+    <span class="lang-switch">
+      <a href={enHref} class={isEs ? '' : 'is-current'} hreflang="en" lang="en">
+        <span class="flag">🇺🇸</span> EN
+      </a>
+      <a href={esHref} class={isEs ? 'is-current' : ''} hreflang="es" lang="es">
+        <span class="flag">🇪🇸</span> ES
+      </a>
+    </span>
+  </nav>
+</header>
+
+<style>
+  .blog-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 32px;
+    background: #0b1020;
+    border-bottom: 4px solid #3f5da8;
+  }
+
+  .nav-logo {
+    display: flex;
+    flex: none;
+  }
+
+  .nav-logo img {
+    display: block;
+    width: 40px;
+    height: 40px;
+    image-rendering: auto;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  .nav-links > a {
+    color: #8fa6dd;
+    text-decoration: none;
+    transition: color 0.15s steps(2);
+  }
+
+  .nav-links > a:hover,
+  .nav-links > a:focus-visible {
+    color: #dceafe;
+  }
+
+  .nav-links > a.is-active {
+    color: #ffc53d;
+  }
+
+  .lang-switch {
+    display: flex;
+    gap: 6px;
+    margin-left: 6px;
+  }
+
+  .lang-switch a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 9px;
+    background: #1b2547;
+    border: 3px solid #3f5da8;
+    color: #8fa6dd;
+    text-decoration: none;
+  }
+
+  .lang-switch a.is-current {
+    background: #ffc53d;
+    border-color: #0a0f1f;
+    color: #2a1a06;
+  }
+
+  /* Los emoji de bandera no existen en Press Start 2P: si no se saca de la
+     familia, el navegador cambia de fuente y descuadra la caja. */
+  .flag {
+    font-family:
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  @media (max-width: 720px) {
+    .blog-nav {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 14px 16px;
+      gap: 12px;
+    }
+
+    .nav-links {
+      gap: 14px;
+      font-size: 8px;
+    }
+  }
+</style>

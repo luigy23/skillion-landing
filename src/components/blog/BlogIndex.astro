@@ -1,0 +1,503 @@
+---
+import BlogNav from './BlogNav.astro';
+import PostCard from './PostCard.astro';
+import SiteFooter from '../SiteFooter.astro';
+import {
+  CATEGORIES,
+  CATEGORY_COLORS,
+  CATEGORY_LABELS,
+  blogPostPath,
+  type BlogPost,
+  type Lang,
+} from '../../lib/blog';
+import { pixelIcon } from '../../lib/pixel-icon';
+
+interface Props {
+  lang: Lang;
+  featured: BlogPost | null;
+  rest: BlogPost[];
+  altHref: string;
+  /** Muestra el "+XP de lectura" del diseño. */
+  showXpRewards?: boolean;
+}
+
+const { lang, featured, rest, altHref, showXpRewards = true } = Astro.props as Props;
+
+const content = {
+  en: {
+    eyebrow: 'GUILD LIBRARY',
+    title: ['Guides, science and tricks', 'to level up'],
+    subtitle:
+      'How to use Skillion, the science behind gamification, and the tricks used by the players with the longest streaks.',
+    all: 'ALL',
+    featured: 'FEATURED',
+    readingXp: 'READING XP',
+    loadMore: 'LOAD MORE QUESTS',
+    empty: 'No quests in the log yet. Come back soon.',
+  },
+  es: {
+    eyebrow: 'BIBLIOTECA DEL GREMIO',
+    // Sin tildes en caja alta: Press Start 2P no trae mayusculas acentuadas.
+    title: ['Guias, ciencia y trucos', 'para subir de nivel'],
+    subtitle:
+      'Cómo usar Skillion, la ciencia detrás de la gamificación y los trucos que usan los jugadores con más racha.',
+    all: 'TODO',
+    featured: 'DESTACADO',
+    readingXp: 'XP DE LECTURA',
+    loadMore: 'CARGAR MAS MISIONES',
+    empty: 'Todavía no hay misiones en el registro. Vuelve pronto.',
+  },
+} as const;
+
+const t = content[lang];
+
+const featuredChip = featured ? CATEGORY_COLORS[featured.data.category] : null;
+const featuredIcon = featured ? pixelIcon(featured.data.icon, 128) : null;
+
+/** Cuántas cards se ven antes de pulsar "cargar más". */
+const PAGE_SIZE = 4;
+---
+
+<div class="blog-page">
+  <BlogNav lang={lang} altHref={altHref} />
+
+  <main class="blog-main">
+    <header class="blog-hero">
+      <span class="hero-eyebrow">{t.eyebrow}</span>
+      <h1 class="hero-title">{t.title[0]}<br />{t.title[1]}</h1>
+      <p class="hero-subtitle">{t.subtitle}</p>
+    </header>
+
+    <div class="filter-chips" role="group" aria-label={t.all}>
+      <button type="button" class="chip is-active" data-filter="all">{t.all}</button>
+      {
+        CATEGORIES.map((category) => (
+          <button type="button" class="chip" data-filter={category}>
+            {CATEGORY_LABELS[lang][category]}
+          </button>
+        ))
+      }
+    </div>
+
+    {
+      featured && featuredChip && featuredIcon && (
+        <a
+          class="featured-card"
+          href={blogPostPath(lang, featured.data.slug)}
+          data-category={featured.data.category}
+        >
+          <div class="featured-thumb">
+            {featured.data.coverImage ? (
+              <img src={featured.data.coverImage} alt="" width="800" height="450" />
+            ) : (
+              <img
+                class="featured-icon"
+                src={featuredIcon.src}
+                alt=""
+                width={featuredIcon.width}
+                height={featuredIcon.height}
+              />
+            )}
+          </div>
+
+          <div class="featured-body">
+            <div class="featured-chips">
+              <span
+                class="chip-static"
+                style={`background:${featuredChip.bg};color:${featuredChip.fg}`}
+              >
+                {CATEGORY_LABELS[lang][featured.data.category]}
+              </span>
+              <span class="featured-flag">{t.featured}</span>
+            </div>
+
+            <h2 class="featured-title">{featured.data.title}</h2>
+            <p class="featured-excerpt">{featured.data.excerpt}</p>
+
+            <div class="featured-meta">
+              <span>{featured.data.readingMinutes} MIN</span>
+              {showXpRewards && featured.data.xp > 0 && (
+                <span class="featured-xp">
+                  +{featured.data.xp} {t.readingXp}
+                </span>
+              )}
+            </div>
+          </div>
+        </a>
+      )
+    }
+
+    {
+      rest.length > 0 ? (
+        <div class="post-grid" id="post-grid">
+          {rest.map((post, index) => (
+            <div
+              class="grid-item"
+              data-category={post.data.category}
+              data-index={index}
+              hidden={index >= PAGE_SIZE}
+            >
+              <PostCard post={post} lang={lang} showXpRewards={showXpRewards} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        !featured && <p class="blog-empty">{t.empty}</p>
+      )
+    }
+
+    {
+      rest.length > PAGE_SIZE && (
+        <div class="load-more-row">
+          <button type="button" class="load-more" id="load-more" data-page-size={PAGE_SIZE}>
+            {t.loadMore} ▾
+          </button>
+        </div>
+      )
+    }
+  </main>
+
+  <SiteFooter lang={lang} />
+</div>
+
+<script>
+  // Filtro por categoría y "cargar más" en cliente: el sitio es estático y
+  // con este volumen de posts no compensa una página por categoría.
+  (function () {
+    const grid = document.getElementById('post-grid');
+    const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.chip[data-filter]'));
+    if (chips.length === 0) return;
+
+    const loadMore = document.getElementById('load-more') as HTMLButtonElement | null;
+    const pageSize = Number(loadMore?.dataset.pageSize ?? 4);
+    const items = grid ? Array.from(grid.querySelectorAll<HTMLElement>('.grid-item')) : [];
+    const featured = document.querySelector<HTMLElement>('.featured-card');
+
+    let filter = 'all';
+    let visible = pageSize;
+
+    function render() {
+      const matching = items.filter((item) => filter === 'all' || item.dataset.category === filter);
+
+      for (const item of items) {
+        const index = matching.indexOf(item);
+        item.hidden = index === -1 || index >= visible;
+      }
+
+      if (featured) {
+        featured.hidden = filter !== 'all' && featured.dataset.category !== filter;
+      }
+
+      if (loadMore) {
+        loadMore.hidden = matching.length <= visible;
+      }
+    }
+
+    for (const chip of chips) {
+      chip.addEventListener('click', () => {
+        filter = chip.dataset.filter ?? 'all';
+        visible = pageSize;
+        for (const other of chips) other.classList.toggle('is-active', other === chip);
+        render();
+      });
+    }
+
+    loadMore?.addEventListener('click', () => {
+      visible += pageSize;
+      render();
+    });
+
+    render();
+  })();
+</script>
+
+<style>
+  .blog-page {
+    min-height: 100vh;
+    background-color: #0f1526;
+    /* Rejilla de fondo del artboard */
+    background-image:
+      linear-gradient(rgba(63, 93, 168, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(63, 93, 168, 0.1) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .blog-main {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 48px 40px 56px;
+  }
+
+  /* ---------------------------------------------------------------- hero */
+  .blog-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .hero-eyebrow {
+    padding: 8px 12px;
+    background: #12305e;
+    border: 3px solid #0a0f1f;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #8fe3da;
+  }
+
+  .hero-title {
+    margin: 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 26px;
+    line-height: 1.6;
+    color: #ffffff;
+  }
+
+  .hero-subtitle {
+    max-width: 660px;
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #8fa6dd;
+    text-wrap: pretty;
+  }
+
+  /* --------------------------------------------------------------- chips */
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .chip {
+    padding: 9px 12px;
+    background: #1b2547;
+    border: 3px solid #3f5da8;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    line-height: 1;
+    color: #8fa6dd;
+    cursor: pointer;
+    transition:
+      background 0.12s steps(2),
+      color 0.12s steps(2);
+  }
+
+  .chip:hover {
+    color: #dceafe;
+  }
+
+  .chip.is-active {
+    background: #ffc53d;
+    border-color: #0a0f1f;
+    color: #2a1a06;
+  }
+
+  /* ------------------------------------------------------------ featured */
+  .featured-card {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow:
+      inset 0 0 0 4px #3f5da8,
+      10px 10px 0 0 rgba(5, 8, 18, 0.5);
+    text-decoration: none;
+    transition:
+      transform 0.12s steps(2),
+      box-shadow 0.12s steps(2);
+  }
+
+  .featured-card:hover,
+  .featured-card:focus-visible {
+    transform: translate(-3px, -3px);
+    box-shadow:
+      inset 0 0 0 4px #3f5da8,
+      13px 13px 0 0 rgba(5, 8, 18, 0.55);
+  }
+
+  .featured-card[hidden] {
+    display: none;
+  }
+
+  .featured-thumb {
+    display: grid;
+    place-items: center;
+    min-height: 260px;
+    background: repeating-linear-gradient(45deg, #243157 0 10px, #1d2848 10px 20px);
+    border-right: 4px solid #0a0f1f;
+    overflow: hidden;
+  }
+
+  .featured-thumb > img {
+    display: block;
+  }
+
+  .featured-thumb > img:not(.featured-icon) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .featured-icon {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .featured-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 30px;
+  }
+
+  .featured-chips {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+  }
+
+  .chip-static {
+    padding: 7px 9px;
+    line-height: 1;
+  }
+
+  .featured-flag {
+    color: #8fa6dd;
+  }
+
+  .featured-title {
+    margin: 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #ffffff;
+  }
+
+  .featured-excerpt {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #c9d6f5;
+    text-wrap: pretty;
+  }
+
+  .featured-meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-top: auto;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: #8fa6dd;
+  }
+
+  .featured-xp {
+    color: #ffc53d;
+  }
+
+  /* ---------------------------------------------------------------- grid */
+  .post-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .grid-item[hidden] {
+    display: none;
+  }
+
+  .grid-item > :global(a) {
+    height: 100%;
+  }
+
+  .blog-empty {
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #8fa6dd;
+  }
+
+  /* ----------------------------------------------------------- load more */
+  .load-more-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+  }
+
+  .load-more {
+    padding: 15px 20px;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow: inset 0 0 0 3px #3f5da8;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #dceafe;
+    cursor: pointer;
+  }
+
+  .load-more:hover {
+    color: #ffffff;
+  }
+
+  .load-more[hidden] {
+    display: none;
+  }
+
+  /* ---------------------------------------------------------- responsive */
+  @media (max-width: 900px) {
+    .blog-main {
+      padding: 36px 24px 44px;
+      gap: 26px;
+    }
+
+    .hero-title {
+      font-size: 20px;
+    }
+
+    .featured-card {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-thumb {
+      min-height: 180px;
+      border-right: none;
+      border-bottom: 4px solid #0a0f1f;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .blog-main {
+      padding: 28px 16px 40px;
+    }
+
+    .hero-title {
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+    }
+
+    .featured-title {
+      font-size: 14px;
+    }
+
+    .post-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-body {
+      padding: 22px;
+    }
+  }
+</style>

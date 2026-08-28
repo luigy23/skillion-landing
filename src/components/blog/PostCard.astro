@@ -1,0 +1,154 @@
+---
+import {
+  CATEGORY_COLORS,
+  CATEGORY_LABELS,
+  blogPostPath,
+  type BlogPost,
+  type Lang,
+} from '../../lib/blog';
+import { pixelIcon } from '../../lib/pixel-icon';
+
+interface Props {
+  post: BlogPost;
+  lang: Lang;
+  showXpRewards?: boolean;
+}
+
+const { post, lang, showXpRewards = true } = Astro.props as Props;
+const { data } = post;
+
+const chip = CATEGORY_COLORS[data.category];
+const label = CATEGORY_LABELS[lang][data.category];
+const icon = pixelIcon(data.icon, 72);
+const minutes = lang === 'es' ? `${data.readingMinutes} MIN` : `${data.readingMinutes} MIN`;
+---
+
+<a class="post-card" href={blogPostPath(lang, data.slug)}>
+  <div class="card-thumb">
+    {
+      data.coverImage ? (
+        <img src={data.coverImage} alt="" width="640" height="360" loading="lazy" />
+      ) : (
+        <img
+          class="card-icon"
+          src={icon.src}
+          alt=""
+          width={icon.width}
+          height={icon.height}
+          loading="lazy"
+        />
+      )
+    }
+  </div>
+
+  <div class="card-body">
+    <span class="card-chip" style={`background:${chip.bg};color:${chip.fg}`}>{label}</span>
+    <h3 class="card-title">{data.title}</h3>
+    <p class="card-excerpt">{data.excerpt}</p>
+    <div class="card-meta">
+      <span>{minutes}</span>
+      {showXpRewards && data.xp > 0 && <span class="card-xp">+{data.xp} XP</span>}
+    </div>
+  </div>
+</a>
+
+<style>
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow: 8px 8px 0 0 rgba(5, 8, 18, 0.45);
+    text-decoration: none;
+    transition:
+      transform 0.12s steps(2),
+      box-shadow 0.12s steps(2);
+  }
+
+  .post-card:hover,
+  .post-card:focus-visible {
+    transform: translate(-3px, -3px);
+    box-shadow: 11px 11px 0 0 rgba(5, 8, 18, 0.5);
+  }
+
+  .card-thumb {
+    display: grid;
+    place-items: center;
+    height: 150px;
+    background: repeating-linear-gradient(45deg, #243157 0 10px, #1d2848 10px 20px);
+    border-bottom: 4px solid #0a0f1f;
+    overflow: hidden;
+  }
+
+  .card-thumb > img {
+    display: block;
+  }
+
+  /* La portada sí llena la caja; el icono se muestra a su tamaño exacto. */
+  .card-thumb > img:not(.card-icon) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-icon {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 12px;
+    padding: 22px;
+  }
+
+  .card-chip {
+    align-self: flex-start;
+    padding: 7px 9px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  .card-title {
+    margin: 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #ffffff;
+  }
+
+  .card-excerpt {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #8fa6dd;
+    text-wrap: pretty;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 14px;
+    margin-top: auto;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: #8fa6dd;
+  }
+
+  .card-xp {
+    color: #ffc53d;
+  }
+
+  @media (max-width: 520px) {
+    .card-title {
+      font-size: 12px;
+    }
+
+    .card-body {
+      padding: 18px;
+    }
+  }
+</style>

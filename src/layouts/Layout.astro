@@ -4,24 +4,53 @@ import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from "@vercel/speed-insights/astro";
 
+import { getAlternates, type Alternates } from '../lib/i18n';
+
 export interface Props {
 	title: string;
 	description?: string;
+	/** Ruta de la imagen OG. Se convierte a absoluta aquí. */
 	ogImage?: string;
 	lang?: string;
+	/**
+	 * Versiones EN/ES de esta página. Por defecto se deducen de la ruta; los
+	 * artículos del blog las pasan a mano porque sus slugs viven en Neon y no
+	 * se pueden calcular. `null` = la página no tiene equivalente y no emite
+	 * hreflang.
+	 */
+	alternates?: Alternates | null;
+	/** El blog trae su propio selector EN/ES en la nav; evita duplicarlo. */
+	showLanguageSwitcher?: boolean;
+	/** Deja fuera del índice páginas como /gracias. */
+	noindex?: boolean;
 }
 
-const { 
-	title, 
+const {
+	title,
 	description = "Skillion - La app que gamifica tu vida real. Convierte tus hábitos en un RPG, gana XP por cada tarea completada y sube de nivel en la vida real. Descarga la app de gamificación de hábitos más divertida.",
-	ogImage = "/assets/Skillion.png",
-	lang = "es"
+	ogImage = "/og/skillion.png",
+	lang = "es",
+	alternates,
+	showLanguageSwitcher = true,
+	noindex = false,
 } = Astro.props;
 
-const urlEs = new URL('/es/', Astro.url);
-const urlEn = new URL('/', Astro.url);
-const site = 'https://skillion.app';
 const isSpanish = (lang === 'es');
+
+// og:image y twitter:image exigen URL ABSOLUTA. Antes se emitía
+// "/assets/Skillion.png": ruta relativa y, además, un fichero que no existe en
+// dist, así que ninguna página tenía imagen al compartirse.
+const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url).href;
+
+// Los hreflang se calculan por ruta. Antes eran fijos al home: en /contact se
+// declaraba que la versión española era /es/.
+const alts = alternates === undefined ? getAlternates(Astro.url.pathname) : alternates;
+const urlEn = alts ? new URL(alts.en, Astro.site ?? Astro.url).href : null;
+const urlEs = alts ? new URL(alts.es, Astro.site ?? Astro.url).href : null;
+
+// La canónica sale del sitio configurado, no de Astro.url: en build local
+// Astro.url apunta a localhost y se colaba en el HTML publicado.
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 ---
 
 <!doctype html>
@@ -36,31 +65,31 @@ const isSpanish = (lang === 'es');
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<meta name="author" content="Skillion Team" />
-		<meta name="robots" content="index, follow" />
-		<link rel="canonical" href={Astro.url} />
-		
+		<meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
+		<link rel="canonical" href={canonical} />
+
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content={Astro.url} />
+		<meta property="og:url" content={canonical} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content={ogImage} />
+		<meta property="og:image" content={ogImageUrl} />
 		<meta property="og:site_name" content="Skillion" />
 		<meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
 
-		<!-- Hreflang alternates -->
-		<link rel="alternate" hreflang="es" href={urlEs} />
-		<link rel="alternate" hreflang="es-ES" href={urlEs} />
-		<link rel="alternate" hreflang="en" href={urlEn} />
-		<link rel="alternate" hreflang="en-US" href={urlEn} />
-		<link rel="alternate" hreflang="x-default" href={urlEn} />
-		
+		<!-- Hreflang alternates: calculados por ruta (ver src/lib/i18n.ts) -->
+		{urlEs && <link rel="alternate" hreflang="es" href={urlEs} />}
+		{urlEs && <link rel="alternate" hreflang="es-ES" href={urlEs} />}
+		{urlEn && <link rel="alternate" hreflang="en" href={urlEn} />}
+		{urlEn && <link rel="alternate" hreflang="en-US" href={urlEn} />}
+		{urlEn && <link rel="alternate" hreflang="x-default" href={urlEn} />}
+
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:url" content={canonical} />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content={ogImage} />
+		<meta property="twitter:image" content={ogImageUrl} />
 		<meta property="twitter:creator" content="@skillion_app" />
 		
 		<!-- Additional SEO -->
@@ -114,10 +143,13 @@ const isSpanish = (lang === 'es');
 		<Analytics />
 		<SpeedInsights />
 
-		<!-- Language Switcher -->
+		<!-- Language Switcher. El blog lo apaga: su nav ya trae uno propio y si
+		     no, salen dos selectores de idioma superpuestos. El script de abajo
+		     sale solo si no encuentra el elemento. -->
+		{showLanguageSwitcher && (
 		<nav class="fixed top-3 right-3 z-50 pointer-events-auto">
-			<select 
-				id="language-selector" 
+			<select
+				id="language-selector"
 				class="bg-gray-900/80 backdrop-blur-sm text-white text-sm font-poppins border-2 border-gaming-gold rounded px-3 py-1 outline-none cursor-pointer hover:bg-gray-800/90 transition-colors"
 				aria-label="Select language"
 			>
@@ -125,6 +157,7 @@ const isSpanish = (lang === 'es');
 				<option value="es" selected={isSpanish}>🇪🇸 ES</option>
 			</select>
 		</nav>
+		)}
 
 		<script>
 		  (function(){

@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# volcado temporal para generar las tarjetas OG
+.og-posts.json

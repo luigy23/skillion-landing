@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://skillion.app/sitemap.xml
+Sitemap: https://skillion.app/sitemap-index.xml
 
 # Optimized for Skillion - Gamification App
 # Keywords: gamificación, app hábitos, RPG vida real, productividad

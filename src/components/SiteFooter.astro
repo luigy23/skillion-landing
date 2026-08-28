@@ -16,6 +16,7 @@ const content = {
     map: 'MAP',
     home: 'Home',
     updates: "What's New",
+    blog: 'Blog',
     contact: 'Contact',
     legal: 'LEGAL',
     privacy: 'Privacy',
@@ -30,6 +31,7 @@ const content = {
     map: 'MAPA',
     home: 'Inicio',
     updates: 'Novedades',
+    blog: 'Blog',
     contact: 'Contacto',
     legal: 'LEGAL',
     privacy: 'Privacidad',
@@ -59,6 +61,7 @@ const updatesHref = isEs ? '/es/novedades' : '/updates';
     <span class="col-title">{t.map}</span>
     <a href={`${base}/`}>{t.home}</a>
     <a href={updatesHref}>{t.updates}</a>
+    <a href={`${base}/blog`}>{t.blog}</a>
     <a href={`${base}/contact`}>{t.contact}</a>
   </nav>
 
