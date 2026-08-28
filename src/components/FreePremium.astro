@@ -1,0 +1,858 @@
+---
+import { Image } from 'astro:assets';
+import logoUrl from '../assets/pixelartAssets/hero/skillionlogotransparent.png';
+// Recompensas: escalan de moneda pequeña a cetro. Todos a múltiplo entero del
+// sprite real (24→48 = 2x, 31→62 = 2x, 160→80 = 0.5x) para que no se emborronen.
+import coin3Url from '../assets/pixelartAssets/blog/coin3.png';
+import coin2Url from '../assets/pixelartAssets/features/coin2.png';
+import cetroUrl from '../assets/pixelartAssets/features/cetro.png';
+// Pasos: los tres son 64x64 y se muestran a 1x.
+import computerUrl from '../assets/pixelartAssets/blog/computer.png';
+import starUrl from '../assets/pixelartAssets/blog/star.png';
+import coinUrl from '../assets/pixelartAssets/features/coin.png';
+
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props as Props;
+const isEs = lang === 'es';
+
+const content = {
+  en: {
+    badge: 'GET PREMIUM FOR FREE',
+    title: 'THE SKILLION QUEST IS LIVE',
+    subtitle: 'and it is challenging you',
+    lead: 'Show how you are building your character in real life. Post it, tag us, claim your reward. No raffles, no forms.',
+    jump: 'SEE THE REWARDS',
+
+    rewardsTitle: 'REAL REWARDS',
+    rewardsLead: 'The more you move, the more you win. Every tier is guaranteed — there is no draw.',
+    tier1Likes: '10+ LIKES',
+    tier1Prize: '1 month of Premium',
+    tier2Likes: '50+ LIKES',
+    tier2Prize: '3 months of Premium',
+    tier3Likes: '100+ LIKES',
+    tier3Prize: '1 FULL YEAR of Premium',
+    tierBest: 'BEST',
+    rewardsNote: 'No forms. No pointless surveys. Just your impact, just your story.',
+
+    stepsTitle: 'HOW TO JOIN',
+    stepsLead: 'Three steps. Fifteen minutes. No drama.',
+
+    step1Title: 'Record your run',
+    step1Body: 'Post a screenshot or a video using Skillion. Completing a task, creating your avatar, or just celebrating that you levelled up.',
+    step1Extra: 'Other ideas: a meme, a tip, a POV, a sketch or educational content.',
+    step1Rule: 'ONLY RULE: THE APP HAS TO BE VISIBLE',
+    step1Where: 'Post it on TikTok, Instagram or X. Wherever you want.',
+
+    step2Title: 'Tag us',
+    step2Body: 'Use the hashtag',
+    step2Hashtag: '#SkillionApp',
+    step2And: 'and mention us:',
+    copyLabel: 'Copy',
+    copied: 'Copied',
+
+    step3Title: 'Claim your Premium',
+    step3Body: 'Once you hit one of the tiers, email',
+    step3Send: 'Send us:',
+    step3Item1: 'A screenshot showing the likes',
+    step3Item2: 'The link to your post',
+    step3Item3: 'The email of your Skillion account',
+    step3Note: 'You get your reward in under 48 hours.',
+
+    manifestoTitle: 'WHY THIS MATTERS',
+    manifesto1: 'It is not about playing, it is about living your own game.',
+    manifesto2: 'Every skill you level up, every challenge you complete, is a story about who you are. And now we want to see that story in action.',
+    manifesto3: 'Discipline, Charisma, Inner Peace, Programming, Social Energy… it does not matter which skill. What matters is that you are levelling it up.',
+    manifestoQuote: 'Stop watching other people level up. Show your progress. Lead the game.',
+
+    downloadTitle: 'Do not have Skillion yet?',
+    downloadBody: 'Download it and start building your definitive character build.',
+    play: 'GOOGLE PLAY',
+    appStore: 'APP STORE',
+    logoAlt: 'Skillion',
+  },
+  es: {
+    badge: 'CONSIGUE PREMIUM GRATIS',
+    title: 'EL SKILLION QUEST ESTA VIVO',
+    subtitle: 'y te esta retando',
+    lead: 'Muestra cómo estás construyendo tu personaje en la vida real. Publícalo, etiquétanos y reclama tu recompensa. Sin sorteos, sin formularios.',
+    jump: 'VER LAS RECOMPENSAS',
+
+    rewardsTitle: 'RECOMPENSAS REALES',
+    rewardsLead: 'Cuanto más muevas, más ganas. Cada nivel es seguro — aquí no hay sorteo.',
+    tier1Likes: '10+ LIKES',
+    tier1Prize: '1 mes de Premium',
+    tier2Likes: '50+ LIKES',
+    tier2Prize: '3 meses de Premium',
+    tier3Likes: '100+ LIKES',
+    tier3Prize: '1 AÑO COMPLETO de Premium',
+    tierBest: 'TOP',
+    rewardsNote: 'Nada de formularios ni encuestas absurdas. Solo tu impacto, solo tu historia.',
+
+    stepsTitle: 'COMO PARTICIPAR',
+    stepsLead: 'Tres pasos. Quince minutos. Sin dramas.',
+
+    step1Title: 'Graba tu partida',
+    step1Body: 'Sube un screenshot o un vídeo usando Skillion. Completando una tarea, creando tu avatar, o simplemente celebrando que subiste de nivel.',
+    step1Extra: 'Otras ideas: un meme, un tip, un POV, un sketch o contenido educativo.',
+    step1Rule: 'REGLA UNICA: SE TIENE QUE VER LA APP',
+    step1Where: 'Publícalo en TikTok, Instagram o X. Donde quieras.',
+
+    step2Title: 'Etiquétanos',
+    step2Body: 'Usa el hashtag',
+    step2Hashtag: '#SkillionApp',
+    step2And: 'y menciónanos:',
+    copyLabel: 'Copiar',
+    copied: 'Copiado',
+
+    step3Title: 'Reclama tu Premium',
+    step3Body: 'Cuando alcances uno de los niveles, escribe a',
+    step3Send: 'Mándanos:',
+    step3Item1: 'Un screenshot con los likes',
+    step3Item2: 'El link de tu post',
+    step3Item3: 'El correo de tu cuenta Skillion',
+    step3Note: 'Tienes tu recompensa en menos de 48 horas.',
+
+    manifestoTitle: 'POR QUE ESTO IMPORTA',
+    manifesto1: 'No se trata de jugar, se trata de vivir tu propio juego.',
+    manifesto2: 'Cada habilidad que subes, cada reto que completas, es una historia que cuenta quién eres. Y ahora queremos ver esa historia en acción.',
+    manifesto3: 'Disciplina, Carisma, Paz Interior, Programación, Energía Social… da igual cuál sea tu skill. Lo importante es que la estés subiendo.',
+    manifestoQuote: 'Deja de mirar cómo otros suben de nivel. Muestra tu progreso. Lidera la partida.',
+
+    downloadTitle: '¿Aún no tienes Skillion?',
+    downloadBody: 'Descárgala y empieza a construir tu build de personaje definitivo.',
+    play: 'GOOGLE PLAY',
+    appStore: 'APP STORE',
+    logoAlt: 'Skillion',
+  },
+} as const;
+
+const t = content[lang];
+const base = isEs ? '/es' : '';
+
+const handles = [
+  { network: 'Instagram', handle: '@skillion.app', href: 'https://instagram.com/skillion.app' },
+  { network: 'TikTok', handle: '@skilliones', href: 'https://tiktok.com/@skilliones' },
+  { network: 'X', handle: '@luigy_dev', href: 'https://x.com/luigy_dev' },
+];
+
+const tiers = [
+  { icon: coin3Url, size: 48, likes: t.tier1Likes, prize: t.tier1Prize, tone: 'bronze' },
+  { icon: coin2Url, size: 62, likes: t.tier2Likes, prize: t.tier2Prize, tone: 'silver' },
+  { icon: cetroUrl, size: 80, likes: t.tier3Likes, prize: t.tier3Prize, tone: 'gold' },
+];
+---
+
+<main class="quest-page">
+  <!-- ============ HERO ============ -->
+  <section class="quest-hero">
+    <span class="quest-badge">{t.badge}</span>
+
+    {/* El logo va por <Image> a propósito: es 163x163 (primo, no admite
+        división entera), así que NO debe pixelarse — mismo criterio que
+        BlogNav. Además es la única página que mantiene inicializado el
+        módulo de imágenes de Astro; ver nota en el README de la rama. */}
+    <Image src={logoUrl} alt={t.logoAlt} width={96} height={96} class="quest-logo" />
+
+    <h1 class="quest-h1">
+      {t.title}<br /><span class="quest-h1-sub">— {t.subtitle}</span>
+    </h1>
+
+    <p class="quest-lead">{t.lead}</p>
+
+    <a href="#recompensas" class="pixel-cta pixel-cta--gold">{t.jump}</a>
+  </section>
+
+  <!-- ============ RECOMPENSAS (el gancho va primero) ============ -->
+  <section id="recompensas" class="quest-section">
+    <h2 class="quest-h2">{t.rewardsTitle}</h2>
+    <p class="quest-section-lead">{t.rewardsLead}</p>
+
+    <ol class="tier-grid">
+      {tiers.map((tier) => (
+        <li class={`tier-card tier-card--${tier.tone}`}>
+          {tier.tone === 'gold' && <span class="tier-flag">{t.tierBest}</span>}
+          <div class="tier-icon" style={`height:${tier.size}px`}>
+            <img src={tier.icon.src} alt="" width={tier.size} class="pixel-img" />
+          </div>
+          <span class="tier-likes">{tier.likes}</span>
+          <span class="tier-prize">{tier.prize}</span>
+        </li>
+      ))}
+    </ol>
+
+    <p class="quest-note">{t.rewardsNote}</p>
+  </section>
+
+  <!-- ============ PASOS ============ -->
+  <section class="quest-section quest-section--alt">
+    <h2 class="quest-h2">{t.stepsTitle}</h2>
+    <p class="quest-section-lead">{t.stepsLead}</p>
+
+    <ol class="step-list">
+      <!-- 01 -->
+      <li class="step-card">
+        <div class="step-head">
+          <img src={computerUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" />
+          <span class="step-num">01</span>
+          <h3 class="step-title">{t.step1Title}</h3>
+        </div>
+        <div class="step-body">
+          <p>{t.step1Body}</p>
+          <p class="step-muted">{t.step1Extra}</p>
+          <p>{t.step1Where}</p>
+          <p class="step-rule">{t.step1Rule}</p>
+        </div>
+      </li>
+
+      <!-- 02 -->
+      <li class="step-card">
+        <div class="step-head">
+          <img src={starUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" />
+          <span class="step-num">02</span>
+          <h3 class="step-title">{t.step2Title}</h3>
+        </div>
+        <div class="step-body">
+          <p>
+            {t.step2Body} <strong class="step-hashtag">{t.step2Hashtag}</strong> {t.step2And}
+          </p>
+          <ul class="handle-list">
+            {handles.map((h) => (
+              <li class="handle-row">
+                <span class="handle-network">{h.network}</span>
+                <a href={h.href} target="_blank" rel="noopener noreferrer" class="handle-link">
+                  {h.handle}
+                </a>
+                <button
+                  type="button"
+                  class="handle-copy"
+                  data-copy={h.handle}
+                  data-copied-label={`${t.copied} ${h.handle}`}
+                  aria-label={`${t.copyLabel} ${h.handle}`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                      <path d="M7 9.667A2.667 2.667 0 0 1 9.667 7h8.666A2.667 2.667 0 0 1 21 9.667v8.666A2.667 2.667 0 0 1 18.333 21H9.667A2.667 2.667 0 0 1 7 18.333z" />
+                      <path d="M4.012 16.737A2 2 0 0 1 3 15V5c0-1.1.9-2 2-2h10c.75 0 1.158.385 1.5 1" />
+                    </g>
+                  </svg>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </li>
+
+      <!-- 03 -->
+      <li class="step-card">
+        <div class="step-head">
+          <img src={coinUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" />
+          <span class="step-num">03</span>
+          <h3 class="step-title">{t.step3Title}</h3>
+        </div>
+        <div class="step-body">
+          <p>
+            {t.step3Body}{' '}
+            <a href="mailto:hello@skillion.app" class="step-mail">hello@skillion.app</a>
+          </p>
+          <p class="step-send">{t.step3Send}</p>
+          <ul class="send-list">
+            <li>{t.step3Item1}</li>
+            <li>{t.step3Item2}</li>
+            <li>{t.step3Item3}</li>
+          </ul>
+          <p class="step-rule step-rule--mint">{t.step3Note}</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ MANIFIESTO ============ -->
+  <section class="quest-section">
+    <h2 class="quest-h2 quest-h2--small">{t.manifestoTitle}</h2>
+    <div class="manifesto">
+      <p class="manifesto-lead">{t.manifesto1}</p>
+      <p>{t.manifesto2}</p>
+      <p>{t.manifesto3}</p>
+      <blockquote class="manifesto-quote">{t.manifestoQuote}</blockquote>
+    </div>
+  </section>
+
+  <!-- ============ DESCARGA ============ -->
+  <section class="quest-section quest-section--alt quest-download">
+    <h2 class="quest-h2 quest-h2--small">{t.downloadTitle}</h2>
+    <p class="quest-section-lead">{t.downloadBody}</p>
+    <div class="store-row">
+      <a
+        href="https://play.google.com/store/apps/details?id=app.skillion&pcampaignid=web_share"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="pixel-cta pixel-cta--gold"
+      >
+        {t.play}
+      </a>
+      <a
+        href="https://apps.apple.com/app/skillion-gamify-your-life/id6752905262"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="pixel-cta pixel-cta--mint"
+      >
+        {t.appStore}
+      </a>
+    </div>
+  </section>
+</main>
+
+<style>
+  .quest-page {
+    background: #0f1526;
+    color: #c9d6f5;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+  }
+
+  .pixel-img {
+    height: auto;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  /* ---------- HERO ---------- */
+  .quest-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 88px 24px 64px;
+    text-align: center;
+    background: linear-gradient(#141b32 0%, #0f1526 100%);
+    border-bottom: 4px solid #1b2547;
+  }
+
+  .quest-badge {
+    padding: 8px 12px;
+    background: #ffc53d;
+    color: #2a1a06;
+    border: 3px solid #0a0f1f;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.5;
+  }
+
+  .quest-logo {
+    height: auto;
+    border-radius: 16px;
+    animation: quest-float 3s ease-in-out infinite;
+  }
+
+  @keyframes quest-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .quest-h1 {
+    margin: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(15px, 3.4vw, 28px);
+    line-height: 1.7;
+    color: #ffe6a0;
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+    text-wrap: balance;
+  }
+
+  .quest-h1-sub {
+    color: #8fa6dd;
+    font-size: 0.62em;
+  }
+
+  .quest-lead {
+    margin: 0;
+    max-width: 620px;
+    font-size: clamp(15px, 2.2vw, 18px);
+    font-weight: 700;
+    line-height: 1.55;
+    color: #c9d6f5;
+    text-wrap: pretty;
+  }
+
+  /* ---------- BOTONES ---------- */
+  .pixel-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    border: 4px solid #0a0f1f;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(9px, 1.4vw, 11px);
+    line-height: 1.5;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .pixel-cta--gold {
+    background: #ffc53d;
+    color: #2a1a06;
+    box-shadow:
+      inset -4px -4px 0 0 #c98a12,
+      inset 4px 4px 0 0 #ffe6a0,
+      6px 6px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  .pixel-cta--mint {
+    background: #8fe3da;
+    color: #0a2b28;
+    box-shadow:
+      inset -4px -4px 0 0 #3f8f86,
+      inset 4px 4px 0 0 #d5fbf6,
+      6px 6px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  .pixel-cta:hover {
+    transform: translate(-2px, -2px);
+  }
+
+  .pixel-cta--gold:hover {
+    box-shadow:
+      inset -4px -4px 0 0 #c98a12,
+      inset 4px 4px 0 0 #ffe6a0,
+      8px 8px 0 0 rgba(5, 8, 18, 0.5);
+  }
+
+  .pixel-cta--mint:hover {
+    box-shadow:
+      inset -4px -4px 0 0 #3f8f86,
+      inset 4px 4px 0 0 #d5fbf6,
+      8px 8px 0 0 rgba(5, 8, 18, 0.5);
+  }
+
+  /* ---------- SECCIONES ---------- */
+  .quest-section {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+
+  .quest-section--alt {
+    max-width: none;
+    background: #0b1020;
+    border-block: 4px solid #1b2547;
+  }
+
+  .quest-section--alt > * {
+    max-width: 62rem;
+    margin-inline: auto;
+  }
+
+  .quest-h2 {
+    margin: 0 0 14px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(14px, 2.6vw, 22px);
+    line-height: 1.6;
+    color: #ffc53d;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .quest-h2--small {
+    font-size: clamp(12px, 2.1vw, 17px);
+  }
+
+  .quest-section-lead {
+    margin: 0 auto 40px;
+    max-width: 620px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.55;
+    color: #8fa6dd;
+    text-align: center;
+    text-wrap: pretty;
+  }
+
+  .quest-note {
+    margin: 32px auto 0;
+    max-width: 560px;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.55;
+    color: #8fa6dd;
+    text-align: center;
+    text-wrap: pretty;
+  }
+
+  /* ---------- RECOMPENSAS ---------- */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tier-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 30px 20px 26px;
+    text-align: center;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow: 8px 8px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  .tier-card--bronze {
+    box-shadow: inset 0 0 0 4px #a9784a, 8px 8px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  .tier-card--silver {
+    box-shadow: inset 0 0 0 4px #8fa6dd, 8px 8px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  .tier-card--gold {
+    box-shadow: inset 0 0 0 4px #ffc53d, 10px 10px 0 0 rgba(5, 8, 18, 0.5);
+  }
+
+  .tier-flag {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 10px;
+    background: #ffc53d;
+    color: #2a1a06;
+    border: 3px solid #0a0f1f;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Alto fijo para que los tres iconos, de tamaños distintos, se alineen abajo */
+  .tier-icon {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .tier-likes {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #ffe6a0;
+  }
+
+  .tier-prize {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.45;
+    color: #c9d6f5;
+    text-wrap: balance;
+  }
+
+  /* ---------- PASOS ---------- */
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step-card {
+    padding: 26px 24px 28px;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow: inset 0 0 0 4px #3f5da8, 8px 8px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  .step-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 3px solid #243157;
+  }
+
+  .step-icon {
+    flex: none;
+  }
+
+  .step-num {
+    flex: none;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 22px;
+    line-height: 1;
+    color: #3f5da8;
+  }
+
+  .step-title {
+    margin: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(11px, 1.9vw, 15px);
+    line-height: 1.6;
+    color: #ffe6a0;
+    text-wrap: balance;
+  }
+
+  .step-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .step-body p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.55;
+    color: #c9d6f5;
+    text-wrap: pretty;
+  }
+
+  .step-muted {
+    color: #8fa6dd !important;
+    font-style: italic;
+  }
+
+  .step-hashtag {
+    color: #8fe3da;
+  }
+
+  .step-rule {
+    align-self: flex-start;
+    margin-top: 4px !important;
+    padding: 9px 12px;
+    border: 3px solid #3f5da8;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px !important;
+    line-height: 1.6 !important;
+    color: #8fa6dd !important;
+  }
+
+  .step-rule--mint {
+    border-color: #8fe3da;
+    color: #8fe3da !important;
+  }
+
+  .step-send {
+    margin-top: 4px !important;
+    color: #8fa6dd !important;
+  }
+
+  /* ---------- HANDLES ---------- */
+  .handle-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .handle-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 12px 14px;
+    background: #141b32;
+    border: 3px solid #243157;
+  }
+
+  .handle-network {
+    min-width: 84px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.5;
+    color: #8fa6dd;
+  }
+
+  .handle-link {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffe6a0;
+    text-decoration: none;
+  }
+
+  .handle-link:hover {
+    color: #ffc53d;
+    text-decoration: underline;
+  }
+
+  .handle-copy {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background: #1b2547;
+    color: #8fa6dd;
+    border: 3px solid #3f5da8;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .handle-copy:hover {
+    color: #ffc53d;
+    border-color: #ffc53d;
+  }
+
+  .handle-copy[data-done='true'] {
+    color: #8fe3da;
+    border-color: #8fe3da;
+  }
+
+  /* ---------- LISTA DE ENVIO ---------- */
+  .send-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .send-list li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #c9d6f5;
+  }
+
+  .send-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #ffc53d;
+  }
+
+  /* ---------- MANIFIESTO ---------- */
+  .manifesto {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .manifesto p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.6;
+    color: #8fa6dd;
+    text-wrap: pretty;
+  }
+
+  .manifesto-lead {
+    color: #c9d6f5 !important;
+    font-size: 18px !important;
+  }
+
+  .manifesto-quote {
+    margin: 8px 0 0;
+    padding: 18px 22px;
+    background: #1b2547;
+    border-left: 5px solid #ffc53d;
+    font-size: 17px;
+    font-weight: 900;
+    line-height: 1.5;
+    color: #ffe6a0;
+    text-wrap: pretty;
+  }
+
+  /* ---------- DESCARGA ---------- */
+  .quest-download {
+    text-align: center;
+  }
+
+  .store-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 640px) {
+    .quest-hero {
+      padding: 72px 20px 52px;
+    }
+
+    .quest-section {
+      padding: 48px 20px;
+    }
+
+    .step-head {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .step-title {
+      flex-basis: 100%;
+    }
+
+    .handle-network {
+      min-width: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .quest-logo {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Copiar handle. Sustituye a los onclick inline que llamaban a window.showToast:
+  // delegación + feedback en el propio botón, sin depender del componente Toast.
+  document.querySelectorAll<HTMLButtonElement>('.handle-copy').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const value = button.dataset.copy;
+      if (!value) return;
+
+      try {
+        await navigator.clipboard.writeText(value);
+      } catch {
+        // Safari sin permiso de portapapeles, http, etc.
+        const helper = document.createElement('textarea');
+        helper.value = value;
+        helper.setAttribute('readonly', '');
+        helper.style.position = 'absolute';
+        helper.style.left = '-9999px';
+        document.body.appendChild(helper);
+        helper.select();
+        try {
+          document.execCommand('copy');
+        } catch {
+          document.body.removeChild(helper);
+          return;
+        }
+        document.body.removeChild(helper);
+      }
+
+      button.dataset.done = 'true';
+      const previous = button.getAttribute('aria-label') || '';
+      button.setAttribute('aria-label', button.dataset.copiedLabel || previous);
+
+      window.setTimeout(() => {
+        delete button.dataset.done;
+        button.setAttribute('aria-label', previous);
+      }, 1600);
+    });
+  });
+</script>
