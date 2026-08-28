@@ -125,7 +125,12 @@ const languages = [
     color: #dceafe;
   }
 
-  .nav-links > .is-active {
+  /* Se nombra el elemento en los dos selectores para igualar especificidad
+     con la regla de arriba: `.nav-links > span:not(.lang-switch)` puntua
+     (0,2,1) y un `.nav-links > .is-active` a secas se queda en (0,2,0), asi
+     que el gris ganaba y el "Blog" del indice salia sin dorado. */
+  .nav-links > a.is-active,
+  .nav-links > span.is-active {
     color: #ffc53d;
   }
 
