@@ -59,16 +59,16 @@ const currentContent = content[lang];
 
   <!-- Non-parallax content -->
   <div class="relative z-10 flex items-center justify-center h-full px-4">
-    <div class="text-center text-white max-w-4xl mx-auto mt-16 md:-mt-8">
+    <div class="text-center text-white max-w-6xl mx-auto mt-16 md:-mt-8">
       <div class="animate-float mb-6 -mt-10 md:mt-0">
         <Image src={Logo} alt="Skillion Hero Image" class="w-16 h-16 md:w-32 md:h-32 mx-auto rounded-2xl" />
       </div>
-      <h1 class="text-2xl md:text-4xl lg:text-5xl mb-8 font-poppins text-extra-bold text-stroke-gold">
+      <h1 class="hero-title mb-8 text-stroke-gold">
         <span class="text-[#203239]">{currentContent.title}</span><br/>
         <span class="text-[#203239]">{currentContent.subtitle}</span>
       </h1>
       <div class="bg-white/80 backdrop-blur-sm pixel-frame p-4 md:p-6 mb-8 max-w-4xl mx-auto hero-text-container">
-        <p class="text-base md:text-lg lg:text-xl leading-relaxed font-poppins text-gray-800">
+        <p class="hero-description text-base md:text-lg lg:text-xl leading-relaxed text-gray-800">
           {currentContent.description}
         </p>
       </div>
@@ -277,3 +277,25 @@ const currentContent = content[lang];
     applyNow();
   });
 </script>
+
+<style>
+  /* Titular en pixel art. Conserva el efecto dorado (.text-stroke-gold), que
+     sigue en el markup y vive en global.css. */
+  .hero-title {
+    /* Press Start 2P es mucho más ancha que Poppins: a los 48px que tenía
+       antes el titular no entraba. El clamp lo mantiene en una medida legible
+       de móvil a desktop. */
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(13px, 4vw, 32px);
+    line-height: 1.7;
+    /* Sin text-extra-bold: la fuente sólo tiene un grosor y el font-weight:900
+       obligaba al navegador a fingir la negrita, emborronando los píxeles. */
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  .hero-description {
+    font-family: 'Nunito', 'Poppins', sans-serif;
+    font-weight: 700;
+  }
+</style>

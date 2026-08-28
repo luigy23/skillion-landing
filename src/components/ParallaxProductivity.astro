@@ -5,6 +5,16 @@ import InstagramIcon from './../assets/pixelartAssets/icons/ig_icon.png';
 import TikTokIcon from './../assets/pixelartAssets/icons/tt_icon.png';
 import { rewardsParallax } from '../config/parallax-config.ts';
 
+// Iconos pixel art de las feature cards (rediseño 2026)
+import BrainIcon from './../assets/pixelartAssets/features/brain.png';
+import ChecklistIcon from './../assets/pixelartAssets/features/checklist.png';
+import StarIcon from './../assets/pixelartAssets/features/star.png';
+import CoinIcon from './../assets/pixelartAssets/features/coin.png';
+import Coin2Icon from './../assets/pixelartAssets/features/coin2.png';
+import CloverIcon from './../assets/pixelartAssets/features/clover.png';
+import CoffeeIcon from './../assets/pixelartAssets/features/coffee.png';
+import CetroIcon from './../assets/pixelartAssets/features/cetro.png';
+
 interface Props {
   lang?: 'en' | 'es';
 }
@@ -23,36 +33,58 @@ const content = {
   en: {
     heading1: 'How Skillion Gamifies Your Productivity',
     subheading1: 'Discover the gamified productivity app that turns your daily routine into your most epic adventure',
-    card1Title: 'Customize Your Real-Life Skills',
-    card1Body: "Create unique skills like 'Fitness', 'Programming', 'Reading' or 'Networking'. With Skillion, every area of your life becomes an RPG skill you can level up.",
-    card2Title: 'Missions that Transform Habits',
-    card2Body: 'Every daily task (workout, study, work) becomes an epic quest. Complete challenges and earn real XP that reflects in your life progress.',
-    card3Title: 'Gamified Progress System',
-    card3Body: 'Watch XP bars grow, unlock unique achievements and customize your journey. Gamification makes habit-building addictively fun.',
+    card1Title: 'Customize your skills',
+    card1Body: 'Fitness, Programming, Reading, Networking. Every area of your life is a skill that levels up.',
+    card1Meta: 'LV 12 · 1,240 / 1,700 XP',
+    card2Title: 'Daily missions',
+    card2Body: 'Workout, study, work: every task is an epic quest that earns you real XP.',
+    card2Quest1: '[✓] RUN 5 KM · +40 XP',
+    card2Quest2: '[ ] READ 20 PAGES · +25 XP',
+    card3Title: 'Visible progress',
+    card3Body: 'XP bars that grow, achievements that unlock and an adventure that is yours.',
     heading2: 'Join the Personal Gamification Revolution',
     subheading2: 'Be part of the growing community gamifying their lives with Skillion. Start your adventure today and shape the future of your personal growth!',
     socialInstagram: 'Instagram',
     socialInstagramEs: 'Instagram ES',
     socialTikTok: 'TikTok',
-    rewardsTitle: 'Get Premium for Free!',
-    rewardsBody: 'Join the #SkillionApp Quest and earn up to 1 year of Premium by sharing your progress on social media. 🏆'
+    questBadge: 'SIDE QUEST · EPIC REWARD',
+    rewardsTitle: 'Get up to 1 year of Premium free',
+    questBodyPre: 'Join the ',
+    questTag: '#SkillionApp Quest',
+    questBodyPost: ': share your progress on social media and unlock real rewards.',
+    questStep1: '1 · RECORD YOUR STREAK',
+    questStep2: '2 · TAG US',
+    questStep3: '3 · CLAIM PREMIUM',
+    questCta: 'SEE HOW TO JOIN',
+    questIconAlt: 'Staff'
   },
   es: {
     heading1: 'Cómo Skillion Gamifica tu Productividad',
     subheading1: 'Descubre la app de gamificación que convierte tu rutina diaria en tu aventura más épica',
-    card1Title: 'Personaliza tus Skills de Vida Real',
-    card1Body: "Crea habilidades únicas como 'Fitness', 'Programación', 'Lectura' o 'Networking'. Con Skillion, cada área de tu vida se convierte en una skill RPG que puedes subir de nivel.",
-    card2Title: 'Misiones que Transforman Hábitos',
-    card2Body: 'Cada tarea diaria (ejercicio, estudio, trabajo) se convierte en una misión épica. Completa challenges y gana XP real que se refleja en tu progreso de vida.',
-    card3Title: 'Sistema de Progreso Gamificado',
-    card3Body: 'Observa barras de XP crecer, desbloquea achievements únicos y personaliza tu aventura. La gamificación hace que mantener hábitos sea adictivamente divertido.',
+    card1Title: 'Personaliza tus Skills',
+    card1Body: 'Fitness, Programación, Lectura, Networking. Cada área de tu vida es una skill que sube de nivel.',
+    card1Meta: 'LV 12 · 1.240 / 1.700 XP',
+    card2Title: 'Misiones diarias',
+    card2Body: 'Ejercicio, estudio, trabajo: cada tarea es una misión épica que te da XP real.',
+    card2Quest1: '[✓] CORRER 5 KM · +40 XP',
+    card2Quest2: '[ ] LEER 20 PÁGINAS · +25 XP',
+    card3Title: 'Progreso visible',
+    card3Body: 'Barras de XP que crecen, achievements que se desbloquean y una aventura que es tuya.',
     heading2: 'Únete a la Revolución de la Gamificación Personal',
     subheading2: 'Forma parte de la creciente comunidad que está gamificando su vida con Skillion. ¡Comienza tu aventura hoy y transforma tu crecimiento personal!',
     socialInstagram: 'Instagram',
     socialInstagramEs: 'Instagram ES',
     socialTikTok: 'TikTok',
-    rewardsTitle: '¡Obtén Premium Gratis!',
-    rewardsBody: 'Únete al #SkillionApp Quest y gana hasta 1 año de Premium compartiendo tu progreso en redes sociales. 🏆'
+    questBadge: 'MISION SECUNDARIA · RECOMPENSA EPICA',
+    rewardsTitle: 'Consigue hasta 1 año de Premium gratis',
+    questBodyPre: 'Participa en el ',
+    questTag: '#SkillionApp Quest',
+    questBodyPost: ': comparte tu progreso en redes y desbloquea recompensas reales.',
+    questStep1: '1 · GRABA TU RACHA',
+    questStep2: '2 · ETIQUETANOS',
+    questStep3: '3 · RECLAMA PREMIUM',
+    questCta: 'VER COMO PARTICIPAR',
+    questIconAlt: 'Cetro'
   }
 } as const;
 
@@ -79,47 +111,68 @@ const t = content[lang];
     <div class="container mx-auto max-w-6xl">
       <!-- First Section: How Skillion Gamifies Your Productivity -->
       <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-5xl font-bold mb-4 font-poppins text-gray-800">
-          {lang === 'es' ? 'Cómo ' : 'How '}<span class="text-shine">Skillion</span> {lang === 'es' ? 'Gamifica ' : 'Gamifies '}<span class="text-gaming-gold">{lang === 'es' ? 'tu Productividad' : 'Your Productivity'}</span>
+        <h2 class="section-title">
+          {t.heading1}
         </h2>
-        <p class="text-lg md:text-xl text-white max-w-2xl mx-auto">
+        <p class="section-subtitle max-w-2xl mx-auto">
           {t.subheading1}
         </p>
       </div>
-      
+
       <!-- Simple grid layout for cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-        <FeatureCard 
-          icon="🧠"
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 mb-16">
+        <FeatureCard
+          icon={BrainIcon}
+          iconAlt={lang === 'es' ? 'Cerebro' : 'Brain'}
           title={t.card1Title}
         >
           {t.card1Body}
+          <Fragment slot="extra">
+            <div class="xp-bar"><div class="xp-bar-fill"></div></div>
+            <span class="card-meta">{t.card1Meta}</span>
+          </Fragment>
         </FeatureCard>
-        
-        <FeatureCard 
-          icon="⚔️"
+
+        <FeatureCard
+          icon={ChecklistIcon}
+          iconAlt={lang === 'es' ? 'Misiones' : 'Missions'}
           title={t.card2Title}
         >
           {t.card2Body}
+          <Fragment slot="extra">
+            <ul class="quest-list">
+              <li class="quest-done">{t.card2Quest1}</li>
+              <li class="quest-todo">{t.card2Quest2}</li>
+            </ul>
+          </Fragment>
         </FeatureCard>
-        
-        <FeatureCard 
-          icon="🏆"
+
+        <FeatureCard
+          icon={StarIcon}
+          iconAlt={lang === 'es' ? 'Estrella' : 'Star'}
+          iconWidth={56}
           title={t.card3Title}
           class="md:col-span-2 md:col-start-1 md:justify-self-center md:max-w-md lg:col-span-1 lg:col-start-auto lg:justify-self-auto lg:max-w-none"
         >
           {t.card3Body}
+          <Fragment slot="extra">
+            <!-- Iconos servidos sin <Image>: ver nota en FeatureCard.astro -->
+            <div class="loot-row">
+              <img src={CoinIcon.src} alt={lang === 'es' ? 'Moneda' : 'Coin'} width="28" height="28" class="loot-icon" loading="lazy" decoding="async" />
+              <img src={Coin2Icon.src} alt={lang === 'es' ? 'Monedas' : 'Coins'} width="28" height="28" class="loot-icon" loading="lazy" decoding="async" />
+              <img src={CloverIcon.src} alt={lang === 'es' ? 'Trébol' : 'Clover'} width="28" height="24" class="loot-icon" loading="lazy" decoding="async" />
+              <img src={CoffeeIcon.src} alt={lang === 'es' ? 'Café' : 'Coffee'} width="28" height="28" class="loot-icon" loading="lazy" decoding="async" />
+            </div>
+          </Fragment>
         </FeatureCard>
       </div>
 
       <!-- Second Section: Join the Personal Gamification Revolution -->
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-5xl font-bold mb-6 font-poppins text-gray-800 text-stroke-blue">
-          {lang === 'es' 
-            ? 'Únete a la Revolución de la Gamificación Personal' 
-            : 'Join the Personal Gamification Revolution'}
+        <h2 class="section-title section-title--sm">
+          {t.heading2}
         </h2>
-        <p class="text-lg md:text-xl text-white mb-12 max-w-2xl mx-auto">
+        <p class="section-subtitle section-subtitle--light mb-12 max-w-2xl mx-auto">
           {t.subheading2}
         </p>
         
@@ -146,18 +199,25 @@ const t = content[lang];
           </div>
         </div>
         
-        <div class="bg-white/80 backdrop-blur-sm pixel-frame p-4 md:p-6 mb-25 max-w-4xl mx-auto hero-text-container">
-          <div class="text-4xl mb-4">🎁</div>
-          <h3 class="text-xl md:text-2xl font-bold mb-4 text-gaming-gold">{t.rewardsTitle}</h3>
-          <p class="text-base md:text-lg leading-relaxed font-poppins text-gray-800 mb-4">
-            {t.rewardsBody}
-          </p>
-          <a 
-            href={lang === 'es' ? '/es/free-premium' : '/free-premium'}
-            class="inline-block bg-gaming-gold text-gray-900 px-6 py-3 rounded-lg font-bold text-sm hover:bg-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-          >
-            ⚔️ {lang === 'es' ? 'Ver Cómo Participar' : 'See How to Participate'}
-          </a>
+        <div class="quest-card">
+          <div class="quest-icon">
+            <img src={CetroIcon.src} alt={t.questIconAlt} width="80" height="80" class="quest-icon-img" loading="lazy" decoding="async" />
+          </div>
+          <div class="quest-body">
+            <span class="quest-badge">{t.questBadge}</span>
+            <h3 class="quest-title">{t.rewardsTitle}</h3>
+            <p class="quest-text">
+              {t.questBodyPre}<strong>{t.questTag}</strong>{t.questBodyPost}
+            </p>
+            <div class="quest-steps">
+              <span>{t.questStep1}</span>
+              <span>{t.questStep2}</span>
+              <span>{t.questStep3}</span>
+            </div>
+            <a href={lang === 'es' ? '/es/free-premium' : '/free-premium'} class="quest-cta">
+              {t.questCta}
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -185,15 +245,263 @@ const t = content[lang];
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
   }
 
-  /* Enhanced card styling for better visual appeal */
-  .feature-card {
-    transition: all 0.3s ease;
-    transform: translateY(0);
+  /* ---- Titulares del rediseño 2026 ---- */
+  .section-title {
+    /* La separacion con el subtitulo vive aqui y no en utilidades de Tailwind,
+       para que los dos titulares de la seccion respiren igual. */
+    margin: 0 0 clamp(1.25rem, 2.5vw, 1.75rem);
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(18px, 4.2vw, 30px);
+    line-height: 1.5;
+    color: #0f2440;
+    text-shadow: 3px 3px 0 #ffffff;
+    text-wrap: balance;
   }
 
-  .feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  /* Variante corta: este titular lleva bastante más copy que el primero, y a
+     30px de Press Start 2P se iría a cuatro líneas. 22px es el mismo cuerpo
+     que usa el artboard para esta banda. */
+  .section-title--sm {
+    font-size: clamp(15px, 3vw, 22px);
+  }
+
+  .section-subtitle {
+    font-family: 'Nunito', 'Poppins', sans-serif;
+    font-size: clamp(15px, 2.2vw, 18px);
+    font-weight: 700;
+    line-height: 1.5;
+    color: #123c58;
+    text-wrap: pretty;
+  }
+
+  /* Variante blanca. Sobre el azul #97b7d1 el blanco puro se queda en ~2:1 de
+     contraste, así que lleva una sombra suave para que siga leyéndose. */
+  .section-subtitle--light {
+    color: #ffffff;
+    text-shadow: 0 2px 6px rgba(10, 15, 31, 0.45);
+  }
+
+  /* ---- Extras de las feature cards ----
+     Viven aquí porque el markup se pasa por slot desde este componente,
+     y los estilos con scope de Astro siguen al markup, no al hijo. */
+  .xp-bar {
+    width: 100%;
+    height: 16px;
+    padding: 2px;
+    background: #2b1a0c;
+    border: 3px solid #a9784a;
+  }
+
+  .xp-bar-fill {
+    width: 72%;
+    height: 100%;
+    background: #8fe3da;
+  }
+
+  .card-meta {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    color: #ffe6a0;
+  }
+
+  .quest-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+  }
+
+  .quest-list li {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    /* Evita que el "+25 XP" se parta y deje "XP" huérfano en una línea */
+    text-wrap: balance;
+  }
+
+  .quest-done {
+    color: #8fe3da;
+  }
+
+  .quest-todo {
+    color: #ffe6a0;
+  }
+
+  /* ---- Tarjeta del concurso (#SkillionApp Quest) ---- */
+  .quest-card {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 34px 36px;
+    text-align: left;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow:
+      inset 0 0 0 4px #ffc53d,
+      10px 10px 0 0 rgba(5, 8, 18, 0.5);
+  }
+
+  .quest-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 132px;
+    height: 132px;
+    background: #0f1730;
+    border: 4px solid #ffc53d;
+  }
+
+  .quest-icon-img {
+    height: auto;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    animation: quest-bob 3s ease-in-out infinite;
+  }
+
+  @keyframes quest-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .quest-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .quest-badge {
+    align-self: flex-start;
+    padding: 7px 10px;
+    background: #ffc53d;
+    color: #2a1a06;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.5;
+  }
+
+  .quest-title {
+    margin: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(14px, 2.2vw, 19px);
+    line-height: 1.6;
+    color: #ffe6a0;
+    text-wrap: balance;
+  }
+
+  .quest-text {
+    margin: 0;
+    max-width: 600px;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #c9d6f5;
+    text-wrap: pretty;
+  }
+
+  .quest-text strong {
+    color: #8fe3da;
+  }
+
+  .quest-steps {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.5;
+    color: #8fa6dd;
+  }
+
+  .quest-steps span {
+    padding: 8px 10px;
+    border: 3px solid #3f5da8;
+  }
+
+  .quest-cta {
+    align-self: flex-start;
+    margin-top: 4px;
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: #ffc53d;
+    color: #2a1a06;
+    border: 4px solid #0a0f1f;
+    box-shadow:
+      inset -4px -4px 0 0 #c98a12,
+      inset 4px 4px 0 0 #ffe6a0,
+      6px 6px 0 0 rgba(5, 8, 18, 0.45);
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(9px, 1.4vw, 11px);
+    line-height: 1.5;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .quest-cta:hover {
+    transform: translate(-2px, -2px);
+    box-shadow:
+      inset -4px -4px 0 0 #c98a12,
+      inset 4px 4px 0 0 #ffe6a0,
+      8px 8px 0 0 rgba(5, 8, 18, 0.5);
+  }
+
+  /* En móvil el icono pasa arriba y la tarjeta se centra */
+  @media (max-width: 767px) {
+    .quest-card {
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      padding: 26px 20px;
+      text-align: center;
+    }
+
+    .quest-icon {
+      width: 108px;
+      height: 108px;
+    }
+
+    .quest-body {
+      align-items: center;
+    }
+
+    .quest-badge,
+    .quest-cta {
+      align-self: center;
+    }
+
+    .quest-steps {
+      justify-content: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .quest-icon-img {
+      animation: none;
+    }
+  }
+
+  .loot-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .loot-icon {
+    height: auto;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
   }
 
   /* Enhanced section styling */

@@ -1,0 +1,174 @@
+---
+import magoUrl from '../assets/pixelartAssets/features/mago.png';
+
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props as Props;
+
+const isEs = lang === 'es';
+const base = isEs ? '/es' : '';
+
+const content = {
+  en: {
+    tagline: 'Gamify your real life. The RPG app for productivity and habits.',
+    map: 'MAP',
+    home: 'Home',
+    updates: "What's New",
+    contact: 'Contact',
+    legal: 'LEGAL',
+    privacy: 'Privacy',
+    terms: 'Terms',
+    guild: 'GUILD',
+    madeWith: 'MADE WITH',
+    and: 'AND LOTS OF',
+    wizard: 'Wizard',
+  },
+  es: {
+    tagline: 'Gamifica tu vida real. La app RPG de productividad y hábitos.',
+    map: 'MAPA',
+    home: 'Inicio',
+    updates: 'Novedades',
+    contact: 'Contacto',
+    legal: 'LEGAL',
+    privacy: 'Privacidad',
+    terms: 'Términos',
+    guild: 'GREMIO',
+    madeWith: 'HECHO CON',
+    and: 'Y MUCHO',
+    wizard: 'Mago',
+  },
+} as const;
+
+const t = content[lang];
+const year = new Date().getFullYear();
+const updatesHref = isEs ? '/es/novedades' : '/updates';
+---
+
+<footer class="site-footer">
+  <div class="footer-brand">
+    <div class="brand-row">
+      <img src={magoUrl.src} alt={t.wizard} width="30" height="33" class="brand-mark" />
+      <span class="brand-name">SKILLION</span>
+    </div>
+    <p class="brand-tagline">{t.tagline}</p>
+  </div>
+
+  <nav class="footer-col" aria-label={t.map}>
+    <span class="col-title">{t.map}</span>
+    <a href={`${base}/`}>{t.home}</a>
+    <a href={updatesHref}>{t.updates}</a>
+    <a href={`${base}/contact`}>{t.contact}</a>
+  </nav>
+
+  <nav class="footer-col" aria-label={t.legal}>
+    <span class="col-title">{t.legal}</span>
+    <a href={`${base}/privacy`}>{t.privacy}</a>
+    <a href={`${base}/terms`}>{t.terms}</a>
+  </nav>
+
+  <nav class="footer-col" aria-label={t.guild}>
+    <span class="col-title">{t.guild}</span>
+    <a href="https://instagram.com/skillion.app" target="_blank" rel="noopener noreferrer">Instagram</a>
+    <a href="https://instagram.com/skillion.es" target="_blank" rel="noopener noreferrer">Instagram ES</a>
+    <a href="https://tiktok.com/@skillion.app" target="_blank" rel="noopener noreferrer">TikTok</a>
+  </nav>
+
+  <div class="footer-bottom">
+    {/* Los emoji van fuera de Press Start 2P: esa fuente no tiene glifos para
+        ❤ ni ☕ y el navegador los dibujaba como basura (ver captura original) */}
+    © {year} SKILLION · {t.madeWith} <span class="emoji">❤️</span> {t.and} <span class="emoji">☕</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 48px;
+    padding: 44px 24px;
+    background: #0b1020;
+    border-top: 4px solid #3f5da8;
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 340px;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-mark {
+    height: auto;
+    image-rendering: pixelated;
+  }
+
+  .brand-name {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 13px;
+    color: #ffe6a0;
+  }
+
+  .brand-tagline {
+    margin: 0;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #8fa6dd;
+    text-wrap: pretty;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+  }
+
+  .col-title {
+    color: #4f68a8;
+  }
+
+  .footer-col a {
+    color: #90c5bf;
+    text-decoration: none;
+    line-height: 1.4;
+    transition: color 0.2s ease;
+  }
+
+  .footer-col a:hover {
+    color: #ffc53d;
+  }
+
+  .footer-bottom {
+    width: 100%;
+    padding-top: 20px;
+    border-top: 3px solid #1b2547;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1.8;
+    color: #3d508a;
+  }
+
+  .emoji {
+    font-family: 'Nunito', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+    font-size: 11px;
+    vertical-align: -1px;
+  }
+
+  @media (min-width: 768px) {
+    .site-footer {
+      padding: 44px 56px;
+    }
+  }
+</style>

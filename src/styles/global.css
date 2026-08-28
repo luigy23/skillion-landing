@@ -400,3 +400,17 @@ select {
     -webkit-backdrop-filter: blur(12px) !important;
   }
 }
+/* ============================================================
+   Tipografía del rediseño 2026
+   Press Start 2P para titulares/HUD, Nunito para cuerpo.
+   Definidas aquí (y no en tailwind.config.mjs) porque Tailwind v4
+   no carga el config JS: las clases font-* del theme no generan CSS.
+   ============================================================ */
+.font-pixel {
+  font-family: 'Press Start 2P', 'Courier New', monospace;
+  letter-spacing: 0;
+}
+
+.font-body {
+  font-family: 'Nunito', 'Poppins', sans-serif;
+}
