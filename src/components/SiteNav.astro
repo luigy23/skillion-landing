@@ -6,7 +6,7 @@ interface Props {
   /** Misma página en el otro idioma. En un artículo depende de la traducción. */
   altHref: string;
   /** Sección de la nav que se resalta. */
-  section?: 'blog' | 'premium';
+  section?: 'blog' | 'updates' | 'premium';
   /**
    * True cuando estás EN la página principal de esa sección: entonces deja de
    * ser un enlace, porque llevaría a donde ya estás, y el aria-current="page"
@@ -22,8 +22,8 @@ const isEs = lang === 'es';
 const base = isEs ? '/es' : '';
 
 const content = {
-  en: { home: 'Home', blog: 'Blog', premium: 'Premium' },
-  es: { home: 'Inicio', blog: 'Blog', premium: 'Premium' },
+  en: { home: 'Home', blog: 'Blog', updates: "What's New", premium: 'Premium' },
+  es: { home: 'Inicio', blog: 'Blog', updates: 'Novedades', premium: 'Premium' },
 } as const;
 
 const t = content[lang];
@@ -52,6 +52,19 @@ const languages = [
         <span class="is-active" aria-current="page">{t.blog}</span>
       ) : (
         <a href={`${base}/blog`} class={section === 'blog' ? 'is-active' : undefined}>{t.blog}</a>
+      )
+    }
+
+    {
+      section === 'updates' && isCurrent ? (
+        <span class="is-active" aria-current="page">{t.updates}</span>
+      ) : (
+        <a
+          href={isEs ? '/es/novedades' : '/updates'}
+          class={section === 'updates' ? 'is-active' : undefined}
+        >
+          {t.updates}
+        </a>
       )
     }
 
