@@ -18,8 +18,11 @@ import { legacyPosts, TEAM } from './content/legacy-five.mjs';
 import { skillionVsHabitica } from './content/skillion-vs-habitica.mjs';
 import { bestHabitApps } from './content/best-habit-apps.mjs';
 import { whyHabitsFail } from './content/why-habits-fail.mjs';
+import { habitData2026 } from './content/habit-data-2026.mjs';
 
-const posts = [skillionVsHabitica, bestHabitApps, whyHabitsFail, ...legacyPosts];
+// El de datos propios va primero: es la pieza con cifras que nadie mas tiene y
+// la que el ticket señala como la que mas citas gana.
+const posts = [habitData2026, skillionVsHabitica, bestHabitApps, whyHabitsFail, ...legacyPosts];
 
 const url =
   process.env.DATABASE_URL ??

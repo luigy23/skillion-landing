@@ -15,6 +15,22 @@
 --     Además de ser lo correcto, es lo que la hace citable: un número sin
 --     muestra no lo cita nadie.
 --
+-- ESTADO: ejecutadas el 2026-08-30 contra produccion. Resultados en el
+-- articulo db/content/habit-data-2026.mjs.
+--
+-- Escritas a partir del esquema Drift local, tenian cuatro errores que las
+-- habrian dejado devolviendo cero. Corregidos aqui:
+--   1. event_type es camelCase en Supabase ('taskCompleted'), no snake_case.
+--      La base local usa un enum de Dart; el servidor guarda el nombre tal cual.
+--   2. Las tablas del servidor van en plural: tasks, skills, history,
+--      categories, skill_tasks, user_profile.
+--   3. deleted_at existe ADEMAS de archived_at. Hay que filtrar por los dos.
+--   4. Hay filas con created_at en el futuro (hasta 2027-02-14, de 2 usuarios):
+--      se acotan con created_at <= now() o descuadran min/max.
+--
+-- La leccion: el esquema local de Drift no es el del servidor. Lo siguiente
+-- que se consulte, se confirma con la CONSULTA 0 antes de escribir el resto.
+--
 -- NOMBRES: salen de leer el esquema Drift de skillapp (lib/core/database/
 -- tables/) y el código de sincronización. Dos avisos:
 --   · El borrado suave es `archived_at`, no `deleted_at`. El sync además maneja
@@ -44,8 +60,9 @@ select
   count(distinct user_id)                                as usuarios,
   min(created_at)::date                                  as desde,
   max(created_at)::date                                  as hasta,
-  count(*) filter (where event_type = 'task_completed')  as tareas_completadas
-from history;
+  count(*) filter (where event_type = 'taskCompleted')  as tareas_completadas
+from history
+where created_at <= now();   -- 11 filas con fecha futura (hasta 2027) de 2 usuarios
 
 
 -- -----------------------------------------------------------------------------
@@ -61,10 +78,12 @@ with vida_habito as (
     (max(h.created_at)::date - min(h.created_at)::date) as dias_activo,
     count(*)                                            as veces_completada
   from history h
-  join task t on t.id = h.task_id and t.user_id = h.user_id
-  where h.event_type = 'task_completed'
+  join tasks t on t.id = h.task_id and t.user_id = h.user_id
+  where h.event_type = 'taskCompleted'
+    and h.created_at <= now()
     and t.is_recurring = true
     and t.archived_at is null
+    and t.deleted_at is null
   group by h.task_id, h.user_id
   having count(*) >= 2   -- una sola vez no es un hábito, es una tarea suelta
 )
@@ -90,10 +109,12 @@ with vida_habito as (
     h.task_id, h.user_id,
     (max(h.created_at)::date - min(h.created_at)::date) as dias_activo
   from history h
-  join task t on t.id = h.task_id and t.user_id = h.user_id
-  where h.event_type = 'task_completed'
+  join tasks t on t.id = h.task_id and t.user_id = h.user_id
+  where h.event_type = 'taskCompleted'
+    and h.created_at <= now()
     and t.is_recurring = true
     and t.archived_at is null
+    and t.deleted_at is null
   group by h.task_id, h.user_id
   having count(*) >= 2
 )
@@ -119,8 +140,9 @@ select
   count(distinct user_id)  as usuarios,
   round(avg(level), 1)     as nivel_medio,
   round(avg(best_streak))  as mejor_racha_media
-from skill
+from skills
 where archived_at is null
+  and deleted_at is null
   and is_active = true
 group by lower(trim(name))
 having count(distinct user_id) >= 50
@@ -139,15 +161,16 @@ limit 30;
 -- vez de tratarlas como día 1.
 with alta as (
   select user_id, min(created_at)::date as dia_alta
-  from skill
-  where archived_at is null and created_at is not null
+  from skills
+  where archived_at is null and deleted_at is null and created_at is not null
   group by user_id
 ),
 primer_dia as (
   select s.user_id, count(*) as skills_dia_1
-  from skill s
+  from skills s
   join alta a on a.user_id = s.user_id
   where s.archived_at is null
+    and s.deleted_at is null
     and s.created_at is not null
     and s.created_at::date = a.dia_alta
   group by s.user_id
@@ -155,7 +178,7 @@ primer_dia as (
 actividad as (
   select user_id, max(created_at)::date as ultima_actividad
   from history
-  where event_type = 'task_completed'
+  where event_type = 'taskCompleted'
   group by user_id
 )
 select
@@ -188,7 +211,7 @@ select
   count(*)                           as completadas,
   count(distinct user_id)            as usuarios
 from history
-where event_type = 'task_completed'
+where event_type = 'taskCompleted' and created_at <= now()
 group by 1, 2
 having count(distinct user_id) >= 50
 order by completadas desc
