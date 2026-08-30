@@ -22,7 +22,7 @@ create table if not exists blog_posts (
 
   -- Clave estable, NO la etiqueta visible: el rótulo se traduce en el
   -- componente (CIENCIA / SCIENCE). Así el filtro funciona en los dos idiomas.
-  category         text        not null check (category in ('how-to','science','tips','tricks')),
+  category         text        not null check (category in ('how-to','science','tips','tricks','comparison','roundup')),
 
   -- Nombre del PNG pixel art en src/assets/pixelartAssets/blog/ (sin extensión)
   icon             text        not null default 'brain',
@@ -36,6 +36,21 @@ create table if not exists blog_posts (
   author_name      text        not null default 'Skillion Team',
   author_bio       text,
 
+  -- Estructura de citabilidad (SCRUM-450). Un modelo cita lo que puede extraer
+  -- sin adivinar: una respuesta directa, preguntas resueltas y de dónde sale
+  -- cada dato. `faq` y `sources` alimentan además el JSON-LD del artículo.
+  --
+  -- tldr NO es el excerpt: ese es el gancho de la card, escrito para que hagas
+  -- clic. Este responde la pregunta del titular de golpe, escrito para que
+  -- puedas NO hacer clic.
+  tldr             text,
+  -- [{ "title", "url", "publisher" }]
+  sources          jsonb       not null default '[]'::jsonb
+                     check (jsonb_typeof(sources) = 'array'),
+  -- [{ "q", "a" }]
+  faq              jsonb       not null default '[]'::jsonb
+                     check (jsonb_typeof(faq) = 'array'),
+
   published_at     date        not null,
   published        boolean     not null default true,
   updated_at       timestamptz not null default now(),
@@ -43,6 +58,24 @@ create table if not exists blog_posts (
   unique (lang, slug),
   unique (lang, translation_key)
 );
+
+-- updated_at es la fecha de última modificación de verdad, no la de inserción:
+-- el criterio de "última actualización visible" y el dateModified del JSON-LD
+-- dependen de ella. El guard evita que un seed idempotente, que reescribe las
+-- filas en cada pasada, mueva la fecha sin que haya cambiado nada.
+create or replace function blog_posts_touch_updated_at() returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+
+drop trigger if exists blog_posts_touch_updated_at on blog_posts;
+create trigger blog_posts_touch_updated_at
+  before update on blog_posts
+  for each row
+  when (old.* is distinct from new.*)
+  execute function blog_posts_touch_updated_at();
 
 -- El índice sirve al orden del listado (destacado primero, luego por fecha).
 create index if not exists blog_posts_listing_idx

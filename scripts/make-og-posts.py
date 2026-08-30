@@ -29,11 +29,27 @@ CHIPS = {
     "science": ((181, 143, 227), (27, 15, 43)),
     "tips": ((181, 143, 227), (27, 15, 43)),
     "tricks": ((255, 197, 61), (42, 26, 6)),
+    "comparison": ((255, 159, 110), (43, 20, 5)),
+    "roundup": ((159, 227, 123), (18, 41, 10)),
 }
 LABELS = {
-    "en": {"how-to": "HOW TO", "science": "SCIENCE", "tips": "TIPS", "tricks": "TRICKS"},
+    "en": {
+        "how-to": "HOW TO",
+        "science": "SCIENCE",
+        "tips": "TIPS",
+        "tricks": "TRICKS",
+        "comparison": "COMPARISON",
+        "roundup": "ROUNDUP",
+    },
     # Sin tilde: coherente con el resto del sitio aunque aqui la fuente si la tenga.
-    "es": {"how-to": "COMO USAR", "science": "CIENCIA", "tips": "CONSEJOS", "tricks": "TRUCOS"},
+    "es": {
+        "how-to": "COMO USAR",
+        "science": "CIENCIA",
+        "tips": "CONSEJOS",
+        "tricks": "TRUCOS",
+        "comparison": "COMPARATIVA",
+        "roundup": "LISTADO",
+    },
 }
 
 # Sprites ya escalados x4: su rejilla real es 16x16 (scripts/pixel-grid.py)

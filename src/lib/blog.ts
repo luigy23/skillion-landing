@@ -12,9 +12,16 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 export type BlogPost = CollectionEntry<'blog'>;
 export type Lang = 'en' | 'es';
-export type Category = 'how-to' | 'science' | 'tips' | 'tricks';
+export type Category = 'how-to' | 'science' | 'tips' | 'tricks' | 'comparison' | 'roundup';
 
-export const CATEGORIES: Category[] = ['how-to', 'science', 'tips', 'tricks'];
+export const CATEGORIES: Category[] = [
+  'how-to',
+  'science',
+  'tips',
+  'tricks',
+  'comparison',
+  'roundup',
+];
 
 /**
  * Rótulos de categoría.
@@ -24,8 +31,22 @@ export const CATEGORIES: Category[] = ['how-to', 'science', 'tips', 'tricks'];
  * el navegador cambia de fuente a mitad de palabra.
  */
 export const CATEGORY_LABELS: Record<Lang, Record<Category, string>> = {
-  en: { 'how-to': 'HOW TO', science: 'SCIENCE', tips: 'TIPS', tricks: 'TRICKS' },
-  es: { 'how-to': 'COMO USAR', science: 'CIENCIA', tips: 'CONSEJOS', tricks: 'TRUCOS' },
+  en: {
+    'how-to': 'HOW TO',
+    science: 'SCIENCE',
+    tips: 'TIPS',
+    tricks: 'TRICKS',
+    comparison: 'COMPARISON',
+    roundup: 'ROUNDUP',
+  },
+  es: {
+    'how-to': 'COMO USAR',
+    science: 'CIENCIA',
+    tips: 'CONSEJOS',
+    tricks: 'TRUCOS',
+    comparison: 'COMPARATIVA',
+    roundup: 'LISTADO',
+  },
 };
 
 /** Colores de cada chip, del artboard 1c. */
@@ -34,6 +55,10 @@ export const CATEGORY_COLORS: Record<Category, { bg: string; fg: string }> = {
   science: { bg: '#b58fe3', fg: '#1b0f2b' },
   tips: { bg: '#b58fe3', fg: '#1b0f2b' },
   tricks: { bg: '#ffc53d', fg: '#2a1a06' },
+  // Los dos formatos que mas se citan llevan color propio para que se
+  // distingan de un vistazo en el filtro del indice.
+  comparison: { bg: '#ff9f6e', fg: '#2b1405' },
+  roundup: { bg: '#9fe37b', fg: '#12290a' },
 };
 
 /**

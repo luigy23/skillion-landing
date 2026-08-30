@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import SiteNav from '../SiteNav.astro';
 import SiteFooter from '../SiteFooter.astro';
 import CoverFallback from './CoverFallback.astro';
+import ArticleSchema from './ArticleSchema.astro';
 import {
   CATEGORY_COLORS,
   CATEGORY_LABELS,
@@ -52,6 +53,10 @@ const content = {
     premiumBody: 'Share your progress in the #SkillionApp Quest.',
     premiumCta: 'JOIN →',
     readingXp: 'READING XP',
+    answer: 'SHORT ANSWER',
+    updated: 'UPDATED',
+    faqTitle: 'Frequently asked questions',
+    sourcesTitle: 'Sources',
   },
   es: {
     blog: 'BLOG',
@@ -64,12 +69,22 @@ const content = {
     premiumBody: 'Comparte tu progreso en el #SkillionApp Quest.',
     premiumCta: 'PARTICIPAR →',
     readingXp: 'XP DE LECTURA',
+    answer: 'RESPUESTA CORTA',
+    updated: 'ACTUALIZADO',
+    faqTitle: 'Preguntas frecuentes',
+    sourcesTitle: 'Fuentes',
   },
 } as const;
 
 const t = content[lang];
 const base = lang === 'es' ? '/es' : '';
+
+// Solo se enseña si de verdad cambió algo. Repetir la misma fecha dos veces no
+// aporta y le resta credibilidad a la señal de "esto se mantiene".
+const showUpdated = isoDate(data.updatedAt) !== isoDate(data.publishedAt);
 ---
+
+<ArticleSchema post={post} lang={lang} />
 
 <div class="article-page">
   <SiteNav lang={lang} altHref={altHref} section="blog" />
@@ -85,6 +100,16 @@ const base = lang === 'es' ? '/es' : '';
           {categoryLabel}
         </span>
         <time datetime={isoDate(data.publishedAt)}>{formatPixelDate(data.publishedAt, lang)}</time>
+        {
+          showUpdated && (
+            <>
+              <span aria-hidden="true">·</span>
+              <time datetime={isoDate(data.updatedAt)} class="meta-updated">
+                {t.updated} {formatPixelDate(data.updatedAt, lang)}
+              </time>
+            </>
+          )
+        }
         <span aria-hidden="true">·</span>
         <span>{data.readingMinutes} MIN</span>
         {showXpRewards && data.xp > 0 && <span class="meta-xp">+{data.xp} {t.readingXp}</span>}
@@ -99,6 +124,16 @@ const base = lang === 'es' ? '/es' : '';
           {data.authorBio && <span class="author-bio">{data.authorBio}</span>}
         </div>
       </div>
+
+      {/* La respuesta va antes de la portada a propósito: es lo primero que un
+          modelo extrae de la página, y enterrarla bajo una imagen de 1600x900
+          la desaprovecha. También sirve al lector que solo quiere el dato. */}
+      {data.tldr && (
+        <aside class="answer-box">
+          <span class="answer-label">{t.answer}</span>
+          <p class="answer-text">{data.tldr}</p>
+        </aside>
+      )}
 
       {data.coverImage && (
         <img
@@ -126,6 +161,39 @@ const base = lang === 'es' ? '/es' : '';
       <div class="article-body">
         <Content />
       </div>
+
+      {/* Cada pregunta es un encabezado de verdad, no un acordeón: lo que se
+          extrae de la página es el HTML, y un <h3> con su respuesta debajo se
+          cita solo. El JSON-LD (ArticleSchema) repite esto en FAQPage. */}
+      {data.faq.length > 0 && (
+        <section class="faq-block" aria-labelledby="faq-title">
+          <h2 class="block-title" id="faq-title">{t.faqTitle}</h2>
+          {data.faq.map((item) => (
+            <div class="faq-item">
+              <h3 class="faq-q">{item.q}</h3>
+              <p class="faq-a">{item.a}</p>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {/* Afirmar un dato sin decir de dónde sale es lo que separa un artículo
+          citable de uno que se ignora. */}
+      {data.sources.length > 0 && (
+        <section class="sources-block" aria-labelledby="sources-title">
+          <h2 class="block-title" id="sources-title">{t.sourcesTitle}</h2>
+          <ol class="source-list">
+            {data.sources.map((source) => (
+              <li>
+                <a href={source.url} target="_blank" rel="noopener noreferrer">
+                  {source.title}
+                </a>
+                {source.publisher && <span class="source-publisher">{source.publisher}</span>}
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
 
       <aside class="inline-cta">
         <img src={starUrl.src} alt="" width="64" height="64" class="cta-star" />
@@ -462,6 +530,104 @@ const base = lang === 'es' ? '/es' : '';
   }
 
   /* --------------------------------------------------------- CTA inline */
+  /* ---------- Bloques de citabilidad (SCRUM-450) ---------- */
+
+  /* Menta y no oro: el oro ya marca los titulos del cuerpo y el CTA. Que la
+     respuesta tenga color propio la separa de lo que intenta venderte algo. */
+  .answer-box {
+    margin: 4px 0 8px;
+    padding: 22px 24px;
+    background: #16203c;
+    border: 4px solid #0a0f1f;
+    box-shadow: inset 0 0 0 4px #8fe3da;
+  }
+
+  .answer-label {
+    display: block;
+    margin-bottom: 12px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    letter-spacing: 0.06em;
+    color: #8fe3da;
+  }
+
+  /* Mas grande que el cuerpo (17px): es la frase que se lee de un vistazo. */
+  .answer-text {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.7;
+    color: #eaf1ff;
+    text-wrap: pretty;
+  }
+
+  .meta-updated {
+    color: #8fe3da;
+  }
+
+  .block-title {
+    margin: 0 0 18px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #ffe6a0;
+  }
+
+  .faq-block,
+  .sources-block {
+    margin-top: 16px;
+    padding-top: 26px;
+    border-top: 3px solid #243157;
+  }
+
+  .faq-item + .faq-item {
+    margin-top: 22px;
+  }
+
+  .faq-q {
+    margin: 0 0 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: #8fe3da;
+    text-wrap: balance;
+  }
+
+  .faq-a {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #c9d6f5;
+    text-wrap: pretty;
+  }
+
+  .source-list {
+    margin: 0;
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #8fa6dd;
+  }
+
+  .source-list a {
+    color: #8fe3da;
+    text-underline-offset: 3px;
+  }
+
+  /* El medio en gris al lado del titulo: quien evalua una fuente mira primero
+     quien la publica, no como se titula. */
+  .source-publisher::before {
+    content: ' — ';
+  }
+
+  .source-publisher {
+    color: #6b7ba8;
+  }
+
   .inline-cta {
     display: flex;
     gap: 20px;

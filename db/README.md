@@ -11,6 +11,27 @@ Neon Console  ──►  npm run build  ──►  HTML estático  ──►  Ve
 
 La contrapartida: **publicar exige un rebuild**. Un post nuevo no aparece solo.
 
+## Orden obligatorio: primero el código, luego la base
+
+El sitio lee Neon **en tiempo de build**, así que la base y el código tienen que
+ir sincronizados. Si escribes en la base algo que el código desplegado todavía
+no entiende, **rompes el build de producción**, no solo el tuyo.
+
+Pasó exactamente eso al publicar los artículos de SCRUM-450: el seed metió
+categorías `comparison` y `roundup` mientras el `z.enum` que las admite seguía
+en una rama sin mergear. Master compilaba, encontraba una categoría que su
+esquema no conocía y fallaba con `InvalidContentEntryDataError`.
+
+La regla:
+
+1. Mergea a master el código que entiende el dato nuevo (esquema, enum, loader).
+2. Aplica la migración en Neon.
+3. **Después** lanza el seed.
+
+Si tienes que escribir en la base antes, mete las filas con `published = false`:
+el loader filtra por esa columna, así que no llegan al esquema y el build sigue
+verde hasta que las publiques.
+
 ## Publicar un artículo
 
 1. **Insertar la fila** en el SQL Editor del Neon Console. Hacen falta las dos

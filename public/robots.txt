@@ -1,8 +1,70 @@
+# Skillion — https://skillion.app
+#
+# Los motores generativos (ChatGPT, Claude, Perplexity, el resumen de IA de
+# Google) usan rastreadores distintos del de busqueda clasica, y algunos los
+# tratan como opt-in. Un "User-agent: *" ya los deja pasar, pero declararlos por
+# nombre hace el permiso explicito y auditable de un vistazo: si manana alguien
+# toca este fichero, se ve que la decision fue deliberada y no un descuido.
+
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://skillion.app/sitemap-index.xml
+# --- OpenAI ---------------------------------------------------------------
+# GPTBot entrena; OAI-SearchBot indexa para la busqueda de ChatGPT;
+# ChatGPT-User entra cuando un usuario pide abrir el enlace en la conversacion.
+User-agent: GPTBot
+Allow: /
 
-# Optimized for Skillion - Gamification App
-# Keywords: gamificación, app hábitos, RPG vida real, productividad
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# --- Anthropic ------------------------------------------------------------
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# --- Perplexity -----------------------------------------------------------
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# --- Google ---------------------------------------------------------------
+# Google-Extended NO afecta al indice de busqueda: controla si el contenido
+# puede alimentar a Gemini y a los resumenes de IA. Bloquearlo nos dejaria
+# fuera justo del sitio donde queremos aparecer.
+User-agent: Google-Extended
+Allow: /
+
+# --- Otros ----------------------------------------------------------------
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# Indice legible por modelos, generado en build desde los articulos publicados.
+# https://skillion.app/llms.txt
+
+Sitemap: https://skillion.app/sitemap-index.xml

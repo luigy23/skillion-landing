@@ -89,6 +89,12 @@ const urlEs = alts ? new URL(withSlash(alts.es), Astro.site ?? Astro.url).href :
 // La canónica sale del sitio configurado, no de Astro.url: en build local
 // Astro.url apunta a localhost y se colaba en el HTML publicado.
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+
+// El SoftwareApplication describe la APP, no la página. Emitirlo en las 25
+// páginas le decía a los buscadores y a los modelos que la entidad principal de
+// un artículo del blog es la app, compitiendo con el BlogPosting del propio
+// artículo. Se queda solo donde es cierto: la portada.
+const isHome = ['/', '/es', '/es/'].includes(Astro.url.pathname);
 ---
 
 <!doctype html>
@@ -139,8 +145,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 		
-		<!-- Schema.org markup for Skillion -->
-		<script type="application/ld+json">
+		{/* Describe la APP. Solo en la portada: ver isHome arriba.
+		    Sin aggregateRating: declaraba 4.8 sobre 1000 valoraciones sin
+		    respaldo en las tiendas, y el marcado de reseñas sin datos reales
+		    es motivo de penalizacion manual de Google. */}
+		{isHome && (
+		<script type="application/ld+json" set:html={JSON.stringify(
 		{
 			"@context": "https://schema.org",
 			"@type": "SoftwareApplication",
@@ -154,18 +164,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 				"price": "0",
 				"priceCurrency": "USD"
 			},
-			"aggregateRating": {
-				"@type": "AggregateRating",
-				"ratingValue": "4.8",
-				"ratingCount": "1000"
-			},
 			"creator": {
 				"@type": "Organization",
 				"name": "Skillion Team"
 			},
 			"keywords": "gamificación, hábitos, productividad, RPG, XP, vida real, motivación, metas"
 		}
-		</script>
+		).replace(/</g, "\\u003c")} />
+		)}
 		
 	<!-- Poppins font now loaded from local files in global.css for better performance -->
 	<link rel="preload" href="/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin>

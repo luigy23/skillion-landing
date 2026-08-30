@@ -1,0 +1,101 @@
+---
+/**
+ * Datos estructurados del artículo (SCRUM-450).
+ *
+ * El sitio solo emitía un `SoftwareApplication` global, igual en las 25
+ * páginas: en un artículo eso le dice al modelo que la entidad principal es la
+ * app, no el texto que está leyendo. Aquí se declara lo que la página es de
+ * verdad, con las señales que un motor generativo mira para decidir si cita:
+ * quién lo firma, cuándo se escribió y cuándo se revisó.
+ *
+ * Emite tres grafos:
+ *   - BlogPosting  — el artículo, con autor como Person (nombre + bio).
+ *   - FAQPage      — solo si el post trae preguntas; repite en máquina lo que
+ *                    BlogArticle pinta en pantalla.
+ *   - BreadcrumbList — la miga ya existía en el markup, faltaba declararla.
+ */
+import { CATEGORY_LABELS, blogIndexPath, blogPostPath, postOgImage, type BlogPost, type Lang } from '../../lib/blog';
+
+interface Props {
+  post: BlogPost;
+  lang: Lang;
+}
+
+const { post, lang } = Astro.props as Props;
+const { data } = post;
+
+const site = Astro.site ?? new URL('https://skillion.app');
+const abs = (path: string) => new URL(path, site).href;
+
+// El sitio compila en formato directorio: las URLs canónicas llevan barra
+// final. mainEntityOfPage tiene que coincidir EXACTAMENTE con la canónica del
+// <head>, o se declaran dos entidades para la misma página.
+const withSlash = (path: string) => (path.endsWith('/') ? path : `${path}/`);
+const canonical = abs(withSlash(blogPostPath(lang, data.slug)));
+
+const image = postOgImage(lang, data.slug, data.coverImage);
+
+const author = {
+  '@type': 'Person',
+  name: data.authorName,
+  // La bio es la señal de experiencia: un nombre suelto no dice nada sobre por
+  // qué esta persona puede hablar del tema.
+  ...(data.authorBio ? { description: data.authorBio } : {}),
+};
+
+const blogPosting = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: data.title,
+  // El tldr responde la pregunta; el excerpt es el gancho de la card. Para un
+  // modelo vale más el primero.
+  description: data.tldr ?? data.excerpt,
+  inLanguage: lang === 'es' ? 'es-ES' : 'en-US',
+  datePublished: data.publishedAt.toISOString().slice(0, 10),
+  dateModified: data.updatedAt.toISOString(),
+  articleSection: CATEGORY_LABELS[lang][data.category],
+  author,
+  publisher: {
+    '@type': 'Organization',
+    name: 'Skillion',
+    url: abs('/'),
+    logo: { '@type': 'ImageObject', url: abs('/favicon.png') },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+  url: canonical,
+  ...(image ? { image: [abs(image)] } : {}),
+};
+
+const faqPage =
+  data.faq.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: data.faq.map((item) => ({
+          '@type': 'Question',
+          name: item.q,
+          acceptedAnswer: { '@type': 'Answer', text: item.a },
+        })),
+      }
+    : null;
+
+const breadcrumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Skillion', item: abs(lang === 'es' ? '/es/' : '/') },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: abs(withSlash(blogIndexPath(lang))) },
+    { '@type': 'ListItem', position: 3, name: data.title, item: canonical },
+  ],
+};
+
+/**
+ * `<` escapado a <: un título que contuviera "</script>" cerraría la
+ * etiqueta antes de tiempo y volcaría el resto del JSON en el body.
+ */
+const serialize = (graph: unknown) => JSON.stringify(graph).replace(/</g, '\\u003c');
+
+const graphs = [blogPosting, faqPage, breadcrumbs].filter(Boolean);
+---
+
+{graphs.map((graph) => <script type="application/ld+json" set:html={serialize(graph)} />)}
