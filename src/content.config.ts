@@ -16,7 +16,7 @@ const blog = defineCollection({
     slug: z.string(),
     title: z.string(),
     excerpt: z.string(),
-    category: z.enum(['how-to', 'science', 'tips', 'tricks']),
+    category: z.enum(['how-to', 'science', 'tips', 'tricks', 'comparison', 'roundup']),
     icon: z.string(),
     coverImage: z.string().nullable(),
     readingMinutes: z.number().int().positive(),
@@ -26,6 +26,25 @@ const blog = defineCollection({
     authorBio: z.string().nullable(),
     publishedAt: z.coerce.date(),
     updatedAt: z.coerce.date(),
+
+    /**
+     * Estructura de citabilidad (SCRUM-450). Un modelo cita lo que puede
+     * extraer sin adivinar. `faq` y `sources` alimentan además el JSON-LD.
+     *
+     * `tldr` no es el excerpt: ese es el gancho de la card, escrito para que
+     * hagas clic; este responde el titular de golpe.
+     */
+    tldr: z.string().nullable().default(null),
+    sources: z
+      .array(
+        z.object({
+          title: z.string(),
+          url: z.string().url(),
+          publisher: z.string().optional(),
+        }),
+      )
+      .default([]),
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
   }),
 });
 

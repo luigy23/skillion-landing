@@ -31,6 +31,9 @@ interface PostRow {
   author_bio: string | null;
   published_at: string | Date;
   updated_at: string | Date;
+  tldr: string | null;
+  sources: unknown;
+  faq: unknown;
 }
 
 /**
@@ -94,7 +97,7 @@ export function neonBlogLoader(databaseUrl: string | undefined): Loader {
       const rows = (await sql`
         SELECT translation_key, lang, slug, title, excerpt, body, category, icon,
                cover_image, reading_minutes, xp, featured, author_name, author_bio,
-               published_at, updated_at
+               published_at, updated_at, tldr, sources, faq
         FROM blog_posts
         WHERE published = true
         ORDER BY lang, featured DESC, published_at DESC
@@ -124,6 +127,12 @@ export function neonBlogLoader(databaseUrl: string | undefined): Loader {
             authorBio: row.author_bio,
             publishedAt: new Date(row.published_at),
             updatedAt: new Date(row.updated_at),
+            tldr: row.tldr,
+            // El driver devuelve jsonb ya parseado, pero la columna es nueva y
+            // las filas viejas podrian traer null antes de que corra la
+            // migracion: el default del schema no cubre un null explicito.
+            sources: row.sources ?? [],
+            faq: row.faq ?? [],
           },
         });
 
