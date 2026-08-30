@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "seed": "node db/seed.mjs",
-    "og": "node scripts/dump-posts.mjs .og-posts.json && python3 scripts/make-og-posts.py .og-posts.json && rm -f .og-posts.json"
+    "og": "node scripts/dump-posts.mjs .og-posts.json && python3 scripts/make-og-posts.py .og-posts.json && rm -f .og-posts.json",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
