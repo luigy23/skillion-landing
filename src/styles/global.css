@@ -30,6 +30,32 @@
   src: url('/fonts/Poppins-Bold.woff2') format('woff2');
 }
 
+/* Press Start 2P, autoalojada.
+   Venia de Google Fonts con el truco de media="print" onload, o sea sin
+   bloquear y por tanto SIEMPRE tarde. Como la nav va en esta fuente y esta
+   arriba del todo en todas las paginas, ese retraso costaba caro: con la
+   fuente de repuesto los rotulos son mas estrechos y la barra cabia en una
+   fila; al llegar Press Start 2P pasaba a dos, crecia de 29 a 63 px y
+   empujaba 34 px hacia abajo todo el contenido de la pagina. Medido: 0,13 de
+   CLS en /faq y 0,32 en /blog, por encima del umbral de 0,1.
+
+   Autoalojada y precargada llega antes del primer pintado y no hay
+   sustitucion. Son 4,6 KB: el subconjunto latino cubre U+0000-00FF, o sea
+   todas las vocales acentuadas y la Ñ.
+
+   font-display: block y no swap. Con swap el navegador pinta primero con la
+   de repuesto y esa es justo la sustitucion que causa el salto. Con block
+   espera hasta 3 s antes de pintar el texto, y como va precargada llega
+   mucho antes. */
+@font-face {
+  font-family: 'Press Start 2P';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/fonts/PressStart2P-Regular.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* Global reset to ensure full viewport coverage */
 html, body {
   margin: 0 !important;
