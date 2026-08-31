@@ -139,7 +139,11 @@ const homeGraph = {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/png" href="/favicon.png" />
+		{/* Iconos generados por scripts/make-icons.mjs desde el maestro de
+		    src/assets/brand/. El favicon era antes ese maestro tal cual: 1000x1000
+		    y 256 KB descargados en cada carga para dibujarse a 16 px. */}
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 		<meta name="generator" content={Astro.generator} />
 		{clientRouter && <ClientRouter />}
 		

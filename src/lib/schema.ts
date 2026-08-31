@@ -46,9 +46,13 @@ export function organization(abs: (path: string) => string) {
     '@id': ORG_ID,
     name: 'Skillion',
     url: abs('/'),
+    // logo-512 y no el favicon: Google pide al menos 112x112 para el logo de
+    // una organizacion, y el favicon son 32.
     logo: {
       '@type': 'ImageObject',
-      url: abs('/favicon.png'),
+      url: abs('/logo-512.png'),
+      width: 512,
+      height: 512,
     },
     description:
       'Skillion is a habit app that turns real-life goals into an RPG: you earn XP for ' +
