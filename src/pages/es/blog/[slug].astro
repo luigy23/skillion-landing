@@ -6,6 +6,7 @@ import {
   blogIndexPath,
   blogPostPath,
   getBlogPosts,
+  pageTitle,
   getRelated,
   getTranslation,
   postOgImage,
@@ -47,7 +48,7 @@ const alternates = translation
 
 <Layout
   lang={lang}
-  title={`${post.data.title} | Skillion`}
+  title={pageTitle(post.data.title)}
   description={post.data.excerpt}
   ogImage={postOgImage(lang, post.data.slug, post.data.coverImage)}
   alternates={alternates}

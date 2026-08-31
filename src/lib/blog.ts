@@ -135,6 +135,26 @@ export function blogIndexPath(lang: Lang): string {
   return lang === 'es' ? '/es/blog/' : '/blog/';
 }
 
+/**
+ * Titulo del <title> de un articulo.
+ *
+ * El sufijo "| Skillion" se añade solo si cabe. Google corta el titulo
+ * alrededor de los 60 caracteres, y con el sufijo puesto a ciegas cinco
+ * articulos se pasaban: la parte que se perdia era justo la marca, o sea que
+ * no se ganaba nada y ademas salia con puntos suspensivos.
+ *
+ * Se arregla aqui y no en la base de datos a proposito. Cambiar los titulos en
+ * Neon obligaria a sembrar y reconstruir, con el acoplamiento que eso arrastra
+ * (ver db/README.md), y el titular en si esta bien: lo que sobraba era el
+ * añadido.
+ */
+const LIMITE_TITULO = 60;
+
+export function pageTitle(titulo: string): string {
+  const conMarca = `${titulo} | Skillion`;
+  return conMarca.length <= LIMITE_TITULO ? conMarca : titulo;
+}
+
 export function blogPostPath(lang: Lang, slug: string): string {
   return lang === 'es' ? `/es/blog/${slug}/` : `/blog/${slug}/`;
 }
