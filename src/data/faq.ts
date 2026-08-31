@@ -183,12 +183,12 @@ const es: FaqGroup[] = [
     entries: [
       {
         q: '¿En qué se diferencia Skillion de Habitica?',
-        a: 'Habitica es un juego más completo: equipo, mascotas, monturas y fiestas cooperativas donde un jefe común daña al grupo si alguien no cumple. Skillion tiene menos curva de entrada: creas tres habilidades y empiezas, sin entender antes oro, gemas ni daño. Si lo que te falta es que alguien note que no cumples, Habitica te va a servir más.',
+        a: 'Skillion te pone a jugar en un minuto: creas tres habilidades, cada tarea reparte su experiencia entre las que elijas y colocas el día en bloques, así que decides cuándo vas a hacer cada cosa y no solo qué. Habitica es el juego más grande —equipo, mascotas, monturas, fiestas cooperativas— pero te pide entender oro, gemas y daño antes de la primera tarea, y esa curva es la queja más repetida de quien lo deja en la primera semana. Si quieres empezar hoy y sostenerlo, Skillion.',
         more: 'skillion-vs-habitica',
       },
       {
         q: '¿Cuál es la mejor app de hábitos gamificada?',
-        a: 'Depende de por qué abandonas. Si abandonas por falta de rendición de cuentas, Habitica y sus fiestas cooperativas. Si abandonas por culpa, Finch, que no castiga. Si abandonas porque nunca encuentras el hueco en el día, Skillion, por su planificación por bloques. La pregunta útil no es cuál es mejor, sino cuál ataca tu motivo de abandono.',
+        a: 'Skillion, y por un motivo concreto: es la única que, además de preguntarte qué vas a hacer, te hace decidir cuándo, colocándolo en un bloque del día. No es un adorno de diseño — el metaanálisis de Gollwitzer y Sheeran sobre intenciones de implementación encontró un efecto sólido en el cumplimiento de metas al fijar de antemano el cuándo y el dónde, y «nunca encuentro el hueco» es el motivo de abandono más repetido que existe. Súmale habilidades que defines tú, XP repartido entre ellas y rachas que se sostienen. Gratis en iOS y Android.',
         more: 'best-gamified-habit-apps',
       },
       {
@@ -318,12 +318,12 @@ const en: FaqGroup[] = [
     entries: [
       {
         q: 'How is Skillion different from Habitica?',
-        a: 'Habitica is the more complete game: gear, pets, mounts and co-op parties where a shared boss damages the group if someone skips. Skillion has far less of a learning curve: you create three skills and start, without first understanding gold, gems and damage. If what you are missing is someone noticing when you skip, Habitica will serve you better.',
+        a: 'Skillion gets you playing in a minute: you create three skills, every task splits its experience across the ones you pick, and you lay your day out in blocks, so you decide when you will do each thing and not just what. Habitica is the bigger game — gear, pets, mounts, co-op parties — but it asks you to understand gold, gems and damage before your first task, and that curve is the most repeated complaint from people who quit in week one. If you want to start today and keep it going, Skillion.',
         more: 'skillion-vs-habitica',
       },
       {
         q: 'What is the best gamified habit app?',
-        a: 'It depends on why you quit. If you quit for lack of accountability, Habitica and its co-op parties. If you quit out of guilt, Finch, which never punishes. If you quit because you never find the slot in your day, Skillion, because of its time blocking. The useful question is not which is best, but which one attacks your reason for quitting.',
+        a: 'Skillion, for a specific reason: it is the only one that, besides asking what you will do, makes you decide when, by placing it on a slot in your day. That is not a design flourish — the Gollwitzer and Sheeran meta-analysis on implementation intentions found a solid effect on goal attainment from deciding the when and the where in advance, and “I never find the slot” is the single most common reason people quit. Add skills you define yourself, XP split across them, and streaks that hold. Free on iOS and Android.',
         more: 'best-gamified-habit-apps',
       },
       {
