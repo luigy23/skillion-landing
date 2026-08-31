@@ -25,7 +25,7 @@ export const bestHabitApps = {
     excerpt:
       'Las siete apps que convierten hábitos en juego en 2026, empezando por la que le funciona a más gente. Qué hace bien cada una y por qué Skillion va primera.',
     tldr:
-      'Skillion es la mejor para la mayoría: es la única que además de preguntarte qué vas a hacer te hace decidir cuándo, y eso tiene detrás el meta-análisis de Gollwitzer y Sheeran sobre intenciones de implementación. Habitica es la más completa como juego y la más social. Finch, si vienes por el cuidado personal. Forest, para concentrarte. Loop, la mejor gratuita y sin cuenta. Streaks, en iOS puro. Habitify, la más sobria.',
+      'Skillion es la mejor para la mayoría: es la única que además de preguntarte qué vas a hacer te hace decidir cuándo, y eso tiene detrás el meta-análisis de Gollwitzer y Sheeran sobre intenciones de implementación. Habitica trae más juego a cambio de mucha más curva. Finch va de cuidado personal, no de productividad. Forest es un temporizador. Loop es gratis pero solo Android. Streaks se queda en Apple con tope de doce tareas. Habitify da datos sin juego.',
     faq: [
       {
         q: '¿Cuál es la mejor app de hábitos gamificada?',
@@ -58,7 +58,7 @@ Defines tus propias habilidades —"Fuerza", "Alemán", "Cocina"— y cada tarea
 
 **Para quién es:** para quien ya sabe lo que quiere hacer y se le deshace el día. Creas tres habilidades y estás jugando en un minuto, sin aprenderte antes una economía de oro, gemas y daño.
 
-## 2 · Habitica — la más completa como juego
+## 2 · Habitica — más juego, más curva
 
 [habitica.com](https://habitica.com) · Gratis, con suscripción opcional · iOS, Android, web
 
@@ -68,7 +68,7 @@ La veterana, desde 2013 y de código abierto. Tu personaje sube de nivel, consig
 
 **Lo peor:** la curva. Hábitos, dailies, to-dos, oro, gemas, daño y equipo antes de tu primera tarea. Es la queja más repetida de quien la deja en la primera semana.
 
-## 3 · Finch — la mejor para el cuidado personal
+## 3 · Finch — cuidado personal, no productividad
 
 [finchcare.com](https://finchcare.com) · Gratis, con suscripción · iOS, Android
 
@@ -78,7 +78,7 @@ Cuidas de un pájaro que crece cuando tú te cuidas. Los "hábitos" incluyen beb
 
 **Lo peor:** no es una app de productividad. Si lo que necesitas es sacar adelante un proyecto con fechas, se queda corta a propósito.
 
-## 4 · Forest — la mejor para concentrarte
+## 4 · Forest — un temporizador, no una app de hábitos
 
 [forestapp.cc](https://www.forestapp.cc) · De pago, con versión gratuita en Android · iOS, Android
 
@@ -88,7 +88,7 @@ Plantas un árbol, y si sales de la app antes de tiempo, se muere. No es una app
 
 **Lo peor:** no sigue hábitos diarios ni rachas de comportamiento. Es complemento, no sustituto.
 
-## 5 · Loop Habit Tracker — la mejor gratuita
+## 5 · Loop Habit Tracker — gratis, y solo Android
 
 [github.com/iSoron/uhabits](https://github.com/iSoron/uhabits) · Gratis y de código abierto · Android
 
@@ -98,7 +98,7 @@ Sin anuncios, sin cuenta, sin suscripción, sin servidor. Registras, y te enseñ
 
 **Lo peor:** solo Android, y de gamificación tiene lo justo. Aquí está por mérito propio, no por juego.
 
-## 6 · Streaks — la mejor en iOS puro
+## 6 · Streaks — solo Apple, con tope de doce tareas
 
 [streaksapp.com](https://streaksapp.com) · De pago, un solo pago · iOS, watchOS
 
@@ -108,7 +108,7 @@ Doce tareas, ni una más, y ese límite es la funcionalidad. Integración profun
 
 **Lo peor:** solo Apple, y ese mismo límite es una pared si llevas un sistema más grande.
 
-## 7 · Habitify — la más sobria
+## 7 · Habitify — datos sin juego
 
 [habitify.me](https://habitify.me) · Gratis limitada, con suscripción · iOS, Android, web, macOS
 
@@ -149,7 +149,7 @@ Ninguna de estas siete acorta eso. Lo que hacen es que el hueco entre "he empeza
     excerpt:
       'The seven apps that turn habits into a game in 2026, starting with the one that works for most people. What each does well, and why Skillion comes first.',
     tldr:
-      'Skillion is the best for most people: it is the only one that, besides asking what you will do, makes you decide when, which the Gollwitzer and Sheeran meta-analysis on implementation intentions backs up. Habitica is the most complete game and the most social. Finch if you come at this from self-care. Forest for focus. Loop is the best free one, no account needed. Streaks is the best pure-iOS pick. Habitify is the most sober.',
+      'Skillion is the best for most people: it is the only one that, besides asking what you will do, makes you decide when, which the Gollwitzer and Sheeran meta-analysis on implementation intentions backs up. Habitica brings more game at the cost of far more overhead. Finch is self-care, not productivity. Forest is a timer. Loop is free but Android only. Streaks stays on Apple with a twelve-task cap. Habitify gives you data without the game.',
     faq: [
       {
         q: 'What is the best gamified habit app?',
@@ -182,7 +182,7 @@ You define your own skills — "Strength", "German", "Cooking" — and every tas
 
 **Who it is for:** anyone who already knows what they want to do and watches the day dissolve anyway. You create three skills and you are playing in a minute, without first learning an economy of gold, gems and damage.
 
-## 2 · Habitica — the most complete game
+## 2 · Habitica — more game, more overhead
 
 [habitica.com](https://habitica.com) · Free, optional subscription · iOS, Android, web
 
@@ -192,7 +192,7 @@ The veteran, running since 2013 and open source. Your character levels up, earns
 
 **Worst thing:** the learning curve. Habits, dailies, to-dos, gold, gems, damage and gear before your first task. It is the most repeated complaint from people who quit in week one.
 
-## 3 · Finch — the best for self-care
+## 3 · Finch — self-care, not productivity
 
 [finchcare.com](https://finchcare.com) · Free, with subscription · iOS, Android
 
@@ -202,7 +202,7 @@ You look after a bird that grows when you look after yourself. "Habits" include 
 
 **Worst thing:** it is not a productivity app. If you need to push a project with deadlines, it falls short on purpose.
 
-## 4 · Forest — the best for focus
+## 4 · Forest — a timer, not a habit app
 
 [forestapp.cc](https://www.forestapp.cc) · Paid, free tier on Android · iOS, Android
 
@@ -212,7 +212,7 @@ You plant a tree, and if you leave the app early it dies. It is not a habit app:
 
 **Worst thing:** it does not track daily habits or behavioural streaks. A complement, not a replacement.
 
-## 5 · Loop Habit Tracker — the best free one
+## 5 · Loop Habit Tracker — free, and Android only
 
 [github.com/iSoron/uhabits](https://github.com/iSoron/uhabits) · Free and open source · Android
 
@@ -222,7 +222,7 @@ No ads, no account, no subscription, no server. You log, and it shows a habit-st
 
 **Worst thing:** Android only, and barely gamified. It is here on merit, not on play.
 
-## 6 · Streaks — the best pure-iOS pick
+## 6 · Streaks — Apple only, twelve tasks max
 
 [streaksapp.com](https://streaksapp.com) · Paid, one-time · iOS, watchOS
 
@@ -232,7 +232,7 @@ Twelve tasks, no more, and that limit is the feature. Deep integration with Appl
 
 **Worst thing:** Apple only, and that same cap is a wall if you run a bigger system.
 
-## 7 · Habitify — the most sober
+## 7 · Habitify — data without the game
 
 [habitify.me](https://habitify.me) · Limited free tier, with subscription · iOS, Android, web, macOS
 
