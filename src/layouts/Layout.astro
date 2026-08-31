@@ -201,9 +201,11 @@ const homeGraph = {
 			<script type="application/ld+json" set:html={serializeGraph(homeGraph)} />
 		)}
 		
-	<!-- Poppins font now loaded from local files in global.css for better performance -->
-	<link rel="preload" href="/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin>
-	<link rel="preload" href="/fonts/Poppins-Bold.ttf" as="font" type="font/ttf" crossorigin>
+	<!-- Poppins se autoaloja y se declara en global.css. Se precargan los dos
+	     pesos que pinta cualquier pagina desde el primer frame; los demas los
+	     pide el navegador cuando los necesita. -->
+	<link rel="preload" href="/fonts/Poppins-Regular.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/fonts/Poppins-Bold.woff2" as="font" type="font/woff2" crossorigin>
 	
 	<!-- VT323 + Press Start 2P + Nunito loaded asynchronously (non-blocking) -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">

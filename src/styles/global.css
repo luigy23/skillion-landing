@@ -1,20 +1,17 @@
 @import "tailwindcss";
 
-/* Poppins Font - Local files for better performance */
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url('/fonts/Poppins-Light.ttf') format('truetype');
-}
-
+/* Poppins, autoalojada y en WOFF2.
+   Antes eran 5 pesos en TTF, y en public/fonts/ habia 18 ficheros (3,4 MB) de
+   los que solo 5 se declaraban aqui. TTF es el formato mas pesado que se puede
+   servir: pasar a WOFF2 quita un 67% por fichero.
+   Se conservan 3 pesos: el 300 y el 800 no aparecian en ningun sitio de src/
+   salvo en su propio @font-face. Regenerar con scripts/make-fonts.mjs. */
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+  src: url('/fonts/Poppins-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -22,7 +19,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+  src: url('/fonts/Poppins-SemiBold.woff2') format('woff2');
 }
 
 @font-face {
@@ -30,15 +27,7 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/fonts/Poppins-Bold.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('/fonts/Poppins-ExtraBold.ttf') format('truetype');
+  src: url('/fonts/Poppins-Bold.woff2') format('woff2');
 }
 
 /* Global reset to ensure full viewport coverage */
