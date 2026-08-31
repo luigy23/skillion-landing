@@ -1,0 +1,271 @@
+---
+/**
+ * Plantilla de pagina legal.
+ *
+ * Las paginas legales eran las unicas del sitio que no se parecian al sitio:
+ * fondo blanco, texto negro, sin nav y con un <footer> propio escrito a mano.
+ * El motivo era que todas sus clases —bg-pixel-card, text-gaming-gold,
+ * shadow-pixel, bg-pixel-gradient— no existen: son nombres de un tema de
+ * Tailwind que ya no esta declarado en ningun sitio, asi que no emitian ni una
+ * regla de CSS y el navegador pintaba los valores por defecto.
+ *
+ * Aqui el estilo va en un <style> propio, como en FaqPage y ChangelogPage, que
+ * es el patron que si funciona en este repo.
+ *
+ * Un texto legal se lee distinto de un articulo: se busca un apartado
+ * concreto. Por eso los titulos van en la tipografia pixel —destacan al pasar
+ * el ojo— y el cuerpo en Nunito, que es lo que se puede leer durante parrafos
+ * largos sin cansarse. Al reves seria bonito y no se leeria.
+ */
+import SiteNav from './SiteNav.astro';
+import type { LegalDoc } from '../data/legal';
+import type { Lang } from '../lib/blog';
+
+interface Props {
+  doc: LegalDoc;
+  lang: Lang;
+  /** La misma pagina en el otro idioma. */
+  altHref: string;
+}
+
+const { doc, lang, altHref } = Astro.props as Props;
+const site = 'https://skillion.app';
+const email = 'hello@skillion.app';
+---
+
+<SiteNav lang={lang} altHref={altHref} section="legal" />
+
+<main class="legal">
+  <section class="legal-hero">
+    <h1 class="hero-title">
+      {doc.heading[0]} <span class="hero-accent">{doc.heading[1]}</span>
+    </h1>
+    <p class="hero-intro">{doc.intro}</p>
+    <p class="hero-date">
+      <span class="date-label">{doc.effectiveLabel}</span>
+      <span class="date-value">{doc.effectiveDate}</span>
+    </p>
+  </section>
+
+  <article class="legal-body">
+    {
+      doc.sections.map((section) => (
+        <section class="legal-section">
+          <h2 class="section-title">{section.title}</h2>
+          {section.blocks.map((block) =>
+            block.ul ? (
+              <ul class="section-list">
+                {block.ul.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            ) : (
+              <p class="section-text">{block.p}</p>
+            ),
+          )}
+        </section>
+      ))
+    }
+
+    <section class="legal-section">
+      <h2 class="section-title">{doc.contactTitle}</h2>
+      <p class="section-text">{doc.contactIntro}</p>
+
+      <div class="contact-box">
+        <p>
+          <span class="contact-key">{doc.emailLabel}</span>
+          <a href={`mailto:${email}`}>{email}</a>
+        </p>
+        <p>
+          <span class="contact-key">{doc.siteLabel}</span>
+          <a href={site}>{site}</a>
+        </p>
+      </div>
+    </section>
+
+    <p class="legal-updated">{doc.updatedNote}</p>
+  </article>
+</main>
+
+<style>
+  .legal {
+    background: #0f1526;
+    color: #c9d6f5;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+  }
+
+  /* ---------- CABECERA ---------- */
+  .legal-hero {
+    padding: 72px 24px 48px;
+    text-align: center;
+    background: linear-gradient(#141b32 0%, #0f1526 100%);
+    border-bottom: 4px solid #1b2547;
+  }
+
+  .hero-title {
+    margin: 0 0 20px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(16px, 3.4vw, 30px);
+    line-height: 1.5;
+    color: #ffe6a0;
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+    text-wrap: balance;
+  }
+
+  .hero-accent {
+    color: #ffc53d;
+  }
+
+  .hero-intro {
+    margin: 0 auto 24px;
+    max-width: 560px;
+    font-size: clamp(15px, 2.2vw, 18px);
+    font-weight: 700;
+    line-height: 1.55;
+    color: #8fa6dd;
+    text-wrap: pretty;
+  }
+
+  /* La fecha de vigencia es lo primero que busca quien viene a comprobar si
+     esto cambio, asi que sale arriba y no enterrada en el primer parrafo. */
+  .hero-date {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 16px;
+    background: #141b32;
+    border: 3px solid #26325c;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1.7;
+  }
+
+  .date-label {
+    color: #8fe3da;
+  }
+
+  .date-value {
+    color: #ffe6a0;
+  }
+
+  /* ---------- CUERPO ---------- */
+  .legal-body {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  .legal-section {
+    margin-bottom: 40px;
+  }
+
+  .section-title {
+    margin: 0 0 16px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    /* 12px: los titulos mas largos ("10. Limitacion de Responsabilidad" son 33
+       caracteres) piden 396 px y el cuerpo da 712 en escritorio. En movil
+       parten en dos lineas, que a esta altura de la pagina no molesta. */
+    font-size: clamp(10px, 1.6vw, 12px);
+    /* Un solo grosor tiene esta fuente: pedirle negrita la emborrona. */
+    font-weight: 400;
+    line-height: 1.8;
+    color: #ffe6a0;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #1b2547;
+  }
+
+  .section-text {
+    margin: 0 0 14px;
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: #c9d6f5;
+    text-wrap: pretty;
+  }
+
+  .section-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-list {
+    margin: 0;
+    padding-left: 22px;
+    list-style: square;
+    color: #8fa6dd;
+  }
+
+  .section-list li {
+    margin-bottom: 8px;
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: #c9d6f5;
+  }
+
+  /* ---------- CONTACTO ---------- */
+  .contact-box {
+    margin-top: 8px;
+    padding: 20px 22px;
+    background: #141b32;
+    border: 3px solid #26325c;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .contact-box p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 0 10px;
+    font-size: 15px;
+  }
+
+  .contact-box p:last-child {
+    margin-bottom: 0;
+  }
+
+  .contact-key {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    color: #8fe3da;
+  }
+
+  .contact-box a {
+    color: #ffc53d;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 197, 61, 0.35);
+    /* Un correo o una URL larga no deben desbordar la caja en movil. */
+    word-break: break-word;
+  }
+
+  .contact-box a:hover,
+  .contact-box a:focus-visible {
+    color: #ffe6a0;
+    border-bottom-color: #ffe6a0;
+  }
+
+  .legal-updated {
+    margin: 40px 0 0;
+    padding-top: 20px;
+    border-top: 3px solid #1b2547;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1.8;
+    color: #4f68a8;
+  }
+
+  @media (max-width: 640px) {
+    .legal-hero {
+      padding: 48px 16px 36px;
+    }
+
+    .legal-body {
+      padding: 40px 16px 56px;
+    }
+
+    .contact-box {
+      padding: 16px;
+    }
+  }
+</style>

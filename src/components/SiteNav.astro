@@ -5,8 +5,12 @@ interface Props {
   lang: 'en' | 'es';
   /** Misma página en el otro idioma. En un artículo depende de la traducción. */
   altHref: string;
-  /** Sección de la nav que se resalta. */
-  section?: 'blog' | 'updates' | 'premium' | 'faq';
+  /**
+   * Sección de la nav que se resalta. 'legal' no está en la barra: lo usan
+   * términos y privacidad para que no se resalte ninguna, que sin esto caían
+   * en el valor por defecto y encendían "Blog" estando en otra página.
+   */
+  section?: 'blog' | 'updates' | 'premium' | 'faq' | 'legal';
   /**
    * True cuando estás EN la página principal de esa sección: entonces deja de
    * ser un enlace, porque llevaría a donde ya estás, y el aria-current="page"
