@@ -7,6 +7,11 @@
       "permanent": true
     },
     {
+      "source": "/gracias",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/(.*)",
       "has": [
         {

@@ -14,9 +14,9 @@ export default defineConfig({
     // Los hreflang NO se generan aqui: /updates <-> /es/novedades no es un
     // mapeo mecanico y la opcion i18n del plugin los emitiria mal. Van en el
     // <head> de cada pagina (src/lib/i18n.ts).
-    sitemap({
-      filter: (page) => !page.includes('/gracias'),
-    }),
+    // Sin filter: la unica pagina que se excluia era /gracias, ya retirada.
+    // El 404 lo deja fuera la propia integracion.
+    sitemap(),
   ],
   build: {
     // Inline CSS crítico para reducir bloqueo de renderización
