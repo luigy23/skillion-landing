@@ -25,7 +25,7 @@ export const skillionVsHabitica = {
     excerpt:
       'Las dos convierten tus hábitos en un RPG, pero apuestan por cosas distintas. Comparativa honesta desde dentro, incluyendo dónde Habitica es mejor.',
     tldr:
-      'Habitica es más profunda como juego y más social: fiestas cooperativas, gremios, mascotas, equipo, y todo el código abierto. Skillion es más ligera y está pensada para el día a día: planificas el día por bloques, las tareas se sincronizan entre dispositivos y el sistema de skills lo defines tú. Si quieres un RPG completo con comunidad, Habitica. Si quieres gamificación que no te dé más trabajo que la propia tarea, Skillion.',
+      'Habitica es más profunda como juego y más social: fiestas cooperativas, gremios, mascotas, equipo, y todo el código abierto. Skillion es más ligera y está pensada para el día a día: planificas el día por bloques, las tareas se sincronizan entre dispositivos y el sistema de skills lo defines tú. Si quieres un RPG completo con comunidad, Habitica tiene más de eso. Si quieres gamificación que no te dé más trabajo que la propia tarea, y un día que además planificas, Skillion.',
     faq: [
       {
         q: '¿Habitica es gratis?',
@@ -46,7 +46,7 @@ export const skillionVsHabitica = {
     ],
     body: `Si buscas "alternativas a Habitica" es porque algo de Habitica te atrajo y algo te echó atrás. Suele ser lo mismo en los dos casos: **es un juego de verdad**, con su profundidad y con su carga.
 
-Construyo Skillion, así que tengo un sesgo evidente. Por eso este artículo dedica un apartado entero a lo que Habitica hace mejor, y no es cortesía: si eres de las personas que describo ahí, Habitica te va a servir más y no tiene sentido que pierdas dos semanas descubriéndolo.
+Construyo Skillion, así que tengo un sesgo evidente y prefiero decirlo de entrada. Aun así vas a encontrar aquí un apartado entero de lo que Habitica hace mejor, porque comparar de verdad es lo único que hace que una página como esta te sirva para decidir.
 
 ## 1 · ¿En qué se parecen?
 
@@ -67,7 +67,7 @@ Ahí se acaba el parecido.
 **Comunidad y gremios.** Hay gremios activos por temas, retos compartidos y un wiki enorme escrito por usuarios. Ese ecosistema tarda años en construirse.
 
 :::tip
-Si lo que te falta para cumplir es que alguien lo note, Habitica te va a servir más que Skillion. Su sistema de fiestas resuelve justo eso.
+Si lo que te falta para cumplir es que alguien lo note, el sistema de fiestas de Habitica ataca justo eso, y es lo único de esta lista que Skillion hoy no tiene.
 :::
 
 ## 3 · ¿Qué hace mejor Skillion?
@@ -109,7 +109,7 @@ Ninguna app crea un hábito. El estudio de Lally y su equipo, que siguió a pers
     excerpt:
       'Both turn your habits into an RPG, but they bet on different things. An honest comparison from the inside, including where Habitica wins.',
     tldr:
-      'Habitica is the deeper game and the more social one: co-op parties, guilds, pets, gear, and all of it open source. Skillion is lighter and built for the everyday: you plan your day in blocks, tasks sync across devices, and you define the skill system yourself. Want a full RPG with a community, pick Habitica. Want gamification that is not more work than the task itself, pick Skillion.',
+      'Habitica is the deeper game and the more social one: co-op parties, guilds, pets, gear, and all of it open source. Skillion is lighter and built for the everyday: you plan your day in blocks, tasks sync across devices, and you define the skill system yourself. If you want a full RPG with a community, Habitica has more of it. If you want gamification that is not more work than the task itself, and a day you actually plan, Skillion.',
     faq: [
       {
         q: 'Is Habitica free?',
@@ -130,7 +130,7 @@ Ninguna app crea un hábito. El estudio de Lally y su equipo, que siguió a pers
     ],
     body: `If you are searching for "Habitica alternatives", something about Habitica pulled you in and something pushed you away. It is usually the same thing both times: **it is a real game**, with the depth and the overhead that implies.
 
-I build Skillion, so my bias is obvious. That is why there is a whole section here on what Habitica does better, and it is not politeness: if you are the person I describe there, Habitica will serve you better and there is no point spending two weeks finding that out.
+I build Skillion, so my bias is obvious, and I would rather say so up front. You will still find a whole section here on what Habitica does better, because comparing properly is the only thing that makes a page like this useful for deciding.
 
 ## 1 · Where they overlap
 
@@ -151,7 +151,7 @@ That is where the overlap ends.
 **Community and guilds.** There are active topic guilds, shared challenges and a huge user-written wiki. That ecosystem takes years to build.
 
 :::tip
-If the missing ingredient for you is someone noticing whether you follow through, Habitica will serve you better than Skillion. Its party system solves exactly that.
+If the missing ingredient for you is someone noticing whether you follow through, Habitica's party system attacks exactly that, and it is the one thing here Skillion does not have today.
 :::
 
 ## 3 · What Skillion does better
