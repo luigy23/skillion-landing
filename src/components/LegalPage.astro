@@ -29,14 +29,13 @@ interface Props {
 }
 
 const { doc, lang, altHref } = Astro.props as Props;
-const site = 'https://skillion.app';
-const email = 'hello@skillion.app';
 ---
 
 <SiteNav lang={lang} altHref={altHref} section="legal" />
 
 <main class="legal">
   <section class="legal-hero">
+    {doc.emoji && <p class="hero-emoji" aria-hidden="true">{doc.emoji}</p>}
     <h1 class="hero-title">
       {doc.heading[0]} <span class="hero-accent">{doc.heading[1]}</span>
     </h1>
@@ -53,14 +52,19 @@ const email = 'hello@skillion.app';
         <section class="legal-section">
           <h2 class="section-title">{section.title}</h2>
           {section.blocks.map((block) =>
-            block.ul ? (
+            block.sub ? (
+              <h3 class="section-sub">{block.sub}</h3>
+            ) : block.sub2 ? (
+              <h4 class="section-sub2">{block.sub2}</h4>
+            ) : block.ul ? (
               <ul class="section-list">
                 {block.ul.map((item) => (
-                  <li>{item}</li>
+                  /* set:html: los textos traen <strong> y <a>, ver data/legal.ts */
+                  <li set:html={item} />
                 ))}
               </ul>
             ) : (
-              <p class="section-text">{block.p}</p>
+              <p class="section-text" set:html={block.p} />
             ),
           )}
         </section>
@@ -72,18 +76,18 @@ const email = 'hello@skillion.app';
       <p class="section-text">{doc.contactIntro}</p>
 
       <div class="contact-box">
-        <p>
-          <span class="contact-key">{doc.emailLabel}</span>
-          <a href={`mailto:${email}`}>{email}</a>
-        </p>
-        <p>
-          <span class="contact-key">{doc.siteLabel}</span>
-          <a href={site}>{site}</a>
-        </p>
+        {
+          doc.contact.map((fila) => (
+            <p>
+              <span class="contact-key">{fila.key}</span>
+              {fila.href ? <a href={fila.href}>{fila.value}</a> : <span>{fila.value}</span>}
+            </p>
+          ))
+        }
       </div>
     </section>
 
-    <p class="legal-updated">{doc.updatedNote}</p>
+    {doc.updatedNote && <p class="legal-updated">{doc.updatedNote}</p>}
   </article>
 </main>
 
@@ -100,6 +104,13 @@ const email = 'hello@skillion.app';
     text-align: center;
     background: linear-gradient(#141b32 0%, #0f1526 100%);
     border-bottom: 4px solid #1b2547;
+  }
+
+  .hero-emoji {
+    margin: 0 0 12px;
+    font-family: 'Nunito', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+    font-size: 44px;
+    line-height: 1;
   }
 
   .hero-title {
@@ -177,6 +188,33 @@ const email = 'hello@skillion.app';
     border-bottom: 3px solid #1b2547;
   }
 
+  /* Subtitulo dentro de un apartado. La privacidad los usa para separar tipos
+     de dato dentro de "Informacion que recopilamos". Va en el tipo de cuerpo y
+     no en el de pixeles: si los dos niveles fueran pixel, el ojo no sabria
+     cual manda. */
+  .section-sub {
+    margin: 22px 0 10px;
+    font-size: 15px;
+    font-weight: 900;
+    line-height: 1.5;
+    color: #8fe3da;
+  }
+
+  .section-sub:first-of-type {
+    margin-top: 4px;
+  }
+
+  /* Tercer nivel: los nombres de los servicios de terceros (Firebase,
+     RevenueCat). En dorado y mas pequeño para que se vea que cuelgan del
+     subtitulo de arriba y no compiten con el. */
+  .section-sub2 {
+    margin: 18px 0 8px;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1.5;
+    color: #ffc53d;
+  }
+
   .section-text {
     margin: 0 0 14px;
     font-size: 15.5px;
@@ -187,6 +225,29 @@ const email = 'hello@skillion.app';
 
   .section-text:last-child {
     margin-bottom: 0;
+  }
+
+  /* Las negritas del texto legal marcan lo que no conviene saltarse
+     ("permanently deleted", "billing and legal compliance"). En un tono mas
+     claro que el parrafo para que se vean sin gritar. */
+  .section-text :global(strong),
+  .section-list :global(strong) {
+    color: #ffe6a0;
+    font-weight: 900;
+  }
+
+  .section-text :global(a),
+  .section-list :global(a) {
+    color: #90c5bf;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(144, 197, 191, 0.4);
+    word-break: break-word;
+  }
+
+  .section-text :global(a:hover),
+  .section-list :global(a:hover) {
+    color: #ffc53d;
+    border-bottom-color: #ffc53d;
   }
 
   .section-list {
@@ -237,6 +298,10 @@ const email = 'hello@skillion.app';
     border-bottom: 1px solid rgba(255, 197, 61, 0.35);
     /* Un correo o una URL larga no deben desbordar la caja en movil. */
     word-break: break-word;
+  }
+
+  .contact-box p > span:not(.contact-key) {
+    color: #c9d6f5;
   }
 
   .contact-box a:hover,
