@@ -6,7 +6,7 @@ interface Props {
   /** Misma página en el otro idioma. En un artículo depende de la traducción. */
   altHref: string;
   /** Sección de la nav que se resalta. */
-  section?: 'blog' | 'updates' | 'premium';
+  section?: 'blog' | 'updates' | 'premium' | 'faq';
   /**
    * True cuando estás EN la página principal de esa sección: entonces deja de
    * ser un enlace, porque llevaría a donde ya estás, y el aria-current="page"
@@ -22,8 +22,8 @@ const isEs = lang === 'es';
 const base = isEs ? '/es' : '';
 
 const content = {
-  en: { home: 'Home', blog: 'Blog', updates: "What's New", premium: 'Premium' },
-  es: { home: 'Inicio', blog: 'Blog', updates: 'Novedades', premium: 'Premium' },
+  en: { home: 'Home', blog: 'Blog', updates: "What's New", premium: 'Premium', faq: 'FAQ' },
+  es: { home: 'Inicio', blog: 'Blog', updates: 'Novedades', premium: 'Premium', faq: 'FAQ' },
 } as const;
 
 const t = content[lang];
@@ -82,6 +82,23 @@ const languages = [
       )
     }
 
+    {
+      /* La FAQ monta el ClientRouter igual que blog, novedades y premium: si
+         se olvidara, el router de la página de origen interceptaría el clic,
+         vería que el destino no lo lleva y caería a recarga dura. El fundido
+         desaparecería solo en esa pareja de páginas. */
+      section === 'faq' && isCurrent ? (
+        <span class="is-active" aria-current="page">{t.faq}</span>
+      ) : (
+        <a
+          href={isEs ? '/es/preguntas-frecuentes' : '/faq'}
+          class={section === 'faq' ? 'is-active' : undefined}
+        >
+          {t.faq}
+        </a>
+      )
+    }
+
     <span class="lang-switch">
       {
         languages.map((option) =>
@@ -127,7 +144,15 @@ const languages = [
 
   .nav-links {
     display: flex;
+    /* Envuelve. Sin esto la fila solo podía desbordar en horizontal: con
+       cinco secciones más el selector de idioma, en Press Start 2P a 8px, el
+       grupo pide unos 460px y en un móvil de 375 se salía de la pantalla.
+       Press Start 2P avanza un cuadratín por glifo, así que el ancho crece
+       linealmente con las letras del rótulo y cada sección nueva lo empuja
+       más: envolver es lo único que aguanta añadir la siguiente. */
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     /* 10px + los 6px de padding de cada enlace ≈ los 20px de separación
        óptica del diseño, pero con el doble de superficie clicable. */
     gap: 10px;
@@ -206,12 +231,56 @@ const languages = [
       flex-wrap: wrap;
       justify-content: center;
       padding: 14px 16px;
-      gap: 12px;
+      gap: 10px;
+    }
+
+    /* La espada baja a su propia fila al envolver la barra: 40px de alto ahí
+       arriba comen pantalla en un móvil sin aportar nada que no diga ya el
+       resto de la cabecera. */
+    .nav-logo img {
+      height: 32px;
     }
 
     .nav-links {
-      gap: 14px;
+      /* El gap NO sube a 14 como estaba: aquí es justo donde falta sitio, y
+         cuatro huecos de 4px de más son 16px que empujan un rótulo entero a
+         la línea siguiente. La separación vertical sí se recorta, que si no
+         dos filas de 9px quedan demasiado sueltas. */
+      gap: 10px;
+      row-gap: 6px;
       font-size: 8px;
+    }
+
+    /* El selector de idioma se deja fluir: cae solo a la línea de abajo
+       cuando no cabe, que por debajo de 480px es siempre. Forzarlo con
+       flex-basis:100% se probó y salía peor —entre 560 y 720px sí cabe al
+       lado de los enlaces, y reservarle fila propia hacía la cabecera 33px
+       más alta a cambio de nada. */
+    .lang-switch {
+      margin-left: 0;
+    }
+  }
+
+  /* Móviles estrechos (iPhone SE y compañía, 320-400px). Se aprieta el
+     padding en vez de bajar más el tamaño de letra: Press Start 2P por debajo
+     de 8px empieza a perder píxeles del glifo y se lee peor que apretada. */
+  @media (max-width: 400px) {
+    .nav-links {
+      gap: 8px;
+    }
+
+    /* Solo se recorta el padding horizontal. El vertical se queda en 9px
+       porque es lo único que sostiene el área de pulsación: el texto son 8px,
+       así que bajarlo a 8 dejaba el objetivo en 24px de alto, y justo en los
+       móviles más estrechos es donde menos margen de error tiene el dedo. */
+    .nav-links > a,
+    .nav-links > span:not(.lang-switch) {
+      padding: 9px 3px;
+    }
+
+    .lang-switch > a,
+    .lang-switch > span {
+      padding: 6px 8px;
     }
   }
 </style>

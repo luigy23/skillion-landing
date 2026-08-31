@@ -17,6 +17,7 @@ const ROUTE_PAIRS: Record<string, string> = {
   '/free-premium': '/es/free-premium',
   '/updates': '/es/novedades',
   '/blog': '/es/blog',
+  '/faq': '/es/preguntas-frecuentes',
 };
 
 /** Rutas que solo existen en un idioma: no deben emitir hreflang. */

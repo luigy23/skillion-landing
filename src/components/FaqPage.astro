@@ -1,0 +1,311 @@
+---
+/**
+ * Página de preguntas frecuentes (SCRUM-450).
+ *
+ * Dos decisiones que parecen de estilo y no lo son:
+ *
+ *  - Las preguntas son encabezados de verdad (`<h3>`) y las respuestas van en
+ *    un `<p>` inmediatamente debajo. Esa pareja —encabezado con forma de
+ *    pregunta, respuesta autocontenida justo después— es literalmente lo que un
+ *    motor generativo busca para recortar. Un `<div>` con clase "pregunta" se
+ *    ve igual y no dice nada.
+ *
+ *  - Nada de acordeones. La tentación es plegar las respuestas para que la
+ *    página se vea corta, pero entonces lo primero que ve quien llega es una
+ *    lista de preguntas sin una sola respuesta a la vista. Aquí todo está
+ *    abierto: la página es larga a propósito.
+ *
+ * El FAQPage en JSON-LD ya no da resultado enriquecido en Google —Google lo
+ * retiró en 2026 salvo para webs de gobierno y salud— pero Bing y Perplexity
+ * lo siguen leyendo y cuesta cero mantenerlo, así que se emite igual. El valor
+ * de verdad está en el HTML de arriba.
+ */
+import SiteNav from './SiteNav.astro';
+import { FAQ, FAQ_SEO, FAQ_UI, allFaqEntries } from '../data/faq';
+import { getBlogPosts, blogPostPath, type Lang } from '../lib/blog';
+import { serializeGraph } from '../lib/schema';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props as Props;
+
+const isEs = lang === 'es';
+const base = isEs ? '/es' : '';
+const altHref = isEs ? '/faq' : '/es/preguntas-frecuentes';
+const seo = FAQ_SEO[lang];
+const ui = FAQ_UI[lang];
+const groups = FAQ[lang];
+
+// Los enlaces a artículos se resuelven por translationKey y no por slug: los
+// slugs difieren entre idiomas y viven en Neon, así que escribirlos a mano en
+// el fichero de contenido sería una promesa que se rompe sola. Si la clave no
+// está publicada, el enlace no se pinta y la respuesta se queda sin él.
+const posts = await getBlogPosts(lang);
+const pathByKey = new Map(
+  posts.map((post) => [post.data.translationKey, blogPostPath(lang, post.data.slug)]),
+);
+
+const site = Astro.site ?? new URL('https://skillion.app');
+const abs = (path: string) => new URL(path, site).href;
+const withSlash = (path: string) => (path.endsWith('/') ? path : `${path}/`);
+const canonical = abs(withSlash(isEs ? '/es/preguntas-frecuentes' : '/faq'));
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: isEs ? 'es-ES' : 'en-US',
+  mainEntity: allFaqEntries(lang).map((entry) => ({
+    '@type': 'Question',
+    name: entry.q,
+    acceptedAnswer: { '@type': 'Answer', text: entry.a },
+  })),
+};
+
+const breadcrumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Skillion', item: abs(isEs ? '/es/' : '/') },
+    { '@type': 'ListItem', position: 2, name: seo.heading, item: canonical },
+  ],
+};
+---
+
+<SiteNav lang={lang} altHref={altHref} section="faq" isCurrent />
+
+<main class="faq-page">
+  <section class="faq-hero">
+    <p class="hero-eyebrow">FAQ</p>
+    <h1 class="hero-title">{seo.heading}</h1>
+    <p class="hero-subtitle">{seo.intro}</p>
+  </section>
+
+  <div class="faq-body">
+    {
+      groups.map((group) => (
+        <section class="faq-group">
+          <h2 class="group-title">{group.title}</h2>
+
+          <div class="group-entries">
+            {group.entries.map((entry) => {
+              const href = entry.more ? pathByKey.get(entry.more) : undefined;
+              return (
+                <article class="faq-entry">
+                  <h3 class="entry-q">{entry.q}</h3>
+                  <p class="entry-a">{entry.a}</p>
+                  {href && (
+                    <a class="entry-more" href={href}>
+                      {entry.moreLabel ?? ui.more} →
+                    </a>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <section class="faq-outro">
+    <div class="outro-card">
+      <h2 class="outro-title">{ui.contactLead}</h2>
+      <div class="outro-actions">
+        {/* data-astro-reload: /contact no monta el ClientRouter, así que sin
+            esto el router de esta página intercepta el clic y cae a recarga
+            dura, que es justo el fogonazo que se quiere evitar. */}
+        <a href={`${base}/contact`} class="outro-cta" data-astro-reload>{ui.contactCta}</a>
+        <a href={`${base}/blog`} class="outro-cta is-ghost">{ui.blogCta}</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="application/ld+json" set:html={serializeGraph(faqSchema)} />
+<script type="application/ld+json" set:html={serializeGraph(breadcrumbs)} />
+
+<style>
+  .faq-page {
+    background: #0f1526;
+    color: #c9d6f5;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+  }
+
+  /* ---------- HERO ---------- */
+  .faq-hero {
+    padding: 72px 24px 48px;
+    text-align: center;
+    background: linear-gradient(#141b32 0%, #0f1526 100%);
+    border-bottom: 4px solid #1b2547;
+  }
+
+  .hero-eyebrow {
+    margin: 0 0 18px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    letter-spacing: 0.1em;
+    color: #8fe3da;
+  }
+
+  .hero-title {
+    margin: 0 0 20px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(16px, 3.4vw, 30px);
+    line-height: 1.5;
+    color: #ffe6a0;
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+    text-wrap: balance;
+  }
+
+  .hero-subtitle {
+    margin: 0 auto;
+    max-width: 560px;
+    font-size: clamp(15px, 2.2vw, 18px);
+    font-weight: 700;
+    line-height: 1.55;
+    color: #8fa6dd;
+    text-wrap: pretty;
+  }
+
+  /* ---------- CUERPO ---------- */
+  .faq-body {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 56px 24px 24px;
+  }
+
+  .faq-group {
+    margin-bottom: 56px;
+  }
+
+  .group-title {
+    margin: 0 0 24px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    /* Los rótulos en caja alta van sin tildes ni Ñ a propósito: Press Start 2P
+       no tiene glifos para las mayúsculas acentuadas y el navegador las
+       sustituye por otra fuente, descuadrando la línea entera. */
+    font-size: 11px;
+    line-height: 1.7;
+    color: #8fe3da;
+    padding-bottom: 14px;
+    border-bottom: 3px solid #1b2547;
+  }
+
+  .group-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .faq-entry {
+    padding: 22px 24px;
+    background: #141b32;
+    border: 3px solid #26325c;
+    /* Bisel pixel: la sombra dura, sin difuminar, es lo que le da el volumen
+       de recuadro de juego en vez de tarjeta de web. */
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .entry-q {
+    margin: 0 0 12px;
+    font-size: clamp(16px, 2.4vw, 19px);
+    font-weight: 900;
+    line-height: 1.4;
+    color: #ffe6a0;
+    text-wrap: balance;
+  }
+
+  .entry-a {
+    margin: 0;
+    font-size: 15.5px;
+    font-weight: 400;
+    line-height: 1.65;
+    color: #c9d6f5;
+    text-wrap: pretty;
+  }
+
+  .entry-more {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1.6;
+    color: #90c5bf;
+    text-decoration: none;
+    transition: color 0.15s steps(2);
+  }
+
+  .entry-more:hover,
+  .entry-more:focus-visible {
+    color: #ffc53d;
+  }
+
+  /* ---------- CIERRE ---------- */
+  .faq-outro {
+    padding: 24px 24px 72px;
+  }
+
+  .outro-card {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 36px 28px;
+    text-align: center;
+    background: #141b32;
+    border: 4px solid #3f5da8;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .outro-title {
+    margin: 0 0 24px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(12px, 2.2vw, 16px);
+    line-height: 1.6;
+    color: #ffe6a0;
+    text-wrap: balance;
+  }
+
+  .outro-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .outro-cta {
+    display: inline-block;
+    padding: 14px 20px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    color: #2a1a06;
+    background: #ffc53d;
+    border: 3px solid #0a0f1f;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+    text-decoration: none;
+  }
+
+  .outro-cta.is-ghost {
+    color: #dceafe;
+    background: #1b2547;
+    border-color: #3f5da8;
+  }
+
+  .outro-cta:hover,
+  .outro-cta:focus-visible {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.45);
+  }
+
+  @media (max-width: 640px) {
+    .faq-entry {
+      padding: 18px 16px;
+    }
+
+    .faq-body {
+      padding: 40px 16px 16px;
+    }
+  }
+</style>

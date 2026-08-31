@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FaqPage from '../components/FaqPage.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { FAQ_SEO } from '../data/faq';
+---
+
+<Layout
+  lang="en"
+  title={FAQ_SEO.en.title}
+  description={FAQ_SEO.en.description}
+  showLanguageSwitcher={false}
+  background="#0f1526"
+  clientRouter
+>
+  <FaqPage lang="en" />
+  <SiteFooter lang="en" />
+</Layout>

@@ -17,6 +17,7 @@ const content = {
     home: 'Home',
     updates: "What's New",
     blog: 'Blog',
+    faq: 'FAQ',
     contact: 'Contact',
     legal: 'LEGAL',
     privacy: 'Privacy',
@@ -32,6 +33,7 @@ const content = {
     home: 'Inicio',
     updates: 'Novedades',
     blog: 'Blog',
+    faq: 'FAQ',
     contact: 'Contacto',
     legal: 'LEGAL',
     privacy: 'Privacidad',
@@ -46,6 +48,7 @@ const content = {
 const t = content[lang];
 const year = new Date().getFullYear();
 const updatesHref = isEs ? '/es/novedades' : '/updates';
+const faqHref = isEs ? '/es/preguntas-frecuentes' : '/faq';
 ---
 
 <footer class="site-footer">
@@ -62,6 +65,7 @@ const updatesHref = isEs ? '/es/novedades' : '/updates';
     <a href={`${base}/`} data-astro-reload>{t.home}</a>
     <a href={updatesHref}>{t.updates}</a>
     <a href={`${base}/blog`}>{t.blog}</a>
+    <a href={faqHref}>{t.faq}</a>
     <a href={`${base}/contact`} data-astro-reload>{t.contact}</a>
   </nav>
 
