@@ -41,7 +41,7 @@ export const legacyPosts = [
       faq: [
         {
           q: '¿La gamificación funciona a largo plazo?',
-          a: 'Depende de cómo esté montada. La revisión de Hamari y colegas sobre estudios empíricos encuentra efectos positivos pero muy dependientes del contexto y de la persona. Los sistemas que hacen visible el progreso propio aguantan mejor que los que solo reparten puntos.',
+          a: 'Depende de cómo esté montada. Alguien juntó los estudios que hay y sale que sí funciona, pero depende muchísimo de la persona y del contexto. Los sistemas que te enseñan tu propio avance aguantan mejor que los que solo reparten puntos.',
         },
         {
           q: '¿Por qué el XP motiva más que una lista de tareas?',
@@ -49,16 +49,16 @@ export const legacyPosts = [
         },
         {
           q: '¿Puede la gamificación volverse contra ti?',
-          a: 'Sí. El meta-análisis de Deci, Koestner y Ryan encontró que las recompensas contingentes y controladoras erosionan la motivación intrínseca. Si acabas haciendo la tarea por los puntos y no por lo que buscabas, el sistema te está sustituyendo el motivo.',
+          a: 'Sí. Hay bastante investigación juntada sobre premios y castigos que apunta a lo mismo: cuando el premio se vuelve muy controlador, acaba comiéndose las ganas de hacer la cosa por sí misma. Si terminas haciendo la tarea por los puntos y no por lo que buscabas, el sistema te ha cambiado el motivo.',
         },
       ],
-      body: `Cuando completas una misión en un juego, tu cerebro no celebra la barra que sube: celebra la **señal de que estás avanzando**. Esa señal es la misma que aparece cuando terminas de entrenar, cierras un pull request o lees veinte páginas. La diferencia es que los juegos la hacen visible y la vida real casi nunca.
+      body: `Cuando completas una misión en un juego, tu cerebro no celebra la barra que sube: celebra la señal de que estás avanzando. Es la misma señal que notas cuando sales del gimnasio, cuando terminas un informe que llevabas días evitando o cuando cierras el libro por la noche. La diferencia es que los juegos la hacen visible y la vida real casi nunca.
 
 Las listas de tareas fallan justo ahí. Un check gris no comunica progreso acumulado: comunica que había algo pendiente y ahora hay menos. No hay memoria, no hay curva, no hay historia. Por eso a las dos semanas la motivación se cae aunque la persona siga siendo la misma.
 
-## 1 · El bucle: señal, acción, recompensa
+## 1 · El círculo que hay detrás de cualquier hábito
 
-Todo hábito funciona como un bucle. Lo que la gamificación bien hecha aporta no es "puntos": es una recompensa inmediata y legible para una acción cuyo beneficio real tarda meses en notarse. Correr hoy no te pone en forma hoy. Pero ver la barra de Fitness moverse hoy sí cierra el bucle.
+Todo hábito funciona en círculo: algo te lo recuerda, lo haces, y algo te dice que lo has hecho. Lo que aporta un juego bien montado no son "puntos". Es darte hoy algo que se ve, por una acción cuyo beneficio de verdad no vas a notar hasta dentro de meses. Salir a correr hoy no te pone en forma hoy. Pero ver la barra de Fitness moverse esta misma tarde sí cierra el círculo.
 
 :::tip
 Asigna XP alto a lo que te cuesta empezar, no a lo que ya te sale fácil. El XP es tu presupuesto de motivación: gástalo donde hay fricción.
@@ -70,9 +70,9 @@ Hay un efecto bien documentado: cuando alguien ve que ya avanzó una parte del c
 
 > "No necesitas más disciplina. Necesitas ver lo que ya estás construyendo."
 
-## 3 · Dónde falla la gamificación mal hecha
+## 3 · Dónde falla esto cuando está mal hecho
 
-Cuando los puntos no significan nada, dejan de funcionar en días. La regla que seguimos: cada punto debe mapear a algo que la persona quiere de verdad. Si tu XP no describe tu vida, es decoración. Si la describe, se convierte en un espejo — y los espejos motivan mucho más que las medallas.
+Cuando los puntos no significan nada, dejan de funcionar en días. La regla que seguimos: cada punto tiene que corresponder a algo que tú quieres de verdad. Si tu XP no describe tu vida, es decoración. Si la describe, se convierte en un espejo, y los espejos motivan mucho más que las medallas.
 
 Empieza por tres skills, ponles misiones diarias pequeñas y revisa tu resumen el domingo. En cuatro semanas vas a tener algo que ninguna lista de tareas te da: un historial de quién estás siendo.`,
     },
@@ -80,13 +80,13 @@ Empieza por tres skills, ponles misiones diarias pequeñas y revisa tu resumen e
       slug: 'the-science-behind-xp',
       title: 'The science behind XP: why rewarding your brain actually works',
       excerpt:
-        'Dopamine, variable reinforcement and habit loops. What the research says about gamifying real tasks — and where most apps get it wrong.',
+        'Why your brain reacts to a bar going up, what the research says about turning real tasks into a game, and where most apps get it wrong.',
       tldr:
         'Gamifying habits works when the system makes accumulated progress visible, not when it hands out points for anything. The brain responds to the signal that something went better than expected, not to the reward itself, and a grey checkbox carries no signal at all. That is where most apps fail: they reward the action instead of showing the curve.',
       faq: [
         {
           q: 'Does gamification work long term?',
-          a: 'It depends how it is built. Hamari and colleagues\' review of empirical studies finds positive effects that depend heavily on context and person. Systems that make your own progress visible hold up better than those that just hand out points.',
+          a: 'It depends how it is built. Someone gathered up the studies and it does work, but it depends enormously on the person and the context. Systems that show you your own progress hold up better than ones that just hand out points.',
         },
         {
           q: 'Why does XP motivate more than a to-do list?',
@@ -94,16 +94,16 @@ Empieza por tres skills, ponles misiones diarias pequeñas y revisa tu resumen e
         },
         {
           q: 'Can gamification backfire?',
-          a: 'Yes. The Deci, Koestner and Ryan meta-analysis found that contingent, controlling rewards erode intrinsic motivation. If you end up doing the task for the points rather than for what you were after, the system is replacing your reason.',
+          a: 'Yes. There is a decent pile of research on rewards and punishments pointing the same way: when the reward gets too controlling, it eats the appetite for doing the thing itself. If you end up doing the task for the points rather than for what you were after, the system has swapped your reason out.',
         },
       ],
-      body: `When you finish a quest in a game, your brain is not celebrating the bar going up: it is celebrating the **signal that you are making progress**. That signal is the same one that shows up when you finish a workout, merge a pull request or read twenty pages. The difference is that games make it visible and real life almost never does.
+      body: `When you finish a quest in a game, your brain is not celebrating the bar going up: it is celebrating the signal that you are making progress. It is the same signal you get walking out of the gym, finishing a report you had been dodging for days, or closing the book at night. The difference is that games make it visible and real life almost never does.
 
 That is exactly where to-do lists fall apart. A grey checkmark does not communicate accumulated progress: it communicates that something was pending and now there is less of it. No memory, no curve, no story. That is why motivation collapses after two weeks even though the person has not changed.
 
-## 1 · The loop: cue, action, reward
+## 1 · The circle behind any habit
 
-Every habit runs as a loop. What good gamification adds is not "points": it is an immediate, legible reward for an action whose real payoff takes months to show up. Running today does not make you fit today. But watching your Fitness bar move today does close the loop.
+Every habit runs in a circle: something reminds you, you do it, something tells you it counted. What a well-built game adds is not "points". It gives you something visible today for an action whose real payoff will not show up for months. Going for a run today does not make you fit today. But watching your Fitness bar move this same afternoon does close the circle.
 
 :::tip
 Assign high XP to what is hard to start, not to what already comes easy. XP is your motivation budget: spend it where the friction is.
@@ -115,9 +115,9 @@ There is a well documented effect: once someone can see they are already part of
 
 > "You don't need more discipline. You need to see what you are already building."
 
-## 3 · Where bad gamification breaks
+## 3 · Where this falls apart when it is done badly
 
-When points mean nothing, they stop working within days. The rule we follow: every point has to map to something the person actually wants. If your XP does not describe your life, it is decoration. If it does, it becomes a mirror — and mirrors motivate far more than medals.
+When points mean nothing, they stop working within days. The rule we follow: every point has to line up with something you actually want. If your XP does not describe your life, it is decoration. If it does, it becomes a mirror, and mirrors motivate far more than medals.
 
 Start with three skills, give them small daily quests, and review your recap on Sunday. In four weeks you will have something no to-do list gives you: a record of who you are becoming.`,
     },
@@ -139,7 +139,7 @@ Start with three skills, give them small daily quests, and review your recap on 
       excerpt:
         'El error más común al empezar: crear 12 skills el primer día. Aquí va el setup mínimo que aguanta un mes.',
       tldr:
-        'Empieza con tres skills, no con doce. Un hábito tarda una mediana de unos 66 días en automatizarse, así que doce a la vez son doce procesos caros sostenidos a la vez durante meses. Tres skills amplias cubren casi cualquier vida y se pueden dividir después, cuando ya sabes cuáles usas de verdad.',
+        'Empieza con tres habilidades, no con doce. A la mitad de la gente le cuesta unos 66 días que un hábito le salga solo, así que doce a la vez son doce cosas caras aguantando meses. Tres skills amplias cubren casi cualquier vida y se pueden dividir después, cuando ya sabes cuáles usas de verdad.',
       faq: [
         {
           q: '¿Cuántas skills debería crear al principio?',
@@ -162,9 +162,9 @@ Tres skills es el número que aguanta una mala semana. Con tres puedes fallar un
 
 Elige una de cada tipo:
 
-- **Una que ya haces.** Sirve de suelo: garantiza XP incluso en semanas malas.
-- **Una que quieres sostener.** Ya la empezaste alguna vez y se cayó.
-- **Una que te da pereza empezar.** Esta es la que justifica todo el sistema.
+- Una que ya haces. Sirve de suelo: garantiza XP incluso en semanas malas.
+- Una que quieres sostener. Ya la empezaste alguna vez y se cayó.
+- Una que te da pereza empezar. Esta es la que justifica todo el sistema.
 
 ## 2 · Nombra la skill por la identidad, no por la tarea
 
@@ -192,7 +192,7 @@ Dale una semana entera antes de tocar nada. Al séptimo día abre tu resumen y m
       excerpt:
         'The most common mistake when starting out: creating 12 skills on day one. Here is the minimum setup that survives a month.',
       tldr:
-        'Start with three skills, not twelve. A habit takes a median of about 66 days to automate, so twelve at once means twelve expensive processes sustained simultaneously for months. Three broad skills cover almost any life and can be split later, once you know which ones you actually use.',
+        'Start with three skills, not twelve. Half of people take around 66 days before a habit runs on its own, so twelve at once means twelve expensive things running for months. Three broad skills cover almost any life and can be split later, once you know which ones you actually use.',
       faq: [
         {
           q: 'How many skills should I create at first?',
@@ -215,9 +215,9 @@ Three skills is the number that survives a bad week. With three you can drop one
 
 Pick one of each kind:
 
-- **One you already do.** It is your floor: it guarantees XP even in bad weeks.
-- **One you want to sustain.** You started it once and it fell off.
-- **One you keep putting off.** This is the one that justifies the whole system.
+- One you already do. It is your floor: it guarantees XP even in bad weeks.
+- One you want to sustain. You started it once and it fell off.
+- One you keep putting off. This is the one that justifies the whole system.
 
 ## 2 · Name the skill after the identity, not the task
 
@@ -229,7 +229,7 @@ If you are torn between two names, keep the one you could put on a t-shirt. That
 
 ## 3 · Quests that are genuinely small
 
-Your daily quest has to fit your worst day, not your best one. "Read 30 pages" is a Sunday-morning quest. "Read 10 minutes" is a Tuesday-at-11:40pm quest — and Tuesday at 11:40pm is where streaks are actually decided.
+Your daily quest has to fit your worst day, not your best one. "Read 30 pages" is a Sunday-morning quest. "Read 10 minutes" is a Tuesday-at-11:40pm quest, and Tuesday at 11:40pm is where streaks are actually decided.
 
 Start small and raise it when the size bores you. Raising a quest is far easier than resurrecting a broken streak.
 
@@ -257,7 +257,7 @@ Give it a full week before changing anything. On the seventh day open your recap
       excerpt:
         'Misiones de emergencia, XP mínimo viable y cómo usar el modo viaje sin sentirte culpable.',
       tldr:
-        'Una racha es un instrumento de medida, no el hábito. En el estudio de Lally, saltarse una sola oportunidad no tuvo efecto apreciable sobre la automatización a largo plazo: lo que hace daño es abandonar después de ese día. Ten decidida tu versión mínima antes de necesitarla.',
+        'La racha es el termómetro, no la fiebre. En los estudios, saltarse un día suelto no movió nada a la larga: lo que hace daño es rendirse justo después de ese día. Ten decidida tu versión mínima antes de necesitarla.',
       faq: [
         {
           q: '¿Perder la racha arruina el progreso?',
@@ -278,9 +278,9 @@ Give it a full week before changing anything. On the seventh day open your recap
 
 Para cada skill, define de antemano la versión mínima absoluta. Fuerza: veinte flexiones en el salón. Lectura: una página. Idiomas: cinco minutos. No es hacer trampa: es la diferencia entre una racha de 40 días con tres días flojos y dos rachas de 12 días separadas por un cero.
 
-## 2 · Define tu XP mínimo viable del día
+## 2 · Ponte un suelo diario y no lo negocies
 
-Decide cuál es tu suelo diario — pongamos 30 XP — y trátalo como innegociable. En una semana normal lo pasas sin pensar. En una semana caótica es lo único que persigues, y sabes exactamente cuándo has terminado.
+Decide cuál es tu suelo diario, pongamos 30 XP, y trátalo como innegociable. En una semana normal lo pasas sin pensar. En una semana caótica es lo único que persigues, y sabes exactamente cuándo has terminado.
 
 :::tip
 Escribe tu misión de emergencia el día que estás motivado. Tu yo de las 23:40 no está en condiciones de negociar consigo mismo.
@@ -306,7 +306,7 @@ Suena raro, pero funciona: la gente que más rachas largas mantiene es la que ya
       excerpt:
         'Emergency quests, minimum viable XP, and how to use travel mode without feeling guilty.',
       tldr:
-        'A streak is a measuring instrument, not the habit. In the Lally study, missing a single opportunity had no appreciable effect on long-term automaticity: what hurts is quitting after that day. Decide your minimum version before you need it.',
+        'The streak is the thermometer, not the fever. In the research, skipping one day moved nothing in the long run: what hurts is giving up right after that day. Decide your minimum version before you need it.',
       faq: [
         {
           q: 'Does losing a streak ruin my progress?',
@@ -321,15 +321,15 @@ Suena raro, pero funciona: la gente que más rachas largas mantiene es la que ya
           a: 'Not cheating. Habit research points to established behaviour depending on stable context cues, and travel breaks all of them at once. Pausing is more honest than faking a streak that did not happen.',
         },
       ],
-      body: `Streaks do not break on bad days. They break on strange days: the trip, the move, the flu, the deadline week. Days when the system you built for your normal life does not fit — and instead of adapting it, you drop it.
+      body: `Streaks do not break on bad days. They break on strange days: the trip, the move, the flu, the deadline week. Days when the system you built for your normal life does not fit, and instead of adapting it, you drop it.
 
 ## 1 · Keep one emergency quest per skill
 
 For each skill, decide the absolute minimum version in advance. Strength: twenty push-ups in the living room. Reading: one page. Languages: five minutes. This is not cheating: it is the difference between a 40-day streak with three weak days and two 12-day streaks separated by a zero.
 
-## 2 · Define your minimum viable XP
+## 2 · Set a daily floor and stop negotiating it
 
-Pick your daily floor — say 30 XP — and treat it as non-negotiable. In a normal week you clear it without thinking. In a chaotic week it is the only thing you chase, and you know exactly when you are done.
+Pick your daily floor, say 30 XP, and treat it as non-negotiable. In a normal week you clear it without thinking. In a chaotic week it is the only thing you chase, and you know exactly when you are done.
 
 :::tip
 Write your emergency quest on a day you feel motivated. Your 11:40pm self is in no condition to negotiate with itself.
@@ -367,7 +367,7 @@ It sounds odd, but it works: the people who sustain the longest streaks are the 
       excerpt:
         'De "aprender inglés" a una misión de 15 minutos que puedes completar hoy mismo.',
       tldr:
-        'Una meta grande no se puede hacer; solo se puede hacer la tarea de hoy. Convertir \\"aprender alemán\\" en \\"después de comer, 15 minutos de Anki en el escritorio\\" es la diferencia entre una intención y un plan: el meta-análisis de Gollwitzer y Sheeran encontró un efecto claro sobre el cumplimiento de metas al concretar por adelantado el cuándo y el dónde.',
+        'Una meta grande no se puede hacer; solo se puede hacer la tarea de hoy. Convertir \\"aprender alemán\\" en \\"después de comer, 15 minutos de Anki en el escritorio\\" es la diferencia entre un deseo y un plan, y concretar de antemano la hora y el sitio es de lo que mejor funciona en los estudios.',
       faq: [
         {
           q: '¿Cómo divido una meta grande en misiones diarias?',
@@ -379,25 +379,25 @@ It sounds odd, but it works: the people who sustain the longest streaks are the 
         },
         {
           q: '¿Por qué concretar el cuándo funciona tanto?',
-          a: 'Porque quita la decisión del momento. Las intenciones de implementación, formuladas como \\"si pasa X, entonces hago Y\\", trasladan el esfuerzo del momento de actuar al momento de planificar, que es mucho más barato.',
+          a: 'Porque quita la decisión del momento. Dejarlo escrito como \\"si pasa X, entonces hago Y\\", traslada el esfuerzo del momento de actuar al momento de planificar, que sale mucho más barato.',
         },
       ],
       body: `"Aprender inglés" no es una meta: es una dirección. No tiene final claro, no se puede completar un martes y no te dice qué hacer en los próximos quince minutos. Por eso lleva cuatro años en tu lista.
 
 ## 1 · Baja un peldaño hasta que puedas empezar hoy
 
-El truco es descender por niveles hasta llegar a algo accionable:
+El truco es bajar peldaños hasta llegar a algo que puedas hacer hoy mismo:
 
-1. **Dirección:** aprender inglés.
-2. **Meta con final:** mantener una conversación de 20 minutos sin bloquearme.
-3. **Proyecto trimestral:** 12 clases de conversación.
-4. **Misión diaria:** 15 minutos de práctica hablando.
+1. Dirección: aprender inglés.
+2. Meta con final: mantener una conversación de 20 minutos sin bloquearme.
+3. Proyecto trimestral: 12 clases de conversación.
+4. Misión diaria: 15 minutos de práctica hablando.
 
 Solo el último nivel se puede completar hoy. Los otros tres existen para que ese cuarto tenga sentido.
 
 ## 2 · La meta va en la skill; la misión, en el día
 
-En Skillion la skill guarda la dirección — Idiomas — y las misiones diarias son lo que de verdad marcas. La barra sube por las misiones, pero significa algo por la meta. Si separas las dos cosas, dejas de sentir que hacer quince minutos es "poco": es exactamente 1/48 de tu trimestre.
+En Skillion la skill guarda la dirección, Idiomas, y las misiones diarias son lo que de verdad marcas. La barra sube por las misiones, pero significa algo por la meta. Si separas las dos cosas, dejas de sentir que hacer quince minutos es "poco": es exactamente 1/48 de tu trimestre.
 
 :::tip
 Si una misión no cabe en una frase con verbo y duración, todavía es un proyecto. "Estudiar inglés" no vale. "Hablar 15 minutos" sí.
@@ -405,7 +405,7 @@ Si una misión no cabe en una frase con verbo y duración, todavía es un proyec
 
 ## 3 · Elige el tamaño por frecuencia, no por ambición
 
-Una misión diaria de 15 minutos suma 7,5 horas al mes. Una misión de dos horas los sábados, si la cumples todos los sábados, suma 8. Casi lo mismo — salvo que la primera sobrevive a un sábado malo y la segunda no. Cuando dudes, reparte.
+Una misión diaria de 15 minutos suma 7,5 horas al mes. Una misión de dos horas los sábados, si la cumples todos los sábados, suma 8. Casi lo mismo, salvo que la primera sobrevive a un sábado malo y la segunda no. Cuando dudes, reparte.
 
 ## 4 · Revisa la meta cada trimestre, no cada semana
 
@@ -419,7 +419,7 @@ Las misiones se ajustan a menudo; las metas, no. Cambiar de meta cada dos semana
       excerpt:
         'From "learn Spanish" to a 15-minute quest you can actually finish today.',
       tldr:
-        'You cannot do a big goal; you can only do today\'s task. Turning \\"learn German\\" into \\"after lunch, 15 minutes of Anki at my desk\\" is the difference between an intention and a plan: the Gollwitzer and Sheeran meta-analysis found a clear effect on goal attainment from nailing down the when and the where in advance.',
+        'You cannot do a big goal; you can only do today\'s task. Turning \\"learn German\\" into \\"after lunch, 15 minutes of Anki at my desk\\" is the difference between a wish and a plan, and pinning down the hour and the place in advance is one of the things that works best in the studies.',
       faq: [
         {
           q: 'How do I split a big goal into daily quests?',
@@ -431,25 +431,25 @@ Las misiones se ajustan a menudo; las metas, no. Cambiar de meta cada dos semana
         },
         {
           q: 'Why does pinning down the when work so well?',
-          a: 'Because it removes the decision from the moment. Implementation intentions, framed as \\"if X happens, then I do Y\\", move the effort from the moment of acting to the moment of planning, which is far cheaper.',
+          a: 'Because it removes the decision from the moment. Writing it down as \\"if X happens, then I do Y\\", moves the effort from the moment of acting to the moment of planning, which is far cheaper.',
         },
       ],
       body: `"Learn Spanish" is not a goal: it is a direction. It has no clear end, it cannot be completed on a Tuesday, and it does not tell you what to do in the next fifteen minutes. That is why it has been on your list for four years.
 
 ## 1 · Step down until you can start today
 
-The trick is walking down the levels until you reach something actionable:
+The trick is walking down the steps until you reach something you can do today:
 
-1. **Direction:** learn Spanish.
-2. **Goal with an end:** hold a 20-minute conversation without freezing.
-3. **Quarterly project:** 12 conversation classes.
-4. **Daily quest:** 15 minutes of speaking practice.
+1. Direction: learn Spanish.
+2. Goal with an end: hold a 20-minute conversation without freezing.
+3. Quarterly project: 12 conversation classes.
+4. Daily quest: 15 minutes of speaking practice.
 
 Only the last level can be completed today. The other three exist to give that fourth one meaning.
 
 ## 2 · The goal lives in the skill; the quest lives in the day
 
-In Skillion the skill holds the direction — Languages — and the daily quests are what you actually check off. The bar rises because of the quests, but it means something because of the goal. Separate the two and fifteen minutes stops feeling like "not much": it is exactly 1/48 of your quarter.
+In Skillion the skill holds the direction, Languages, and the daily quests are what you actually check off. The bar rises because of the quests, but it means something because of the goal. Separate the two and fifteen minutes stops feeling like "not much": it is exactly 1/48 of your quarter.
 
 :::tip
 If a quest does not fit in one sentence with a verb and a duration, it is still a project. "Study Spanish" does not count. "Speak for 15 minutes" does.
@@ -457,7 +457,7 @@ If a quest does not fit in one sentence with a verb and a duration, it is still 
 
 ## 3 · Pick the size by frequency, not by ambition
 
-A daily 15-minute quest adds up to 7.5 hours a month. A two-hour Saturday session, if you hit every Saturday, adds up to 8. Nearly identical — except the first survives one bad Saturday and the second does not. When in doubt, spread it out.
+A daily 15-minute quest adds up to 7.5 hours a month. A two-hour Saturday session, if you hit every Saturday, adds up to 8. Nearly identical, except the first survives one bad Saturday and the second does not. When in doubt, spread it out.
 
 ## 4 · Review the goal quarterly, not weekly
 
@@ -498,15 +498,15 @@ Quests get adjusted often; goals do not. Changing your goal every two weeks is t
           a: 'Antes de compartirlo, mira qué skills aparecen. Es tu semana, pero también es información sobre ti: puedes ocultar las que no quieras enseñar sin que dejen de contar para tu XP.',
         },
       ],
-      body: `El Resumen Semanal es la única pantalla de Skillion que no sirve para registrar nada. Sirve para mirar hacia atrás — y resulta que mirar hacia atrás es lo que hace que la semana siguiente vaya mejor.
+      body: `El Resumen Semanal es la única pantalla de Skillion que no sirve para registrar nada. Sirve para mirar hacia atrás, y resulta que mirar hacia atrás es lo que hace que la semana siguiente vaya mejor.
 
-## 1 · Elige tres métricas, no todas
+## 1 · Elige tres números, no todos
 
 Se pueden mostrar muchas, pero un resumen con nueve números no se lee: se ojea. La combinación que mejor funciona es una de cada tipo:
 
-- **Volumen:** XP total de la semana. Responde "¿cuánto?".
-- **Constancia:** días activos o racha. Responde "¿seguido?".
-- **Foco:** la skill que más subió. Responde "¿en qué?".
+- Volumen: XP total de la semana. Responde "¿cuánto?".
+- Constancia: días activos o racha. Responde "¿seguido?".
+- Foco: la skill que más subió. Responde "¿en qué?".
 
 ## 2 · Formato vertical para stories
 
@@ -522,7 +522,7 @@ El domingo el resumen es información: todavía puedes decidir cómo quieres que
 
 ## 4 · Hazte una sola pregunta
 
-No hace falta un ritual de media hora. Abre el resumen y pregúntate: **¿qué skill se quedó parada y por qué?** Si la respuesta es "la misión era demasiado grande", bájala antes de cerrar la app. Ese ajuste de treinta segundos es el que sostiene los meses.
+No hace falta un ritual de media hora. Abre el resumen y pregúntate: ¿qué skill se quedó parada y por qué? Si la respuesta es "la misión era demasiado grande", bájala antes de cerrar la app. Ese ajuste de treinta segundos es el que sostiene los meses.
 
 > Registrar te dice lo que hiciste. Revisar es lo que cambia lo que harás.`,
     },
@@ -547,15 +547,15 @@ No hace falta un ritual de media hora. Abre el resumen y pregúntate: **¿qué s
           a: 'Before sharing, check which skills show up. It is your week, but it is also information about you: you can hide the ones you would rather not display without them losing XP.',
         },
       ],
-      body: `The Weekly Recap is the only screen in Skillion that does not record anything. It exists so you can look back — and looking back turns out to be what makes the following week go better.
+      body: `The Weekly Recap is the only screen in Skillion that does not record anything. It exists so you can look back, and looking back turns out to be what makes the following week go better.
 
 ## 1 · Pick three metrics, not all of them
 
 You can show many, but a recap with nine numbers does not get read: it gets glanced at. The combination that works best is one of each kind:
 
-- **Volume:** total XP for the week. Answers "how much?".
-- **Consistency:** active days or streak. Answers "how steadily?".
-- **Focus:** the skill that grew the most. Answers "on what?".
+- Volume: total XP for the week. Answers "how much?".
+- Consistency: active days or streak. Answers "how steadily?".
+- Focus: the skill that grew the most. Answers "on what?".
 
 ## 2 · Vertical format for stories
 
@@ -571,7 +571,7 @@ On Sunday the recap is information: you can still decide what the coming week lo
 
 ## 4 · Ask yourself one question
 
-You do not need a half-hour ritual. Open the recap and ask: **which skill stalled, and why?** If the answer is "the quest was too big", shrink it before closing the app. That thirty-second adjustment is what carries the months.
+You do not need a half-hour ritual. Open the recap and ask: which skill stalled, and why? If the answer is "the quest was too big", shrink it before closing the app. That thirty-second adjustment is what carries the months.
 
 > Tracking tells you what you did. Reviewing is what changes what you will do.`,
     },

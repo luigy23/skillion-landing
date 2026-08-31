@@ -29,93 +29,93 @@ export const whyHabitsFail = {
     slug: 'por-que-se-abandonan-los-habitos',
     title: 'Por qué se abandonan los hábitos (y qué dice la investigación)',
     excerpt:
-      'No es falta de disciplina. Cinco motivos con respaldo empírico por los que un hábito nuevo muere sobre la semana tres, y qué se puede hacer con cada uno.',
+      'No es falta de disciplina. Cinco motivos, con estudios detrás, por los que un hábito nuevo se muere sobre la semana tres, y qué hacer con cada uno.',
     tldr:
-      'Los hábitos no se abandonan por falta de fuerza de voluntad, sino porque se abandonan antes de automatizarse. La investigación de Lally encontró una mediana de unos 66 días hasta que un comportamiento se vuelve automático, con casos de más de 250: casi todo el mundo lo deja dentro de esa ventana, cuando todavía cuesta esfuerzo consciente. Los cuatro factores que más pesan son empezar con demasiados a la vez, no decidir cuándo ni dónde, depender de la motivación en lugar del contexto, y tratar un fallo aislado como el final.',
+      'La gente no deja los hábitos por falta de fuerza de voluntad, sino porque los deja antes de que lleguen a salirle solos. En los estudios, a la mitad le cuesta unos 66 días llegar a ese punto, y a algunos más de 250. Casi todo el mundo lo deja dentro de ese margen, cuando todavía hay que empujar a mano. Los cuatro factores que más pesan son empezar con demasiados a la vez, no decidir cuándo ni dónde, depender de la motivación en lugar del contexto, y tratar un fallo aislado como el final.',
     faq: [
       {
         q: '¿Cuánto se tarda de verdad en crear un hábito?',
-        a: 'Los 21 días son un mito sin respaldo. El estudio de Lally y su equipo, que siguió a personas formando hábitos reales durante 12 semanas, encontró una mediana de unos 66 días, con un rango de 18 a más de 250 según la persona y la complejidad del comportamiento. Beber un vaso de agua se automatiza mucho antes que ir al gimnasio.',
+        a: 'Lo de los 21 días es un bulo. Hay un estudio que siguió a gente montando hábitos de verdad durante doce semanas: a la mitad le costó unos 66 días, y hubo quien lo tuvo en 18 y quien pasó de 250. Depende de la persona y de lo gordo que sea el hábito. Beber un vaso de agua sale solo mucho antes que ir al gimnasio.',
       },
       {
         q: '¿Fallar un día rompe el hábito?',
-        a: 'No. En ese mismo estudio, saltarse una única oportunidad no tuvo un efecto apreciable sobre el proceso de automatización a largo plazo. Lo que sí hace daño es la reacción al fallo: abandonar por completo después de un día suelto.',
+        a: 'No. En ese mismo estudio, saltarse un día suelto no movió nada a la larga. Lo que sí hace daño es lo que haces después: rendirte del todo por un día.',
       },
       {
         q: '¿Por qué siempre fallo en la semana tres?',
-        a: 'Porque la novedad se ha agotado y la automatización todavía no ha llegado. Al principio empuja el interés por lo nuevo; a partir del mes empuja el automatismo. Entre medias hay un tramo sostenido solo por esfuerzo consciente, y ahí es donde se cae casi todo el mundo.',
+        a: 'Porque la novedad ya se te ha pasado y todavía no te sale solo. Las primeras semanas te empuja lo nuevo; al cabo de un mes te empuja la costumbre. En medio queda un tramo en el que tiras solo a pulso, y ahí se cae casi todo el mundo.',
       },
       {
         q: '¿Es mejor confiar en la motivación o en la rutina?',
-        a: 'En la rutina, y no es opinión. La investigación sobre hábitos apunta a que el comportamiento consolidado se dispara por señales del contexto —hora, lugar, acción previa— más que por una decisión deliberada en el momento. La motivación es útil para arrancar, no para sostener.',
+        a: 'En la rutina, y esto no es opinión mía. Lo que dispara un hábito ya asentado suele ser el contexto: la hora, el sitio, lo que acabas de hacer. Casi nunca una decisión heroica en el momento. La motivación sirve para arrancar, no para aguantar.',
       },
     ],
-    body: `Cuando alguien abandona un hábito, la explicación que se da a sí mismo casi siempre es la misma: *me falta disciplina*. Es una explicación cómoda porque no se puede comprobar, y es casi siempre falsa.
+    body: `Cuando alguien deja un hábito, la explicación que se da a sí mismo casi siempre es la misma: me falta disciplina. Es cómoda, porque no hay manera de comprobarla. Y casi siempre es mentira.
 
-La investigación sobre formación de hábitos apunta a algo más aburrido y más útil: la gente abandona **antes de que el comportamiento llegue a ser automático**. No es un fallo de carácter, es un problema de plazos mal calculados.
+Lo que sale en los estudios es más aburrido y te sirve mucho más: la gente lo deja antes de que la cosa llegue a salirle sola. Calculaste mal cuánto iba a durar la parte difícil, y ya está.
 
 ## 1 · ¿Cuánto tarda de verdad?
 
-La cifra de los 21 días circula desde hace décadas y no viene de un estudio sobre hábitos: viene de una observación de un cirujano plástico de los años sesenta sobre cuánto tardaban sus pacientes en acostumbrarse a su nueva cara.
+Lo de los 21 días lleva décadas dando vueltas y no sale de ningún estudio sobre hábitos. Sale de un cirujano plástico de los años sesenta que se fijó en lo que tardaban sus pacientes en acostumbrarse a su cara nueva. Eso es todo. Ese es el origen de la cifra que has visto mil veces.
 
-El dato serio está en el trabajo de Lally y su equipo, que siguió durante doce semanas a personas formando un hábito real de comida, bebida o ejercicio: la mediana hasta alcanzar la meseta de automatización rondó los **66 días**, con un rango que iba de 18 a más de 250 según la persona y lo complejo del comportamiento.
+El dato bueno viene de un grupo de investigadores que siguió a gente durante doce semanas mientras montaba un hábito de verdad, de comer, beber o moverse. A la mitad le costó unos 66 días llegar al punto en que ya no pesa. Hubo quien lo tuvo en 18 días y quien pasó de 250.
 
-Ese rango es lo importante. Si te has propuesto ir al gimnasio y esperabas que dejara de costarte a las tres semanas, no fallaste: calculaste mal.
+Ese margen es lo que importa. Si te apuntaste al gimnasio contando con que a las tres semanas dejara de costarte, no fallaste tú. Fallaron tus cuentas.
 
-## 2 · ¿Por qué la semana tres?
+## 2 · ¿Por qué justo la semana tres?
 
-Al principio el comportamiento lo sostiene la novedad. Al final lo sostiene el automatismo. Entre uno y otro hay un tramo, de dos a seis semanas, en el que **solo lo sostiene el esfuerzo consciente**, que es el recurso más caro y menos fiable que tienes.
+Los primeros días te empuja la novedad. Al cabo de unos meses te empuja la costumbre. Entre una cosa y la otra hay un tramo de dos a seis semanas en el que lo único que te empuja eres tú a pulso, y esa es la gasolina más cara que tienes.
 
-Casi todos los abandonos caen ahí. No porque la persona se haya vuelto más débil, sino porque en esa franja el hábito todavía cobra el precio completo cada día.
+Ahí se cae casi todo el mundo. No te has ablandado. Es que en esas semanas el hábito te sigue cobrando el precio entero cada día y no te devuelve nada todavía.
 
 ## 3 · Los cuatro motivos que más pesan
 
 ### Empezaste con demasiados
 
-El error clásico del día uno: quince hábitos nuevos. Si uno solo tarda dos meses de esfuerzo consciente, quince a la vez es sostener quince procesos caros durante meses. Se cae la torre entera.
+El error clásico del primer día: quince hábitos nuevos. Si uno solo te va a pedir dos meses de empujar a mano, quince a la vez son quince cosas caras aguantando meses. Se cae la torre entera y encima te llevas la sensación de haber fracasado en quince frentes.
 
-Tres. Cuando esos tres dejen de doler, añades.
+Tres. Cuando esos tres dejen de doler, añades otro.
 
-### No decidiste cuándo ni dónde
+### No dijiste cuándo ni dónde
 
-"Voy a leer más" no es un plan, es una intención. "Después de cenar, leo veinte minutos en el sofá" sí lo es.
+"Voy a leer más" no es un plan. Es un deseo. "Después de cenar leo veinte minutos en el sofá" ya es otra cosa.
 
-Esto tiene uno de los respaldos empíricos más sólidos del área: el meta-análisis de Gollwitzer y Sheeran sobre intenciones de implementación —formular el plan como *si pasa X, entonces hago Y*— encontró un efecto claro sobre el cumplimiento de metas. Concretar el cuándo y el dónde por adelantado es de lo más barato que puedes hacer y de lo que más rinde.
+Esto es de lo más comprobado que hay en el tema. Alguien juntó decenas de estudios sobre esto y salió lo mismo en casi todos: la gente que deja escrito de antemano a qué hora y en qué sitio va a hacer algo, lo hace mucho más que la que solo se lo propone. Suena tonto. Funciona igual.
 
-### Dependiste de la motivación
+### Tiraste de motivación
 
-La motivación es un estado, y los estados fluctúan. La literatura sobre hábitos, incluida la revisión de Wood y Rünger, apunta a que el comportamiento consolidado se dispara sobre todo por **señales del contexto** —una hora, un sitio, una acción que siempre va antes— y no por una decisión deliberada en el momento.
+La motivación es un estado de ánimo, y los estados de ánimo van y vienen. Lo que dispara un hábito ya asentado suele ser el contexto: una hora, un sitio, algo que siempre haces justo antes. No una decisión heroica en el momento.
 
-Traducido: no diseñes para el día que te apetece. Diseña para el martes que llueve y estás cansado. Si el hábito depende de que te apetezca, no es un hábito, es un plan.
+Traducido: no diseñes para el día que te apetece. Diseña para el martes de lluvia en el que llegas reventado. Si tu hábito depende de que te apetezca, todavía no es un hábito.
 
 ### Trataste un fallo como el final
 
-En el estudio de Lally, saltarse **una** oportunidad no tuvo un efecto apreciable sobre el proceso de automatización. Un día suelto no rompe nada.
+En el estudio que te contaba, saltarse un día no movió la aguja. Uno suelto no rompe nada.
 
-Lo que rompe es la reacción: fallar el martes, decidir que "ya está roto" y no volver el miércoles. La racha es un instrumento de medida, no el hábito. Confundirlos convierte un tropiezo en un abandono.
+Lo que rompe es lo que haces después: fallas el martes, decides que "ya la he liado" y no vuelves el miércoles. La racha es el termómetro, no la fiebre. Confundir las dos cosas es lo que convierte un tropiezo en un abandono.
 
 :::tip
-Si vas a fallar —y vas a fallar— decide de antemano cuál es tu versión mínima. Cinco minutos de lectura sigue siendo leer. Lo que sostiene el hábito es la continuidad de la señal, no el tamaño de la sesión.
+Vas a fallar. Decide de antemano cuál es tu versión mínima. Cinco minutos de lectura siguen siendo leer. Lo que sostiene el hábito es no perder el hilo, no lo largo que sea la sesión.
 :::
 
-## 4 · El motivo que casi nadie mira: el sistema te castigaba
+## 4 · El motivo que casi nadie mira: la app te estaba castigando
 
-Hay un quinto motivo que no está en la persona sino en la herramienta.
+Hay un quinto motivo que no está en ti, sino en la herramienta.
 
-El meta-análisis de Deci, Koestner y Ryan sobre recompensas externas encontró que las recompensas contingentes y controladoras tienden a **erosionar la motivación intrínseca**. Es un resultado incómodo para media industria de apps de hábitos, la mía incluida: un sistema que te premia demasiado por hacerlo o te castiga demasiado por fallar puede acabar sustituyendo el motivo por el que empezaste.
+Cuando alguien lleva años premiándote por algo, el premio puede acabar comiéndose las ganas originales. Está estudiado y es un resultado incómodo para media industria de apps de hábitos, la mía incluida: si el sistema te aplaude demasiado por cumplir o te riñe demasiado por fallar, terminas haciéndolo por el sistema y no por el motivo por el que empezaste.
 
-La señal de que esto te está pasando es concreta: **empiezas a evitar abrir la app**. No porque no tengas tiempo, sino porque abrirla se ha convertido en enfrentarte a una lista de reproches. Cuando eso pasa, la app dejó de ayudar hace semanas.
+La señal de que te está pasando es muy concreta: empiezas a evitar abrir la app. No por falta de tiempo, sino porque abrirla es sentarte delante de una lista de reproches. Cuando llegas ahí, esa app dejó de ayudarte hace semanas.
 
 ## 5 · Qué hacer con todo esto
 
-Cuatro cosas, en orden:
+Cuatro cosas, por orden:
 
-1. **Recalcula el plazo.** Dos meses, no tres semanas. Si esperas que cueste hasta el día 60, el día 20 deja de ser una señal de fracaso.
-2. **Baja a tres hábitos.** Los que sobran no los estás haciendo igualmente.
-3. **Escribe el cuándo y el dónde**, no solo el qué. Con esa frase concreta.
-4. **Define tu versión mínima** antes de necesitarla, no el día que fallas.
+1. Recalcula el plazo. Dos meses, no tres semanas. Si cuentas con que va a costar hasta el día 60, el día 20 deja de parecerte un fracaso.
+2. Bájate a tres hábitos. Los que sobran no los estabas haciendo igualmente.
+3. Escribe el cuándo y el dónde, no solo el qué. Con esa frase concreta, con su hora y su sitio.
+4. Decide tu versión mínima antes de necesitarla, no el día que fallas.
 
-Nada de esto necesita una app. Una app buena hace que estos cuatro pasos cuesten menos —y en Skillion la planificación por bloques existe justo por el punto 3— pero el orden importa: el sistema primero, la herramienta después. Al revés es como se acumulan apps de hábitos sin hábitos.`,
+Nada de esto necesita una app. Una app decente hace que estos cuatro pasos te cuesten menos, y en Skillion colocas cada tarea en su hueco del día justo por el punto 3. Pero el orden importa: primero el plan, luego la herramienta. Al revés es como se acaba con el móvil lleno de apps de hábitos y ningún hábito.`,
   },
 
   en: {
@@ -124,90 +124,90 @@ Nada de esto necesita una app. Una app buena hace que estos cuatro pasos cuesten
     excerpt:
       'It is not a discipline problem. Five evidence-backed reasons a new habit dies around week three, and what to do about each one.',
     tldr:
-      'Habits are not abandoned for lack of willpower, but because people quit before the behaviour becomes automatic. Lally\'s research found a median of about 66 days to automaticity, with cases past 250: almost everyone quits inside that window, while it still takes conscious effort. The four factors that weigh most are starting with too many at once, never deciding when and where, relying on motivation instead of context, and treating one missed day as the end.',
+      'People do not drop habits for lack of willpower. They drop them before the thing ever starts running by itself. In the research, half of people take around 66 days to get there, and some take over 250. Almost everybody quits inside that window, while it still has to be pushed by hand. The four factors that weigh most are starting with too many at once, never deciding when and where, relying on motivation instead of context, and treating one missed day as the end.',
     faq: [
       {
         q: 'How long does it really take to build a habit?',
-        a: 'The 21-day figure is a myth with no support. The Lally study, which followed people forming real habits for 12 weeks, found a median of about 66 days, ranging from 18 to over 250 depending on the person and how complex the behaviour is. Drinking a glass of water automates far sooner than going to the gym.',
+        a: 'The 21-day figure is a myth. One study followed people building real habits for twelve weeks: half of them took around 66 days, some got there in 18 and others went past 250. It depends on the person and on how big the habit is. Drinking a glass of water runs by itself long before going to the gym does.',
       },
       {
         q: 'Does missing one day break the habit?',
-        a: 'No. In that same study, missing a single opportunity had no appreciable effect on long-term automaticity. What does damage is the reaction to it: abandoning entirely after one slip.',
+        a: 'No. In that same study, skipping one day moved nothing in the long run. What does the damage is what you do next: giving up entirely over one day.',
       },
       {
         q: 'Why do I always fail in week three?',
-        a: 'Because novelty has run out and automaticity has not arrived. Early on, interest in something new carries you; past the first month, automatic behaviour does. In between there is a stretch held up by conscious effort alone, and that is where almost everyone falls.',
+        a: 'Because the novelty has worn off and it does not run by itself yet. The first weeks the new thing carries you; after a month the routine does. In between there is a stretch where you are pulling by hand, and that is where almost everybody falls off.',
       },
       {
         q: 'Should I rely on motivation or on routine?',
-        a: 'Routine, and that is not an opinion. Habit research points to established behaviour being triggered by context cues — time, place, preceding action — rather than by a deliberate decision in the moment. Motivation is useful for starting, not for sustaining.',
+        a: 'Routine, and that is not just my opinion. What fires a settled habit is usually the context: the time, the place, what you have just done. Hardly ever a heroic decision in the moment. Motivation is for starting, not for lasting.',
       },
     ],
-    body: `When someone abandons a habit, the explanation they give themselves is almost always the same: *I lack discipline*. It is a comfortable explanation because it cannot be checked, and it is almost always wrong.
+    body: `When people give up on a habit, the story they tell themselves is nearly always the same: I have no discipline. It is a comfortable story, because there is no way to check it. It is also usually wrong.
 
-Habit research points at something more boring and more useful: people quit **before the behaviour ever becomes automatic**. It is not a character flaw, it is a badly estimated timeline.
+What the research says is duller and far more useful: people quit before the thing ever starts running by itself. You got the timeline wrong, that is all.
 
 ## 1 · How long does it actually take?
 
-The 21-day number has circulated for decades and does not come from a habit study: it comes from a 1960s plastic surgeon's observation about how long his patients took to get used to their new face.
+The 21-day figure has been going around for decades and comes from no habit study at all. It comes from a plastic surgeon in the 1960s who noticed how long his patients took to get used to their new face. That is the whole origin of the number you have seen a thousand times.
 
-The serious figure comes from Lally and colleagues, who followed people forming a real eating, drinking or exercise habit over twelve weeks: the median time to reach the automaticity plateau was around **66 days**, ranging from 18 to over 250 depending on the person and the complexity of the behaviour.
+The good data comes from a team who followed people for twelve weeks while they built a real habit around eating, drinking or moving. Half of them took about 66 days to reach the point where it stopped being heavy. Some got there in 18 days. Others went past 250.
 
-That range is the point. If you set out to go to the gym and expected it to stop costing you after three weeks, you did not fail. You estimated wrong.
+That spread is the part that matters. If you joined a gym expecting it to stop costing you after three weeks, you did not fail. Your maths did.
 
-## 2 · Why week three?
+## 2 · Why week three, specifically?
 
-At the start, novelty carries the behaviour. At the end, automaticity does. Between the two there is a stretch, roughly two to six weeks, held up by **conscious effort alone** — the most expensive and least reliable resource you have.
+For the first few days, novelty pushes you. Months later, routine pushes you. In between there is a stretch of two to six weeks where the only thing pushing you is you, by hand, and that is the most expensive fuel you own.
 
-Almost every abandonment lands there. Not because the person got weaker, but because in that window the habit still charges full price every single day.
+That is where almost everybody falls off. You did not go soft. In those weeks the habit still charges you full price every day and gives you nothing back yet.
 
 ## 3 · The four reasons that weigh most
 
 ### You started with too many
 
-The classic day-one mistake: fifteen new habits. If one alone takes two months of conscious effort, fifteen at once means sustaining fifteen expensive processes for months. The whole tower comes down.
+The classic day-one mistake: fifteen new habits. If one alone is going to ask two months of pushing by hand, fifteen at once is fifteen expensive things running for months. The whole tower comes down, and you walk away feeling like you failed on fifteen fronts.
 
-Three. When those three stop hurting, add more.
+Three. When those three stop hurting, add another.
 
-### You never decided when or where
+### You never said when or where
 
-"I'll read more" is not a plan, it is an intention. "After dinner, I read twenty minutes on the sofa" is one.
+"I'll read more" is not a plan. It is a wish. "After dinner I read twenty minutes on the sofa" is something else.
 
-This has some of the strongest empirical backing in the field: the Gollwitzer and Sheeran meta-analysis on implementation intentions — framing the plan as *if X happens, then I do Y* — found a clear effect on goal attainment. Nailing down the when and the where in advance is among the cheapest things you can do and the highest-returning.
+This is one of the best-tested ideas in the field. Someone pulled together dozens of studies on it and got the same answer nearly every time: people who write down in advance what time and what place they will do something end up doing it far more than people who merely intend to. It sounds daft. It works anyway.
 
-### You relied on motivation
+### You ran on motivation
 
-Motivation is a state, and states fluctuate. The habit literature, including the Wood and Rünger review, points to established behaviour being triggered mainly by **context cues** — a time, a place, an action that always comes before — rather than by a deliberate decision in the moment.
+Motivation is a mood, and moods come and go. What actually fires a settled habit tends to be the context around it: a time, a place, something you always do right before. Not a heroic decision in the moment.
 
-Translated: do not design for the day you feel like it. Design for the rainy Tuesday when you are tired. If the habit depends on wanting to, it is not a habit, it is a plan.
+Translated: do not design for the day you feel like it. Design for the rainy Tuesday when you get home wrecked. If your habit depends on wanting to, it is not a habit yet.
 
 ### You treated one miss as the end
 
-In the Lally study, missing **one** opportunity had no appreciable effect on the automaticity process. A single day breaks nothing.
+In that same study, skipping a single day moved nothing. One miss breaks nothing.
 
-What breaks things is the reaction: missing Tuesday, deciding it is "already ruined", and not coming back Wednesday. The streak is a measuring instrument, not the habit. Confusing the two turns a stumble into an abandonment.
+What breaks things is what you do next: you miss Tuesday, decide you have blown it, and skip Wednesday too. The streak is the thermometer, not the fever. Mixing those up is what turns a stumble into quitting.
 
 :::tip
-Since you are going to miss — and you are — decide your minimum version in advance. Five minutes of reading is still reading. What sustains a habit is the continuity of the cue, not the size of the session.
+You are going to miss. Decide your minimum version in advance. Five minutes of reading is still reading. What holds a habit up is not losing the thread, not how long the session was.
 :::
 
-## 4 · The reason almost nobody looks at: the system was punishing you
+## 4 · The reason almost nobody looks at: the app was punishing you
 
-There is a fifth reason that lives in the tool, not the person.
+There is a fifth reason, and it lives in the tool rather than in you.
 
-The Deci, Koestner and Ryan meta-analysis on extrinsic rewards found that contingent, controlling rewards tend to **erode intrinsic motivation**. That is an uncomfortable result for half the habit-app industry, mine included: a system that rewards you too hard for doing it, or punishes you too hard for missing, can end up replacing the reason you started.
+When something rewards you for long enough, the reward can end up eating the reason you started. It has been studied, and it is an uncomfortable finding for half the habit-app industry, mine included: if the system claps too hard when you comply and scolds too hard when you slip, you end up doing it for the system.
 
-The sign that this is happening to you is concrete: **you start avoiding opening the app**. Not for lack of time, but because opening it has become a confrontation with a list of reproaches. By the time that happens, the app stopped helping weeks ago.
+The sign that this is happening is very specific: you start avoiding the app. Not for lack of time, but because opening it means sitting down in front of a list of reproaches. By the time you get there, that app stopped helping weeks ago.
 
 ## 5 · What to do with all this
 
 Four things, in order:
 
-1. **Recalculate the timeline.** Two months, not three weeks. If you expect it to cost until day 60, day 20 stops being a failure signal.
-2. **Cut down to three habits.** You are not doing the extra ones anyway.
-3. **Write down the when and the where**, not just the what. In that concrete sentence.
-4. **Define your minimum version** before you need it, not on the day you miss.
+1. Recalculate the timeline. Two months, not three weeks. If you expect it to cost until day 60, day 20 stops looking like failure.
+2. Cut down to three habits. You were not doing the extra ones anyway.
+3. Write the when and the where, not just the what. That concrete sentence, with its hour and its place.
+4. Decide your minimum version before you need it, not on the day you miss.
 
-None of this needs an app. A good app makes those four steps cheaper — and in Skillion, time blocking exists precisely for point 3 — but the order matters: system first, tool second. The other way round is how people accumulate habit apps without habits.`,
+None of this needs an app. A decent app makes those four steps cheaper, and in Skillion you drop each task into its slot in the day precisely because of point 3. But the order matters: plan first, tool second. The other way round is how people end up with a phone full of habit apps and no habits.`,
   },
 };

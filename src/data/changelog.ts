@@ -459,12 +459,12 @@ export const changelog: ChangelogRelease[] = [
         icon: '\ud83d\udcf3',
         tag: 'improvement',
         title: {
-          en: 'An onboarding you can feel',
-          es: 'Un onboarding que se siente',
+          en: 'The first steps, now you can feel them',
+          es: 'Los primeros pasos, ahora se sienten',
         },
         description: {
-          en: 'Haptic feedback and rising vibration as you go through the first steps.',
-          es: 'Vibración y respuesta háptica ascendente mientras avanzas por los primeros pasos.',
+          en: 'The phone answers you with a vibration that builds as you move through the first steps.',
+          es: 'El móvil te responde con una vibración que va subiendo mientras avanzas por los primeros pasos.',
         },
       },
       {

@@ -88,22 +88,22 @@ const es: FaqGroup[] = [
     entries: [
       {
         q: '¿Qué es la gamificación de hábitos?',
-        a: 'La gamificación de hábitos consiste en aplicar mecánicas de videojuego —puntos de experiencia, niveles, rachas— al seguimiento de rutinas de la vida real. Resuelve un problema concreto de las listas de tareas: marcas una casilla, se pone gris y desaparece, sin dejar rastro de lo que llevas acumulado. Apps como Skillion, Habitica o Finch convierten ese progreso invisible en una curva que se puede mirar.',
+        a: 'Es aplicar cosas de videojuego (puntos, niveles, rachas) a lo que haces en la vida real. Sirve para arreglar un fallo concreto de las listas de tareas: marcas la casilla, se pone gris, desaparece y al mes no te queda ni rastro de todo lo que hiciste. Apps como Skillion, Habitica o Finch convierten eso que no se veía en algo que puedes mirar.',
         more: 'best-gamified-habit-apps',
       },
       {
         q: '¿Cuánto se tarda de verdad en formar un hábito?',
-        a: 'Los 21 días son un mito sin respaldo: vienen de la observación de un cirujano plástico de los años sesenta, no de un estudio sobre hábitos. El trabajo de Lally y su equipo, que siguió durante doce semanas a personas formando hábitos reales, encontró una mediana de unos 66 días, con un rango de 18 a más de 250 según la persona y lo complejo del comportamiento. Beber un vaso de agua se automatiza mucho antes que ir al gimnasio.',
+        a: 'Lo de los 21 días es un bulo: sale de un cirujano plástico de los años sesenta que se fijó en cuánto tardaban sus pacientes en acostumbrarse a su cara nueva, no de ningún estudio sobre hábitos. Hay uno serio que siguió a gente durante doce semanas: a la mitad le costó unos 66 días, y hubo quien lo tuvo en 18 y quien pasó de 250. Depende mucho de la persona y de lo gordo que sea el hábito. Beber un vaso de agua sale solo mucho antes que ir al gimnasio.',
         more: 'why-habits-fail',
       },
       {
         q: '¿Por qué abandono siempre a las tres semanas?',
-        a: 'Porque la novedad ya se agotó y la automatización todavía no ha llegado. Al principio empuja el interés por lo nuevo; a partir del mes empuja el automatismo. Entre medias queda un tramo sostenido solo por esfuerzo consciente, y ahí es donde se cae casi todo el mundo. No es falta de disciplina, es un plazo mal calculado.',
+        a: 'Porque la novedad ya se te ha pasado y todavía no te sale solo. Las primeras semanas te empuja lo nuevo; al cabo de un mes te empuja la costumbre. En medio queda un tramo en el que tiras solo a pulso, y ahí se cae casi todo el mundo. No te falta disciplina: calculaste mal cuánto iba a durar la parte dura.',
         more: 'why-habits-fail',
       },
       {
         q: '¿Fallar un día rompe el hábito?',
-        a: 'No. En el estudio de Lally, saltarse una única oportunidad no tuvo efecto apreciable sobre la automatización a largo plazo. Lo que sí hace daño es la reacción al fallo: abandonar del todo después de un día suelto. Un hábito no se rompe por un fallo, se rompe por la conclusión que sacas del fallo.',
+        a: 'No. En ese mismo estudio, saltarse un día suelto no movió nada a la larga. Lo que sí hace daño es lo que haces después: fallar el martes, decidir que ya la has liado y no volver el miércoles. Un hábito no se rompe por fallar, se rompe por lo que te dices a ti mismo cuando fallas.',
         more: 'why-habits-fail',
       },
       {
@@ -113,12 +113,12 @@ const es: FaqGroup[] = [
       },
       {
         q: '¿La gamificación funciona de verdad o es un truco?',
-        a: 'La revisión de literatura de Hamari y sus colegas sobre estudios empíricos de gamificación encuentra efectos positivos, pero muy dependientes del contexto y de quién la usa. Traducido: ayuda a sostener algo que ya querías hacer, y no convierte en interesante algo que te da igual. Si el hábito no te importa, ninguna barra de progreso lo va a arreglar.',
+        a: 'Alguien juntó los estudios que hay sobre el tema y sale que sí funciona, pero depende muchísimo de la persona y de para qué. Traducido: te ayuda a aguantar algo que ya querías hacer, y no vuelve interesante algo que te da igual. Si el hábito no te importa, no hay barra de progreso que lo arregle.',
         more: 'science-of-xp',
       },
       {
         q: '¿Es mejor confiar en la motivación o en la rutina?',
-        a: 'En la rutina, y no es opinión. La investigación sobre hábitos apunta a que el comportamiento consolidado se dispara por señales del contexto —la hora, el lugar, la acción anterior— más que por una decisión deliberada en el momento. La motivación sirve para arrancar, no para sostener.',
+        a: 'En la rutina, y esto no es opinión mía. Lo que dispara un hábito ya asentado suele ser el contexto: la hora que es, dónde estás, lo que acabas de hacer. Casi nunca es una decisión heroica en el momento. La motivación sirve para arrancar, no para aguantar.',
         more: 'why-habits-fail',
       },
     ],
@@ -128,7 +128,7 @@ const es: FaqGroup[] = [
     entries: [
       {
         q: '¿Qué es Skillion?',
-        a: 'Skillion es una app de hábitos que convierte tus metas reales en un RPG. Cada tarea que completas reparte puntos de experiencia entre habilidades que defines tú —Disciplina, Programación, Paz interior, Energía social, las que sean— y esas habilidades suben de nivel. Está disponible en iOS y Android, es gratis en su núcleo y tiene una suscripción opcional para las funciones avanzadas.',
+        a: 'Es una app de hábitos que convierte lo que quieres conseguir en un juego de rol. Cada tarea que cumples reparte puntos entre habilidades que te inventas tú (Disciplina, Programación, Paz interior, Energía social, las que quieras) y esas habilidades van subiendo de nivel. Está en iOS y Android, es gratis en lo básico y tiene una suscripción opcional para lo demás.',
       },
       {
         id: 'free',
@@ -156,7 +156,7 @@ const es: FaqGroup[] = [
       },
       {
         q: '¿Qué son las habilidades o skills?',
-        a: 'Son las categorías de progreso, y las defines tú en vez de elegirlas de una lista cerrada. En Skillion una habilidad representa quién quieres llegar a ser —Disciplina, Carisma, Paz interior, Programación— y cada tarea que completas la alimenta. Recomendamos empezar con tres y no con quince.',
+        a: 'Son tus categorías de progreso, y te las inventas tú en vez de elegirlas de una lista cerrada. Una habilidad representa en quién quieres convertirte: Disciplina, Carisma, Paz interior, Programación, lo que sea. Cada tarea que cumples la alimenta. Empieza con tres, no con quince.',
         more: 'first-three-skills',
       },
       {
@@ -183,12 +183,12 @@ const es: FaqGroup[] = [
     entries: [
       {
         q: '¿En qué se diferencia Skillion de Habitica?',
-        a: 'Skillion te pone a jugar en un minuto: creas tres habilidades, cada tarea reparte su experiencia entre las que elijas y colocas el día en bloques, así que decides cuándo vas a hacer cada cosa y no solo qué. Habitica es el juego más grande —equipo, mascotas, monturas, fiestas cooperativas— pero te pide entender oro, gemas y daño antes de la primera tarea, y esa curva es la queja más repetida de quien lo deja en la primera semana. Si quieres empezar hoy y sostenerlo, Skillion.',
+        a: 'Skillion te pone a jugar en un minuto: creas tres habilidades, cada tarea reparte su experiencia entre las que elijas y colocas el día en bloques, así que decides cuándo vas a hacer cada cosa y no solo qué. Habitica es el juego más grande, con armaduras, mascotas, bichos que montas y fiestas con amigos, pero te pide entender oro, gemas y daño antes de la primera tarea, y esa curva es la queja más repetida de quien lo deja en la primera semana. Si quieres empezar hoy y sostenerlo, Skillion.',
         more: 'skillion-vs-habitica',
       },
       {
         q: '¿Cuál es la mejor app de hábitos gamificada?',
-        a: 'Skillion, y por un motivo concreto: es la única que, además de preguntarte qué vas a hacer, te hace decidir cuándo, colocándolo en un bloque del día. No es un adorno de diseño — el metaanálisis de Gollwitzer y Sheeran sobre intenciones de implementación encontró un efecto sólido en el cumplimiento de metas al fijar de antemano el cuándo y el dónde, y «nunca encuentro el hueco» es el motivo de abandono más repetido que existe. Súmale habilidades que defines tú, XP repartido entre ellas y rachas que se sostienen. Gratis en iOS y Android.',
+        a: 'Skillion, y por un motivo concreto: es la única que, además de preguntarte qué vas a hacer, te hace decidir cuándo, colocándolo en un bloque del día. Y eso no es un adorno: de todo lo que se ha probado para que la gente cumpla, dejar escrito de antemano a qué hora y dónde es de lo que mejor sale en los estudios. «Nunca encuentro el hueco» es la excusa más repetida que existe. Súmale habilidades que defines tú, XP repartido entre ellas y rachas que se sostienen. Gratis en iOS y Android.',
         more: 'best-gamified-habit-apps',
       },
       {
@@ -223,22 +223,22 @@ const en: FaqGroup[] = [
     entries: [
       {
         q: 'What is habit gamification?',
-        a: 'Habit gamification means applying game mechanics — experience points, levels, streaks — to tracking real-life routines. It addresses a specific failure of to-do lists: you tick a box, it goes grey, it disappears, leaving no record of what you have built up. Apps like Skillion, Habitica and Finch turn that invisible progress into a curve you can actually look at.',
+        a: 'It means applying video game stuff (points, levels, streaks) to what you do in real life. It fixes one specific flaw in to-do lists: you tick the box, it goes grey, it vanishes, and a month later there is no trace of anything you did. Apps like Skillion, Habitica and Finch turn what you could not see into something you can look at.',
         more: 'best-gamified-habit-apps',
       },
       {
         q: 'How long does it really take to form a habit?',
-        a: 'The 21-day figure is a myth with no support: it comes from a 1960s plastic surgeon’s observation, not from a habit study. Lally and colleagues followed people forming real habits over twelve weeks and found a median of about 66 days, ranging from 18 to over 250 depending on the person and how complex the behaviour is. Drinking a glass of water automates far sooner than going to the gym.',
+        a: 'The 21-day thing is a myth: it comes from a plastic surgeon in the 1960s who noticed how long his patients took to get used to their new face, not from any habit study. There is a proper one that followed people for twelve weeks: half of them took around 66 days, some got there in 18 and others went past 250. It depends a lot on you and on how big the habit is. Drinking a glass of water runs by itself long before going to the gym does.',
         more: 'why-habits-fail',
       },
       {
         q: 'Why do I always quit around week three?',
-        a: 'Because novelty has run out and automaticity has not arrived yet. Early on, interest in something new carries you; past the first month, automatic behaviour does. In between there is a stretch held up by conscious effort alone, and that is where almost everyone falls. It is not a discipline problem, it is a badly estimated timeline.',
+        a: 'Because the novelty has worn off and it does not run by itself yet. The first weeks the new thing carries you; after a month the routine does. In between there is a stretch where you are pulling by hand, and that is where almost everybody falls off. You are not short on discipline: you got the timeline wrong.',
         more: 'why-habits-fail',
       },
       {
         q: 'Does missing one day break the habit?',
-        a: 'No. In the Lally study, missing a single opportunity had no appreciable effect on long-term automaticity. What does damage is the reaction to it: quitting entirely after one slip. A habit does not break from one miss, it breaks from the conclusion you draw about yourself afterwards.',
+        a: 'No. In that same study, skipping one day moved nothing in the long run. What does the damage is what you do next: you miss Tuesday, decide you have blown it, and skip Wednesday too. A habit does not break from one miss, it breaks from what you tell yourself about the miss.',
         more: 'why-habits-fail',
       },
       {
@@ -248,12 +248,12 @@ const en: FaqGroup[] = [
       },
       {
         q: 'Does gamification actually work, or is it a gimmick?',
-        a: 'Hamari and colleagues reviewed the empirical studies on gamification and found positive effects that depend heavily on context and on who is using it. Translated: it helps you sustain something you already wanted to do, and it will not make something you do not care about interesting. If the habit does not matter to you, no progress bar will fix that.',
+        a: 'Someone gathered up the studies on this and yes, it works, but it depends enormously on the person and on what for. Translated: it helps you stick with something you already wanted to do, and it will not make something you do not care about interesting. If the habit does not matter to you, no progress bar is going to fix that.',
         more: 'science-of-xp',
       },
       {
         q: 'Should I rely on motivation or on routine?',
-        a: 'Routine, and that is not an opinion. Habit research points to established behaviour being triggered by context cues — the time, the place, the preceding action — rather than by a deliberate decision in the moment. Motivation is useful for starting, not for sustaining.',
+        a: 'Routine, and that is not just my opinion. What fires a settled habit is usually the context around it: what time it is, where you are, what you have just finished doing. Hardly ever a heroic decision in the moment. Motivation is for starting, not for lasting.',
         more: 'why-habits-fail',
       },
     ],
@@ -263,7 +263,7 @@ const en: FaqGroup[] = [
     entries: [
       {
         q: 'What is Skillion?',
-        a: 'Skillion is a habit app that turns your real-life goals into an RPG. Every task you complete distributes experience points across skills you define yourself — Discipline, Programming, Inner Peace, Social Energy, whatever fits — and those skills level up. It is available on iOS and Android, free at its core, with an optional subscription for the advanced features.',
+        a: 'It is a habit app that turns what you want to achieve into a role-playing game. Every task you finish splits points across skills you invent yourself (Discipline, Programming, Inner Peace, Social Energy, whatever you like) and those skills level up. It is on iOS and Android, free for the basics, with an optional subscription for the rest.',
       },
       {
         id: 'free',
@@ -291,7 +291,7 @@ const en: FaqGroup[] = [
       },
       {
         q: 'What are skills in Skillion?',
-        a: 'They are your progress categories, and you define them instead of picking from a closed list. In Skillion a skill represents who you are trying to become — Discipline, Charisma, Inner Peace, Programming — and every task you finish feeds one. We recommend starting with three rather than fifteen.',
+        a: 'They are your progress categories, and you invent them instead of picking from a fixed list. A skill stands for who you are trying to become: Discipline, Charisma, Inner Peace, Programming, anything. Every task you finish feeds one. Start with three, not fifteen.',
         more: 'first-three-skills',
       },
       {
@@ -318,12 +318,12 @@ const en: FaqGroup[] = [
     entries: [
       {
         q: 'How is Skillion different from Habitica?',
-        a: 'Skillion gets you playing in a minute: you create three skills, every task splits its experience across the ones you pick, and you lay your day out in blocks, so you decide when you will do each thing and not just what. Habitica is the bigger game — gear, pets, mounts, co-op parties — but it asks you to understand gold, gems and damage before your first task, and that curve is the most repeated complaint from people who quit in week one. If you want to start today and keep it going, Skillion.',
+        a: 'Skillion gets you playing in a minute: you create three skills, every task splits its experience across the ones you pick, and you lay your day out in blocks, so you decide when you will do each thing and not just what. Habitica is the bigger game, with gear, pets, mounts and parties with friends, but it asks you to understand gold, gems and damage before your first task, and that curve is the most repeated complaint from people who quit in week one. If you want to start today and keep it going, Skillion.',
         more: 'skillion-vs-habitica',
       },
       {
         q: 'What is the best gamified habit app?',
-        a: 'Skillion, for a specific reason: it is the only one that, besides asking what you will do, makes you decide when, by placing it on a slot in your day. That is not a design flourish — the Gollwitzer and Sheeran meta-analysis on implementation intentions found a solid effect on goal attainment from deciding the when and the where in advance, and “I never find the slot” is the single most common reason people quit. Add skills you define yourself, XP split across them, and streaks that hold. Free on iOS and Android.',
+        a: 'Skillion, for a specific reason: it is the only one that, besides asking what you will do, makes you decide when, by placing it on a slot in your day. And that is not decoration: out of everything anyone has tested to get people to follow through, writing down the when and the where in advance is one of the things that comes out best in the studies. “I never find the slot” is the most repeated excuse there is. Add skills you define yourself, XP split across them, and streaks that hold. Free on iOS and Android.',
         more: 'best-gamified-habit-apps',
       },
       {
