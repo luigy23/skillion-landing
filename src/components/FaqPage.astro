@@ -33,7 +33,7 @@ const { lang } = Astro.props as Props;
 
 const isEs = lang === 'es';
 const base = isEs ? '/es' : '';
-const altHref = isEs ? '/faq' : '/es/preguntas-frecuentes';
+const altHref = isEs ? '/faq/' : '/es/preguntas-frecuentes/';
 const seo = FAQ_SEO[lang];
 const ui = FAQ_UI[lang];
 const groups = FAQ[lang];
@@ -116,8 +116,8 @@ const breadcrumbs = {
         {/* data-astro-reload: /contact no monta el ClientRouter, así que sin
             esto el router de esta página intercepta el clic y cae a recarga
             dura, que es justo el fogonazo que se quiere evitar. */}
-        <a href={`${base}/contact`} class="outro-cta" data-astro-reload>{ui.contactCta}</a>
-        <a href={`${base}/blog`} class="outro-cta is-ghost">{ui.blogCta}</a>
+        <a href={`${base}/contact/`} class="outro-cta" data-astro-reload>{ui.contactCta}</a>
+        <a href={`${base}/blog/`} class="outro-cta is-ghost">{ui.blogCta}</a>
       </div>
     </div>
   </section>

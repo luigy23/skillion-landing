@@ -9,7 +9,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const homeHref = lang === 'es' ? '/es/' : '/';
-const altHref = lang === 'es' ? '/updates' : '/es/novedades';
+const altHref = lang === 'es' ? '/updates/' : '/es/novedades/';
 ---
 
 <SiteNav lang={lang} altHref={altHref} section="updates" isCurrent />

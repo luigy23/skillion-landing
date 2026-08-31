@@ -132,11 +132,11 @@ export async function getRelated(post: BlogPost, limit = 3): Promise<BlogPost[]>
 }
 
 export function blogIndexPath(lang: Lang): string {
-  return lang === 'es' ? '/es/blog' : '/blog';
+  return lang === 'es' ? '/es/blog/' : '/blog/';
 }
 
 export function blogPostPath(lang: Lang, slug: string): string {
-  return lang === 'es' ? `/es/blog/${slug}` : `/blog/${slug}`;
+  return lang === 'es' ? `/es/blog/${slug}/` : `/blog/${slug}/`;
 }
 
 /**

@@ -1,13 +1,21 @@
 {
+  "trailingSlash": true,
   "redirects": [
-    { "source": "/es", "destination": "/es/", "permanent": true },
+    {
+      "source": "/es",
+      "destination": "/es/",
+      "permanent": true
+    },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "www.skillion.app" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.skillion.app"
+        }
+      ],
       "destination": "https://skillion.app/$1",
       "permanent": true
     }
   ]
 }
-
-

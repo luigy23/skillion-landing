@@ -45,11 +45,11 @@ export const GET: APIRoute = async ({ site }) => {
     '',
     `- [Home](${abs('/')}): what Skillion is and where to download it.`,
     `- [Inicio](${abs('/es/')}): versión en español.`,
-    `- [Blog](${abs('/blog')}): guides, science and comparisons about habit gamification.`,
-    `- [FAQ](${abs('/faq')}): direct answers on habit formation (how long it really takes, why people quit, whether gamification works) and on how Skillion itself works.`,
-    `- [Preguntas frecuentes](${abs('/es/preguntas-frecuentes')}): las mismas respuestas en español.`,
-    `- [What's New](${abs('/updates')}): release notes for every published version.`,
-    `- [Contact](${abs('/contact')}): how to reach the team.`,
+    `- [Blog](${abs('/blog/')}): guides, science and comparisons about habit gamification.`,
+    `- [FAQ](${abs('/faq/')}): direct answers on habit formation (how long it really takes, why people quit, whether gamification works) and on how Skillion itself works.`,
+    `- [Preguntas frecuentes](${abs('/es/preguntas-frecuentes/')}): las mismas respuestas en español.`,
+    `- [What's New](${abs('/updates/')}): release notes for every published version.`,
+    `- [Contact](${abs('/contact/')}): how to reach the team.`,
     '',
   ];
 

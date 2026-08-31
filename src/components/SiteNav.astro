@@ -51,7 +51,7 @@ const languages = [
       section === 'blog' && isCurrent ? (
         <span class="is-active" aria-current="page">{t.blog}</span>
       ) : (
-        <a href={`${base}/blog`} class={section === 'blog' ? 'is-active' : undefined}>{t.blog}</a>
+        <a href={`${base}/blog/`} class={section === 'blog' ? 'is-active' : undefined}>{t.blog}</a>
       )
     }
 
@@ -60,7 +60,7 @@ const languages = [
         <span class="is-active" aria-current="page">{t.updates}</span>
       ) : (
         <a
-          href={isEs ? '/es/novedades' : '/updates'}
+          href={isEs ? '/es/novedades/' : '/updates/'}
           class={section === 'updates' ? 'is-active' : undefined}
         >
           {t.updates}
@@ -76,7 +76,7 @@ const languages = [
       section === 'premium' && isCurrent ? (
         <span class="is-active" aria-current="page">{t.premium}</span>
       ) : (
-        <a href={`${base}/free-premium`} class={section === 'premium' ? 'is-active' : undefined}>
+        <a href={`${base}/free-premium/`} class={section === 'premium' ? 'is-active' : undefined}>
           {t.premium}
         </a>
       )
@@ -91,7 +91,7 @@ const languages = [
         <span class="is-active" aria-current="page">{t.faq}</span>
       ) : (
         <a
-          href={isEs ? '/es/preguntas-frecuentes' : '/faq'}
+          href={isEs ? '/es/preguntas-frecuentes/' : '/faq/'}
           class={section === 'faq' ? 'is-active' : undefined}
         >
           {t.faq}

@@ -47,8 +47,8 @@ const content = {
 
 const t = content[lang];
 const year = new Date().getFullYear();
-const updatesHref = isEs ? '/es/novedades' : '/updates';
-const faqHref = isEs ? '/es/preguntas-frecuentes' : '/faq';
+const updatesHref = isEs ? '/es/novedades/' : '/updates/';
+const faqHref = isEs ? '/es/preguntas-frecuentes/' : '/faq/';
 ---
 
 <footer class="site-footer">
@@ -64,15 +64,15 @@ const faqHref = isEs ? '/es/preguntas-frecuentes' : '/faq';
     <span class="col-title">{t.map}</span>
     <a href={`${base}/`} data-astro-reload>{t.home}</a>
     <a href={updatesHref}>{t.updates}</a>
-    <a href={`${base}/blog`}>{t.blog}</a>
+    <a href={`${base}/blog/`}>{t.blog}</a>
     <a href={faqHref}>{t.faq}</a>
-    <a href={`${base}/contact`} data-astro-reload>{t.contact}</a>
+    <a href={`${base}/contact/`} data-astro-reload>{t.contact}</a>
   </nav>
 
   <nav class="footer-col" aria-label={t.legal}>
     <span class="col-title">{t.legal}</span>
-    <a href={`${base}/privacy`} data-astro-reload>{t.privacy}</a>
-    <a href={`${base}/terms`} data-astro-reload>{t.terms}</a>
+    <a href={`${base}/privacy/`} data-astro-reload>{t.privacy}</a>
+    <a href={`${base}/terms/`} data-astro-reload>{t.terms}</a>
   </nav>
 
   <nav class="footer-col" aria-label={t.guild}>
