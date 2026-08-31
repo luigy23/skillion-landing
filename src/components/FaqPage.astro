@@ -210,10 +210,18 @@ const breadcrumbs = {
   }
 
   .entry-q {
-    margin: 0 0 12px;
-    font-size: clamp(16px, 2.4vw, 19px);
-    font-weight: 900;
-    line-height: 1.4;
+    margin: 0 0 16px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    /* Press Start 2P avanza un cuadratin por glifo, asi que ocupa mucho mas
+       que Nunito al mismo tamano: la pregunta mas larga son 52 caracteres y a
+       13px pide 676 px, justo lo que cabe en la tarjeta en escritorio. En
+       movil baja a 10 y parte en dos lineas, que es lo esperado. */
+    font-size: clamp(10px, 1.6vw, 13px);
+    /* 400 y no 900: la fuente tiene un solo grosor y pedirle negrita hace que
+       el navegador la simule engordando los trazos, que en un tipo de pixeles
+       se ve como un borron. */
+    font-weight: 400;
+    line-height: 1.7;
     color: #ffe6a0;
     text-wrap: balance;
   }
