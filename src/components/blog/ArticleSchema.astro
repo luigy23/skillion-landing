@@ -15,6 +15,7 @@
  *   - BreadcrumbList — la miga ya existía en el markup, faltaba declararla.
  */
 import { CATEGORY_LABELS, blogIndexPath, blogPostPath, postOgImage, type BlogPost, type Lang } from '../../lib/blog';
+import { organization } from '../../lib/schema';
 
 interface Props {
   post: BlogPost;
@@ -55,12 +56,12 @@ const blogPosting = {
   dateModified: data.updatedAt.toISOString(),
   articleSection: CATEGORY_LABELS[lang][data.category],
   author,
-  publisher: {
-    '@type': 'Organization',
-    name: 'Skillion',
-    url: abs('/'),
-    logo: { '@type': 'ImageObject', url: abs('/favicon.png') },
-  },
+  // El nodo entero, no solo una referencia {'@id': ...}: el grafo de la
+  // portada no existe en esta página, así que un puntero suelto no apuntaría a
+  // nada. Repetirlo deja cada artículo autosuficiente —quien llegue directo
+  // desde un modelo, sin pasar por la home, ve igualmente de quién es— y el
+  // @id compartido hace que siga siendo una entidad y no una por artículo.
+  publisher: organization(abs),
   mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
   url: canonical,
   ...(image ? { image: [abs(image)] } : {}),
