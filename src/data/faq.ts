@@ -28,6 +28,12 @@
 import type { Lang } from '../lib/blog';
 
 export interface FaqEntry {
+  /**
+   * Identificador estable, solo en las entradas que se reutilizan fuera de
+   * esta pagina. La de contacto muestra dos y las coge de aqui: si estuvieran
+   * escritas alli tambien, tarde o temprano dirian cosas distintas.
+   */
+  id?: string;
   q: string;
   /** Texto plano: alimenta a la vez lo que se ve y el JSON-LD del FAQPage. */
   a: string;
@@ -125,10 +131,12 @@ const es: FaqGroup[] = [
         a: 'Skillion es una app de hábitos que convierte tus metas reales en un RPG. Cada tarea que completas reparte puntos de experiencia entre habilidades que defines tú —Disciplina, Programación, Paz interior, Energía social, las que sean— y esas habilidades suben de nivel. Está disponible en iOS y Android, es gratis en su núcleo y tiene una suscripción opcional para las funciones avanzadas.',
       },
       {
+        id: 'free',
         q: '¿Skillion es gratis?',
         a: 'Sí. Skillion tiene un plan gratuito con lo esencial: crear tareas, definir tus habilidades, ganar XP y mantener rachas. Existe una suscripción Premium opcional para las funciones avanzadas, pero no hace falta pagar para usar el núcleo de la app.',
       },
       {
+        id: 'devices',
         q: '¿En qué dispositivos está disponible Skillion?',
         a: 'Skillion está publicada en iOS y en Android: puedes descargarla desde el App Store y desde Google Play. La cuenta sincroniza entre dispositivos, así que puedes empezar en un móvil y seguir en otro sin perder el progreso.',
       },
@@ -258,10 +266,12 @@ const en: FaqGroup[] = [
         a: 'Skillion is a habit app that turns your real-life goals into an RPG. Every task you complete distributes experience points across skills you define yourself — Discipline, Programming, Inner Peace, Social Energy, whatever fits — and those skills level up. It is available on iOS and Android, free at its core, with an optional subscription for the advanced features.',
       },
       {
+        id: 'free',
         q: 'Is Skillion free?',
         a: 'Yes. Skillion has a free tier with the essentials: creating tasks, defining your own skills, earning XP and keeping streaks. There is an optional Premium subscription for the advanced features, but you never have to pay to use the core of the app.',
       },
       {
+        id: 'devices',
         q: 'Which devices is Skillion available on?',
         a: 'Skillion is published on iOS and Android: you can download it from the App Store and from Google Play. Your account syncs across devices, so you can start on one phone and carry on with another without losing progress.',
       },
@@ -343,6 +353,11 @@ const en: FaqGroup[] = [
 ];
 
 export const FAQ: Record<Lang, FaqGroup[]> = { es, en };
+
+/** Busca una entrada por su id. Devuelve undefined si no existe. */
+export function findFaq(lang: Lang, id: string): FaqEntry | undefined {
+  return allFaqEntries(lang).find((entry) => entry.id === id);
+}
 
 /** Todas las entradas en orden de lectura. Lo que se pasa al FAQPage. */
 export function allFaqEntries(lang: Lang): FaqEntry[] {

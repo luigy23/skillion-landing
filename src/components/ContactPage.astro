@@ -1,0 +1,328 @@
+---
+/**
+ * Pagina de contacto.
+ *
+ * Era la ultima que quedaba con las clases del tema muerto de Tailwind
+ * (bg-pixel-card, text-gaming-gold, shadow-pixel): se veia como texto negro
+ * sobre blanco, sin nav y con un <select> de idioma flotando en una esquina.
+ *
+ * No usa LegalPage porque no es un documento: son tarjetas de accion. Pero si
+ * el mismo lenguaje visual, que es lo que hace que la pagina pertenezca al
+ * sitio.
+ *
+ * Las dos preguntas del final se leen de data/faq.ts por id. Antes estaban
+ * escritas a mano aqui y en la FAQ, y ya habian empezado a decir cosas
+ * distintas.
+ */
+import SiteNav from './SiteNav.astro';
+import { CONTACT, EMAIL, APP_STORE, PLAY_STORE } from '../data/contact';
+import { findFaq } from '../data/faq';
+import type { Lang } from '../lib/blog';
+
+interface Props {
+  lang: Lang;
+  altHref: string;
+}
+
+const { lang, altHref } = Astro.props as Props;
+const t = CONTACT[lang];
+const base = lang === 'es' ? '/es' : '';
+const faqHref = lang === 'es' ? '/es/preguntas-frecuentes/' : '/faq/';
+
+// Si alguna clave desapareciera de la FAQ, aqui simplemente no se pinta.
+const preguntas = ['devices', 'free']
+  .map((id) => findFaq(lang, id))
+  .filter((x): x is NonNullable<typeof x> => Boolean(x));
+---
+
+<SiteNav lang={lang} altHref={altHref} section="legal" />
+
+<main class="contact">
+  <section class="contact-hero">
+    <p class="hero-emoji" aria-hidden="true">📧</p>
+    <h1 class="hero-title">
+      {t.heading[0]}{t.heading[1] && <span class="hero-accent"> {t.heading[1]}</span>}
+    </h1>
+    <p class="hero-intro">{t.intro}</p>
+  </section>
+
+  <div class="contact-body">
+    <div class="cards">
+      <section class="card">
+        <p class="card-icon" aria-hidden="true">✉️</p>
+        <h2 class="card-title">{t.emailTitle}</h2>
+        <p class="card-text">{t.emailText}</p>
+        <a class="btn btn--gold" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+      </section>
+
+      <section class="card">
+        <p class="card-icon" aria-hidden="true">🎮</p>
+        <h2 class="card-title">{t.socialTitle}</h2>
+        <p class="card-text">{t.socialText}</p>
+        <div class="social">
+          {
+            t.social.map((red) => (
+              <a
+                class="btn btn--ghost"
+                href={red.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Skillion — ${red.label}`}
+              >
+                {red.label}
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    </div>
+
+    <section class="card card--wide">
+      <p class="card-icon" aria-hidden="true">⚔️</p>
+      <h2 class="card-title">{t.appTitle}</h2>
+      <p class="card-text">{t.appText}</p>
+      <div class="social">
+        <a class="btn btn--gold" href={APP_STORE} target="_blank" rel="noopener noreferrer">
+          {t.appStore}
+        </a>
+        <a class="btn btn--gold" href={PLAY_STORE} target="_blank" rel="noopener noreferrer">
+          {t.playStore}
+        </a>
+      </div>
+    </section>
+
+    <section class="faq-block">
+      <h2 class="block-title">{t.faqTitle}</h2>
+
+      {
+        preguntas.map((p) => (
+          <article class="faq-item">
+            <h3 class="faq-q">{p.q}</h3>
+            <p class="faq-a">{p.a}</p>
+          </article>
+        ))
+      }
+
+      <a class="faq-all" href={faqHref}>{t.faqCta} →</a>
+    </section>
+  </div>
+</main>
+
+<style>
+  .contact {
+    background: #0f1526;
+    color: #c9d6f5;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+  }
+
+  /* ---------- CABECERA ---------- */
+  .contact-hero {
+    padding: 64px 24px 44px;
+    text-align: center;
+    background: linear-gradient(#141b32 0%, #0f1526 100%);
+    border-bottom: 4px solid #1b2547;
+  }
+
+  .hero-emoji {
+    margin: 0 0 12px;
+    font-family: 'Nunito', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+    font-size: 44px;
+    line-height: 1;
+  }
+
+  .hero-title {
+    margin: 0 0 18px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(16px, 3.4vw, 30px);
+    line-height: 1.5;
+    color: #ffe6a0;
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+    text-wrap: balance;
+  }
+
+  .hero-accent {
+    color: #ffc53d;
+  }
+
+  .hero-intro {
+    margin: 0 auto;
+    max-width: 560px;
+    font-size: clamp(15px, 2.2vw, 18px);
+    font-weight: 700;
+    line-height: 1.55;
+    color: #8fa6dd;
+    text-wrap: pretty;
+  }
+
+  /* ---------- TARJETAS ---------- */
+  .contact-body {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media (min-width: 720px) {
+    .cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 28px 24px;
+    text-align: center;
+    background: #141b32;
+    border: 3px solid #26325c;
+    /* Sombra dura, sin difuminar: es lo que da el volumen de recuadro de juego
+       en vez de tarjeta de web. */
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .card--wide {
+    margin-top: 16px;
+  }
+
+  .card-icon {
+    margin: 0;
+    font-family: 'Nunito', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .card-title {
+    margin: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(10px, 1.6vw, 12px);
+    /* Un solo grosor tiene esta fuente: pedirle negrita la emborrona. */
+    font-weight: 400;
+    line-height: 1.7;
+    color: #ffe6a0;
+  }
+
+  .card-text {
+    margin: 0 0 6px;
+    max-width: 42ch;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #8fa6dd;
+    text-wrap: pretty;
+  }
+
+  .social {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* ---------- BOTONES ---------- */
+  .btn {
+    display: inline-block;
+    padding: 13px 18px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1.6;
+    text-decoration: none;
+    border: 3px solid #0a0f1f;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+    /* Un correo largo no debe desbordar la tarjeta en movil. */
+    word-break: break-word;
+  }
+
+  .btn--gold {
+    color: #2a1a06;
+    background: #ffc53d;
+  }
+
+  .btn--ghost {
+    color: #dceafe;
+    background: #1b2547;
+    border-color: #3f5da8;
+  }
+
+  .btn:hover,
+  .btn:focus-visible {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.45);
+  }
+
+  /* ---------- PREGUNTAS ---------- */
+  .faq-block {
+    margin-top: 48px;
+  }
+
+  .block-title {
+    margin: 0 0 22px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(10px, 1.6vw, 13px);
+    font-weight: 400;
+    line-height: 1.7;
+    color: #8fe3da;
+    padding-bottom: 14px;
+    border-bottom: 3px solid #1b2547;
+  }
+
+  .faq-item {
+    margin-bottom: 14px;
+    padding: 22px 24px;
+    background: #141b32;
+    border: 3px solid #26325c;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  /* Mismo tratamiento que en /faq: la pregunta en pixel, la respuesta en el
+     tipo de cuerpo. Asi las dos paginas se leen igual. */
+  .faq-q {
+    margin: 0 0 16px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(10px, 1.6vw, 13px);
+    font-weight: 400;
+    line-height: 1.7;
+    color: #ffe6a0;
+    text-wrap: balance;
+  }
+
+  .faq-a {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: #c9d6f5;
+    text-wrap: pretty;
+  }
+
+  .faq-all {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    color: #90c5bf;
+    text-decoration: none;
+    transition: color 0.15s steps(2);
+  }
+
+  .faq-all:hover,
+  .faq-all:focus-visible {
+    color: #ffc53d;
+  }
+
+  @media (max-width: 640px) {
+    .contact-body {
+      padding: 36px 16px 56px;
+    }
+
+    .card,
+    .faq-item {
+      padding: 20px 16px;
+    }
+  }
+</style>

@@ -66,13 +66,18 @@ const faqHref = isEs ? '/es/preguntas-frecuentes/' : '/faq/';
     <a href={updatesHref}>{t.updates}</a>
     <a href={`${base}/blog/`}>{t.blog}</a>
     <a href={faqHref}>{t.faq}</a>
-    <a href={`${base}/contact/`} data-astro-reload>{t.contact}</a>
+    <a href={`${base}/contact/`}>{t.contact}</a>
   </nav>
 
+  {/* Ni legal ni contacto llevan ya data-astro-reload: desde que usan
+      LegalPage y ContactPage montan el ClientRouter, asi que la transicion
+      funciona y forzar recarga solo devolveria el fogonazo blanco. "Inicio"
+      si lo conserva: el parallax de la landing vive en scripts de modulo que
+      unicamente corren en una carga completa. */}
   <nav class="footer-col" aria-label={t.legal}>
     <span class="col-title">{t.legal}</span>
-    <a href={`${base}/privacy/`} data-astro-reload>{t.privacy}</a>
-    <a href={`${base}/terms/`} data-astro-reload>{t.terms}</a>
+    <a href={`${base}/privacy/`}>{t.privacy}</a>
+    <a href={`${base}/terms/`}>{t.terms}</a>
   </nav>
 
   <nav class="footer-col" aria-label={t.guild}>

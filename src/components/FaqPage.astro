@@ -113,10 +113,9 @@ const breadcrumbs = {
     <div class="outro-card">
       <h2 class="outro-title">{ui.contactLead}</h2>
       <div class="outro-actions">
-        {/* data-astro-reload: /contact no monta el ClientRouter, así que sin
-            esto el router de esta página intercepta el clic y cae a recarga
-            dura, que es justo el fogonazo que se quiere evitar. */}
-        <a href={`${base}/contact/`} class="outro-cta" data-astro-reload>{ui.contactCta}</a>
+        {/* Sin data-astro-reload: /contact monta el ClientRouter desde que
+            usa ContactPage, así que la transición sale limpia. */}
+        <a href={`${base}/contact/`} class="outro-cta">{ui.contactCta}</a>
         <a href={`${base}/blog/`} class="outro-cta is-ghost">{ui.blogCta}</a>
       </div>
     </div>
