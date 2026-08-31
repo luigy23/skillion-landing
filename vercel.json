@@ -7,7 +7,7 @@
       "permanent": true
     },
     {
-      "source": "/gracias",
+      "source": "/gracias/",
       "destination": "/",
       "permanent": true
     },
