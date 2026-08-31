@@ -1,0 +1,183 @@
+---
+/**
+ * Pagina 404.
+ *
+ * Antes no habia ninguna y produccion devolvia el texto pelado de Vercel:
+ * "The page could not be found / NOT_FOUND". Sin marca, sin navegacion y sin
+ * salida, que en la practica es un callejon: quien llega ahi se va del sitio.
+ *
+ * Y va a recibir visitas. Google todavia tiene en memoria el sitemap.xml viejo
+ * que retiramos, y cualquier enlace antiguo a una URL que ya no existe acaba
+ * aqui.
+ *
+ * Bilingue en una sola pagina, no dos rutas: un 404 no sabe de que idioma
+ * venia —justamente porque la ruta que pidieron no existe— asi que se enseñan
+ * los dos textos y se ofrecen salidas hacia los dos lados.
+ *
+ * noindex: una pagina de error no debe estar en el indice.
+ */
+import Layout from '../layouts/Layout.astro';
+import SiteNav from '../components/SiteNav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+const salidas = [
+  { href: '/', es: 'Inicio', en: 'Home', reload: true },
+  { href: '/blog', es: 'Blog', en: 'Blog', reload: false },
+  { href: '/faq', es: 'Preguntas frecuentes', en: 'FAQ', reload: false },
+  { href: '/updates', es: 'Novedades', en: "What's New", reload: false },
+];
+---
+
+<Layout
+  lang="en"
+  title="404 — Page not found | Skillion"
+  description="This page does not exist. Head back to the Skillion home page, the blog or the FAQ."
+  showLanguageSwitcher={false}
+  alternates={null}
+  background="#0f1526"
+  noindex
+  clientRouter
+>
+  {/* altHref a la home: no hay version "en el otro idioma" de un 404. */}
+  <SiteNav lang="en" altHref="/es/" />
+
+  <main class="notfound">
+    <p class="code">404</p>
+
+    <h1 class="title">Esta página no existe</h1>
+    <p class="title-en">This page does not exist</p>
+
+    <p class="text">
+      El enlace está roto o la página se movió de sitio. No has hecho nada mal.
+      <span class="text-en">The link is broken or the page moved. You did nothing wrong.</span>
+    </p>
+
+    <nav class="exits" aria-label="Secciones">
+      {
+        salidas.map((s) => (
+          /* data-astro-reload solo en la home: su parallax vive en scripts de
+             modulo que unicamente corren en una carga completa. */
+          <a href={s.href} class="exit" data-astro-reload={s.reload || undefined}>
+            {s.es} <span class="exit-en">/ {s.en}</span>
+          </a>
+        ))
+      }
+    </nav>
+  </main>
+
+  <SiteFooter lang="en" />
+</Layout>
+
+<style>
+  .notfound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    min-height: 58vh;
+    padding: 72px 24px 88px;
+    text-align: center;
+    background: linear-gradient(#141b32 0%, #0f1526 100%);
+    color: #c9d6f5;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+  }
+
+  .code {
+    margin: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(48px, 16vw, 96px);
+    line-height: 1;
+    color: #ffc53d;
+    text-shadow: 6px 6px 0 rgba(0, 0, 0, 0.45);
+  }
+
+  .title {
+    margin: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    /* En caja baja a proposito. Press Start 2P SI tiene las minusculas
+       acentuadas; lo que le falta son las mayusculas con tilde y la Ñ. Por eso
+       aqui "página" va bien y en cambio los rotulos en caja alta del resto del
+       sitio van sin tilde. */
+    font-size: clamp(14px, 3.4vw, 22px);
+    line-height: 1.6;
+    color: #ffe6a0;
+    text-wrap: balance;
+  }
+
+  .title-en {
+    margin: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(10px, 2.2vw, 13px);
+    line-height: 1.6;
+    color: #8fe3da;
+  }
+
+  .text {
+    margin: 6px 0 12px;
+    max-width: 520px;
+    font-size: clamp(15px, 2.2vw, 17px);
+    font-weight: 700;
+    line-height: 1.55;
+    color: #8fa6dd;
+    text-wrap: pretty;
+  }
+
+  .text-en {
+    display: block;
+    margin-top: 6px;
+    font-weight: 400;
+    color: #6d84bd;
+  }
+
+  .exits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: 640px;
+  }
+
+  .exit {
+    display: inline-block;
+    padding: 14px 18px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    color: #dceafe;
+    background: #1b2547;
+    border: 3px solid #3f5da8;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+    text-decoration: none;
+  }
+
+  .exit:first-child {
+    color: #2a1a06;
+    background: #ffc53d;
+    border-color: #0a0f1f;
+  }
+
+  .exit-en {
+    color: #8fa6dd;
+  }
+
+  .exit:first-child .exit-en {
+    color: #7a5b17;
+  }
+
+  .exit:hover,
+  .exit:focus-visible {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.45);
+  }
+
+  @media (max-width: 480px) {
+    .notfound {
+      padding: 48px 16px 64px;
+    }
+
+    .exit {
+      padding: 12px 12px;
+      font-size: 8px;
+    }
+  }
+</style>
