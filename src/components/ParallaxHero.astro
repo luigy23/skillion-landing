@@ -112,7 +112,9 @@ const updatesHref = lang === 'es' ? '/es/novedades/' : '/updates/';
          class="absolute pixel-art object-contain object-right-bottom" />
     <img id="parallax-waterfall" src={waterfallUrl.src} alt="Waterfall"
          class="absolute pixel-art" />
-    <img id="parallax-tree" src={treeUrl.src} alt="Tree"
+    {/* fetchpriority alta: medido, este arbol es el elemento LCP de la
+         portada. Nunca lazy. */}
+    <img id="parallax-tree" src={treeUrl.src} alt="Tree" fetchpriority="high"
          class="absolute pixel-art object-contain" />
   </div>
 

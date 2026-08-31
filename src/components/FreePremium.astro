@@ -179,7 +179,7 @@ const tiers = [
         <li class={`tier-card tier-card--${tier.tone}`}>
           {tier.tone === 'gold' && <span class="tier-flag">{t.tierBest}</span>}
           <div class="tier-icon" style={`height:${tier.size}px`}>
-            <img src={tier.icon.src} alt="" width={tier.size} class="pixel-img" />
+            <img src={tier.icon.src} alt="" width={tier.size} height={tier.size} class="pixel-img" loading="lazy" decoding="async" />
           </div>
           <span class="tier-likes">{tier.likes}</span>
           <span class="tier-prize">{tier.prize}</span>
@@ -199,7 +199,7 @@ const tiers = [
       <!-- 01 -->
       <li class="step-card">
         <div class="step-head">
-          <img src={computerUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" />
+          <img src={computerUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" loading="lazy" decoding="async" />
           <span class="step-num">01</span>
           <h3 class="step-title">{t.step1Title}</h3>
         </div>
@@ -214,7 +214,7 @@ const tiers = [
       <!-- 02 -->
       <li class="step-card">
         <div class="step-head">
-          <img src={starUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" />
+          <img src={starUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" loading="lazy" decoding="async" />
           <span class="step-num">02</span>
           <h3 class="step-title">{t.step2Title}</h3>
         </div>
@@ -252,7 +252,7 @@ const tiers = [
       <!-- 03 -->
       <li class="step-card">
         <div class="step-head">
-          <img src={coinUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" />
+          <img src={coinUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" loading="lazy" decoding="async" />
           <span class="step-num">03</span>
           <h3 class="step-title">{t.step3Title}</h3>
         </div>

@@ -118,7 +118,7 @@ const showUpdated = isoDate(data.updatedAt) !== isoDate(data.publishedAt);
       <h1 class="article-title">{data.title}</h1>
 
       <div class="author-box">
-        <img src={magoUrl.src} alt="" width="60" height="66" class="author-avatar" />
+        <img src={magoUrl.src} alt="" width="60" height="66" class="author-avatar" decoding="async" />
         <div class="author-text">
           <span class="author-name">{data.authorName}</span>
           {data.authorBio && <span class="author-bio">{data.authorBio}</span>}
@@ -196,7 +196,7 @@ const showUpdated = isoDate(data.updatedAt) !== isoDate(data.publishedAt);
       )}
 
       <aside class="inline-cta">
-        <img src={starUrl.src} alt="" width="64" height="64" class="cta-star" />
+        <img src={starUrl.src} alt="" width="64" height="64" class="cta-star" loading="lazy" decoding="async" />
         <div class="cta-text">
           <h2 class="cta-title">{t.ctaTitle}</h2>
           <p class="cta-body">{t.ctaBody}</p>
@@ -252,7 +252,7 @@ const showUpdated = isoDate(data.updatedAt) !== isoDate(data.publishedAt);
       }
 
       <div class="premium-card">
-        <img src={coinUrl.src} alt="" width="48" height="48" />
+        <img src={coinUrl.src} alt="" width="48" height="48" loading="lazy" decoding="async" />
         <span class="premium-title">{t.premiumTitle}</span>
         <p class="premium-body">{t.premiumBody}</p>
         <a href={`${base}/free-premium/`}>{t.premiumCta}</a>

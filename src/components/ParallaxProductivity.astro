@@ -98,11 +98,11 @@ const t = content[lang];
 >
   <!-- Parallax container for reward assets -->
   <div data-parallax-root-rewards class="absolute inset-0 overflow-visible pointer-events-none">
-    <img id="parallax-grass" src={grassUrl.src} alt={lang === 'es' ? 'Césped' : 'Grass'}
+    <img id="parallax-grass" loading="lazy" decoding="async" src={grassUrl.src} alt={lang === 'es' ? 'Césped' : 'Grass'}
          class="absolute pixel-art" />
-    <img id="parallax-knight" src={knightUrl.src} alt={lang === 'es' ? 'Caballero' : 'Knight'}
+    <img id="parallax-knight" loading="lazy" decoding="async" src={knightUrl.src} alt={lang === 'es' ? 'Caballero' : 'Knight'}
          class="absolute pixel-art" />
-    <img id="parallax-tree2" src={tree2Url.src} alt={lang === 'es' ? 'Árbol' : 'Tree 2'}
+    <img id="parallax-tree2" loading="lazy" decoding="async" src={tree2Url.src} alt={lang === 'es' ? 'Árbol' : 'Tree 2'}
          class="absolute pixel-art" />
   </div>
 
