@@ -20,6 +20,52 @@ import waterfallBgUrl from "../assets/pixelartAssets/hero/waterfallbg.png";
 // Generate config for all breakpoints
 const heroConfig = JSON.stringify(heroParallax);
 
+/**
+ * Posiciona las capas del parallax YA en el primer pintado.
+ *
+ * Antes solo las colocaba el script de abajo, y hasta que ese modulo corria
+ * las cinco imagenes se apilaban en y=0 con su tamano intrinseco. Al aplicarse
+ * la config saltaban a su sitio de golpe: 0,93 de CLS medido en movil, nueve
+ * veces el umbral de Core Web Vitals, y el peor de todo el sitio.
+ *
+ * No se arregla con width/height en el <img>: el salto es de POSICION, no de
+ * tamano. Hace falta que la posicion exista antes de que haya JavaScript.
+ *
+ * Sale de heroParallax, la misma fuente que lee el script, asi que no hay dos
+ * verdades que puedan separarse. Los cortes replican exactamente los de
+ * currentBreakpoint() en el script: <640 movil, <1024 tablet, resto escritorio.
+ */
+const BREAKPOINT_MEDIA = {
+  mobile: '(max-width: 639.98px)',
+  tablet: '(min-width: 640px) and (max-width: 1023.98px)',
+  desktop: '(min-width: 1024px)',
+} as const;
+
+const LAYER_IDS = {
+  sun: 'parallax-sun',
+  mountain: 'parallax-mountain',
+  waterfallBg: 'parallax-waterfall-bg',
+  waterfall: 'parallax-waterfall',
+  tree: 'parallax-tree',
+} as const;
+
+const heroLayerCss = (Object.keys(BREAKPOINT_MEDIA) as Array<keyof typeof BREAKPOINT_MEDIA>)
+  .map((bp) => {
+    const reglas = (Object.entries(LAYER_IDS) as Array<[keyof typeof LAYER_IDS, string]>)
+      .map(([clave, id]) => {
+        const capa = heroParallax[bp][clave];
+        const props = { ...capa.pos, ...capa.size, 'z-index': String(capa.z) };
+        const cuerpo = Object.entries(props)
+          .filter(([, v]) => v !== undefined)
+          .map(([k, v]) => `${k}:${v}`)
+          .join(';');
+        return `#${id}{${cuerpo}}`;
+      })
+      .join('');
+    return `@media ${BREAKPOINT_MEDIA[bp]}{${reglas}}`;
+  })
+  .join('');
+
 // Language-specific content
 const content = {
   en: {
@@ -44,6 +90,11 @@ const currentContent = content[lang];
 const blogHref = lang === 'es' ? '/es/blog' : '/blog';
 const updatesHref = lang === 'es' ? '/es/novedades' : '/updates';
 ---
+
+{/* is:inline: son selectores por id y no deben pasar por el scoping de Astro.
+    Va antes del markup para que el navegador ya tenga las posiciones cuando
+    encuentre las <img>. */}
+<style is:inline set:html={heroLayerCss}></style>
 
 <section id="hero" class="relative w-full h-[100svh] md:h-screen overflow-visible">
   <!-- Sky -->
