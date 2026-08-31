@@ -3,7 +3,11 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="¡Bienvenido Aventurero! - Skillion"> 
+{/* noindex: es la pantalla posterior al formulario, no tiene contenido
+    propio que buscar —solo un iframe de Tally— y es la unica pagina huerfana
+    del sitio. Ya estaba fuera del sitemap por el filter de astro.config, pero
+    eso no impide que se indexe si alguien la enlaza. */}
+<Layout title="¡Bienvenido Aventurero! - Skillion" noindex> 
   <!-- Overlay de bienvenida -->
 
 <div class="p-4" id="tally-container"></div>
