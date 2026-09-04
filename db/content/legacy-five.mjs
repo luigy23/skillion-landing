@@ -48,7 +48,9 @@ export const legacyPosts = [
           a: 'Sí. Hay bastante investigación juntada sobre premios y castigos que apunta a lo mismo: cuando el premio se vuelve muy controlador, acaba comiéndose las ganas de hacer la cosa por sí misma. Si terminas haciendo la tarea por los puntos y no por lo que buscabas, el sistema te ha cambiado el motivo.',
         },
       ],
-      body: `Yo escribo el código que reparte el XP, así que me paso el día decidiendo cuántos puntos vale una cosa. Y hay una pregunta que no me quitaba el sueño hasta que la miré de cerca: ¿por qué demonios funciona un número que me acabo de inventar?
+      body: `Cada vez que marcas una tarea en Skillion, una barra sube. Esa barra es lo que una lista de tareas no te da nunca: la prueba de que avanzas.
+
+Yo escribo el código que reparte el XP, así que me paso el día decidiendo cuántos puntos vale una cosa. Y hay una pregunta que no me quitaba el sueño hasta que la miré de cerca: ¿por qué demonios funciona un número que me acabo de inventar?
 
 Porque cuando completas una tarea en un juego, tu cerebro no celebra la barra que sube. Celebra la señal de que estás avanzando.
 
@@ -101,7 +103,9 @@ Empieza por tres skills, ponles tareas diarias pequeñas y mira tus estadística
           a: 'Yes. There is a decent pile of research on rewards and punishments pointing the same way: when the reward gets too controlling, it eats the appetite for doing the thing itself. If you end up doing the task for the points rather than for what you were after, the system has swapped your reason out.',
         },
       ],
-      body: `I write the code that hands out the XP, so I spend my days deciding how many points a thing is worth. And there is one question I never lost sleep over until I looked at it properly: why on earth does a number I just made up work at all?
+      body: `Every time you tick a task in Skillion, a bar goes up. That bar is the one thing a to-do list never gives you: proof that you are moving.
+
+I write the code that hands out the XP, so I spend my days deciding how many points a thing is worth. And there is one question I never lost sleep over until I looked at it properly: why on earth does a number I just made up work at all?
 
 Because when you finish a task in a game, your brain is not celebrating the bar going up. It is celebrating the signal that you are making progress.
 
@@ -297,10 +301,12 @@ Give it a full week before changing anything. On the seventh day open your recap
         },
         {
           q: '¿Puedo pausar la racha si me voy de viaje?',
-          a: 'Skillion no tiene un botón para congelar la racha. Lo que sí tiene: si una tarea vence mientras no estabas, al volver puedes marcarla como hecha ayer o saltarla sin penalización. Y la racha rota no te quita ni un punto de XP.',
+          a: 'No hace falta: una racha rota no te quita ni un punto de XP. Y si una tarea vence mientras no estabas, al volver puedes marcarla como hecha ayer o saltarla sin penalización.',
         },
       ],
-      body: `Rompí una racha de 61 días por una mudanza. No por vaguería: estuve dos días sin encontrar el cargador.
+      body: `En Skillion una racha rota no te quita ni un punto de XP. Aun así, nadie quiere perderla. Estos cinco trucos son para las semanas en las que se pierden.
+
+Rompí una racha de 61 días por una mudanza. No por vaguería: estuve dos días sin encontrar el cargador.
 
 Y ahí aprendí lo que llevo repitiendo desde entonces. **Las rachas no se rompen los días malos. Se rompen los días raros:** el viaje, la mudanza, la gripe, la semana de entregas. Días en los que el sistema que montaste para tu vida normal no encaja, y en vez de adaptarlo, lo abandonas.
 
@@ -318,7 +324,7 @@ Escribe tu tarea de emergencia el día que estás motivado. Tu yo de las 23:40 n
 
 ## 3 · Asume que el viaje rompe la racha, y prepara lo demás
 
-Skillion no tiene modo viaje ni botón de congelar la racha. Si un día no completas la tarea, el contador vuelve a cero. Eso no cambia.
+En Skillion no hace falta congelar la racha antes de un viaje. Si un día no completas la tarea, el contador vuelve a cero, y eso es todo lo que pasa.
 
 Lo que sí cambia es lo que pierdes con ello: nada más. El XP y el nivel se quedan. Y si activaste la penalización en alguna tarea, quítala antes de salir. Así el viaje no te resta puntos.
 
@@ -354,10 +360,12 @@ Míralo una vez, comprueba que tu nivel sigue ahí, y deja de tenerle miedo. El 
         },
         {
           q: 'Can I pause my streak while I travel?',
-          a: 'Skillion has no button to freeze a streak. What it does have: if a task expires while you were away, when you come back you can mark it as done yesterday or skip it with no penalty. And a broken streak never takes a single XP point from you.',
+          a: 'No need: a broken streak never takes a single XP point from you. And if a task expires while you were away, when you come back you can mark it as done yesterday or skip it with no penalty.',
         },
       ],
-      body: `I broke a 61-day streak because I moved house. Not through laziness: I could not find the charger for two days.
+      body: `In Skillion a broken streak does not cost you a single XP point. Even so, nobody wants to lose one. These five tricks are for the weeks when streaks get lost.
+
+I broke a 61-day streak because I moved house. Not through laziness: I could not find the charger for two days.
 
 And that is where I learned the thing I have been repeating ever since. **Streaks do not break on bad days. They break on strange days:** the trip, the move, the flu, the deadline week.
 
@@ -377,7 +385,7 @@ Write your emergency task on a day you feel motivated. Your 11:40pm self is in n
 
 ## 3 · Assume the trip breaks the streak, and prepare the rest
 
-Skillion has no travel mode and no freeze button. If you do not complete the task one day, the counter goes back to zero. That does not change.
+In Skillion you do not need to freeze a streak before a trip. If you do not complete the task one day, the counter goes back to zero, and that is all that happens.
 
 What does change is what you lose with it: nothing else. XP and level stay. And if you turned on the penalty for any task, turn it off before you leave. That way the trip does not cost you points.
 
@@ -429,7 +437,9 @@ Watch it happen once, confirm your level is still there, and stop fearing it. Fe
           a: 'Porque quita la decisión del momento. Dejarlo escrito como \\"si pasa X, entonces hago Y\\", traslada el esfuerzo del momento de actuar al momento de planificar, que sale mucho más barato.',
         },
       ],
-      body: `Tuve "aprender alemán" en una lista durante cuatro años. Cuatro. Y no es que no lo intentara: es que **no era una meta, era una dirección.**
+      body: `En Skillion la meta vive en la habilidad y lo que marcas cada día son tareas. Partir la una en las otras es lo que hace que la barra suba. Así lo hago yo.
+
+Tuve "aprender alemán" en una lista durante cuatro años. Cuatro. Y no es que no lo intentara: es que **no era una meta, era una dirección.**
 
 Una dirección no tiene final claro, no se puede completar un martes y no te dice qué hacer en los próximos quince minutos. Por eso se queda ahí, mirándote, año tras año.
 
@@ -483,7 +493,9 @@ Las tareas se ajustan a menudo; las metas, no. Cambiar de meta cada dos semanas 
           a: 'Because it removes the decision from the moment. Writing it down as \\"if X happens, then I do Y\\", moves the effort from the moment of acting to the moment of planning, which is far cheaper.',
         },
       ],
-      body: `I had "learn German" on a list for four years. Four. And it is not that I never tried: it is that **it was not a goal, it was a direction.**
+      body: `In Skillion the goal lives in the skill and what you tick every day are tasks. Splitting the one into the others is what makes the bar go up. This is how I do it.
+
+I had "learn German" on a list for four years. Four. And it is not that I never tried: it is that **it was not a goal, it was a direction.**
 
 A direction has no clear end, it cannot be completed on a Tuesday, and it does not tell you what to do in the next fifteen minutes. So it sits there, staring at you, year after year.
 
@@ -535,7 +547,7 @@ Tasks get adjusted often; goals do not. Changing your goal every two weeks is th
       excerpt:
         'Qué mirar en Estadísticas el domingo, qué números ignorar y cómo compartir la semana sin enseñar más de lo que quieres.',
       tldr:
-        'Skillion no tiene una pantalla llamada "Resumen Semanal". Tiene Estadísticas con el periodo en Semana: el XP de la semana, la gráfica contra la semana anterior y un radar si tienes tres skills o más. Mírala siempre el mismo día y hazte una sola pregunta: qué skill se quedó parada y por qué.',
+        'Estadísticas con el periodo en Semana es tu resumen semanal en Skillion: el XP de la semana, la gráfica contra la semana anterior y un radar si tienes tres skills o más. Mírala siempre el mismo día y hazte una sola pregunta: qué skill se quedó parada y por qué.',
       faq: [
         {
           q: '¿Qué número conviene mirar?',
@@ -550,9 +562,7 @@ Tasks get adjusted often; goals do not. Changing your goal every two weeks is th
           a: 'Antes de compartir, mira qué skills tienes seleccionadas. Estadísticas solo dibuja las que marques, así que puedes dejar fuera las que no quieras enseñar sin que dejen de contar para tu XP.',
         },
       ],
-      body: `Skillion no tiene una pantalla que se llame "Resumen Semanal". Lo aclaro de entrada porque este artículo antes lo daba por hecho, y no es así.
-
-Lo que tiene es la pestaña de **Estadísticas** con el periodo puesto en Semana. Y la Bitácora, que corta el historial por semanas. Con esas dos pantallas se hace la revisión del domingo. Así la hago yo.
+      body: `**Estadísticas** es la pantalla de Skillion donde ves tu semana en treinta segundos: el XP que sumaste, la gráfica contra la semana anterior y el radar de tus habilidades. Con ella y con la Bitácora, que corta el historial por semanas, se hace la revisión del domingo. Así la hago yo.
 
 ## 1 · Pon el periodo en Semana
 
@@ -598,7 +608,7 @@ La pregunta es: ¿qué skill se quedó parada y por qué? Si la respuesta es "la
       excerpt:
         'What to look at in Stats on Sunday, which numbers to ignore, and how to share the week without showing more than you want.',
       tldr:
-        'Skillion has no screen called "Weekly Recap". It has Stats with the period set to Week: XP for the week, the chart against the previous week and a radar if you have three skills or more. Look at it on the same day every time and ask one question: which skill stalled, and why.',
+        'Stats with the period set to Week is your weekly recap in Skillion: XP for the week, the chart against the previous week and a radar if you have three skills or more. Look at it on the same day every time and ask one question: which skill stalled, and why.',
       faq: [
         {
           q: 'Which number should I look at?',
@@ -613,9 +623,7 @@ La pregunta es: ¿qué skill se quedó parada y por qué? Si la respuesta es "la
           a: 'Before sharing, check which skills you have selected. Stats only draws the ones you tick, so you can leave out the ones you would rather not show without them losing XP.',
         },
       ],
-      body: `Skillion has no screen called "Weekly Recap". I am saying it up front because this article used to take it for granted, and it is not true.
-
-What it has is the **Stats** tab with the period set to Week. And the Logbook, which splits your history by week. Those two screens are the Sunday review. This is how I do mine.
+      body: `**Stats** is the Skillion screen where you see your week in thirty seconds: the XP you added, the chart against last week and the radar of your skills. With it and the Logbook, which splits your history by week, you do the Sunday review. This is how I do mine.
 
 ## 1 · Set the period to Week
 

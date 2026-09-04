@@ -182,7 +182,7 @@ const es: FaqGroup[] = [
       },
       {
         q: '¿Qué pasa si rompo una racha?',
-        a: 'El contador vuelve a cero y nada más: el XP y el nivel se quedan donde estaban. Skillion no congela rachas ni tiene modo viaje. Solo pierdes puntos si activaste la penalización en esa tarea, y aun así puedes saltarla sin penalización desde la lista de tareas vencidas.',
+        a: 'El contador vuelve a cero y nada más: el XP y el nivel se quedan donde estaban, así que no hace falta congelarla. Solo pierdes puntos si activaste tú la penalización en esa tarea, y aun así puedes saltarla sin penalización desde la lista de tareas vencidas.',
         more: 'keep-your-streak',
       },
       {
@@ -342,7 +342,7 @@ const en: FaqGroup[] = [
       },
       {
         q: 'What happens if I break a streak?',
-        a: 'The counter goes back to zero and nothing else: XP and level stay where they were. Skillion does not freeze streaks and has no travel mode. You only lose points if you turned on the penalty for that task, and even then you can skip it with no penalty from the expired tasks list.',
+        a: 'The counter goes back to zero and nothing else: XP and level stay where they were, so there is nothing to freeze. You only lose points if you turned on the penalty for that task yourself, and even then you can skip it with no penalty from the expired tasks list.',
         more: 'keep-your-streak',
       },
       {

@@ -54,7 +54,7 @@ export const gamifyYourLife = {
     ],
     body: `Skillion nació viendo Los Sims. Un personaje tenía habilidades, Cocina, Carisma, Lógica, y cada una con su barra. Practicaba y la barra subía. Yo llevaba años cocinando y no tenía barra.
 
-Eso es gamificar tu vida: **ponerle un marcador a lo que ya haces.** No es ponerse a jugar. Es dejar de esforzarte a ciegas.
+Skillion es esa barra para la vida real: te inventas tus habilidades y cada tarea que cumples las sube. Eso es gamificar tu vida: **ponerle un marcador a lo que ya haces.** No es ponerse a jugar. Es dejar de esforzarte a ciegas.
 
 ## 1 · Qué es y qué no es
 
@@ -174,7 +174,7 @@ Pero si te lo montas en un cuaderno y te funciona, has ganado igual. Primero el 
     ],
     body: `Skillion was born watching The Sims. A character had skills, Cooking, Charisma, Logic, each with its own bar. Practise and the bar went up. I had been cooking for years and had no bar.
 
-That is gamifying your life: **putting a scoreboard on what you already do.** It is not about playing. It is about not working blind.
+Skillion is that bar for real life: you invent your skills and every task you finish raises them. That is gamifying your life: **putting a scoreboard on what you already do.** It is not about playing. It is about not working blind.
 
 ## 1 · What it is, and what it is not
 

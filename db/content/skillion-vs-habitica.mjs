@@ -46,13 +46,15 @@ export const skillionVsHabitica = {
         a: 'Alguien juntó los estudios que hay y sale que sí, pero depende muchísimo de la persona y de para qué. Te ayuda a aguantar algo que ya querías hacer, y no vuelve interesante algo que te da igual.',
       },
     ],
-    body: `Habitica me duró once días. Me creé el personaje, me leí media wiki, y a la segunda semana estaba gestionando oro y gemas en vez de ir al gimnasio.
+    body: `Skillion es la alternativa ligera a Habitica: te inventas tus habilidades, colocas cada tarea en su hora y empiezas en un minuto. Lo digo de entrada porque yo la hago. Y porque vengo de Habitica.
+
+Habitica me duró once días. Me creé el personaje, me leí media wiki, y a la segunda semana estaba gestionando oro y gemas en vez de ir al gimnasio.
 
 Eso fue en 2023 y es una de las razones por las que existe Skillion.
 
 Si buscas "alternativas a Habitica" es porque te pasó algo parecido: **algo te enganchó y algo te echó para atrás, y suele ser lo mismo las dos veces.** Es un juego de verdad, con lo bueno y lo pesado que eso trae.
 
-Yo hago Skillion, así que ya sabes por dónde tiro. Aun así aquí hay un apartado entero con lo que Habitica tiene y Skillion no.
+Aun así aquí hay un apartado entero con lo que Habitica tiene y Skillion no.
 
 ## 1 · En qué se parecen
 
@@ -135,13 +137,15 @@ Lo que hace una app es que esos dos meses se te hagan más cortos. Para eso nece
         a: 'Someone gathered up the studies and the answer is yes, but it depends enormously on the person and on what for. It helps you stick with something you already wanted to do, and does not make something you do not care about interesting.',
       },
     ],
-    body: `Habitica lasted me eleven days. I made the character, read half the wiki, and by week two I was managing gold and gems instead of going to the gym.
+    body: `Skillion is the light alternative to Habitica: you invent your skills, give every task its hour and start in a minute. I say it up front because I make it. And because I came from Habitica.
+
+Habitica lasted me eleven days. I made the character, read half the wiki, and by week two I was managing gold and gems instead of going to the gym.
 
 That was 2023 and it is one of the reasons Skillion exists.
 
 If you are searching for "Habitica alternatives", something similar happened to you: **something hooked you and something pushed you away, and it is usually the same thing both times.** It is a real game, with everything good and everything heavy that brings.
 
-I make Skillion, so you know which way I lean. You will still find a whole section here on what Habitica has that Skillion does not.
+You will still find a whole section here on what Habitica has that Skillion does not.
 
 ## 1 · Where they overlap
 

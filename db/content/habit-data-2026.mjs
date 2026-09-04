@@ -56,11 +56,11 @@ export const habitData2026 = {
         a: 'No. Todo está agregado y ningún grupo con menos de 50 usuarios aparece publicado. No hay datos por persona, ni nombres de tareas, ni nada que se pueda cruzar para llegar a una cuenta concreta.',
       },
     ],
-    body: `Lancé la consulta un domingo por la tarde contando con que la cifra saliera fea. Salió peor.
+    body: `Skillion está hecha para la primera semana: tareas pequeñas al empezar, energía que te impide meter quince cosas, y un aviso antes de que la racha se rompa. Ese diseño sale de un dato que casi nadie tiene: cuándo se abandona un hábito de verdad.
 
-**La mitad de los hábitos que alguien se propone en Skillion no llega a los siete días.** Yo construyo el sistema de rachas y de XP, así que ese número habla de mi trabajo. Lo publicamos igual.
+**La mitad de los hábitos que alguien se propone no llega a los siete días.** Lo sabemos porque lo medimos en nuestros propios datos. Lancé la consulta un domingo por la tarde contando con que la cifra saliera fea. Salió peor.
 
-Casi todo lo que has leído sobre hábitos sale de estudios con unas decenas de voluntarios que aguantaron hasta el final. Yo veo lo contrario: a quien se instala la app un martes, crea cuatro hábitos, cumple dos días y no vuelve.
+Casi todo lo que has leído sobre hábitos sale de estudios con unas decenas de voluntarios que aguantaron hasta el final. Nosotros vemos lo contrario: a quien se instala la app un martes, crea cuatro hábitos, cumple dos días y no vuelve. Por eso la app está montada como está.
 
 ## 1 · Qué estamos contando
 
@@ -151,11 +151,13 @@ El mejor día es el martes, con 23.402 tareas completadas. El peor, el sábado, 
 
 **A qué hora cumple la gente.** Guardamos la hora universal, no la zona de cada persona. El pico de las dos de la madrugada es casi seguro la tarde en Latinoamérica.
 
-## 9 · Qué haríamos con esto
+## 9 · Qué hacemos con esto
 
-Una sola conclusión: **el problema no es mantener un hábito, es llegar a la segunda semana.**
+Una sola conclusión: **el problema no es mantener un hábito, es llegar a la segunda semana.** Skillion está montada alrededor de eso.
 
-El consejo es aburrido y sale de los números: haz el hábito ridículamente pequeño durante siete días. No para crear el hábito. Para cruzar el tramo donde se muere la mitad.
+Al empezar te pone tareas de tres minutos, para que el primer día sea una victoria segura. La energía, 100 puntos al día, te impide meter quince cosas. Y si una racha de tres días o más está a punto de romperse, te avisa antes de medianoche.
+
+El consejo para ti sale de los mismos números: haz el hábito ridículamente pequeño durante siete días. No para crear el hábito. Para cruzar el tramo donde se muere la mitad.
 
 ---
 
@@ -191,11 +193,11 @@ El consejo es aburrido y sale de los números: haz el hábito ridículamente peq
         a: 'No. Everything is aggregated and no group with fewer than 50 users is published. There is no per-person data, no task names, nothing that can be cross-referenced back to an account.',
       },
     ],
-    body: `I ran the query on a Sunday afternoon expecting an ugly number. It came out worse.
+    body: `Skillion is built for the first week: small tasks to start with, energy that stops you piling on fifteen things, and a nudge before a streak breaks. That design comes from a figure almost nobody has: when a habit really gets abandoned.
 
-**Half the habits anyone sets in Skillion never reach day seven.** I build the streak and XP system, so that figure is about my work. We are publishing it anyway.
+**Half the habits anyone sets never reach day seven.** We know because we measured it in our own data. I ran the query on a Sunday afternoon expecting an ugly number. It came out worse.
 
-Almost everything you have read about habits comes from studies with a few dozen volunteers who stayed to the end. I see the opposite: the person who installs the app on a Tuesday, creates four habits, shows up twice and never comes back.
+Almost everything you have read about habits comes from studies with a few dozen volunteers who stayed to the end. We see the opposite: the person who installs the app on a Tuesday, creates four habits, shows up twice and never comes back. That is why the app is built the way it is.
 
 ## 1 · What we are counting
 
@@ -286,11 +288,13 @@ The best day is Tuesday, with 23,402 tasks completed. The worst is Saturday, wit
 
 **What time of day people deliver.** We store universal time, not each person's zone. The spike at two in the morning is almost certainly the afternoon in Latin America.
 
-## 9 · What we would do with this
+## 9 · What we do with this
 
-One conclusion: **the problem is not keeping a habit going, it is reaching week two.**
+One conclusion: **the problem is not keeping a habit going, it is reaching week two.** Skillion is built around that.
 
-The advice is boring and it comes from the numbers: make the habit ridiculously small for seven days. Not to build the habit. To cross the stretch where half of them die.
+When you start, it gives you three-minute tasks so day one is a sure win. Energy, 100 points a day, stops you piling on fifteen things. And if a streak of three days or more is about to break, it nudges you before midnight.
+
+The advice for you comes from the same numbers: make the habit ridiculously small for seven days. Not to build the habit. To cross the stretch where half of them die.
 
 ---
 

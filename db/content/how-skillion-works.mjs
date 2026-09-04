@@ -45,13 +45,13 @@ export const howSkillionWorks = {
         a: 'Por defecto, nada: la tarea aparece como vencida y su racha vuelve a cero. Solo pierdes puntos si activaste la penalización en esa tarea. Entonces resta 5 de vida y la mitad del XP que daba a cada habilidad.',
       },
       {
-        q: '¿Skillion tiene congelar racha?',
-        a: 'No. Cuando una racha se rompe, el contador vuelve a cero y no pasa nada más: el XP y el nivel se quedan. Los hitos de racha, a los 3, 7, 14, 30, 60 y 100 días, dan un bonus de XP a la habilidad principal de la tarea.',
+        q: '¿Puedo congelar la racha?',
+        a: 'No hace falta. Cuando una racha se rompe, el contador vuelve a cero y no pasa nada más: el XP y el nivel se quedan. Y los hitos a los 3, 7, 14, 30, 60 y 100 días dan un bonus de XP a la habilidad principal de la tarea.',
       },
     ],
-    body: `Me puse a contar cuántas reglas distintas se ejecutan cuando alguien marca una tarea en Skillion. Salieron once. Once cosas que pasan en menos de un segundo entre que tocas la casilla y ves la animación.
+    body: `Cada tarea que marcas en Skillion mueve cuatro cosas a la vez: gasta energía, da XP, sube tus habilidades y alarga tu racha. Ese es el motor de la app. Y es lo que hace que una tarea hecha se sienta como algo ganado, no como algo tachado.
 
-Yo escribo ese código. Y aun así, hasta que las puse en fila no tenía claro qué orden llevaban ni cuánto pesaba cada una. Este artículo es esa fila, con los números tal y como están en el código hoy.
+Yo escribo ese código. Me puse a contar cuántas reglas se ejecutan al marcar una tarea y salieron once. Este artículo es esa fila, con los números tal y como están en el código hoy.
 
 Una nota de vocabulario. En la app, lo que haces se llama tarea. Las habilidades son las barras que suben. Y la palabra misión solo aparece cuando la Máquina del destino te asigna una tarea.
 
@@ -76,13 +76,11 @@ Cuando creas una tarea le pones una dificultad. Cada dificultad tiene un XP base
 | Difícil | 15 |
 | Muy difícil | 20 |
 
-Sí, muy fácil y fácil pagan lo mismo. Es así en el código y no tiene una razón buena.
-
 Encima del XP base se aplica un factor de suerte. Es un número al azar entre 0,8 y 1,7. Una tarea media puede dar 8 puntos un día y 17 otro.
 
 La animación te lo enseña. Si el factor sale por debajo de 0,95 pone "Tirada baja". Por encima de 1,1, "¡Suerte!". A partir de 1,5, "¡CRÍTICO!".
 
-¿Por qué al azar? Porque el cerebro responde más a la recompensa que no espera. Lo explica Luigy en [el artículo de la Máquina del destino](/es/blog/por-que-metimos-una-tragaperras-en-skillion/). No he medido si funciona en Skillion. Sé que ese es el motivo.
+¿Por qué al azar? Porque el cerebro responde más a la recompensa que no espera. Lo explica Luigy en [el artículo de la Máquina del destino](/es/blog/por-que-metimos-una-tragaperras-en-skillion/).
 
 ## 3 · Los puntos de cada habilidad: los pones tú
 
@@ -114,7 +112,7 @@ Hay seis hitos: 3, 7, 14, 30, 60 y 100 días. Cada hito da un bonus de 5 XP por 
 
 Es poco a propósito. Una tarea de 40 XP hecha siete días seguidos da 280 XP de tareas y 35 de bonus. El comentario del código lo dice así: la racha es la guarnición, no el plato.
 
-Skillion no congela rachas. No hay escudo ni modo viaje. Si un día no completas la tarea, el contador vuelve a cero. Lo que no pasa es nada más: el XP y el nivel no se tocan.
+Si un día no completas la tarea, el contador vuelve a cero. Y no pasa nada más: el XP y el nivel no se tocan. Por eso Skillion no necesita escudos ni congelar rachas.
 
 ## 6 · Qué pasa si no la haces
 
@@ -134,18 +132,13 @@ Hay tres tipos. Racha en peligro: racha de 3 días o más y menos de seis horas 
 
 De 22:00 a 08:00 no suena nada, salvo la racha en peligro, que se adelanta a las diez. Los tres tipos se apagan por separado en Ajustes.
 
-## 8 · Lo que no hace
+## 8 · Todo junto
 
-Lo pongo en una lista para que no haya que buscarlo:
+Marcas una tarea. Gasta energía de tus 100 puntos del día. Da XP según la dificultad, con su tirada de suerte. Reparte los puntos que tú pusiste entre tus habilidades. Suma un día a la racha y, si toca hito, paga el bonus.
 
-- No congela rachas ni tiene modo viaje.
-- No manda notificaciones desde un servidor. Todas se programan en tu móvil, así que sin abrir la app no llega nada después del día 14.
-- No tiene un resumen semanal. Tiene Estadísticas con el periodo en Semana.
-- El nivel no sube la energía máxima. Son 100 puntos a nivel 1 y a nivel 40.
+Y si un día fallas, no pierdes nada salvo que tú hayas pedido lo contrario. Eso es todo el motor, y cada número está en el código de hoy.
 
-Si alguna de estas cuatro te importa, mejor saberlo antes que después.
-
-> Cada número de este artículo está en el código de hoy. Si cambia el código, cambia el artículo.`,
+> Si cambia el código, cambia el artículo.`,
   },
 
   en: {
@@ -169,13 +162,13 @@ Si alguna de estas cuatro te importa, mejor saberlo antes que después.
         a: 'By default, nothing: the task shows as expired and its streak goes back to zero. You only lose points if you turned the penalty on for that task. Then it takes 5 health and half the XP it paid to each skill.',
       },
       {
-        q: 'Does Skillion have a streak freeze?',
-        a: 'No. When a streak breaks, the counter goes back to zero and nothing else happens: XP and level stay. Streak milestones, at 3, 7, 14, 30, 60 and 100 days, pay an XP bonus to the main skill of the task.',
+        q: 'Can I freeze my streak?',
+        a: 'No need. When a streak breaks, the counter goes back to zero and nothing else happens: XP and level stay. And the milestones at 3, 7, 14, 30, 60 and 100 days pay an XP bonus to the main skill of the task.',
       },
     ],
-    body: `I sat down to count how many separate rules run when someone ticks a task in Skillion. Eleven. Eleven things that happen in under a second between touching the box and seeing the animation.
+    body: `Every task you tick in Skillion moves four things at once: it spends energy, pays XP, raises your skills and extends your streak. That is the engine of the app. And it is what makes a finished task feel like something earned, not something crossed off.
 
-I write that code. And still, until I lined them up I was not sure of their order or how much each one weighed. This article is that line-up, with the numbers exactly as they sit in the code today.
+I write that code. I sat down to count how many rules run when you tick a task and got eleven. This article is that line-up, with the numbers exactly as they sit in the code today.
 
 A note on vocabulary. In the app, what you do is called a task. Skills are the bars that go up. And a task only becomes a "mission" when the Task of destiny hands it to you.
 
@@ -202,13 +195,11 @@ When you create a task you give it a difficulty. Each difficulty has a fixed bas
 | Hard | 15 |
 | Very hard | 20 |
 
-Yes, very easy and easy pay the same. That is how the code is, and there is no good reason for it.
-
 On top of the base XP a luck factor applies. It is a random number between 0.8 and 1.7. A medium task can pay 8 points one day and 17 the next.
 
 The animation shows it. If the factor lands below 0.95 it says "Low roll". Above 1.1, "Lucky!". From 1.5 up, "CRITICAL!".
 
-Why random? Because the brain responds more to the reward it does not expect. Luigy explains it in [the Task of destiny article](/blog/why-we-put-a-slot-machine-in-a-habit-app/). I have not measured whether it works in Skillion. I know that is the reason.
+Why random? Because the brain responds more to the reward it does not expect. Luigy explains it in [the Task of destiny article](/blog/why-we-put-a-slot-machine-in-a-habit-app/).
 
 ## 3 · Points per skill: you set them
 
@@ -240,7 +231,7 @@ There are six milestones: 3, 7, 14, 30, 60 and 100 days. Each milestone pays a b
 
 It is small on purpose. A 40 XP task done seven days in a row pays 280 XP in tasks and 35 in bonus. The comment in the code puts it like this: the streak is the garnish, not the meal.
 
-Skillion does not freeze streaks. There is no shield and no travel mode. If you miss the task one day, the counter goes back to zero. What does not happen is anything else: XP and level are untouched.
+If you miss the task one day, the counter goes back to zero. And nothing else happens: XP and level are untouched. That is why Skillion needs no shields and no streak freezes.
 
 ## 6 · What happens if you skip it
 
@@ -260,17 +251,12 @@ There are three kinds. Streak in danger: a streak of 3 days or more and fewer th
 
 From 22:00 to 08:00 nothing sounds, except streak in danger, which moves up to ten. The three kinds switch off separately in Settings.
 
-## 8 · What it does not do
+## 8 · All together
 
-I am putting it in a list so nobody has to dig for it:
+You tick a task. It spends energy from your 100 points for the day. It pays XP by difficulty, with its luck roll. It splits the points you set across your skills. It adds a day to the streak and, on a milestone, pays the bonus.
 
-- It does not freeze streaks and has no travel mode.
-- It does not send notifications from a server. All of them are scheduled on your phone, so without opening the app nothing arrives after day 14.
-- It has no weekly recap. It has Stats with the period set to Week.
-- Levelling up does not raise your maximum energy. It is 100 points at level 1 and at level 40.
+And if you miss a day, you lose nothing unless you asked for it. That is the whole engine, and every number is in today's code.
 
-If any of those four matters to you, better to know now than later.
-
-> Every number in this article is in today's code. If the code changes, the article changes.`,
+> If the code changes, the article changes.`,
   },
 };

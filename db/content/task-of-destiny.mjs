@@ -49,11 +49,9 @@ export const taskOfDestiny = {
         a: 'En el plan gratis, tres tareas aceptadas al día y apuestas de hasta 100 monedas. Con Premium no hay tope de tareas ni de apuesta, y además puedes mezclar categorías y sacar tareas concretas del bombo.',
       },
     ],
-    body: `Metí una tragaperras en Skillion y la primera reacción del equipo fue: "eso es un casino". Tenían razón a medias. Por eso escribo esto.
+    body: `La Máquina del destino de Skillion te quita la excusa de no saber por dónde empezar. Apuestas monedas, elige una tarea pendiente por ti, y si la terminas cobras el doble. **Engancha por lo mismo que TikTok: no sabes qué va a salir.**
 
-**La Máquina del destino funciona porque no sabes qué va a salir.** Es la misma razón por la que sigues deslizando en TikTok aunque el último vídeo fuera malo. El cerebro se engancha más a lo que no puede predecir que a lo que ya conoce.
-
-Lo que hice fue coger ese mecanismo y ponerlo a trabajar para ti. Abajo explico cómo, con los números tal cual están en la app.
+Metí una tragaperras en Skillion y la primera reacción del equipo fue: "eso es un casino". Tenían razón a medias. Abajo explico por qué funciona, con los estudios y los números tal cual están en la app.
 
 ## 1 · Cómo funciona
 
@@ -86,20 +84,14 @@ El azar decide cuál. No decide si la haces. El premio solo llega cuando el temp
 Y hay topes. En el plan gratis, tres misiones aceptadas al día y apuestas de hasta 100 monedas. Con Premium no hay tope, y además eliges qué tareas juegan y mezclas categorías. Quien paga ya ha demostrado que quiere usarla. Quien no, tiene un límite que le protege de su propio día malo.
 
 :::tip
-Úsala cuando no sabes por dónde empezar. Ese momento en que miras la lista y no eliges nada. La máquina elige por ti, y el temporizador te saca del sofá.
+Empieza con apuestas de 5 o 10. La gracia no está en cuánto ganas, sino en que la tarea la elige otro.
 :::
 
-## 4 · Para quién no es
+## 4 · Por qué la metí
 
-Si te cuesta parar con las apuestas, no la uses. Lo digo en serio. El mecanismo es el mismo que el de una tragaperras de verdad, aunque aquí no haya dinero. Skillion funciona igual de bien sin ella.
+La parte más difícil de una tarea no es hacerla. Es elegirla. Miras la lista, no eliges nada y se te va la tarde. La máquina elige por ti y el temporizador te saca del sofá.
 
-Y hay un riesgo del que ya hablé en [el artículo sobre gamificar tu vida](/es/blog/como-gamificar-tu-vida/): cuando el premio se vuelve muy controlador, sustituye tu motivo original por el suyo. Si un día notas que haces tareas por la máquina y no por lo que te trajo, apágala una semana.
-
-## 5 · Lo que no sé todavía
-
-No he medido si quien usa la máquina cumple más tareas que quien no. Es de lo siguiente que queremos mirar en los datos, y lo publicaremos salga como salga.
-
-Lo que sí sé es por qué la metí. La parte más difícil de una tarea no es hacerla. Es elegirla.
+Dos avisos honestos. Si te cuesta parar con las apuestas, no la uses: Skillion funciona igual de bien sin ella. Y si un día notas que haces tareas por la máquina y no por lo que te trajo, apágala una semana. Ese riesgo lo conté en [el artículo sobre gamificar tu vida](/es/blog/como-gamificar-tu-vida/).
 
 > El azar no hace la tarea por ti. Solo te quita la excusa de no saber cuál.`,
   },
@@ -129,11 +121,9 @@ Lo que sí sé es por qué la metí. La parte más difícil de una tarea no es h
         a: 'On the free plan, three accepted tasks a day and bets of up to 100 coins. With Premium there is no cap on tasks or bets, and you can also mix categories and pull specific tasks out of the drum.',
       },
     ],
-    body: `I put a slot machine in Skillion and the team's first reaction was: "that is a casino". They were half right. That is why I am writing this.
+    body: `Skillion's Task of destiny takes away the excuse of not knowing where to start. You bet coins, it picks a pending task for you, and if you finish it you collect double. **It hooks you for the same reason TikTok does: you do not know what will come out.**
 
-**The Task of destiny works because you do not know what will come out.** It is the same reason you keep scrolling on TikTok even when the last video was bad. The brain hooks harder onto what it cannot predict than onto what it already knows.
-
-What I did was take that mechanism and put it to work for you. Below is how, with the numbers exactly as they are in the app.
+I put a slot machine in Skillion and the team's first reaction was: "that is a casino". They were half right. Below I explain why it works, with the studies and the numbers exactly as they are in the app.
 
 ## 1 · How it works
 
@@ -168,20 +158,16 @@ And there are caps. On the free plan, three accepted missions a day and bets of 
 Whoever pays has already shown they want to use it. Whoever does not has a limit that protects them from their own bad day.
 
 :::tip
-Use it when you do not know where to start. That moment when you look at the list and pick nothing. The machine picks for you, and the timer gets you off the sofa.
+Start with bets of 5 or 10. The point is not how much you win, it is that someone else picks the task.
 :::
 
-## 4 · Who it is not for
+## 4 · Why I put it in
 
-If you find it hard to stop betting, do not use it. I mean that. The mechanism is the same as a real slot machine, even though there is no money here. Skillion works just as well without it.
+The hardest part of a task is not doing it. It is choosing it. You look at the list, pick nothing, and the afternoon is gone. The machine picks for you and the timer gets you off the sofa.
 
-And there is a risk I wrote about in [the article on gamifying your life](/blog/how-to-gamify-your-life/): when the reward gets too controlling, it replaces your original reason with its own. If one day you notice you are doing tasks for the machine and not for what brought you here, switch it off for a week.
+Two honest warnings. If you find it hard to stop betting, do not use it: Skillion works just as well without it.
 
-## 5 · What I do not know yet
-
-I have not measured whether people who use the machine complete more tasks than people who do not. It is one of the next things we want to look at in the data, and we will publish it whichever way it comes out.
-
-What I do know is why I put it in. The hardest part of a task is not doing it. It is choosing it.
+And if one day you notice you are doing tasks for the machine and not for what brought you here, switch it off for a week. I wrote about that risk in [the article on gamifying your life](/blog/how-to-gamify-your-life/).
 
 > Chance does not do the task for you. It only takes away the excuse of not knowing which one.`,
   },

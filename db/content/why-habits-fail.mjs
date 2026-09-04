@@ -52,11 +52,11 @@ export const whyHabitsFail = {
         a: 'En la rutina, y esto no es opinión mía. Lo que dispara un hábito ya asentado suele ser el contexto: la hora, el sitio, lo que acabas de hacer. Casi nunca una decisión heroica en el momento. La motivación sirve para arrancar, no para aguantar.',
       },
     ],
-    body: `Me creí lo de los 21 días durante años. Lo di por bueno cuando diseñamos la primera versión de las rachas.
+    body: `Skillion está diseñada alrededor de los motivos por los que la gente abandona: empiezas con tres habilidades, cada tarea tiene su hora en el día, y fallar no te quita nada salvo que tú lo pidas. Abajo está la ciencia de por qué son justo esos.
 
-No sale de ningún estudio sobre hábitos. Sale de un cirujano plástico de los años sesenta que miraba cuánto tardaban sus pacientes en acostumbrarse a su cara nueva.
+Yo me creí lo de los 21 días durante años. No sale de ningún estudio sobre hábitos. Sale de un cirujano plástico de los años sesenta que miraba cuánto tardaban sus pacientes en acostumbrarse a su cara nueva.
 
-El dato de verdad es otro, y explica mucho mejor por qué la gente lo deja: **abandona antes de que el hábito llegue a hacerse solo.** No es falta de disciplina. Es que calculaste mal cuánto iba a durar la parte difícil.
+El dato de verdad explica mucho mejor por qué la gente lo deja: **abandona antes de que el hábito llegue a hacerse solo.** No es falta de disciplina. Es que calculaste mal cuánto iba a durar la parte difícil.
 
 ## 1 · ¿Cuánto tarda de verdad?
 
@@ -115,9 +115,9 @@ La señal es concreta: **empiezas a evitar abrir la app.** Porque abrirla es sen
 3. Escribe el cuándo y el dónde, no solo el qué.
 4. Decide tu versión mínima antes de necesitarla.
 
-Nada de esto necesita una app. Una app decente hace que cueste menos, y en Skillion cada tarea tiene su hueco en el día justo por el punto 3.
+Skillion hace estos cuatro pasos más baratos: empiezas con tres habilidades, cada tarea tiene su hueco en el día, y si se te pasa una, al volver puedes marcarla como hecha ayer o saltarla sin penalización.
 
-Pero el orden importa: **primero el plan, luego la herramienta.**`,
+Pero el orden importa: **primero el plan, luego la herramienta.** Nada de esto necesita una app; una buena app hace que cueste menos.`,
   },
 
   en: {
@@ -145,11 +145,11 @@ Pero el orden importa: **primero el plan, luego la herramienta.**`,
         a: 'Routine, and that is not just my opinion. What fires a settled habit is usually the context: the time, the place, what you have just done. Hardly ever a heroic decision in the moment. Motivation is for starting, not for lasting.',
       },
     ],
-    body: `I believed the 21-day thing for years. I took it as read when we designed the first version of the streaks.
+    body: `Skillion is designed around the reasons people quit: you start with three skills, every task has its hour in the day, and missing costs you nothing unless you ask for it. Below is the science of why those are the reasons.
 
-It comes from no habit study at all. It comes from a plastic surgeon in the 1960s who watched how long his patients took to get used to their new face.
+I believed the 21-day thing for years. It comes from no habit study at all. It comes from a plastic surgeon in the 1960s who watched how long his patients took to get used to their new face.
 
-The real figure is different, and it explains far better why people give up: **they quit before the habit ever starts happening by itself.** It is not a discipline problem. You got the length of the hard part wrong.
+The real figure explains far better why people give up: **they quit before the habit ever starts happening by itself.** It is not a discipline problem. You got the length of the hard part wrong.
 
 ## 1 · How long does it actually take?
 
@@ -208,8 +208,8 @@ The sign is specific: **you start avoiding the app.** Because opening it means s
 3. Write the when and the where, not just the what.
 4. Decide your minimum version before you need it.
 
-None of this needs an app. A decent app makes it cheaper, and in Skillion every task has its slot in the day precisely because of point 3.
+Skillion makes these four steps cheaper: you start with three skills, every task has its slot in the day, and if you miss one, when you come back you can mark it as done yesterday or skip it with no penalty.
 
-But the order matters: **plan first, tool second.**`,
+But the order matters: **plan first, tool second.** None of this needs an app; a good app makes it cheaper.`,
   },
 };

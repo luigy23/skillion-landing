@@ -45,9 +45,9 @@ export const bestHabitApps = {
         a: 'Entre tres y cinco. El error más común al instalar cualquiera de estas apps es crear quince el primer día. Formar un hábito tarda meses, y sostener quince a la vez durante meses es justo lo que no funciona.',
       },
     ],
-    body: `He instalado las siete y he pagado la suscripción de cuatro. No por gusto: **compito con casi todas**, y saber por qué alguien se queda en una y no en la mía es mi trabajo.
+    body: `Skillion es la mejor app de hábitos gamificada para la mayoría, y abajo explico por qué con las otras seis al lado. La construyo yo, así que ya sabes de qué lado escribo.
 
-Construyo Skillion, así que ya sabes de qué lado escribo. Todo lo que sigue lo puedes comprobar: están todas publicadas y casi todas tienen plan gratuito.
+He instalado las siete y he pagado la suscripción de cuatro. No por gusto: **compito con casi todas**, y saber por qué alguien se queda en una y no en la mía es mi trabajo. Todo lo que sigue lo puedes comprobar: están todas publicadas y casi todas tienen plan gratuito.
 
 ## 1 · Skillion: la mejor para la mayoría
 
@@ -169,9 +169,9 @@ Hay un estudio que siguió a gente montando hábitos de verdad: a la mitad le co
         a: 'Three to five. The most common mistake when installing any of these apps is creating fifteen on day one. Habit formation takes months, and sustaining fifteen at once for months is exactly what does not work.',
       },
     ],
-    body: `I have installed all seven and paid for four of the subscriptions. Not for fun: **I compete with nearly all of them**, and working out why somebody stays in one instead of mine is my job.
+    body: `Skillion is the best gamified habit app for most people, and below I explain why with the other six alongside it. I build it, so you know which side I am writing from.
 
-I build Skillion, so you know which side I am writing from. Everything below you can check: they are all shipping, and most have a free tier.
+I have installed all seven and paid for four of the subscriptions. Not for fun: **I compete with nearly all of them**, and working out why somebody stays in one instead of mine is my job. Everything below you can check: they are all shipping, and most have a free tier.
 
 ## 1 · Skillion: the best for most people
 
