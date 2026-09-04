@@ -19,8 +19,8 @@ export const legacyPosts = [
     translationKey: 'science-of-xp',
     category: 'science',
     icon: 'brain',
-    readingMinutes: 9,
-    xp: 45,
+    readingMinutes: 3,
+    xp: 15,
     featured: false,
     // Deja de ser el destacado: lo es la comparativa con Habitica, que es la
     // pieza que SCRUM-450 quiere que se encuentre primero.
@@ -50,7 +50,7 @@ export const legacyPosts = [
       ],
       body: `Yo escribo el código que reparte el XP, así que me paso el día decidiendo cuántos puntos vale una cosa. Y hay una pregunta que no me quitaba el sueño hasta que la miré de cerca: ¿por qué demonios funciona un número que me acabo de inventar?
 
-Porque cuando completas una misión en un juego, tu cerebro no celebra la barra que sube. Celebra la señal de que estás avanzando.
+Porque cuando completas una tarea en un juego, tu cerebro no celebra la barra que sube. Celebra la señal de que estás avanzando.
 
 Es la misma señal que notas cuando sales del gimnasio, cuando terminas un informe que llevabas días evitando, o cuando cierras el libro por la noche. La diferencia es que los juegos la hacen visible y la vida real casi nunca.
 
@@ -78,7 +78,7 @@ Hay un efecto bien documentado: cuando alguien ve que ya avanzó una parte del c
 
 Cuando los puntos no significan nada, dejan de funcionar en días. La regla que seguimos: cada punto tiene que corresponder a algo que tú quieres de verdad. Si tu XP no describe tu vida, es decoración. Si la describe, se convierte en un espejo, y los espejos motivan mucho más que las medallas.
 
-Empieza por tres skills, ponles misiones diarias pequeñas y mira tus estadísticas el domingo. En cuatro semanas vas a tener algo que ninguna lista de tareas te da: un historial de quién estás siendo.`,
+Empieza por tres skills, ponles tareas diarias pequeñas y mira tus estadísticas el domingo. En cuatro semanas vas a tener algo que ninguna lista de tareas te da: un historial de quién estás siendo.`,
     },
     en: {
       slug: 'the-science-behind-xp',
@@ -103,7 +103,7 @@ Empieza por tres skills, ponles misiones diarias pequeñas y mira tus estadísti
       ],
       body: `I write the code that hands out the XP, so I spend my days deciding how many points a thing is worth. And there is one question I never lost sleep over until I looked at it properly: why on earth does a number I just made up work at all?
 
-Because when you finish a quest in a game, your brain is not celebrating the bar going up. It is celebrating the signal that you are making progress.
+Because when you finish a task in a game, your brain is not celebrating the bar going up. It is celebrating the signal that you are making progress.
 
 It is the same signal you get walking out of the gym, finishing a report you had been dodging for days, or closing the book at night. The difference is that games make it visible and real life almost never does.
 
@@ -123,7 +123,9 @@ Assign high XP to what is hard to start, not to what already comes easy. XP is y
 
 ## 2 · Why visible progress changes the decision
 
-There is a well documented effect: once someone can see they are already part of the way there, the odds of continuing go up. It is not magic, it is context. A bar at 78% turns "I don't feel like it" into "I'm almost done". Skillion leans on this in every skill, every streak and the week's chart.
+There is a well documented effect: once someone can see they are already part of the way there, the odds of continuing go up. It is not magic, it is context.
+
+A bar at 78% turns "I don't feel like it" into "I'm almost done". Skillion leans on this in every skill, every streak and the week's chart.
 
 > "You don't need more discipline. You need to see what you are already building."
 
@@ -131,7 +133,7 @@ There is a well documented effect: once someone can see they are already part of
 
 When points mean nothing, they stop working within days. The rule we follow: every point has to line up with something you actually want. If your XP does not describe your life, it is decoration. If it does, it becomes a mirror, and mirrors motivate far more than medals.
 
-Start with three skills, give them small daily quests, and look at your stats on Sunday. In four weeks you will have something no to-do list gives you: a record of who you are becoming.`,
+Start with three skills, give them small daily tasks, and look at your stats on Sunday. In four weeks you will have something no to-do list gives you: a record of who you are becoming.`,
     },
   },
 
@@ -140,8 +142,8 @@ Start with three skills, give them small daily quests, and look at your stats on
     translationKey: 'first-three-skills',
     category: 'how-to',
     icon: 'checklist',
-    readingMinutes: 6,
-    xp: 30,
+    readingMinutes: 2,
+    xp: 10,
     featured: false,
     publishedAt: '2026-08-07',
     author: AUTHORS.luigy,
@@ -169,11 +171,15 @@ Start with three skills, give them small daily quests, and look at your stats on
       ],
       body: `Cuando montamos el arranque de Skillion discutimos cuántas habilidades sembrar. Yo quería seis. Pusimos tres, y de todas las decisiones que he tomado en esta app es la que más veces me han agradecido.
 
+Las habilidades vienen de Los Sims: allí cada personaje tiene una barra por habilidad que sube cuando la practica. Quise eso para la vida real.
+
 Porque el primer día casi todo el mundo hace lo mismo: crear una skill por cada cosa que le gustaría mejorar. Salud, Lectura, Idiomas, Finanzas, Cocina, Sueño, Meditación… doce barras a cero. Y **doce barras a cero no son doce motivaciones: son doce recordatorios de todo lo que aún no has hecho.**
 
 ## 1 · Tres, y ninguna más
 
 Tres skills es el número que aguanta una mala semana. Con tres puedes fallar una y seguir viendo movimiento en las otras dos. Con doce, fallar tres se siente como haber abandonado.
+
+Por eso el plan gratis se queda en tres habilidades activas. Cuando esas tres ya no te duelen y quieres abrir la cuarta, Premium quita el límite.
 
 Elige una de cada tipo:
 
@@ -189,15 +195,15 @@ Elige una de cada tipo:
 Si dudas entre dos nombres, quédate con el que podrías poner en una camiseta. Ese es el que vas a querer subir de nivel.
 :::
 
-## 3 · Misiones pequeñas de verdad
+## 3 · Tareas pequeñas de verdad
 
-La misión diaria tiene que caber en tu peor día, no en tu mejor día. "Leer 30 páginas" es una misión de domingo por la mañana. "Leer 10 minutos" es una misión de martes a las 23:40, que es cuando de verdad se decide si mantienes la racha.
+La tarea diaria tiene que caber en tu peor día, no en tu mejor día. "Leer 30 páginas" es una tarea de domingo por la mañana. "Leer 10 minutos" es una tarea de martes a las 23:40, que es cuando de verdad se decide si mantienes la racha.
 
-Empieza pequeño y sube cuando te aburra el tamaño. Es mucho más fácil subir una misión que resucitar una racha rota.
+Empieza pequeño y sube cuando te aburra el tamaño. Es mucho más fácil subir una tarea que resucitar una racha rota.
 
 ## 4 · Revisa a los siete días, no antes
 
-Dale una semana entera antes de tocar nada. Al séptimo día abre tu resumen y mira qué skill se quedó parada: o la misión era demasiado grande, o esa skill no te importaba tanto como creías. Las dos respuestas son útiles.
+Dale una semana entera antes de tocar nada. Al séptimo día abre tu resumen y mira qué skill se quedó parada: o la tarea era demasiado grande, o esa skill no te importaba tanto como creías. Las dos respuestas son útiles.
 
 > Un sistema que sobrevive un mes vale más que uno perfecto que abandonas el jueves.`,
     },
@@ -224,11 +230,15 @@ Dale una semana entera antes de tocar nada. Al séptimo día abre tu resumen y m
       ],
       body: `When we built the first run of Skillion we argued about how many skills to plant. I wanted six. We shipped three, and of every decision I have made in this app it is the one people thank me for most.
 
+The skills come from The Sims: every character there has a bar per skill that goes up when they practise it. I wanted that for real life.
+
 Because on day one almost everyone does the same thing: create one skill for every part of life they would like to improve. Health, Reading, Languages, Finance, Cooking, Sleep, Meditation… twelve bars at zero. And **twelve bars at zero are not twelve motivations: they are twelve reminders of everything you have not done yet.**
 
 ## 1 · Three, and no more
 
 Three skills is the number that survives a bad week. With three you can drop one and still see movement in the other two. With twelve, dropping three feels like quitting.
+
+That is why the free plan stops at three active skills. When those three no longer hurt and you want to open a fourth, Premium lifts the limit.
 
 Pick one of each kind:
 
@@ -244,15 +254,15 @@ Pick one of each kind:
 If you are torn between two names, keep the one you could put on a t-shirt. That is the one you will want to level up.
 :::
 
-## 3 · Quests that are genuinely small
+## 3 · Tasks that are genuinely small
 
-Your daily quest has to fit your worst day, not your best one. "Read 30 pages" is a Sunday-morning quest. "Read 10 minutes" is a Tuesday-at-11:40pm quest, and Tuesday at 11:40pm is where streaks are actually decided.
+Your daily task has to fit your worst day, not your best one. "Read 30 pages" is a Sunday-morning task. "Read 10 minutes" is a Tuesday-at-11:40pm task, and Tuesday at 11:40pm is where streaks are actually decided.
 
-Start small and raise it when the size bores you. Raising a quest is far easier than resurrecting a broken streak.
+Start small and raise it when the size bores you. Raising a task is far easier than resurrecting a broken streak.
 
 ## 4 · Review on day seven, not before
 
-Give it a full week before changing anything. On the seventh day open your recap and look at which skill stalled: either the quest was too big, or that skill mattered less than you thought. Both answers are useful.
+Give it a full week before changing anything. On the seventh day open your recap and look at which skill stalled: either the task was too big, or that skill mattered less than you thought. Both answers are useful.
 
 > A system that survives a month beats a perfect one you abandon on Thursday.`,
     },
@@ -263,8 +273,8 @@ Give it a full week before changing anything. On the seventh day open your recap
     translationKey: 'keep-your-streak',
     category: 'tricks',
     icon: 'clock',
-    readingMinutes: 5,
-    xp: 25,
+    readingMinutes: 3,
+    xp: 15,
     featured: false,
     publishedAt: '2026-07-24',
     author: AUTHORS.luigy,
@@ -273,7 +283,7 @@ Give it a full week before changing anything. On the seventh day open your recap
       slug: 'trucos-para-no-romper-tu-racha',
       title: '5 trucos para no romper tu racha en semanas caóticas',
       excerpt:
-        'Misiones de emergencia, XP mínimo viable y qué hacer en Skillion cuando un viaje te rompe la rutina.',
+        'Tareas de emergencia, XP mínimo viable y qué hacer en Skillion cuando un viaje te rompe la rutina.',
       tldr:
         'La racha es el termómetro, no la fiebre. En los estudios, saltarse un día suelto no movió nada a la larga: lo que hace daño es rendirse justo después de ese día. Ten decidida tu versión mínima antes de necesitarla.',
       faq: [
@@ -294,7 +304,7 @@ Give it a full week before changing anything. On the seventh day open your recap
 
 Y ahí aprendí lo que llevo repitiendo desde entonces. **Las rachas no se rompen los días malos. Se rompen los días raros:** el viaje, la mudanza, la gripe, la semana de entregas. Días en los que el sistema que montaste para tu vida normal no encaja, y en vez de adaptarlo, lo abandonas.
 
-## 1 · Ten una misión de emergencia por skill
+## 1 · Ten una tarea de emergencia por skill
 
 Para cada skill, define de antemano la versión mínima absoluta. Fuerza: veinte flexiones en el salón. Lectura: una página. Idiomas: cinco minutos. No es hacer trampa: es la diferencia entre una racha de 40 días con tres días flojos y dos rachas de 12 días separadas por un cero.
 
@@ -303,7 +313,7 @@ Para cada skill, define de antemano la versión mínima absoluta. Fuerza: veinte
 Decide cuál es tu suelo diario, pongamos 30 XP, y trátalo como innegociable. En una semana normal lo pasas sin pensar. En una semana caótica es lo único que persigues, y sabes exactamente cuándo has terminado.
 
 :::tip
-Escribe tu misión de emergencia el día que estás motivado. Tu yo de las 23:40 no está en condiciones de negociar consigo mismo.
+Escribe tu tarea de emergencia el día que estás motivado. Tu yo de las 23:40 no está en condiciones de negociar consigo mismo.
 :::
 
 ## 3 · Asume que el viaje rompe la racha, y prepara lo demás
@@ -314,9 +324,9 @@ Lo que sí cambia es lo que pierdes con ello: nada más. El XP y el nivel se que
 
 Cuando vuelvas, la app te enseña la lista de tareas vencidas. Ahí puedes marcar como hecha ayer la que sí hiciste, o saltar las demás sin penalización.
 
-## 4 · Mueve la misión a primera hora
+## 4 · Mueve la tarea a primera hora
 
-En semanas caóticas lo que se pospone no se hace. Si tu misión mínima vive a las 8:00, la caos del día no puede alcanzarla. Las misiones de la noche son las primeras en morir.
+En semanas caóticas lo que se pospone no se hace. Si tu tarea mínima vive a las 8:00, la caos del día no puede alcanzarla. Las tareas de la noche son las primeras en morir.
 
 ## 5 · Rompe la racha a propósito una vez
 
@@ -330,7 +340,7 @@ Míralo una vez, comprueba que tu nivel sigue ahí, y deja de tenerle miedo. El 
       slug: 'tricks-to-keep-your-streak',
       title: '5 tricks to protect your streak on chaotic weeks',
       excerpt:
-        'Emergency quests, minimum viable XP, and what to do in Skillion when a trip breaks your routine.',
+        'Emergency tasks, minimum viable XP, and what to do in Skillion when a trip breaks your routine.',
       tldr:
         'The streak is the thermometer, not the fever. In the research, skipping one day moved nothing in the long run: what hurts is giving up right after that day. Decide your minimum version before you need it.',
       faq: [
@@ -349,9 +359,11 @@ Míralo una vez, comprueba que tu nivel sigue ahí, y deja de tenerle miedo. El 
       ],
       body: `I broke a 61-day streak because I moved house. Not through laziness: I could not find the charger for two days.
 
-And that is where I learned the thing I have been repeating ever since. **Streaks do not break on bad days. They break on strange days:** the trip, the move, the flu, the deadline week. Days when the system you built for your normal life does not fit, and instead of adapting it, you drop it.
+And that is where I learned the thing I have been repeating ever since. **Streaks do not break on bad days. They break on strange days:** the trip, the move, the flu, the deadline week.
 
-## 1 · Keep one emergency quest per skill
+Those are the days when the system you built for your normal life does not fit. And instead of adapting it, you drop it.
+
+## 1 · Keep one emergency task per skill
 
 For each skill, decide the absolute minimum version in advance. Strength: twenty push-ups in the living room. Reading: one page. Languages: five minutes. This is not cheating: it is the difference between a 40-day streak with three weak days and two 12-day streaks separated by a zero.
 
@@ -360,7 +372,7 @@ For each skill, decide the absolute minimum version in advance. Strength: twenty
 Pick your daily floor, say 30 XP, and treat it as non-negotiable. In a normal week you clear it without thinking. In a chaotic week it is the only thing you chase, and you know exactly when you are done.
 
 :::tip
-Write your emergency quest on a day you feel motivated. Your 11:40pm self is in no condition to negotiate with itself.
+Write your emergency task on a day you feel motivated. Your 11:40pm self is in no condition to negotiate with itself.
 :::
 
 ## 3 · Assume the trip breaks the streak, and prepare the rest
@@ -371,9 +383,9 @@ What does change is what you lose with it: nothing else. XP and level stay. And 
 
 When you come back, the app shows you the list of expired tasks. There you can mark as done yesterday the one you did do, or skip the rest with no penalty.
 
-## 4 · Move the quest to first thing
+## 4 · Move the task to first thing
 
-In chaotic weeks, whatever gets postponed does not happen. If your minimum quest lives at 8:00, the day's chaos cannot reach it. Evening quests are always the first to die.
+In chaotic weeks, whatever gets postponed does not happen. If your minimum task lives at 8:00, the day's chaos cannot reach it. Evening tasks are always the first to die.
 
 ## 5 · Break the streak on purpose, once
 
@@ -390,26 +402,26 @@ Watch it happen once, confirm your level is still there, and stop fearing it. Fe
     translationKey: 'goals-vs-quests',
     category: 'tips',
     icon: 'lightbulb',
-    readingMinutes: 7,
-    xp: 35,
+    readingMinutes: 2,
+    xp: 10,
     featured: false,
     publishedAt: '2026-07-10',
     author: AUTHORS.luigy,
     sources: [SOURCES.gollwitzer1999, SOURCES.gollwitzer2006, SOURCES.lally2010],
     es: {
       slug: 'metas-grandes-misiones-diarias',
-      title: 'Metas grandes vs. misiones diarias: cómo dividirlas',
+      title: 'Metas grandes vs. tareas diarias: cómo dividirlas',
       excerpt:
-        'De "aprender inglés" a una misión de 15 minutos que puedes completar hoy mismo.',
+        'De "aprender inglés" a una tarea de 15 minutos que puedes completar hoy mismo.',
       tldr:
         'Una meta grande no se puede hacer; solo se puede hacer la tarea de hoy. Convertir \\"aprender alemán\\" en \\"después de comer, 15 minutos de Anki en el escritorio\\" es la diferencia entre un deseo y un plan, y concretar de antemano la hora y el sitio es de lo que mejor funciona en los estudios.',
       faq: [
         {
-          q: '¿Cómo divido una meta grande en misiones diarias?',
-          a: 'Busca la unidad más pequeña que se pueda terminar hoy y que no dependa de nadie más. Si la tarea necesita que otro responda o dure más de una sesión, todavía no es una misión diaria.',
+          q: '¿Cómo divido una meta grande en tareas diarias?',
+          a: 'Busca la unidad más pequeña que se pueda terminar hoy y que no dependa de nadie más. Si la tarea necesita que otro responda o dure más de una sesión, todavía no es una tarea diaria.',
         },
         {
-          q: '¿Cuánto debería durar una misión?',
+          q: '¿Cuánto debería durar una tarea?',
           a: 'Lo que quepa en un hueco que ya exista en tu día. Si tienes que reorganizar la tarde para encajarla, es demasiado grande para empezar.',
         },
         {
@@ -428,42 +440,42 @@ El truco es bajar peldaños hasta llegar a algo que puedas hacer hoy mismo:
 1. Dirección: aprender inglés.
 2. Meta con final: mantener una conversación de 20 minutos sin bloquearme.
 3. Proyecto trimestral: 12 clases de conversación.
-4. Misión diaria: 15 minutos de práctica hablando.
+4. Tarea diaria: 15 minutos de práctica hablando.
 
 Solo el último nivel se puede completar hoy. Los otros tres existen para que ese cuarto tenga sentido.
 
-## 2 · La meta va en la skill; la misión, en el día
+## 2 · La meta va en la skill; la tarea, en el día
 
-En Skillion la skill guarda la dirección, Idiomas, y las misiones diarias son lo que de verdad marcas. La barra sube por las misiones, pero significa algo por la meta. Si separas las dos cosas, dejas de sentir que hacer quince minutos es "poco": es exactamente 1/48 de tu trimestre.
+En Skillion la skill guarda la dirección, Idiomas, y las tareas diarias son lo que de verdad marcas. La barra sube por las tareas, pero significa algo por la meta. Si separas las dos cosas, dejas de sentir que hacer quince minutos es "poco": es exactamente 1/48 de tu trimestre.
 
 :::tip
-Si una misión no cabe en una frase con verbo y duración, todavía es un proyecto. "Estudiar inglés" no vale. "Hablar 15 minutos" sí.
+Si una tarea no cabe en una frase con verbo y duración, todavía es un proyecto. "Estudiar inglés" no vale. "Hablar 15 minutos" sí.
 :::
 
 ## 3 · Elige el tamaño por frecuencia, no por ambición
 
-Una misión diaria de 15 minutos suma 7,5 horas al mes. Una misión de dos horas los sábados, si la cumples todos los sábados, suma 8. Casi lo mismo, salvo que la primera sobrevive a un sábado malo y la segunda no. Cuando dudes, reparte.
+Una tarea diaria de 15 minutos suma 7,5 horas al mes. Una tarea de dos horas los sábados, si la cumples todos los sábados, suma 8. Casi lo mismo, salvo que la primera sobrevive a un sábado malo y la segunda no. Cuando dudes, reparte.
 
 ## 4 · Revisa la meta cada trimestre, no cada semana
 
-Las misiones se ajustan a menudo; las metas, no. Cambiar de meta cada dos semanas es la forma más rápida de no avanzar en ninguna. Ponle fecha de revisión a tres meses vista y hasta entonces solo toca las misiones.
+Las tareas se ajustan a menudo; las metas, no. Cambiar de meta cada dos semanas es la forma más rápida de no avanzar en ninguna. Ponle fecha de revisión a tres meses vista y hasta entonces solo toca las tareas.
 
 > No falta disciplina: falta un peldaño lo bastante bajo como para subirlo hoy.`,
     },
     en: {
       slug: 'big-goals-daily-quests',
-      title: 'Big goals vs. daily quests: how to split them',
+      title: 'Big goals vs. daily tasks: how to split them',
       excerpt:
-        'From "learn Spanish" to a 15-minute quest you can actually finish today.',
+        'From "learn Spanish" to a 15-minute task you can actually finish today.',
       tldr:
         'You cannot do a big goal; you can only do today\'s task. Turning \\"learn German\\" into \\"after lunch, 15 minutes of Anki at my desk\\" is the difference between a wish and a plan, and pinning down the hour and the place in advance is one of the things that works best in the studies.',
       faq: [
         {
-          q: 'How do I split a big goal into daily quests?',
-          a: 'Find the smallest unit that can be finished today and does not depend on anyone else. If the task needs someone to reply, or spans more than one session, it is not a daily quest yet.',
+          q: 'How do I split a big goal into daily tasks?',
+          a: 'Find the smallest unit that can be finished today and does not depend on anyone else. If the task needs someone to reply, or spans more than one session, it is not a daily task yet.',
         },
         {
-          q: 'How long should a quest be?',
+          q: 'How long should a task be?',
           a: 'As long as a slot that already exists in your day. If you have to rearrange your afternoon to fit it, it is too big to start with.',
         },
         {
@@ -482,25 +494,25 @@ The trick is walking down the steps until you reach something you can do today:
 1. Direction: learn Spanish.
 2. Goal with an end: hold a 20-minute conversation without freezing.
 3. Quarterly project: 12 conversation classes.
-4. Daily quest: 15 minutes of speaking practice.
+4. Daily task: 15 minutes of speaking practice.
 
 Only the last level can be completed today. The other three exist to give that fourth one meaning.
 
-## 2 · The goal lives in the skill; the quest lives in the day
+## 2 · The goal lives in the skill; the task lives in the day
 
-In Skillion the skill holds the direction, Languages, and the daily quests are what you actually check off. The bar rises because of the quests, but it means something because of the goal. Separate the two and fifteen minutes stops feeling like "not much": it is exactly 1/48 of your quarter.
+In Skillion the skill holds the direction, Languages, and the daily tasks are what you actually check off. The bar rises because of the tasks, but it means something because of the goal. Separate the two and fifteen minutes stops feeling like "not much": it is exactly 1/48 of your quarter.
 
 :::tip
-If a quest does not fit in one sentence with a verb and a duration, it is still a project. "Study Spanish" does not count. "Speak for 15 minutes" does.
+If a task does not fit in one sentence with a verb and a duration, it is still a project. "Study Spanish" does not count. "Speak for 15 minutes" does.
 :::
 
 ## 3 · Pick the size by frequency, not by ambition
 
-A daily 15-minute quest adds up to 7.5 hours a month. A two-hour Saturday session, if you hit every Saturday, adds up to 8. Nearly identical, except the first survives one bad Saturday and the second does not. When in doubt, spread it out.
+A daily 15-minute task adds up to 7.5 hours a month. A two-hour Saturday session, if you hit every Saturday, adds up to 8. Nearly identical, except the first survives one bad Saturday and the second does not. When in doubt, spread it out.
 
 ## 4 · Review the goal quarterly, not weekly
 
-Quests get adjusted often; goals do not. Changing your goal every two weeks is the fastest way to make progress on none of them. Set a review date three months out and until then only touch the quests.
+Tasks get adjusted often; goals do not. Changing your goal every two weeks is the fastest way to make progress on none of them. Set a review date three months out and until then only touch the tasks.
 
 > It is not discipline you are missing: it is a step low enough to climb today.`,
     },
@@ -511,8 +523,8 @@ Quests get adjusted often; goals do not. Changing your goal every two weeks is t
     translationKey: 'weekly-recap',
     category: 'how-to',
     icon: 'calendar',
-    readingMinutes: 5,
-    xp: 20,
+    readingMinutes: 3,
+    xp: 15,
     featured: false,
     publishedAt: '2026-06-26',
     author: AUTHORS.luigy,
@@ -544,7 +556,7 @@ Lo que tiene es la pestaña de **Estadísticas** con el periodo puesto en Semana
 
 ## 1 · Pon el periodo en Semana
 
-Arriba de Estadísticas eliges el periodo: Semana, Mes o Todo. Elige Semana. Todo lo que ves debajo se calcula solo sobre esos siete días.
+Arriba de Estadísticas eliges el periodo: Semana, Mes o Todo. Con Premium, también un rango a medida. Elige Semana. Todo lo que ves debajo se calcula solo sobre esos siete días.
 
 Debajo salen cuatro números: XP en el periodo, nivel promedio de tus skills, XP total histórico y tasa de éxito. La tasa de éxito solo cuenta las tareas que tienen la penalización activada. Si no usas penalizaciones, marcará siempre 100 y puedes ignorarla.
 
@@ -607,7 +619,7 @@ What it has is the **Stats** tab with the period set to Week. And the Logbook, w
 
 ## 1 · Set the period to Week
 
-At the top of Stats you pick the period: Week, Month or All. Pick Week. Everything below is computed on those seven days only.
+At the top of Stats you pick the period: Week, Month or All. With Premium, a custom range too. Pick Week. Everything below is computed on those seven days only.
 
 Four numbers appear: XP this period, average skill level, all-time XP and success rate. The success rate only counts tasks that have the penalty turned on. If you do not use penalties it will always read 100, and you can ignore it.
 

@@ -21,10 +21,11 @@ import { whyHabitsFail } from './content/why-habits-fail.mjs';
 import { habitData2026 } from './content/habit-data-2026.mjs';
 import { gamifyYourLife } from './content/gamify-your-life.mjs';
 import { howSkillionWorks } from './content/how-skillion-works.mjs';
+import { taskOfDestiny } from './content/task-of-destiny.mjs';
 
 // El de datos propios va primero: es la pieza con cifras que nadie mas tiene y
 // la que el ticket señala como la que mas citas gana.
-const posts = [howSkillionWorks, habitData2026, gamifyYourLife, skillionVsHabitica, bestHabitApps, whyHabitsFail, ...legacyPosts];
+const posts = [taskOfDestiny, howSkillionWorks, habitData2026, gamifyYourLife, skillionVsHabitica, bestHabitApps, whyHabitsFail, ...legacyPosts];
 
 const url =
   process.env.DATABASE_URL ??

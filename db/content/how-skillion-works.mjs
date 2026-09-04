@@ -17,8 +17,8 @@ export const howSkillionWorks = {
   translationKey: 'how-skillion-works',
   category: 'how-to',
   icon: 'energy',
-  readingMinutes: 8,
-  xp: 40,
+  readingMinutes: 6,
+  xp: 30,
   featured: false,
   publishedAt: '2026-09-03',
   author: AUTHORS.jesus,
@@ -53,6 +53,8 @@ export const howSkillionWorks = {
 
 Yo escribo ese código. Y aun así, hasta que las puse en fila no tenía claro qué orden llevaban ni cuánto pesaba cada una. Este artículo es esa fila, con los números tal y como están en el código hoy.
 
+Una nota de vocabulario. En la app, lo que haces se llama tarea. Las habilidades son las barras que suben. Y la palabra misión solo aparece cuando la Máquina del destino te asigna una tarea.
+
 ## 1 · La energía: 100 puntos al día
 
 Empiezas cada día con 100 puntos de energía. Se rellenan a las seis de la mañana.
@@ -74,19 +76,19 @@ Cuando creas una tarea le pones una dificultad. Cada dificultad tiene un XP base
 | Difícil | 15 |
 | Muy difícil | 20 |
 
-Sí, "muy fácil" y "fácil" pagan lo mismo. Es así en el código y no tiene una razón buena. Lo cuento porque lo prometí: los números tal cual están.
+Sí, muy fácil y fácil pagan lo mismo. Es así en el código y no tiene una razón buena.
 
 Encima del XP base se aplica un factor de suerte. Es un número al azar entre 0,8 y 1,7. Una tarea media puede dar 8 puntos un día y 17 otro.
 
 La animación te lo enseña. Si el factor sale por debajo de 0,95 pone "Tirada baja". Por encima de 1,1, "¡Suerte!". A partir de 1,5, "¡CRÍTICO!".
 
-¿Por qué al azar? Hay un estudio de 1997 sobre neuronas de dopamina que se cita mucho. Encontró que responden más fuerte cuando la recompensa llega mejor de lo esperado. Que la misma tarea pague distinto cada día es una forma de que "lo esperado" nunca sea exacto.
-
-No sé si funciona en Skillion; no lo he medido. Sé que ese es el motivo.
+¿Por qué al azar? Porque el cerebro responde más a la recompensa que no espera. Lo explica Luigy en [el artículo de la Máquina del destino](/es/blog/por-que-metimos-una-tragaperras-en-skillion/). No he medido si funciona en Skillion. Sé que ese es el motivo.
 
 ## 3 · Los puntos de cada habilidad: los pones tú
 
 Además del XP de la tarea, cada tarea reparte puntos entre tus habilidades. Esos puntos no dependen de la dificultad ni de la suerte. Los escribes tú, habilidad por habilidad, al crear la tarea. Por defecto son 10.
+
+Si te da pereza rellenar todo esto, escribes el título y pulsas "Configurar con magia". La IA propone dificultad, energía, habilidades y repetición, y tú corriges lo que quieras. Es una de las cosas que trae Premium.
 
 Pueden ser negativos. Una tarea puede sumar 15 a Descanso y restar 10 a Productividad. Es la forma de apuntar algo que haces y que te cuesta en otro lado. La habilidad que resta puede bajar de nivel.
 
@@ -100,9 +102,7 @@ Pon XP alto en la habilidad que te cuesta empezar, no en la que ya te sale. Los 
 
 Cada tarea también da monedas. Cuántas, lo decides tú al crearla; por defecto 10.
 
-Aquí el factor de suerte solo cuenta al 30%. Una tarea de 10 monedas da entre 9 y 12. Lo hicimos así para que la tienda no se infle: el XP puede variar mucho, las monedas casi nada.
-
-Tu nivel de personaje va aparte del de las habilidades. Del 1 al 2 son 100 puntos, y cada nivel pide 50 más que el anterior. Subir de nivel da entre 20 y 100 monedas.
+Aquí el factor de suerte solo cuenta al 30%. Una tarea de 10 monedas da entre 9 y 12. Así la tienda no se infla. Subir de nivel de personaje da además entre 20 y 100 monedas.
 
 Las monedas se gastan en la tienda. Una poción de vida cuesta 50. La ropa del avatar, 1000. Y puedes crear tus propias recompensas con el precio que quieras: "una tarde de videojuegos, 200 monedas". Comprarla es canjearla.
 
@@ -124,17 +124,15 @@ Puedes activar una penalización tarea por tarea. Si lo haces y la tarea vence, 
 
 Al abrir la app después de un día con tareas vencidas sale una lista: "Tareas vencidas. Mientras no estabas". Desde ahí puedes marcar como hecha ayer la que sí hiciste, o saltar el resto sin penalización.
 
-Las penalizaciones están apagadas por defecto por una razón que no es mía. Hay una revisión de 1999 sobre premios y castigos: cuanto más controlador es el sistema, más sustituye tu motivo original por el suyo. Prefiero que quien quiera castigo lo pida.
+Las penalizaciones están apagadas por defecto a propósito. Hay una revisión de 1999 sobre premios y castigos: cuanto más controlador es el sistema, más sustituye tu motivo por el suyo.
 
 ## 7 · Los avisos: uno al día como máximo
 
-Skillion manda como máximo una notificación inteligente al día. Es un tope fijo en el código, no una preferencia. Los recordatorios de hora fija que pongas tú van aparte.
+Skillion manda como máximo una notificación inteligente al día. Es un tope fijo en el código. Los recordatorios de hora fija que pongas tú van aparte.
 
-Hay tres tipos. Racha en peligro: solo si la racha de una habilidad tiene 3 días o más y quedan menos de seis horas para medianoche. Habilidad parada: si lleva cinco días sin puntos.
+Hay tres tipos. Racha en peligro: racha de 3 días o más y menos de seis horas para medianoche. Habilidad parada: cinco días sin puntos. Y si dejas de abrir la app: un aviso a los 3, 7 y 14 días. Después, silencio.
 
-Y si dejas de abrir la app: un aviso a los 3 días, otro a los 7 y otro a los 14. Después, silencio.
-
-De 22:00 a 08:00 no suena nada, salvo el aviso de racha en peligro, que se adelanta a las diez. Los tres tipos se apagan por separado en Ajustes.
+De 22:00 a 08:00 no suena nada, salvo la racha en peligro, que se adelanta a las diez. Los tres tipos se apagan por separado en Ajustes.
 
 ## 8 · Lo que no hace
 
@@ -179,6 +177,8 @@ Si alguna de estas cuatro te importa, mejor saberlo antes que después.
 
 I write that code. And still, until I lined them up I was not sure of their order or how much each one weighed. This article is that line-up, with the numbers exactly as they sit in the code today.
 
+A note on vocabulary. In the app, what you do is called a task. Skills are the bars that go up. And a task only becomes a "mission" when the Task of destiny hands it to you.
+
 ## 1 · Energy: 100 points a day
 
 You start every day with 100 energy points. They refill at six in the morning.
@@ -202,19 +202,19 @@ When you create a task you give it a difficulty. Each difficulty has a fixed bas
 | Hard | 15 |
 | Very hard | 20 |
 
-Yes, "very easy" and "easy" pay the same. That is how the code is, and there is no good reason for it. I am telling you because I promised: the numbers as they are.
+Yes, very easy and easy pay the same. That is how the code is, and there is no good reason for it.
 
 On top of the base XP a luck factor applies. It is a random number between 0.8 and 1.7. A medium task can pay 8 points one day and 17 the next.
 
 The animation shows it. If the factor lands below 0.95 it says "Low roll". Above 1.1, "Lucky!". From 1.5 up, "CRITICAL!".
 
-Why random? There is a 1997 study on dopamine neurons that gets cited a lot. It found they fire harder when the reward comes in better than expected. Having the same task pay differently each day is a way of making sure "expected" is never exact.
-
-I do not know whether it works in Skillion; I have not measured it. I know that is the reason.
+Why random? Because the brain responds more to the reward it does not expect. Luigy explains it in [the Task of destiny article](/blog/why-we-put-a-slot-machine-in-a-habit-app/). I have not measured whether it works in Skillion. I know that is the reason.
 
 ## 3 · Points per skill: you set them
 
 Besides task XP, each task splits points across your skills. Those points do not depend on difficulty or luck. You type them, skill by skill, when you create the task. The default is 10.
+
+If filling all this in feels like a chore, you type the title and tap "Configure with magic". The AI proposes difficulty, energy, skills and repetition, and you correct whatever you want. It is one of the things Premium brings.
 
 They can be negative. A task can add 15 to Rest and take 10 from Productivity. It is the way to log something you do that costs you somewhere else. The skill that loses points can drop a level.
 
@@ -228,9 +228,7 @@ Put high XP on the skill you struggle to start, not the one that already comes e
 
 Each task also pays coins. How many is up to you when you create it; the default is 10.
 
-Here the luck factor only counts at 30%. A 10-coin task pays between 9 and 12. We did it that way so the shop does not inflate: XP can swing a lot, coins barely at all.
-
-Your character level is separate from your skill levels. From 1 to 2 is 100 points, and each level asks 50 more than the one before. Levelling up pays between 20 and 100 coins.
+Here the luck factor only counts at 30%. A 10-coin task pays between 9 and 12. That keeps the shop from inflating. Levelling up your character also pays between 20 and 100 coins.
 
 Coins are spent in the shop. A health potion costs 50. Avatar clothes, 1000. And you can create your own rewards at whatever price you want: "an evening of video games, 200 coins". Buying it is redeeming it.
 
@@ -252,17 +250,15 @@ You can turn on a penalty task by task. If you do and the task expires, you lose
 
 When you open the app after a day with expired tasks, a list appears: "Tasks Expired. While you were away". From there you can mark as done yesterday the one you did do, or skip the rest with no penalty.
 
-Penalties are off by default for a reason that is not mine. There is a 1999 review of rewards and punishments: the more controlling the system, the more it replaces your original reason with its own. I would rather the people who want punishment ask for it.
+Penalties are off by default on purpose. There is a 1999 review of rewards and punishments: the more controlling the system, the more it replaces your reason with its own.
 
 ## 7 · Notifications: one a day at most
 
-Skillion sends at most one smart notification a day. It is a fixed cap in the code, not a preference. Fixed-time reminders you set yourself are separate.
+Skillion sends at most one smart notification a day. It is a fixed cap in the code. Fixed-time reminders you set yourself are separate.
 
-There are three kinds. Streak in danger: only if a skill's streak is 3 days or more and fewer than six hours remain before midnight. Stalled skill: if it has gone five days without points.
+There are three kinds. Streak in danger: a streak of 3 days or more and fewer than six hours before midnight. Stalled skill: five days without points. And if you stop opening the app: a nudge at 3, 7 and 14 days. After that, silence.
 
-And if you stop opening the app: one nudge at 3 days, another at 7 and another at 14. After that, silence.
-
-From 22:00 to 08:00 nothing sounds, except the streak-in-danger nudge, which moves up to ten. The three kinds switch off separately in Settings.
+From 22:00 to 08:00 nothing sounds, except streak in danger, which moves up to ten. The three kinds switch off separately in Settings.
 
 ## 8 · What it does not do
 

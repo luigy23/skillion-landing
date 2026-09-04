@@ -54,6 +54,16 @@ export const SOURCES = {
     url: 'https://doi.org/10.1126/science.275.5306.1593',
     publisher: 'Science',
   },
+  fiorillo2003: {
+    title: 'Discrete Coding of Reward Probability and Uncertainty by Dopamine Neurons',
+    url: 'https://doi.org/10.1126/science.1077349',
+    publisher: 'Science',
+  },
+  fersterSkinner1957: {
+    title: 'Schedules of reinforcement',
+    url: 'https://doi.org/10.1037/10627-000',
+    publisher: 'Appleton-Century-Crofts',
+  },
   gollwitzer1999: {
     title: 'Implementation intentions: Strong effects of simple plans',
     url: 'https://doi.org/10.1037/0003-066X.54.7.493',

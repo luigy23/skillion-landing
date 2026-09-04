@@ -128,7 +128,7 @@ const es: FaqGroup[] = [
     entries: [
       {
         q: '¿Qué es Skillion?',
-        a: 'Es una app de hábitos que convierte lo que quieres conseguir en un juego de rol. Cada tarea que cumples reparte puntos entre habilidades que te inventas tú (Disciplina, Programación, Paz interior, Energía social, las que quieras) y esas habilidades van subiendo de nivel. Está en iOS y Android, es gratis en lo básico y tiene una suscripción opcional para lo demás.',
+        a: 'Es una app de hábitos que convierte lo que quieres conseguir en un juego de rol. Nació de Los Sims: a su fundador le gustó que un personaje tuviera habilidades con una barra que sube al practicarlas, y quiso eso para la vida real. Cada tarea que cumples reparte puntos entre habilidades que te inventas tú, y esas habilidades suben de nivel. Está en iOS y Android, gratis en lo básico, con una suscripción opcional.',
       },
       {
         id: 'free',
@@ -199,7 +199,7 @@ const es: FaqGroup[] = [
       },
       {
         q: '¿Qué hace la IA de Skillion?',
-        a: 'Dos cosas, las dos en Premium. Al crear una tarea, escribes el título y "Configurar con magia" rellena el resto: dificultad, energía, habilidades, repetición. Y en Time Blocking, le cuentas tu día por voz o por texto y te devuelve los bloques de la jornada.',
+        a: 'Dos cosas. Al crear una tarea, escribes el título y "Configurar con magia" rellena el resto: dificultad, energía, habilidades, repetición. Y en Time Blocking, le cuentas tu día por voz o por texto y te devuelve los bloques de la jornada. Las dos vienen con Premium.',
       },
     ],
   },
@@ -288,7 +288,7 @@ const en: FaqGroup[] = [
     entries: [
       {
         q: 'What is Skillion?',
-        a: 'It is a habit app that turns what you want to achieve into a role-playing game. Every task you finish splits points across skills you invent yourself (Discipline, Programming, Inner Peace, Social Energy, whatever you like) and those skills level up. It is on iOS and Android, free for the basics, with an optional subscription for the rest.',
+        a: 'It is a habit app that turns what you want to achieve into a role-playing game. It was born from The Sims: its founder liked that a character had skills with a bar that goes up as you practise them, and wanted that for real life. Every task you finish splits points across skills you invent yourself, and those skills level up. It is on iOS and Android, free at the core, with an optional subscription.',
       },
       {
         id: 'free',
@@ -359,7 +359,7 @@ const en: FaqGroup[] = [
       },
       {
         q: 'What does the AI in Skillion do?',
-        a: 'Two things, both in Premium. When creating a task, you type the title and "Configure with magic" fills in the rest: difficulty, energy, skills, repetition. And in Time Blocking, you describe your day by voice or text and it hands you back the blocks of the day.',
+        a: 'Two things. When creating a task, you type the title and "Configure with magic" fills in the rest: difficulty, energy, skills, repetition. And in Time Blocking, you describe your day by voice or text and it hands you back the blocks of the day. Both come with Premium.',
       },
     ],
   },
