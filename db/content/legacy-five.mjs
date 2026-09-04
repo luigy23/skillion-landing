@@ -70,7 +70,7 @@ Asigna XP alto a lo que te cuesta empezar, no a lo que ya te sale fácil. El XP 
 
 ## 2 · Por qué el progreso visible cambia la decisión
 
-Hay un efecto bien documentado: cuando alguien ve que ya avanzó una parte del camino, la probabilidad de continuar sube. No es magia, es contexto. Una barra al 78% convierte "no tengo ganas" en "me falta poquísimo". Skillion usa esto en cada skill, cada racha y cada resumen semanal.
+Hay un efecto bien documentado: cuando alguien ve que ya avanzó una parte del camino, la probabilidad de continuar sube. No es magia, es contexto. Una barra al 78% convierte "no tengo ganas" en "me falta poquísimo". Skillion usa esto en cada skill, cada racha y en la gráfica de la semana.
 
 > "No necesitas más disciplina. Necesitas ver lo que ya estás construyendo."
 
@@ -78,7 +78,7 @@ Hay un efecto bien documentado: cuando alguien ve que ya avanzó una parte del c
 
 Cuando los puntos no significan nada, dejan de funcionar en días. La regla que seguimos: cada punto tiene que corresponder a algo que tú quieres de verdad. Si tu XP no describe tu vida, es decoración. Si la describe, se convierte en un espejo, y los espejos motivan mucho más que las medallas.
 
-Empieza por tres skills, ponles misiones diarias pequeñas y revisa tu resumen el domingo. En cuatro semanas vas a tener algo que ninguna lista de tareas te da: un historial de quién estás siendo.`,
+Empieza por tres skills, ponles misiones diarias pequeñas y mira tus estadísticas el domingo. En cuatro semanas vas a tener algo que ninguna lista de tareas te da: un historial de quién estás siendo.`,
     },
     en: {
       slug: 'the-science-behind-xp',
@@ -123,7 +123,7 @@ Assign high XP to what is hard to start, not to what already comes easy. XP is y
 
 ## 2 · Why visible progress changes the decision
 
-There is a well documented effect: once someone can see they are already part of the way there, the odds of continuing go up. It is not magic, it is context. A bar at 78% turns "I don't feel like it" into "I'm almost done". Skillion leans on this in every skill, every streak and every weekly recap.
+There is a well documented effect: once someone can see they are already part of the way there, the odds of continuing go up. It is not magic, it is context. A bar at 78% turns "I don't feel like it" into "I'm almost done". Skillion leans on this in every skill, every streak and the week's chart.
 
 > "You don't need more discipline. You need to see what you are already building."
 
@@ -131,7 +131,7 @@ There is a well documented effect: once someone can see they are already part of
 
 When points mean nothing, they stop working within days. The rule we follow: every point has to line up with something you actually want. If your XP does not describe your life, it is decoration. If it does, it becomes a mirror, and mirrors motivate far more than medals.
 
-Start with three skills, give them small daily quests, and review your recap on Sunday. In four weeks you will have something no to-do list gives you: a record of who you are becoming.`,
+Start with three skills, give them small daily quests, and look at your stats on Sunday. In four weeks you will have something no to-do list gives you: a record of who you are becoming.`,
     },
   },
 
@@ -273,7 +273,7 @@ Give it a full week before changing anything. On the seventh day open your recap
       slug: 'trucos-para-no-romper-tu-racha',
       title: '5 trucos para no romper tu racha en semanas caóticas',
       excerpt:
-        'Misiones de emergencia, XP mínimo viable y cómo usar el modo viaje sin sentirte culpable.',
+        'Misiones de emergencia, XP mínimo viable y qué hacer en Skillion cuando un viaje te rompe la rutina.',
       tldr:
         'La racha es el termómetro, no la fiebre. En los estudios, saltarse un día suelto no movió nada a la larga: lo que hace daño es rendirse justo después de ese día. Ten decidida tu versión mínima antes de necesitarla.',
       faq: [
@@ -286,8 +286,8 @@ Give it a full week before changing anything. On the seventh day open your recap
           a: 'La dosis más pequeña que sigue contando: cinco minutos de lectura, una serie en el gimnasio, tres frases escritas. Lo que sostiene el hábito es la continuidad de la señal, no el tamaño de la sesión.',
         },
         {
-          q: '¿Debería usar el modo viaje o es hacer trampa?',
-          a: 'No es trampa. La investigación sobre hábitos apunta a que el comportamiento consolidado depende de señales de contexto estables, y un viaje rompe todas a la vez. Pausar es más honesto que fingir una racha que no ocurrió.',
+          q: '¿Puedo pausar la racha si me voy de viaje?',
+          a: 'Skillion no tiene un botón para congelar la racha. Lo que sí tiene: si una tarea vence mientras no estabas, al volver puedes marcarla como hecha ayer o saltarla sin penalización. Y la racha rota no te quita ni un punto de XP.',
         },
       ],
       body: `Rompí una racha de 61 días por una mudanza. No por vaguería: estuve dos días sin encontrar el cargador.
@@ -306,9 +306,13 @@ Decide cuál es tu suelo diario, pongamos 30 XP, y trátalo como innegociable. E
 Escribe tu misión de emergencia el día que estás motivado. Tu yo de las 23:40 no está en condiciones de negociar consigo mismo.
 :::
 
-## 3 · Usa el modo viaje antes de necesitarlo
+## 3 · Asume que el viaje rompe la racha, y prepara lo demás
 
-El modo viaje existe para que un contexto distinto no cuente como un fallo. Actívalo el día antes de salir, no el día después de haber roto la racha. Planificar una pausa no es lo mismo que abandonar, y tu historial debería reflejar esa diferencia.
+Skillion no tiene modo viaje ni botón de congelar la racha. Si un día no completas la tarea, el contador vuelve a cero. Eso no cambia.
+
+Lo que sí cambia es lo que pierdes con ello: nada más. El XP y el nivel se quedan. Y si activaste la penalización en alguna tarea, quítala antes de salir. Así el viaje no te resta puntos.
+
+Cuando vuelvas, la app te enseña la lista de tareas vencidas. Ahí puedes marcar como hecha ayer la que sí hiciste, o saltar las demás sin penalización.
 
 ## 4 · Mueve la misión a primera hora
 
@@ -326,7 +330,7 @@ Míralo una vez, comprueba que tu nivel sigue ahí, y deja de tenerle miedo. El 
       slug: 'tricks-to-keep-your-streak',
       title: '5 tricks to protect your streak on chaotic weeks',
       excerpt:
-        'Emergency quests, minimum viable XP, and how to use travel mode without feeling guilty.',
+        'Emergency quests, minimum viable XP, and what to do in Skillion when a trip breaks your routine.',
       tldr:
         'The streak is the thermometer, not the fever. In the research, skipping one day moved nothing in the long run: what hurts is giving up right after that day. Decide your minimum version before you need it.',
       faq: [
@@ -339,8 +343,8 @@ Míralo una vez, comprueba que tu nivel sigue ahí, y deja de tenerle miedo. El 
           a: 'The smallest dose that still counts: five minutes of reading, one set at the gym, three sentences written. What sustains a habit is the continuity of the cue, not the size of the session.',
         },
         {
-          q: 'Should I use travel mode, or is that cheating?',
-          a: 'Not cheating. Habit research points to established behaviour depending on stable context cues, and travel breaks all of them at once. Pausing is more honest than faking a streak that did not happen.',
+          q: 'Can I pause my streak while I travel?',
+          a: 'Skillion has no button to freeze a streak. What it does have: if a task expires while you were away, when you come back you can mark it as done yesterday or skip it with no penalty. And a broken streak never takes a single XP point from you.',
         },
       ],
       body: `I broke a 61-day streak because I moved house. Not through laziness: I could not find the charger for two days.
@@ -359,9 +363,13 @@ Pick your daily floor, say 30 XP, and treat it as non-negotiable. In a normal we
 Write your emergency quest on a day you feel motivated. Your 11:40pm self is in no condition to negotiate with itself.
 :::
 
-## 3 · Use travel mode before you need it
+## 3 · Assume the trip breaks the streak, and prepare the rest
 
-Travel mode exists so that a different context does not count as a failure. Turn it on the day before you leave, not the day after the streak broke. Planning a pause is not the same as quitting, and your history should show that difference.
+Skillion has no travel mode and no freeze button. If you do not complete the task one day, the counter goes back to zero. That does not change.
+
+What does change is what you lose with it: nothing else. XP and level stay. And if you turned on the penalty for any task, turn it off before you leave. That way the trip does not cost you points.
+
+When you come back, the app shows you the list of expired tasks. There you can mark as done yesterday the one you did do, or skip the rest with no penalty.
 
 ## 4 · Move the quest to first thing
 
@@ -503,7 +511,7 @@ Quests get adjusted often; goals do not. Changing your goal every two weeks is t
     translationKey: 'weekly-recap',
     category: 'how-to',
     icon: 'calendar',
-    readingMinutes: 4,
+    readingMinutes: 5,
     xp: 20,
     featured: false,
     publishedAt: '2026-06-26',
@@ -511,103 +519,127 @@ Quests get adjusted often; goals do not. Changing your goal every two weeks is t
     sources: [SOURCES.woodNeal2007, SOURCES.woodRunger2016],
     es: {
       slug: 'configura-tu-resumen-semanal',
-      title: 'Configura tu Resumen Semanal para compartirlo',
+      title: 'Cómo revisar tu semana en Skillion y compartirla',
       excerpt:
-        'Qué métricas elegir, cómo se ve en stories y por qué revisarlo el domingo cambia tu semana.',
+        'Qué mirar en Estadísticas el domingo, qué números ignorar y cómo compartir la semana sin enseñar más de lo que quieres.',
       tldr:
-        'El Resumen Semanal sirve si lo miras para decidir la semana siguiente, no para sentirte bien por la anterior. Elige dos o tres métricas y revísalas siempre el mismo día: la investigación sobre hábitos apunta a que lo que sostiene el comportamiento son las señales estables de contexto, y una cita fija consigo mismo es una de ellas.',
+        'Skillion no tiene una pantalla llamada "Resumen Semanal". Tiene Estadísticas con el periodo en Semana: el XP de la semana, la gráfica contra la semana anterior y un radar si tienes tres skills o más. Mírala siempre el mismo día y hazte una sola pregunta: qué skill se quedó parada y por qué.',
       faq: [
         {
-          q: '¿Qué métricas conviene elegir?',
-          a: 'Dos o tres, y que puedas cambiar con tu comportamiento de la semana que viene. Una métrica que no puedes mover no informa una decisión: solo genera culpa o autocomplacencia.',
+          q: '¿Qué número conviene mirar?',
+          a: 'El XP de la semana. Es el único de los cuatro que cambia de verdad con lo que hagas la semana que viene. La tasa de éxito solo sirve si activas penalizaciones en tus tareas; si no las usas, marca siempre 100.',
         },
         {
           q: '¿Qué día es mejor para revisarlo?',
           a: 'El que puedas repetir siempre. Lo que importa no es el día, sino que sea el mismo: una revisión errática deja de ser una señal y pasa a ser una tarea más.',
         },
         {
-          q: '¿Comparto el resumen o me lo guardo?',
-          a: 'Antes de compartirlo, mira qué skills aparecen. Es tu semana, pero también es información sobre ti: puedes ocultar las que no quieras enseñar sin que dejen de contar para tu XP.',
+          q: '¿Comparto la imagen o me la guardo?',
+          a: 'Antes de compartir, mira qué skills tienes seleccionadas. Estadísticas solo dibuja las que marques, así que puedes dejar fuera las que no quieras enseñar sin que dejen de contar para tu XP.',
         },
       ],
-      body: `El Resumen Semanal es **la única pantalla de Skillion que no sirve para registrar nada**, y estuvo a punto de no existir. En una app de hábitos, una pantalla donde no puedes hacer nada parece un desperdicio de espacio.
+      body: `Skillion no tiene una pantalla que se llame "Resumen Semanal". Lo aclaro de entrada porque este artículo antes lo daba por hecho, y no es así.
 
-La metimos igual, y resulta que mirar hacia atrás es lo que hace que la semana siguiente vaya mejor.
+Lo que tiene es la pestaña de **Estadísticas** con el periodo puesto en Semana. Y la Bitácora, que corta el historial por semanas. Con esas dos pantallas se hace la revisión del domingo. Así la hago yo.
 
-## 1 · Elige tres números, no todos
+## 1 · Pon el periodo en Semana
 
-Se pueden mostrar muchas, pero un resumen con nueve números no se lee: se ojea. La combinación que mejor funciona es una de cada tipo:
+Arriba de Estadísticas eliges el periodo: Semana, Mes o Todo. Elige Semana. Todo lo que ves debajo se calcula solo sobre esos siete días.
 
-- Volumen: XP total de la semana. Responde "¿cuánto?".
-- Constancia: días activos o racha. Responde "¿seguido?".
-- Foco: la skill que más subió. Responde "¿en qué?".
+Debajo salen cuatro números: XP en el periodo, nivel promedio de tus skills, XP total histórico y tasa de éxito. La tasa de éxito solo cuenta las tareas que tienen la penalización activada. Si no usas penalizaciones, marcará siempre 100 y puedes ignorarla.
 
-## 2 · Formato vertical para stories
+## 2 · Mira un número, no cuatro
 
-El resumen se exporta en 1080×1920, que es exactamente el lienzo de una story. Si vas a compartirlo, revisa antes qué skills aparecen: es tu semana, pero también es información sobre ti. Puedes ocultar las que no quieras enseñar sin que dejen de contar para tu XP.
+El XP total histórico y el nivel promedio casi no se mueven de una semana a otra. No informan de nada que puedas cambiar el lunes.
+
+El que importa es el XP de la semana. Responde "¿cuánto?". Si usas penalizaciones, la tasa de éxito responde "¿cumplí lo que planeé?". Si no las usas, sáltala.
+
+## 3 · La gráfica ya compara con la semana anterior
+
+Más abajo está "Evolución de XP". Al lado del total sale un porcentaje contra el periodo anterior: verde si subiste, rojo si bajaste, "Nuevo" si la semana pasada no hiciste nada.
+
+Ese porcentaje es la única comparación que hace la app. No hay "mejor día" ni ranking de semanas. Si quieres saber qué día flojeaste, la Bitácora con el filtro en Semana te enseña el día a día.
 
 :::tip
-Comparte el resumen de una semana normal, no el de tu mejor semana. Las semanas normales son las que hacen que alguien piense "esto yo también puedo".
+Si tienes tres skills o más, encima de los números aparece un radar. La punta más corta es la skill que se quedó parada. Es la respuesta a la pregunta del punto 5 sin tener que buscarla.
 :::
 
-## 3 · Revísalo el domingo, no el lunes
+## 4 · Compartir: elige antes qué skills entran
 
-El domingo el resumen es información: todavía puedes decidir cómo quieres que sea la semana siguiente. El lunes ya es un boletín de notas de algo que no puedes cambiar. Es la misma pantalla y produce sensaciones opuestas.
+El botón de compartir saca una imagen de la pantalla y abre el menú de compartir del móvil. Sale lo que se ve en ese momento, ni más ni menos.
 
-## 4 · Hazte una sola pregunta
+Antes de pulsarlo, revisa qué skills tienes seleccionadas. Estadísticas solo dibuja las que marques. Las que dejes fuera siguen contando; solo no salen en la foto.
 
-No hace falta un ritual de media hora. Abre el resumen y pregúntate: ¿qué skill se quedó parada y por qué? Si la respuesta es "la misión era demasiado grande", bájala antes de cerrar la app. Ese ajuste de treinta segundos es el que sostiene los meses.
+Comparte una semana normal, no tu mejor semana. Las semanas normales son las que hacen que otra persona piense "esto yo también puedo".
+
+## 5 · Revísalo el domingo y hazte una sola pregunta
+
+El domingo los números son información: todavía puedes decidir cómo será la semana que viene. El lunes ya son un boletín de notas de algo que no puedes cambiar.
+
+La pregunta es: ¿qué skill se quedó parada y por qué? Si la respuesta es "la tarea era demasiado grande", bájala antes de cerrar la app. Ese ajuste de treinta segundos es el que sostiene los meses.
 
 > Registrar te dice lo que hiciste. Revisar es lo que cambia lo que harás.`,
     },
     en: {
       slug: 'set-up-your-weekly-recap',
-      title: 'Set up your Weekly Recap so it is worth sharing',
+      title: 'How to review your week in Skillion and share it',
       excerpt:
-        'Which metrics to pick, how it looks in stories, and why reviewing it on Sunday changes your week.',
+        'What to look at in Stats on Sunday, which numbers to ignore, and how to share the week without showing more than you want.',
       tldr:
-        'The Weekly Recap earns its place if you read it to decide next week, not to feel good about last week. Pick two or three metrics and review them on the same day every time: habit research points to stable context cues as what sustains behaviour, and a fixed appointment with yourself is one of them.',
+        'Skillion has no screen called "Weekly Recap". It has Stats with the period set to Week: XP for the week, the chart against the previous week and a radar if you have three skills or more. Look at it on the same day every time and ask one question: which skill stalled, and why.',
       faq: [
         {
-          q: 'Which metrics should I pick?',
-          a: 'Two or three, and ones you can change with next week\'s behaviour. A metric you cannot move informs no decision: it only produces guilt or complacency.',
+          q: 'Which number should I look at?',
+          a: 'XP for the week. It is the only one of the four that really changes with what you do next week. The success rate is only useful if you turn on penalties for your tasks; if you do not, it always reads 100.',
         },
         {
           q: 'Which day is best to review it?',
           a: 'Whichever one you can repeat. What matters is not the day but that it is the same one: an erratic review stops being a cue and becomes just another task.',
         },
         {
-          q: 'Should I share the recap or keep it private?',
-          a: 'Before sharing, check which skills show up. It is your week, but it is also information about you: you can hide the ones you would rather not display without them losing XP.',
+          q: 'Should I share the image or keep it?',
+          a: 'Before sharing, check which skills you have selected. Stats only draws the ones you tick, so you can leave out the ones you would rather not show without them losing XP.',
         },
       ],
-      body: `The Weekly Recap is **the only screen in Skillion where you cannot log anything**, and it nearly did not ship. In a habit app, a screen you cannot do anything on looks like wasted space.
+      body: `Skillion has no screen called "Weekly Recap". I am saying it up front because this article used to take it for granted, and it is not true.
 
-We built it anyway, and looking back turns out to be what makes the following week go better.
+What it has is the **Stats** tab with the period set to Week. And the Logbook, which splits your history by week. Those two screens are the Sunday review. This is how I do mine.
 
-## 1 · Pick three metrics, not all of them
+## 1 · Set the period to Week
 
-You can show many, but a recap with nine numbers does not get read: it gets glanced at. The combination that works best is one of each kind:
+At the top of Stats you pick the period: Week, Month or All. Pick Week. Everything below is computed on those seven days only.
 
-- Volume: total XP for the week. Answers "how much?".
-- Consistency: active days or streak. Answers "how steadily?".
-- Focus: the skill that grew the most. Answers "on what?".
+Four numbers appear: XP this period, average skill level, all-time XP and success rate. The success rate only counts tasks that have the penalty turned on. If you do not use penalties it will always read 100, and you can ignore it.
 
-## 2 · Vertical format for stories
+## 2 · Look at one number, not four
 
-The recap exports at 1080×1920, which is exactly a story canvas. If you are going to share it, check which skills show up first: it is your week, but it is also information about you. You can hide the ones you would rather not display without them losing XP.
+All-time XP and average level barely move from one week to the next. They tell you nothing you can change on Monday.
+
+The one that matters is XP this week. It answers "how much?". If you use penalties, the success rate answers "did I do what I planned?". If you do not, skip it.
+
+## 3 · The chart already compares with last week
+
+Further down is "XP over time". Next to the total there is a percentage against the previous period: green if you went up, red if you went down, "New" if you did nothing last week.
+
+That percentage is the only comparison the app makes. There is no "best day" and no ranking of weeks. If you want to know which day you slipped, the Logbook with the filter on Week shows you day by day.
 
 :::tip
-Share a normal week, not your best week. Normal weeks are the ones that make someone else think "I could do that too".
+If you have three skills or more, a radar chart appears above the numbers. The shortest point is the skill that stalled. That is the answer to the question in section 5 without having to look for it.
 :::
 
-## 3 · Review it on Sunday, not Monday
+## 4 · Sharing: choose which skills go in first
 
-On Sunday the recap is information: you can still decide what the coming week looks like. On Monday it is a report card for something you can no longer change. Same screen, opposite feelings.
+The share button takes an image of the screen and opens the phone's share menu. What you see at that moment is what goes out, nothing more.
 
-## 4 · Ask yourself one question
+Before pressing it, check which skills you have selected. Stats only draws the ones you tick. The ones you leave out keep counting; they just do not appear in the picture.
 
-You do not need a half-hour ritual. Open the recap and ask: which skill stalled, and why? If the answer is "the quest was too big", shrink it before closing the app. That thirty-second adjustment is what carries the months.
+Share a normal week, not your best week. Normal weeks are the ones that make someone else think "I could do that too".
+
+## 5 · Review it on Sunday and ask one question
+
+On Sunday the numbers are information: you can still decide what the coming week looks like. On Monday they are a report card for something you can no longer change.
+
+The question is: which skill stalled, and why? If the answer is "the task was too big", shrink it before closing the app. That thirty-second adjustment is what carries the months.
 
 > Tracking tells you what you did. Reviewing is what changes what you will do.`,
     },

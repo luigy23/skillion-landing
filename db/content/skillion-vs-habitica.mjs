@@ -56,7 +56,7 @@ Yo hago Skillion, así que ya sabes por dónde tiro y prefiero decírtelo de ent
 
 Las dos salen del mismo problema: **una lista de tareas no te enseña lo que llevas hecho.** Marcas la casilla, se pone gris, desaparece. Y al mes no te queda ni rastro de nada.
 
-Las dos lo arreglan igual: cumplir una tarea te da puntos, los puntos te suben de nivel y el nivel enseña algo que antes no se veía. Las dos tienen personaje, rachas, tareas que se repiten, versión de móvil y de web, y las dos son gratis en lo básico.
+Las dos lo arreglan igual: cumplir una tarea te da puntos, los puntos te suben de nivel y el nivel enseña algo que antes no se veía. Las dos tienen personaje, rachas, tareas que se repiten, y las dos son gratis en lo básico. Habitica además tiene versión web; Skillion está en iOS y Android.
 
 Ahí se acaba el parecido.
 
@@ -160,7 +160,7 @@ I make Skillion, so you know which way I lean and I would rather say it up front
 
 Both come from the same problem: **a to-do list never shows you what you have built.** You tick the box, it goes grey, it vanishes. A month later there is no trace of any of it.
 
-Both fix it the same way: finishing a task earns you points, points raise your level, and the level shows something that was invisible before. Both have a character, streaks, repeating tasks, phone and web versions, and both are free at the core.
+Both fix it the same way: finishing a task earns you points, points raise your level, and the level shows something that was invisible before. Both have a character, streaks, repeating tasks, and both are free at the core. Habitica also has a web version; Skillion is on iOS and Android.
 
 That is where the resemblance stops.
 

@@ -52,7 +52,7 @@ export const FAQ_SEO: Record<Lang, { title: string; description: string; heading
   es: {
     title: 'Preguntas frecuentes sobre hábitos y sobre Skillion',
     description:
-      'Cuánto se tarda en formar un hábito, por qué se abandonan, si la gamificación funciona, y cómo funcionan el XP, las habilidades y el Time Blocking de Skillion.',
+      'Cuánto se tarda en formar un hábito, por qué se abandonan, si la gamificación funciona, y cómo funcionan la energía, el XP, las rachas y el Time Blocking de Skillion.',
     heading: 'Preguntas frecuentes',
     intro:
       'Lo que más nos preguntan sobre hábitos en general y sobre Skillion en particular. Si tu duda no está aquí, escríbenos.',
@@ -60,7 +60,7 @@ export const FAQ_SEO: Record<Lang, { title: string; description: string; heading
   en: {
     title: 'Frequently asked questions about habits and about Skillion',
     description:
-      'How long habits really take to form, why people quit, whether gamification works, and how XP, skills and Time Blocking work in Skillion.',
+      'How long it takes to form a habit, why people quit, whether gamification works, and how energy, XP, streaks and Time Blocking work in Skillion.',
     heading: 'Frequently asked questions',
     intro:
       'What people ask us most about habits in general and about Skillion in particular. If your question is not here, write to us.',
@@ -133,7 +133,7 @@ const es: FaqGroup[] = [
       {
         id: 'free',
         q: '¿Skillion es gratis?',
-        a: 'Sí. Skillion tiene un plan gratuito con lo esencial: crear tareas, definir tus habilidades, ganar XP y mantener rachas. Existe una suscripción Premium opcional para las funciones avanzadas, pero no hace falta pagar para usar el núcleo de la app.',
+        a: 'Sí. Gratis tienes tareas sin límite, tres habilidades activas, energía, rachas, monedas, tienda, Time Blocking, widget y estadísticas. Premium quita el límite de habilidades y añade la IA, cuatro temas, tres prendas del avatar y el periodo personalizado en estadísticas, y quita los topes de la Máquina del destino.',
       },
       {
         id: 'devices',
@@ -151,8 +151,8 @@ const es: FaqGroup[] = [
     entries: [
       {
         q: '¿Cómo se gana XP en Skillion?',
-        a: 'Completando tareas. Cada tarea se etiqueta con una o varias categorías, y al marcarla como hecha reparte experiencia entre las habilidades correspondientes. La experiencia se acumula, sube niveles, y ese nivel es la representación visible de algo que normalmente no se ve: cuánto llevas hecho de verdad.',
-        more: 'science-of-xp',
+        a: 'Completando tareas. Cada tarea tiene una dificultad que fija su XP base: 5, 10, 15 o 20 puntos, con un factor de suerte entre 0,8 y 1,7 encima. Además reparte entre tus habilidades los puntos que tú le pongas, y son esos los que suben sus niveles.',
+        more: 'how-skillion-works',
       },
       {
         q: '¿Qué son las habilidades o skills?',
@@ -160,12 +160,21 @@ const es: FaqGroup[] = [
         more: 'first-three-skills',
       },
       {
+        q: '¿Qué es la energía en Skillion?',
+        a: 'Un depósito de 100 puntos que se rellena cada día a las seis de la mañana. Cada tarea gasta los puntos que tú le pongas al crearla, y una tarea de descanso, como dormir, puede devolverlos. Sirve para que el día tenga un tope y tengas que elegir.',
+        more: 'how-skillion-works',
+      },
+      {
+        q: '¿Una tarea puede restar puntos a una habilidad?',
+        a: 'Sí. Al crear una tarea decides cuántos puntos da a cada habilidad, y pueden ser negativos. "Ver series dos horas" puede sumar a Descanso y restar a Productividad. Es la forma de apuntar algo que haces y que te cuesta en otro lado.',
+      },
+      {
         q: '¿Qué es el Time Blocking de Skillion?',
         a: 'Es la vista donde repartes el día en bloques de tiempo y enganchas tus tareas a cada bloque. Tiene su propio hueco en la barra de navegación de Skillion, permite guardar plantillas de rutina con icono y color propios, y cada bloque puede avisarte antes de empezar con la antelación que elijas.',
       },
       {
         q: '¿Con qué frecuencia se pueden repetir las tareas?',
-        a: 'Skillion permite repetición semanal eligiendo los días concretos, mensual sobre una cuadrícula, anual sobre un calendario, y una opción personalizada con el selector de días de siempre. Una tarea puede llevar además tantas categorías como necesite, en lugar de obligarte a elegir una sola.',
+        a: 'Cada día, ciertos días de la semana, un número de veces por semana o por mes, cada mes en un día concreto, o cada año. También hay tareas infinitas, que vuelven a estar pendientes cada vez que las marcas. Una tarea puede llevar tantas categorías como necesite.',
       },
       {
         q: '¿Skillion tiene widget en la pantalla de inicio?',
@@ -173,8 +182,24 @@ const es: FaqGroup[] = [
       },
       {
         q: '¿Qué pasa si rompo una racha?',
-        a: 'Nada irreversible: la racha vuelve a empezar y el progreso acumulado en tus habilidades se queda donde estaba. Skillion no borra experiencia ganada por haber fallado un día, porque castigar el fallo es la forma más rápida de que alguien cierre la app y no vuelva.',
+        a: 'El contador vuelve a cero y nada más: el XP y el nivel se quedan donde estaban. Skillion no congela rachas ni tiene modo viaje. Solo pierdes puntos si activaste la penalización en esa tarea, y aun así puedes saltarla sin penalización desde la lista de tareas vencidas.',
         more: 'keep-your-streak',
+      },
+      {
+        q: '¿Qué son los hitos de racha?',
+        a: 'Cada tarea que se repite lleva su racha de días seguidos. A los 3, 7, 14, 30, 60 y 100 días da un bonus de 5 XP por día de racha a la habilidad principal de la tarea. Es poco a propósito: la racha acompaña, el XP de las tareas es lo que cuenta.',
+      },
+      {
+        q: '¿Qué es la Máquina del destino?',
+        a: 'Una tragaperras de tareas. Apuestas monedas, la máquina elige al azar una de tus tareas pendientes y la haces con un temporizador. Si terminas, recuperas la apuesta por dos, o por tres si salió triple. Si abandonas, la apuesta se queda en la máquina.',
+      },
+      {
+        q: '¿Skillion manda muchas notificaciones?',
+        a: 'Una inteligente al día como máximo, y de 22:00 a 08:00 ninguna. Avisa si una racha de tres días o más está a punto de romperse, si una habilidad lleva cinco días parada, y si dejas de abrir la app, a los 3, 7 y 14 días. Cada tipo se apaga por separado.',
+      },
+      {
+        q: '¿Qué hace la IA de Skillion?',
+        a: 'Dos cosas, las dos en Premium. Al crear una tarea, escribes el título y "Configurar con magia" rellena el resto: dificultad, energía, habilidades, repetición. Y en Time Blocking, le cuentas tu día por voz o por texto y te devuelve los bloques de la jornada.',
       },
     ],
   },
@@ -268,7 +293,7 @@ const en: FaqGroup[] = [
       {
         id: 'free',
         q: 'Is Skillion free?',
-        a: 'Yes. Skillion has a free tier with the essentials: creating tasks, defining your own skills, earning XP and keeping streaks. There is an optional Premium subscription for the advanced features, but you never have to pay to use the core of the app.',
+        a: 'Yes. For free you get unlimited tasks, three active skills, energy, streaks, coins, the shop, Time Blocking, the widget and stats. Premium removes the skill limit and adds the AI, four themes, three avatar outfits and the custom period in stats, and lifts the caps on the Task of destiny.',
       },
       {
         id: 'devices',
@@ -286,8 +311,8 @@ const en: FaqGroup[] = [
     entries: [
       {
         q: 'How do you earn XP in Skillion?',
-        a: 'By completing tasks. Each task is tagged with one or more categories, and marking it done distributes experience across the matching skills. That experience accumulates, raises levels, and the level becomes the visible representation of something you normally cannot see: how much you have actually done.',
-        more: 'science-of-xp',
+        a: 'By completing tasks. Each task has a difficulty that sets its base XP: 5, 10, 15 or 20 points, with a luck factor between 0.8 and 1.7 on top. It also splits the points you set across your skills, and those are what raise their levels.',
+        more: 'how-skillion-works',
       },
       {
         q: 'What are skills in Skillion?',
@@ -295,12 +320,21 @@ const en: FaqGroup[] = [
         more: 'first-three-skills',
       },
       {
+        q: 'What is energy in Skillion?',
+        a: 'A pool of 100 points that refills every day at six in the morning. Each task spends the points you set when you create it, and a rest task such as sleeping can give them back. It exists so the day has a ceiling and you have to choose.',
+        more: 'how-skillion-works',
+      },
+      {
+        q: 'Can a task take points from a skill?',
+        a: 'Yes. When you create a task you decide how many points it gives each skill, and they can be negative. "Two hours of series" can add to Rest and take from Productivity. It is the way to log something you do that costs you somewhere else.',
+      },
+      {
         q: 'What is Time Blocking in Skillion?',
         a: 'It is the view where you split your day into time blocks and attach your tasks to them. It has its own slot in the Skillion navigation bar, lets you save routine templates with their own icon and colour, and every block can remind you before it starts, with the lead time you choose.',
       },
       {
         q: 'How often can tasks repeat?',
-        a: 'Skillion supports weekly repetition by picking specific days, monthly on a grid, yearly on a calendar, and a custom option with the classic weekday picker. A task can also carry as many categories as it needs, instead of forcing you to choose just one.',
+        a: 'Every day, on specific weekdays, a number of times per week or per month, monthly on a given day, or yearly. There are also infinite tasks, which go back to pending every time you tick them. A task can carry as many categories as it needs.',
       },
       {
         q: 'Does Skillion have a home-screen widget?',
@@ -308,8 +342,24 @@ const en: FaqGroup[] = [
       },
       {
         q: 'What happens if I break a streak?',
-        a: 'Nothing irreversible: the streak restarts and the progress banked in your skills stays exactly where it was. Skillion does not delete experience you already earned because you missed a day, since punishing the slip is the fastest way to make someone close the app and never come back.',
+        a: 'The counter goes back to zero and nothing else: XP and level stay where they were. Skillion does not freeze streaks and has no travel mode. You only lose points if you turned on the penalty for that task, and even then you can skip it with no penalty from the expired tasks list.',
         more: 'keep-your-streak',
+      },
+      {
+        q: 'What are streak milestones?',
+        a: 'Every repeating task carries its streak of consecutive days. At 3, 7, 14, 30, 60 and 100 days it pays a bonus of 5 XP per streak day to the main skill of the task. It is small on purpose: the streak keeps you company, the task XP is what counts.',
+      },
+      {
+        q: 'What is the Task of destiny?',
+        a: 'A slot machine for tasks. You bet coins, the machine picks one of your pending tasks at random and you do it against a timer. If you finish, you get the bet back doubled, or tripled if it rolled a triple. If you give up, the bet stays in the machine.',
+      },
+      {
+        q: 'Does Skillion send a lot of notifications?',
+        a: 'At most one smart notification a day, and none from 22:00 to 08:00. It warns you when a streak of three days or more is about to break, when a skill has sat idle for five days, and if you stop opening the app, at 3, 7 and 14 days. Each kind switches off separately.',
+      },
+      {
+        q: 'What does the AI in Skillion do?',
+        a: 'Two things, both in Premium. When creating a task, you type the title and "Configure with magic" fills in the rest: difficulty, energy, skills, repetition. And in Time Blocking, you describe your day by voice or text and it hands you back the blocks of the day.',
       },
     ],
   },

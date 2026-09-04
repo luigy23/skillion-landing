@@ -18,15 +18,17 @@ const INTRO: Record<Lang, { heading: string; blurb: string }> = {
     heading: 'Articles in English',
     blurb:
       'Skillion is a habit-tracking app that turns real-life goals into an RPG: ' +
-      'you earn XP for completing tasks, level up skills you define yourself, and ' +
-      'keep streaks alive. Free, available on iOS and Android.',
+      'you earn XP for completing tasks, spend a daily budget of 100 energy points, ' +
+      'level up skills you define yourself, keep streaks alive and plan your day in ' +
+      'time blocks. Free, available on iOS and Android.',
   },
   es: {
     heading: 'Artículos en español',
     blurb:
       'Skillion es una app de hábitos que convierte tus metas reales en un RPG: ' +
-      'ganas XP por completar tareas, subes de nivel habilidades que defines tú y ' +
-      'mantienes rachas vivas. Gratis, en iOS y Android.',
+      'ganas XP por completar tareas, gastas un depósito diario de 100 puntos de energía, ' +
+      'subes de nivel habilidades que defines tú, mantienes rachas vivas y planificas el día ' +
+      'en bloques de tiempo. Gratis, en iOS y Android.',
   },
 };
 
