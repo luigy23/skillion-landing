@@ -25,7 +25,7 @@ export const skillionVsHabitica = {
     excerpt:
       'Las dos convierten tus hábitos en un RPG, pero apuestan por cosas distintas. Comparativa honesta desde dentro, incluyendo dónde Habitica es mejor.',
     tldr:
-      'Habitica es más profunda como juego y más social: fiestas cooperativas, gremios, mascotas, equipo, y todo el código abierto. Skillion es más ligera y está pensada para el día a día: planificas el día por bloques, las tareas se sincronizan entre dispositivos y el sistema de skills lo defines tú. Si quieres un RPG completo con comunidad, Habitica tiene más de eso. Si quieres gamificación que no te dé más trabajo que la propia tarea, y un día que además planificas, Skillion.',
+      'Habitica es más juego y más social, pero tienes que aprenderte oro, gemas y daño antes de tu primera tarea. Skillion es más ligera: te inventas tus habilidades y colocas cada tarea en su hora del día. Si quieres empezar hoy sin leerte un wiki, Skillion.',
     faq: [
       {
         q: '¿Habitica es gratis?',
@@ -46,7 +46,9 @@ export const skillionVsHabitica = {
     ],
     body: `Habitica me duró once días. Me creé el personaje, me leí media wiki, y a la segunda semana estaba gestionando oro y gemas en vez de ir al gimnasio.
 
-Eso fue en 2023 y es una de las razones por las que existe Skillion. Si andas buscando "alternativas a Habitica" es porque te pasó algo parecido: **algo de Habitica te enganchó y algo te echó para atrás, y suele ser la misma cosa las dos veces.** Es un juego de verdad, con lo bueno y lo pesado que eso trae.
+Eso fue en 2023 y es una de las razones por las que existe Skillion.
+
+Si andas buscando "alternativas a Habitica" es porque te pasó algo parecido: **algo te enganchó y algo te echó para atrás, y suele ser lo mismo las dos veces.** Es un juego de verdad, con lo bueno y lo pesado que eso trae.
 
 Yo hago Skillion, así que ya sabes por dónde tiro y prefiero decírtelo de entrada. Aun así vas a encontrar aquí un apartado entero con todo lo que Habitica tiene y Skillion no, porque si no comparo en serio esta página no te sirve para decidir nada.
 
@@ -60,7 +62,9 @@ Ahí se acaba el parecido.
 
 ## 2 · ¿Qué tiene Habitica que Skillion no?
 
-Es más juego, y en eso no hay discusión. Lleva desde 2013 y se nota: crías mascotas, montas bichos, hay armaduras que te cambian las estadísticas, clases de personaje y misiones con jefes finales. Skillion deja fuera toda esa capa a propósito, porque es la que tienes que entender antes de poder tachar tu primera tarea.
+Es más juego, y en eso no hay discusión. Lleva desde 2013 y se nota: crías mascotas, montas bichos, hay armaduras que te cambian las estadísticas, clases de personaje y misiones con jefes finales.
+
+Skillion deja fuera toda esa capa a propósito, porque es la que tienes que entender antes de poder tachar tu primera tarea.
 
 Lo social, que es su mejor pieza. Montas una fiesta con amigos y peleáis contra un jefe común: si uno no cumple lo suyo, el jefe os pega a todos. Esa presión funciona, y funciona bien, sobre todo si a ti solo no te basta. Skillion hoy lo juegas por tu cuenta.
 
@@ -86,9 +90,13 @@ Va con tus dispositivos. Las tareas viajan de uno a otro y el widget de la panta
 
 Empezar cuesta menos. Tres habilidades y ya estás dentro. Nada de aprenderte el oro, las gemas, el daño y las armaduras antes de tu primera tarea.
 
-No te castiga. En Habitica, fallar hiere a tu personaje y puede fastidiar a tu grupo. Es su mecánica central y a mucha gente le va bien. A otra le pasa lo contrario: ansiedad primero, y luego dejar de abrir la app. Skillion te deja intacto lo que has ganado. Perder una racha se ve, pero no te quita ni un punto.
+No te castiga. En Habitica, fallar hiere a tu personaje y puede perjudicar a tu grupo. Es su mecánica central y a mucha gente le va bien.
 
-Y eso último no es manía mía. Hay bastantes estudios juntados sobre premios y castigos que apuntan a lo mismo: cuando el premio se vuelve muy controlador, acaba comiéndose las ganas de hacer la cosa por sí misma, que son justo las que necesitas para aguantar meses. **Un sistema que castiga empuja fuerte al principio y se desinfla en cuanto el castigo deja de doler.**
+A otra le pasa lo contrario: ansiedad primero, y luego dejar de abrir la app. Skillion te deja intacto lo que has ganado. Perder una racha se ve, pero no te quita ni un punto.
+
+Y eso último no es manía mía. Hay bastantes estudios sobre premios y castigos que apuntan a lo mismo: cuando el premio se vuelve muy controlador, sustituye tu motivo original por el suyo.
+
+**Un sistema que castiga empuja fuerte al principio y deja de funcionar en cuanto el castigo deja de doler.**
 
 ## 4 · ¿Cuál te conviene?
 
@@ -106,7 +114,13 @@ Y eso último no es manía mía. Hay bastantes estudios juntados sobre premios y
 
 Las dos son gratis en lo básico, así que probar no te cuesta nada. Dale una semana a Skillion con tres tareas y mira si sigues abriéndola el día ocho. Esa es la prueba que importa, y es la que más gente pasa aquí.
 
-Ninguna app te crea un hábito. Hay un estudio que siguió a gente montando hábitos de verdad y vio que a la mitad le costaba unos 66 días hasta que la cosa salía sola, con muchísima diferencia de una persona a otra: de 18 días a más de 250. Lo que hace una app es que esos dos meses se te hagan más cortos, y para eso necesitas dos cosas: abrirla sin pensártelo, y que el día tenga hueco para lo que te has propuesto. Ahí es donde Skillion saca ventaja: empiezas en un minuto y cada tarea tiene su hora, en vez de quedarse flotando en una lista.`,
+Ninguna app te crea un hábito.
+
+Hay un estudio que siguió a gente montando hábitos de verdad. A la mitad le costó unos 66 días hasta que el hábito se hacía sin pensar, con mucha diferencia entre personas: de 18 días a más de 250.
+
+Lo que hace una app es que esos dos meses se te hagan más cortos. Para eso necesitas dos cosas: abrirla sin pensártelo, y que el día tenga hueco para lo que te has propuesto.
+
+Ahí es donde Skillion saca ventaja: empiezas en un minuto y cada tarea tiene su hora, en vez de quedarse suelta en una lista.`,
   },
 
   en: {
@@ -115,7 +129,7 @@ Ninguna app te crea un hábito. Hay un estudio que siguió a gente montando háb
     excerpt:
       'Both turn your habits into an RPG, but they bet on different things. An honest comparison from the inside, including where Habitica wins.',
     tldr:
-      'Habitica is the deeper game and the more social one: co-op parties, guilds, pets, gear, and all of it open source. Skillion is lighter and built for the everyday: you plan your day in blocks, tasks sync across devices, and you define the skill system yourself. If you want a full RPG with a community, Habitica has more of it. If you want gamification that is not more work than the task itself, and a day you actually plan, Skillion.',
+      'Habitica is more game and more social, but you have to learn gold, gems and damage before your first task. Skillion is lighter: you invent your own skills and give every task an hour in the day. If you want to start today without reading a wiki, Skillion.',
     faq: [
       {
         q: 'Is Habitica free?',
@@ -136,7 +150,9 @@ Ninguna app te crea un hábito. Hay un estudio que siguió a gente montando háb
     ],
     body: `Habitica lasted me eleven days. I made the character, read half the wiki, and by week two I was managing gold and gems instead of going to the gym.
 
-That was 2023 and it is one of the reasons Skillion exists. If you are searching for "Habitica alternatives", something similar happened to you: **something about Habitica hooked you and something pushed you away, and it is usually the same thing both times.** It is a real game, with everything good and everything heavy that brings.
+That was 2023 and it is one of the reasons Skillion exists.
+
+If you are searching for "Habitica alternatives", something similar happened to you: **something hooked you and something pushed you away, and it is usually the same thing both times.** It is a real game, with everything good and everything heavy that brings.
 
 I make Skillion, so you know which way I lean and I would rather say it up front. You will still find a whole section here on everything Habitica has that Skillion does not, because if I do not compare properly this page is no use to you for deciding anything.
 
@@ -150,7 +166,9 @@ That is where the resemblance stops.
 
 ## 2 · What Habitica has that Skillion does not
 
-It is more of a game, and there is no arguing that. It has been running since 2013 and it shows: you raise pets, you ride mounts, there is armour that changes your stats, character classes and quests with bosses at the end. Skillion leaves that whole layer out on purpose, because it is the layer you have to understand before you can tick your first task.
+It is more of a game, and there is no arguing that. It has been running since 2013 and it shows: you raise pets, you ride mounts, there is armour that changes your stats, character classes and quests with bosses at the end.
+
+Skillion leaves that whole layer out on purpose, because it is the layer you have to understand before you can tick your first task.
 
 The social side, which is its best piece. You form a party with friends and fight a shared boss: if one of you skips, the boss hits everybody. That pressure works, and it works well, especially if doing it alone is not enough for you. Skillion today you play on your own.
 
@@ -176,9 +194,13 @@ It travels with your devices. Tasks move between them and the home screen widget
 
 Starting costs less. Three skills and you are in. No learning gold, gems, damage and armour before your first task.
 
-It does not punish you. In Habitica, missing hurts your character and can hurt your group. That is its core mechanic and plenty of people thrive on it. Others get the opposite: anxiety first, then not opening the app. Skillion leaves what you earned alone. Losing a streak shows, but it does not take a single point off you.
+It does not punish you. In Habitica, missing hurts your character and can hurt your group. That is its core mechanic and plenty of people thrive on it.
 
-And that last one is not a personal preference. There is a decent pile of research on rewards and punishments pointing the same way: when the reward gets too controlling, it eats the appetite for doing the thing itself, which is exactly the appetite you need to last months. **A system that punishes pushes hard early and deflates the moment the punishment stops stinging.**
+Others get the opposite: anxiety first, then not opening the app. Skillion leaves what you earned alone. Losing a streak shows, but it does not take a single point off you.
+
+And that last one is not a personal preference. There is a decent pile of research on rewards and punishments pointing the same way: when the reward gets too controlling, it replaces your original reason with its own.
+
+**A system that punishes pushes hard early and stops working the moment the punishment stops stinging.**
 
 ## 4 · Which one is for you
 
@@ -196,6 +218,12 @@ And that last one is not a personal preference. There is a decent pile of resear
 
 Both are free at the core, so trying costs you nothing. Give Skillion a week with three tasks and see whether you still open it on day eight. That is the test that matters, and it is the one most people here get through.
 
-No app builds a habit for you. One study followed people building real habits and found half of them took around 66 days before it ran on its own, with a huge gap between individuals: 18 days for some, over 250 for others. What an app does is make those two months feel shorter, and for that you need two things: opening it without thinking about it, and a day with room for what you set out to do. That is where Skillion pulls ahead: you start in a minute, and every task has an hour instead of floating in a list.`,
+No app builds a habit for you.
+
+One study followed people building real habits. Half of them took around 66 days before it happened without thinking, with a big gap between individuals: 18 days for some, over 250 for others.
+
+What an app does is make those two months feel shorter. For that you need two things: opening it without thinking about it, and a day with room for what you set out to do.
+
+That is where Skillion pulls ahead: you start in a minute, and every task has an hour instead of sitting loose in a list.`,
   },
 };

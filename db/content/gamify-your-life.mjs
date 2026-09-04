@@ -30,7 +30,7 @@ export const gamifyYourLife = {
     excerpt:
       'Qué es de verdad gamificar tu vida, las cuatro piezas que necesita cualquier sistema para aguantar, y por qué la mayoría se cae al mes.',
     tldr:
-      'Gamificar tu vida es ponerle a tus rutinas lo que hace que un juego enganche: que se vea lo que llevas hecho, que cada cosa sume a algo tuyo y que un mal día no lo borre. Necesita cuatro piezas: puntos que signifiquen algo, categorías que digan quién quieres ser, misiones que quepan en tu peor día y una foto del avance. Y falla siempre por lo mismo: sistemas que castigan, y montar quince cosas el primer día.',
+      'Gamificar tu vida es ponerle un marcador a lo que ya haces. Necesita cuatro piezas: puntos que signifiquen algo, categorías que digan quién quieres ser, misiones que quepan en tu peor día y una vista del avance. Falla siempre por lo mismo: castigarte, y empezar con quince cosas.',
     faq: [
       {
         q: '¿Qué significa gamificar tu vida?',
@@ -89,7 +89,7 @@ Elige tres. Una que ya haces, para tener suelo. Una que empezaste alguna vez y s
 
 ### Misiones que quepan en tu peor día
 
-Tu misión diaria tiene que caber en el martes de lluvia en el que llegas reventado, no en el domingo por la mañana en el que te sobra tiempo.
+Tu misión diaria tiene que caber en el martes de lluvia en el que llegas agotado, no en el domingo por la mañana en el que te sobra tiempo.
 
 "Leer 30 páginas" es una misión de domingo. "Leer 10 minutos" es una misión de martes a las 23:40, y el martes a las 23:40 es donde se decide de verdad si esto te dura.
 
@@ -121,9 +121,15 @@ Escribe la versión mínima el día que estás motivado. Tu yo de las 23:40 no e
 
 Dos motivos, y los dos se ven venir.
 
-El primero es empezar con quince. A la mitad de la gente le cuesta unos dos meses que un hábito le salga solo, así que quince a la vez son quince cosas caras aguantando meses. Se cae la torre entera y encima te llevas la sensación de haber fallado en quince frentes a la vez.
+**El primero es empezar con quince.** A la mitad de la gente le cuesta unos dos meses que un hábito se haga sin pensar.
 
-El segundo es más traicionero: **el sistema te castiga.** Hay bastante investigación sobre premios y castigos que apunta a lo mismo, y es incómoda para media industria de apps de hábitos, la mía incluida. Cuando el premio se vuelve muy controlador, acaba comiéndose las ganas de hacer la cosa por sí misma, que son justo las que necesitas para aguantar meses.
+Quince a la vez son quince esfuerzos caros aguantando meses. Se caen todos, y encima te queda la sensación de haber fallado quince veces en vez de una.
+
+**El segundo es que el sistema te castiga.** Este cuesta más de ver.
+
+Hay bastante investigación sobre premios y castigos que apunta a lo mismo, y es incómoda para media industria de apps de hábitos, la mía incluida. Cuando el premio se vuelve muy controlador, sustituye tu motivo original por el suyo.
+
+Y tu motivo original es justo el que necesitas para aguantar meses.
 
 La señal de que te está pasando es muy concreta: empiezas a evitar abrir la app. No por falta de tiempo, sino porque abrirla es sentarte delante de una lista de reproches. Cuando llegas ahí, ese sistema dejó de ayudarte hace semanas.
 
@@ -131,11 +137,13 @@ Un sistema que castiga empuja fuerte al principio y se desinfla en cuanto el cas
 
 ## 5 · Vivir la vida como un videojuego: qué acierta la moda y qué no
 
-Desde que el anime de turno puso de moda lo de subir de nivel en la vida real, han salido decenas de apps que te dan un "sistema", te ponen un rango de E a S y te mandan misiones diarias. La estética es magnífica y el enganche del primer día es real.
+Desde 2025, cuando un anime sobre subir de nivel se hizo muy popular, han salido decenas de apps que te dan un "sistema", te asignan un rango de la letra E a la S y te mandan misiones diarias. La estética es magnífica y el enganche del primer día es real.
 
 Lo que aciertan: la identidad. Ese rango no mide lo que has hecho, mide en quién te estás convirtiendo, y eso engancha muchísimo más que un número de tareas.
 
-Lo que fallan, casi todas: las misiones las pone el sistema, no tú. Cien flexiones, diez kilómetros, lo que sea. Funciona tres semanas y se rompe el primer día que tu vida real no encaja en la plantilla, que es pronto. Y como el rango baja cuando fallas, el castigo llega justo el día que peor lo llevas.
+Lo que fallan, casi todas: **las misiones las pone el sistema, no tú.** Cien flexiones, diez kilómetros, lo que sea.
+
+Funciona tres semanas y se rompe el primer día que tu vida real no encaja en esa plantilla. Y como el rango te baja cuando fallas, el castigo llega justo el día que peor lo llevas.
 
 Si te va la estética, quédatela. Pero las misiones te las pones tú, y el rango no puede bajarte por un martes malo.
 
@@ -145,7 +153,9 @@ En papel funciona, de verdad. Lo que te ahorra una app es la contabilidad, que e
 
 Si te vas a una, mira dos cosas. Que las categorías las definas tú y no las elijas de una lista cerrada, porque si no el progreso mide algo del producto y no algo tuyo. Y que fallar no te quite lo ganado.
 
-Yo hago Skillion, así que ya sabes de qué lado escribo. Va de esto: te inventas tus habilidades, cada tarea reparte puntos entre las que elijas, y además de preguntarte qué vas a hacer te hace decidir a qué hora, colocándolo en una franja del día. De todo lo que se ha probado para que la gente cumpla, dejar escrito de antemano el cuándo y el dónde es de lo que mejor sale en los estudios, y "nunca encuentro el hueco" es la excusa más repetida que existe.
+Yo hago Skillion, así que ya sabes de qué lado escribo. Va exactamente de esto: te inventas tus habilidades, cada tarea reparte puntos entre las que elijas, y además de preguntarte qué vas a hacer te hace decidir a qué hora.
+
+De todo lo que se ha probado para que la gente cumpla, dejar escrito de antemano el cuándo y el dónde es de lo que mejor sale en los estudios. Y "nunca encuentro el hueco" es la excusa más repetida que existe.
 
 Pero si te montas lo tuyo en un cuaderno y te funciona, has ganado igual. El orden importa: primero el sistema, después la herramienta. Al revés es como se acaba con el móvil lleno de apps y ningún hábito.`,
   },
@@ -156,7 +166,7 @@ Pero si te montas lo tuyo en un cuaderno y te funciona, has ganado igual. El ord
     excerpt:
       'What gamifying your life actually means, the four pieces any system needs to survive, and why most of them collapse within a month.',
     tldr:
-      'Gamifying your life means giving your routines the things that make a game stick: you can see what you have built, everything you do feeds something of yours, and one bad day does not wipe it. It needs four pieces: points that mean something, categories that say who you want to be, quests that fit your worst day, and a picture of your progress. It always fails the same two ways: systems that punish, and starting fifteen things on day one.',
+      'Gamifying your life means putting a scoreboard on what you already do. It needs four pieces: points that mean something, categories that say who you want to be, quests that fit your worst day, and a view of your progress. It always fails the same two ways: punishing you, and starting fifteen things at once.',
     faq: [
       {
         q: 'What does it mean to gamify your life?',
@@ -247,9 +257,15 @@ Write the minimum version on a day you feel motivated. Your 11:40pm self is in n
 
 Two reasons, and you can see both coming.
 
-The first is starting with fifteen. Half of people need around two months before a habit runs on its own, so fifteen at once means fifteen expensive things running for months. The whole tower comes down and you walk away feeling like you failed on fifteen fronts at the same time.
+**The first is starting with fifteen.** Half of people need around two months before a habit happens without thinking.
 
-The second is sneakier: **the system punishes you.** There is a decent pile of research on rewards and punishments pointing the same way, and it is uncomfortable for half the habit-app industry, mine included. When the reward gets too controlling, it eats the appetite for doing the thing itself, which is exactly the appetite you need to last months.
+Fifteen at once means fifteen expensive efforts running for months. They all collapse, and you are left feeling like you failed fifteen times instead of once.
+
+**The second is that the system punishes you.** This one is harder to spot.
+
+There is a decent pile of research on rewards and punishments pointing the same way, and it is uncomfortable for half the habit-app industry, mine included. When the reward gets too controlling, it replaces your original reason with its own.
+
+And your original reason is exactly the one you need to last months.
 
 The sign that this is happening is very specific: you start avoiding the app. Not for lack of time, but because opening it means sitting down in front of a list of reproaches. By the time you get there, that system stopped helping weeks ago.
 
@@ -257,11 +273,13 @@ A system that punishes pushes hard early and deflates the moment the punishment 
 
 ## 5 · Living life like a video game: what the trend gets right and wrong
 
-Ever since a certain anime made levelling up in real life mainstream, dozens of apps have appeared that hand you a "system", give you a rank from E to S and send you daily quests. The look is fantastic and the day-one hook is real.
+Since 2025, when an anime about levelling up became very popular, dozens of apps have appeared that hand you a "system", assign you a rank from the letter E to S, and send you daily quests. The look is fantastic and the day-one hook is real.
 
 What they get right: identity. That rank does not measure what you have done, it measures who you are turning into, and that pulls far harder than a task count.
 
-What nearly all of them get wrong: the system sets the quests, not you. A hundred push-ups, ten kilometres, whatever it is. It works for three weeks and breaks the first day your real life does not fit the template, which comes soon. And because your rank drops when you miss, the punishment arrives on exactly the day you are struggling most.
+What nearly all of them get wrong: **the system sets the quests, not you.** A hundred push-ups, ten kilometres, whatever it is.
+
+It works for three weeks and breaks the first day your real life does not fit that template. And because your rank drops when you miss, the punishment arrives on exactly the day you are struggling most.
 
 If you love the look, keep it. But you set the quests, and the rank does not get to demote you over one bad Tuesday.
 
@@ -271,7 +289,9 @@ Paper genuinely works. What an app saves you is the bookkeeping, which is deathl
 
 If you do go for one, check two things. That you define the categories yourself rather than picking from a fixed list, because otherwise your progress measures something belonging to the product instead of something belonging to you. And that missing does not take away what you earned.
 
-I make Skillion, so you know which way I lean. It is built around this: you invent your own skills, every task splits its points across the ones you pick, and besides asking what you will do it makes you decide what time, by dropping it onto a slot in the day. Out of everything anyone has tested to get people to follow through, writing the when and the where down in advance is one of the things that comes out best in the studies, and "I never find the slot" is the most repeated excuse there is.
+I make Skillion, so you know which way I lean. It is built around exactly this: you invent your own skills, every task splits its points across the ones you pick, and besides asking what you will do it makes you decide what time.
+
+Out of everything anyone has tested to get people to follow through, writing the when and the where down in advance is one of the things that comes out best in the studies. And "I never find the slot" is the most repeated excuse there is.
 
 But if you build your own in a notebook and it works, you have won anyway. The order matters: system first, tool second. The other way round is how people end up with a phone full of apps and no habits.`,
   },

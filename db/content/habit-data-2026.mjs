@@ -33,7 +33,7 @@ export const habitData2026 = {
     excerpt:
       'Datos agregados de 7.070 usuarios de Skillion durante 10 meses: cuánto dura un hábito de verdad, cuándo se abandona y en qué nos equivocamos al medirlo.',
     tldr:
-      'De 9.923 hábitos reales que se repiten, la mitad no pasa de 7 días de vida, no de 66. Un 16,8% no llega ni a las 24 horas. Pero esa cifra engaña: si miras solo a quien lleva más de 90 días con la app, la mitad aguanta 85 días. Las dos son ciertas y la diferencia entre ellas es lo más útil que hemos aprendido mirando nuestros propios datos.',
+      'De 9.923 hábitos reales, la mitad no pasa de 7 días. Pero si miras solo a quien lleva 90 días o más con la app, la mitad aguanta 85. Las dos cifras son ciertas, y la diferencia entre ellas es lo más útil que hemos aprendido.',
     faq: [
       {
         q: '¿Cuánto dura un hábito nuevo según datos reales?',
@@ -60,7 +60,11 @@ export const habitData2026 = {
 
 **La mitad de los hábitos que alguien se propone en Skillion no llega a los siete días.** Yo construyo por dentro el sistema de rachas y de XP, así que ese número habla de mi trabajo antes que del de nadie. Lo publicamos igual.
 
-Y es un número que casi nadie puede darte, porque casi todo lo que has leído sobre hábitos sale de estudios con unas decenas de voluntarios que aceptaron que los siguieran durante semanas. Son estudios serios y los citamos a menudo, pero les falta media película: solo miden a gente que se apuntó y aguantó. Yo veo lo contrario. Veo a quien se instala la app un martes, se crea cuatro hábitos, cumple dos días y no vuelve.
+Es un número que casi nadie puede darte.
+
+Casi todo lo que has leído sobre hábitos sale de estudios con unas decenas de voluntarios. Son estudios serios y los citamos a menudo. Pero solo miden a gente que se apuntó y aguantó hasta el final.
+
+Yo veo lo contrario. Veo a quien se instala la app un martes, se crea cuatro hábitos, cumple dos días y no vuelve.
 
 Esto es lo que encontramos al mirar nuestros propios números, incluida la parte que preferiríamos no contar.
 
@@ -112,13 +116,15 @@ Lo que se saca de las dos juntas: **el filtro no está en el hábito, está en l
 
 ## 4 · ¿Y los 66 días de los que todo el mundo habla?
 
-Hay un estudio muy citado, y nosotros el primero, que siguió a gente durante doce semanas y vio que a la mitad le costaba unos 66 días llegar al punto en que el hábito ya sale solo. Con un margen de 18 días a más de 250.
+Hay un estudio muy citado, y nosotros lo citamos también. Siguió a gente durante doce semanas. A la mitad le costó unos 66 días llegar al punto en que el hábito ya se hace sin pensar, con un margen que iba de 18 días a más de 250.
 
 No nos lleva la contraria. Está midiendo otra cosa.
 
-Ellos midieron cuánto tarda algo en salirte solo, en gente que siguió participando tres meses. Nosotros medimos cuánto aguanta la gente antes de tirar la toalla, en una app que puedes cerrar y no volver a abrir jamás.
+Ellos midieron cuánto tarda algo en hacerse automático, en gente que siguió participando tres meses. Nosotros medimos cuánto aguanta la gente antes de rendirse, en una app que puedes cerrar y no volver a abrir jamás.
 
-Juntando las dos, sale algo incómodo: **la mayoría abandona en la primera semana una cosa que tarda dos meses en cuajar.** No es falta de constancia. Es que nadie te dijo el plazo. Y como solo el 8,7% llega a los 66 días, casi nadie llega a comprobar si aquello le funcionaba.
+Juntando las dos sale algo incómodo: **la mayoría abandona en la primera semana algo que tarda dos meses en asentarse.**
+
+No es falta de constancia. Es que nadie te dijo el plazo. Y como solo el 8,7% llega a los 66 días, casi nadie comprueba si aquello le funcionaba.
 
 ## 5 · Nadie avisa de que lo deja
 
@@ -169,11 +175,23 @@ El lunes no tiene nada mágico y el fin de semana no es el desastre que se supon
 
 Esta es la parte que ningún artículo de datos publica, y es justo la que hace que te puedas creer el resto.
 
-No sabemos qué habilidades elige la gente. La lista existe (disciplina 7.573 personas, intelecto 6.887, salud 4.987) pero no vale para nada: son las que la propia app te pone al empezar, traducidas a cada idioma. Las cinco primeras en español y sus equivalentes en inglés, ruso y francés son la misma lista. Su nivel medio va de 1,1 a 1,9 y su racha media de 1 a 3, o sea que nadie las cultiva. Estamos midiendo lo que ponemos nosotros, no lo que elige nadie.
+**No sabemos qué habilidades elige la gente.** La lista existe: disciplina 7.573 personas, intelecto 6.887, salud 4.987. Pero no vale para nada.
 
-No podemos decirte con cuántos hábitos conviene empezar. Queríamos comprobar nuestro propio consejo, el de empezar con tres y no con doce, y no se puede: la app ya te siembra tres y casi nadie crea más. El grupo de "cuatro o más" se queda en 69 personas, por debajo de lo que publicamos. Ese consejo lo damos por lo que dicen los estudios, no por lo que vemos aquí.
+Son las que la propia app te pone al empezar, traducidas a cada idioma. Las cinco primeras en español y sus equivalentes en inglés, ruso y francés son la misma lista.
 
-No sabemos si planificar el día funciona. Quien coloca las tareas en una franja del día completa 26,6 de media, frente a 20,5 de quien no. Es tentador leerlo como "planificar funciona" y sería un error: puede ser al revés, que la gente más constante sea justo la que se molesta en planificar. Que dos cosas vayan juntas no significa que una cause la otra, y con nuestros datos no hay forma de separarlo.
+Su nivel medio va de 1,1 a 1,9 y su racha media de 1 a 3. Nadie las usa de verdad. Estamos midiendo lo que ponemos nosotros, no lo que elige nadie.
+
+**No podemos decirte con cuántos hábitos conviene empezar.** Queríamos comprobar nuestro propio consejo, el de empezar con tres y no con doce, y no se puede.
+
+La app ya te pone tres al arrancar y casi nadie crea más. El grupo de "cuatro o más" se queda en 69 personas, por debajo del mínimo que publicamos.
+
+Ese consejo lo damos por lo que dicen los estudios, no por lo que vemos aquí.
+
+**No sabemos si planificar el día funciona.** Quien coloca las tareas en una franja del día completa 26,6 de media, frente a 20,5 de quien no.
+
+Es tentador leerlo como "planificar funciona", y sería un error. Puede ser al revés: que la gente más constante sea justo la que se molesta en planificar.
+
+Que dos cosas ocurran juntas no significa que una cause la otra. Con nuestros datos no hay forma de separarlo.
 
 No sabemos a qué hora cumple la gente. Guardamos la hora en horario universal y no la zona de cada persona. El pico que aparece a las dos de la madrugada es casi seguro la tarde en Latinoamérica. Publicar "la gente cumple de madrugada" habría sido un titular estupendo y falso.
 
@@ -183,7 +201,9 @@ Si tuviéramos que sacar una sola conclusión de diez meses de datos: **el probl
 
 Todo lo que se escribe sobre hábitos, las rachas, el refuerzo, la identidad, los 66 días, sirve a partir de ahí. Antes de ahí lo único que importa es que mañana vuelvas a abrir la app.
 
-Así que el consejo es aburrido y es el que sale de los números: haz el hábito ridículamente pequeño durante siete días. No para crear el hábito, que en siete días no se crea. Para cruzar el tramo donde se muere la mitad.
+Así que el consejo es aburrido y es el que sale de los números: **haz el hábito ridículamente pequeño durante siete días.**
+
+No para crear el hábito, que en siete días no se crea. Para cruzar el tramo donde se muere la mitad.
 
 ---
 
@@ -196,7 +216,7 @@ Así que el consejo es aburrido y es el que sale de los números: haz el hábito
     excerpt:
       'Aggregated data from 7,070 Skillion users over 10 months: how long a habit really lasts, when people quit, and where we got the measurement wrong.',
     tldr:
-      'Out of 9,923 real repeating habits, half of them last 7 days, not 66. Some 16.8% do not make it past 24 hours. But that figure misleads: if you only look at people who have been with the app 90 days or more, half of them last 85 days. Both are true, and the gap between them is the most useful thing we learned from our own data.',
+      'Out of 9,923 real habits, half last 7 days. But if you only look at people who have been with the app 90 days or more, half of them last 85. Both figures are true, and the gap between them is the most useful thing we learned.',
     faq: [
       {
         q: 'How long does a new habit last according to real data?',
@@ -223,7 +243,11 @@ Así que el consejo es aburrido y es el que sale de los números: haz el hábito
 
 **Half the habits anyone sets in Skillion never reach day seven.** I build the streak and XP system from the inside, so that figure is about my work before it is about anyone else's. We are publishing it anyway.
 
-And it is a number almost nobody can hand you, because almost everything you have read about habits comes from studies with a few dozen volunteers who agreed to be followed for weeks. They are serious studies and we cite them often, but they are missing half the picture: they only measure people who signed up and stuck around. I see the opposite. I see the person who installs the app on a Tuesday, creates four habits, shows up twice and never comes back.
+It is a number almost nobody can hand you.
+
+Almost everything you have read about habits comes from studies with a few dozen volunteers. They are serious studies and we cite them often. But they only measure people who signed up and stayed to the end.
+
+I see the opposite. I see the person who installs the app on a Tuesday, creates four habits, shows up twice and never comes back.
 
 Here is what we found in our own numbers, including the part we would rather not tell you.
 
@@ -275,13 +299,15 @@ What the two together tell you: **the filter is not in the habit, it is in the f
 
 ## 4 · What about the 66 days everyone quotes?
 
-There is a much-cited study, and we quote it ourselves, that followed people for twelve weeks and found half of them took around 66 days to reach the point where the habit runs on its own. With a spread of 18 days to over 250.
+There is a much-cited study, and we quote it ourselves. It followed people for twelve weeks. Half of them took around 66 days to reach the point where the habit happens without thinking, with a spread that ran from 18 days to over 250.
 
 It does not contradict us. It measures something else.
 
 They measured how long something takes to become automatic, in people who kept taking part for three months. We measure how long people last before giving up, in an app you can close and never open again.
 
-Put the two together and you get something uncomfortable: **most people quit in the first week on a thing that takes two months to set.** That is not a lack of grit. Nobody told them the timeline. And since only 8.7% reach 66 days, hardly anyone finds out whether it would have worked for them.
+Put the two together and you get something uncomfortable: **most people quit in the first week on something that takes two months to settle.**
+
+That is not a lack of grit. Nobody told them the timeline. And since only 8.7% reach 66 days, hardly anyone finds out whether it would have worked for them.
 
 ## 5 · Nobody announces they are quitting
 
@@ -332,11 +358,23 @@ Monday has nothing magic about it and the weekend is not the disaster everyone a
 
 This is the part no data article publishes, and it is exactly what makes the rest believable.
 
-We do not know which skills people choose. The list exists (discipline 7,573 people, intellect 6,887, health 4,987) but it is useless: they are the ones the app puts there for you at the start, translated into each language. The top five in Spanish and their equivalents in English, Russian and French are the same list. Their average level runs from 1.1 to 1.9 and their average streak from 1 to 3, which means nobody is growing them. We are measuring what we put there, not what anyone picked.
+**We do not know which skills people choose.** The list exists: discipline 7,573 people, intellect 6,887, health 4,987. But it is useless.
 
-We cannot tell you how many habits to start with. We wanted to check our own advice, the one about starting with three rather than twelve, and it cannot be done: the app already plants three and hardly anyone adds more. The "four or more" group sits at 69 people, below what we will publish. We give that advice on the strength of the studies, not on what we see here.
+They are the ones the app puts there for you at the start, translated into each language. The top five in Spanish and their equivalents in English, Russian and French are the same list.
 
-We do not know whether planning your day works. People who put tasks on a slot in the day complete 26.6 on average, against 20.5 for people who do not. It is tempting to read that as "planning works" and it would be a mistake: it could be the other way round, that the people who bother to plan were the consistent ones already. Two things moving together does not mean one causes the other, and our data cannot separate them.
+Their average level runs from 1.1 to 1.9 and their average streak from 1 to 3. Nobody is really using them. We are measuring what we put there, not what anyone picked.
+
+**We cannot tell you how many habits to start with.** We wanted to check our own advice, the one about starting with three rather than twelve, and it cannot be done.
+
+The app already sets up three at the start and hardly anyone adds more. The "four or more" group sits at 69 people, below the minimum we will publish.
+
+We give that advice on the strength of the studies, not on what we see here.
+
+**We do not know whether planning your day works.** People who put tasks on a slot in the day complete 26.6 on average, against 20.5 for people who do not.
+
+It is tempting to read that as "planning works", and it would be a mistake. It could be the other way round: the people who bother to plan were the consistent ones already.
+
+Two things happening together does not mean one causes the other. Our data cannot separate them.
 
 We do not know what time of day people deliver. We store the time in universal time and not each person's zone. The apparent spike at two in the morning is almost certainly the afternoon in Latin America. Publishing "people deliver in the small hours" would have been a great headline and a false one.
 
@@ -346,7 +384,9 @@ If we had to pull one conclusion out of ten months of data: **the problem is not
 
 Everything written about habits, the streaks, the reinforcement, the identity, the 66 days, applies from there on. Before that, the only thing that matters is that you open the app again tomorrow.
 
-So the advice is boring and it is the one the numbers give: make the habit ridiculously small for seven days. Not to build the habit, which takes longer than seven days. To cross the stretch where half of them die.
+So the advice is boring and it is the one the numbers give: **make the habit ridiculously small for seven days.**
+
+Not to build the habit, which takes longer than seven days. To cross the stretch where half of them die.
 
 ---
 

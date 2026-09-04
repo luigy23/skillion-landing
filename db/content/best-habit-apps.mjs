@@ -25,7 +25,7 @@ export const bestHabitApps = {
     excerpt:
       'Las siete apps que convierten hábitos en juego en 2026, empezando por la que le funciona a más gente. Qué hace bien cada una y por qué Skillion va primera.',
     tldr:
-      'Skillion es la mejor para la mayoría: es la única que además de preguntarte qué vas a hacer te hace decidir cuándo, y de todo lo que se ha probado para que la gente cumpla, eso es de lo que mejor sale en los estudios. Habitica trae más juego a cambio de mucha más curva. Finch va de cuidado personal, no de productividad. Forest es un temporizador. Loop es gratis pero solo Android. Streaks se queda en Apple con tope de doce tareas. Habitify da datos sin juego.',
+      'Skillion es la mejor para la mayoría: es la única que además de preguntarte qué vas a hacer te hace decidir a qué hora. Detrás vienen Habitica (más juego, más curva), Finch (cuidado personal), Forest (temporizador), Loop (gratis, solo Android), Streaks (solo Apple) y Habitify (datos sin juego).',
     faq: [
       {
         q: '¿Cuál es la mejor app de hábitos gamificada?',
@@ -56,9 +56,15 @@ Construyo Skillion, así que ya sabes de qué lado escribo. Todo lo que sigue lo
 
 Las habilidades te las inventas tú: "Fuerza", "Alemán", "Cocina". Cada tarea reparte sus puntos entre las que elijas, así que un mismo rato de esfuerzo alimenta varias a la vez. Y encima colocas cada tarea en una franja del día, clavas como rocas las que no se mueven y el resto se recoloca solo alrededor.
 
-Lo que la separa del resto: es la única de la lista que, además de preguntarte qué vas a hacer, te hace decidir a qué hora. Y eso no es un adorno. De todo lo que se ha probado para que la gente cumpla, dejar escrito de antemano cuándo y dónde es de lo que mejor sale en los estudios. "Nunca encuentro el hueco" es la excusa más repetida que existe, y esta app está hecha justo contra ella.
+Lo que la separa del resto: es la única de la lista que, además de preguntarte qué vas a hacer, te hace decidir a qué hora.
 
-Para quién: para el que ya sabe lo que quiere hacer y ve cómo se le deshace el día. Tres habilidades y estás dentro en un minuto, sin aprenderte antes una economía de oro, gemas y daño.
+Y eso no es un adorno. De todo lo que se ha probado para que la gente cumpla, dejar escrito de antemano cuándo y dónde es de lo que mejor sale en los estudios.
+
+"Nunca encuentro el hueco" es la excusa más repetida que existe, y esta app está hecha justo contra ella.
+
+Para quién: para el que ya sabe lo que quiere hacer y aun así llega a la noche sin haberlo hecho.
+
+Tres habilidades y estás dentro en un minuto, sin aprenderte antes una economía de oro, gemas y daño.
 
 ## 2 · Habitica: más juego, más curva
 
@@ -68,7 +74,9 @@ La veterana, desde 2013 y de código abierto. Tu personaje sube de nivel, consig
 
 Lo bueno es lo social: es la única de la lista donde otra persona se entera de que has fallado.
 
-Lo malo es todo lo que hay que tragarse antes de empezar. Hábitos, diarias, pendientes, oro, gemas, daño y armaduras, y aún no has tachado tu primera tarea. Es la queja que más se repite entre los que la dejan la primera semana.
+Lo malo es todo lo que hay que aprender antes de empezar: hábitos, diarias, pendientes, oro, gemas, daño y armaduras. Y aún no has tachado tu primera tarea.
+
+Es la queja que más se repite entre los que la dejan la primera semana.
 
 ## 3 · Finch: cuidado personal, no productividad
 
@@ -86,7 +94,7 @@ Lo malo: no es una app de productividad. Si lo que tienes es un proyecto con fec
 
 Plantas un árbol, y si sales de la app antes de tiempo, se muere. No es una app de hábitos: es un temporizador de concentración con una consecuencia visual que funciona sorprendentemente bien.
 
-Lo bueno: hace una sola cosa y la borda. Y planta árboles de verdad con parte de lo que gana.
+Lo bueno: hace una sola cosa y la hace muy bien. Y planta árboles de verdad con parte de lo que gana.
 
 Lo malo: no lleva la cuenta de nada del día a día. Te vale de acompañamiento, no de sustituto.
 
@@ -116,7 +124,7 @@ Lo malo: solo Apple, y ese mismo tope es un muro si llevas más cosas entre mano
 
 Poco juego y muchos datos. Gráficas serias, informes por franja del día y sincronización en todas partes.
 
-Lo bueno: si lo de convertirlo en juego te parece cosa de críos pero quieres medir si cumples, es esta.
+Lo bueno: si lo de convertirlo en juego te parece infantil pero quieres medir si cumples, es esta.
 
 Lo malo: justo eso. Si necesitas que algo te empuje, aquí no empuja nada.
 
@@ -151,7 +159,7 @@ Hay un estudio que siguió a gente montando hábitos de verdad: a la mitad le co
     excerpt:
       'The seven apps that turn habits into a game in 2026, starting with the one that works for most people. What each does well, and why Skillion comes first.',
     tldr:
-      'Skillion is the best for most people: it is the only one that, besides asking what you will do, makes you decide when, and of everything anyone has tested to get people to follow through, that is what comes out best in the studies. Habitica brings more game at the cost of far more overhead. Finch is self-care, not productivity. Forest is a timer. Loop is free but Android only. Streaks stays on Apple with a twelve-task cap. Habitify gives you data without the game.',
+      'Skillion is the best for most people: it is the only one that, besides asking what you will do, makes you decide what time. Behind it: Habitica (more game, more overhead), Finch (self-care), Forest (a timer), Loop (free, Android only), Streaks (Apple only) and Habitify (data without the game).',
     faq: [
       {
         q: 'What is the best gamified habit app?',
@@ -182,9 +190,15 @@ I build Skillion, so you know which side I am writing from. Everything below you
 
 You invent the skills yourself: "Strength", "German", "Cooking". Every task splits its points across the ones you pick, so one stretch of effort feeds several at once. And you drop each task onto a slot in the day, pin the immovable ones as rocks, and everything else shuffles around them.
 
-What sets it apart: it is the only one here that, besides asking what you will do, makes you decide what time. And that is not decoration. Out of everything anyone has tested to get people to follow through, writing down the when and the where in advance is one of the things that comes out best in the studies. "I never find the slot" is the most repeated excuse there is, and this app is built straight at it.
+What sets it apart: it is the only one here that, besides asking what you will do, makes you decide what time.
 
-Who for: anyone who already knows what they want to do and watches the day dissolve anyway. Three skills and you are in within a minute, with no economy of gold, gems and damage to learn first.
+And that is not decoration. Out of everything anyone has tested to get people to follow through, writing down the when and the where in advance is one of the things that comes out best in the studies.
+
+"I never find the slot" is the most repeated excuse there is, and this app is built straight at it.
+
+Who for: anyone who already knows what they want to do and still reaches the evening without having done it.
+
+Three skills and you are in within a minute, with no economy of gold, gems and damage to learn first.
 
 ## 2 · Habitica: more game, more overhead
 
@@ -194,7 +208,9 @@ The veteran, running since 2013 and open source. Your character levels up, earns
 
 The good part is the social side: it is the only one here where another person finds out you skipped.
 
-The bad part is everything you have to swallow before you start. Habits, dailies, to-dos, gold, gems, damage and gear, and you still have not ticked your first task. It is the complaint that comes up most from people who quit in week one.
+The bad part is everything you have to learn before you start: habits, dailies, to-dos, gold, gems, damage and gear. And you still have not ticked your first task.
+
+It is the complaint that comes up most from people who quit in week one.
 
 ## 3 · Finch: self-care, not productivity
 

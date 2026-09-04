@@ -33,7 +33,7 @@ export const legacyPosts = [
       excerpt:
         'Dopamina, refuerzo variable y bucles de hábito. Qué dice la investigación sobre gamificar tareas reales, y dónde falla la mayoría de las apps.',
       tldr:
-        'Gamificar hábitos funciona cuando el sistema hace visible el progreso acumulado, no cuando reparte puntos por cualquier cosa. El cerebro responde a la señal de que algo va mejor de lo esperado, no al premio en sí, y una casilla gris no transmite ninguna señal. Ahí falla la mayoría de apps: premian la acción en lugar de enseñar la curva.',
+        'Funciona cuando el sistema te enseña lo que llevas acumulado, no cuando reparte puntos por cualquier cosa. Tu cerebro responde a la señal de avance, y una casilla gris no da ninguna señal. Ahí falla la mayoría de apps.',
       faq: [
         {
           q: '¿La gamificación funciona a largo plazo?',
@@ -50,13 +50,19 @@ export const legacyPosts = [
       ],
       body: `Yo escribo el código que reparte el XP, así que me paso el día decidiendo cuántos puntos vale una cosa. Y hay una pregunta que no me quitaba el sueño hasta que la miré de cerca: ¿por qué demonios funciona un número que me acabo de inventar?
 
-Porque cuando completas una misión en un juego, tu cerebro no celebra la barra que sube: celebra la señal de que estás avanzando. Es la misma señal que notas cuando sales del gimnasio, cuando terminas un informe que llevabas días evitando o cuando cierras el libro por la noche. La diferencia es que los juegos la hacen visible y la vida real casi nunca.
+Porque cuando completas una misión en un juego, tu cerebro no celebra la barra que sube. Celebra la señal de que estás avanzando.
+
+Es la misma señal que notas cuando sales del gimnasio, cuando terminas un informe que llevabas días evitando, o cuando cierras el libro por la noche. La diferencia es que los juegos la hacen visible y la vida real casi nunca.
 
 Las listas de tareas fallan justo ahí. Un check gris no comunica progreso acumulado: comunica que había algo pendiente y ahora hay menos. No hay memoria, no hay curva, no hay historia. Por eso a las dos semanas la motivación se cae aunque la persona siga siendo la misma.
 
 ## 1 · El círculo que hay detrás de cualquier hábito
 
-Todo hábito funciona en círculo: algo te lo recuerda, lo haces, y algo te dice que lo has hecho. Lo que aporta un juego bien montado no son "puntos". Es darte hoy algo que se ve, por una acción cuyo beneficio de verdad no vas a notar hasta dentro de meses. Salir a correr hoy no te pone en forma hoy. Pero ver la barra de Fitness moverse esta misma tarde sí cierra el círculo.
+Todo hábito funciona en círculo: algo te lo recuerda, lo haces, y algo te dice que lo has hecho.
+
+Lo que aporta un juego bien montado no son "puntos". Es darte hoy algo que se ve, por una acción cuyo beneficio real no vas a notar hasta dentro de meses.
+
+Salir a correr hoy no te pone en forma hoy. Pero ver la barra de Fitness moverse esta misma tarde sí cierra el círculo.
 
 :::tip
 Asigna XP alto a lo que te cuesta empezar, no a lo que ya te sale fácil. El XP es tu presupuesto de motivación: gástalo donde hay fricción.
@@ -80,7 +86,7 @@ Empieza por tres skills, ponles misiones diarias pequeñas y revisa tu resumen e
       excerpt:
         'Why your brain reacts to a bar going up, what the research says about turning real tasks into a game, and where most apps get it wrong.',
       tldr:
-        'Gamifying habits works when the system makes accumulated progress visible, not when it hands out points for anything. The brain responds to the signal that something went better than expected, not to the reward itself, and a grey checkbox carries no signal at all. That is where most apps fail: they reward the action instead of showing the curve.',
+        'It works when the system shows you what you have built up, not when it hands out points for anything. Your brain responds to the signal of progress, and a grey checkbox gives no signal. That is where most apps fail.',
       faq: [
         {
           q: 'Does gamification work long term?',
@@ -97,13 +103,19 @@ Empieza por tres skills, ponles misiones diarias pequeñas y revisa tu resumen e
       ],
       body: `I write the code that hands out the XP, so I spend my days deciding how many points a thing is worth. And there is one question I never lost sleep over until I looked at it properly: why on earth does a number I just made up work at all?
 
-Because when you finish a quest in a game, your brain is not celebrating the bar going up: it is celebrating the signal that you are making progress. It is the same signal you get walking out of the gym, finishing a report you had been dodging for days, or closing the book at night. The difference is that games make it visible and real life almost never does.
+Because when you finish a quest in a game, your brain is not celebrating the bar going up. It is celebrating the signal that you are making progress.
+
+It is the same signal you get walking out of the gym, finishing a report you had been dodging for days, or closing the book at night. The difference is that games make it visible and real life almost never does.
 
 That is exactly where to-do lists fall apart. A grey checkmark does not communicate accumulated progress: it communicates that something was pending and now there is less of it. No memory, no curve, no story. That is why motivation collapses after two weeks even though the person has not changed.
 
 ## 1 · The circle behind any habit
 
-Every habit runs in a circle: something reminds you, you do it, something tells you it counted. What a well-built game adds is not "points". It gives you something visible today for an action whose real payoff will not show up for months. Going for a run today does not make you fit today. But watching your Fitness bar move this same afternoon does close the circle.
+Every habit runs in a circle: something reminds you, you do it, something tells you it counted.
+
+What a well-built game adds is not "points". It gives you something visible today for an action whose real payoff will not show up for months.
+
+Going for a run today does not make you fit today. But watching your Fitness bar move this same afternoon does close the circle.
 
 :::tip
 Assign high XP to what is hard to start, not to what already comes easy. XP is your motivation budget: spend it where the friction is.
@@ -304,7 +316,9 @@ En semanas caóticas lo que se pospone no se hace. Si tu misión mínima vive a 
 
 ## 5 · Rompe la racha a propósito una vez
 
-Suena raro, pero funciona: la gente que más rachas largas mantiene es la que ya sabe que una racha rota no borra el progreso. Míralo una vez, comprueba que tu nivel sigue ahí, y deja de tenerle miedo. El miedo a romperla es lo que hace que la gente cierre la app en vez de abrirla.
+Suena raro, pero funciona: la gente que más rachas largas mantiene es la que ya sabe que una racha rota no borra el progreso.
+
+Míralo una vez, comprueba que tu nivel sigue ahí, y deja de tenerle miedo. El miedo a romperla es lo que hace que la gente cierre la app en vez de abrirla.
 
 > La racha es un indicador, no el objetivo. El objetivo es la curva de los últimos seis meses.`,
     },
@@ -355,7 +369,9 @@ In chaotic weeks, whatever gets postponed does not happen. If your minimum quest
 
 ## 5 · Break the streak on purpose, once
 
-It sounds odd, but it works: the people who sustain the longest streaks are the ones who already know a broken streak does not erase progress. Watch it happen once, confirm your level is still there, and stop fearing it. Fear of breaking the streak is what makes people close the app instead of opening it.
+It sounds odd, but it works: the people who sustain the longest streaks are the ones who already know a broken streak does not erase progress.
+
+Watch it happen once, confirm your level is still there, and stop fearing it. Fear of breaking the streak is what makes people close the app instead of opening it.
 
 > The streak is an indicator, not the goal. The goal is the curve over the last six months.`,
     },
