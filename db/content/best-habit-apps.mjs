@@ -11,7 +11,7 @@ import { AUTHORS, SOURCES } from './sources.mjs';
 export const bestHabitApps = {
   translationKey: 'best-gamified-habit-apps',
   category: 'roundup',
-  icon: 'clover',
+  icon: 'books',
   readingMinutes: 9,
   xp: 45,
   featured: false,

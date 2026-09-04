@@ -89,7 +89,7 @@ const es: FaqGroup[] = [
       {
         q: '¿Qué es la gamificación de hábitos?',
         a: 'Es aplicar cosas de videojuego (puntos, niveles, rachas) a lo que haces en la vida real. Sirve para arreglar un fallo concreto de las listas de tareas: marcas la casilla, se pone gris, desaparece y al mes no te queda ni rastro de todo lo que hiciste. Apps como Skillion, Habitica o Finch convierten eso que no se veía en algo que puedes mirar.',
-        more: 'best-gamified-habit-apps',
+        more: 'gamify-your-life',
       },
       {
         q: '¿Cuánto se tarda de verdad en formar un hábito?',
@@ -224,7 +224,7 @@ const en: FaqGroup[] = [
       {
         q: 'What is habit gamification?',
         a: 'It means applying video game stuff (points, levels, streaks) to what you do in real life. It fixes one specific flaw in to-do lists: you tick the box, it goes grey, it vanishes, and a month later there is no trace of anything you did. Apps like Skillion, Habitica and Finch turn what you could not see into something you can look at.',
-        more: 'best-gamified-habit-apps',
+        more: 'gamify-your-life',
       },
       {
         q: 'How long does it really take to form a habit?',

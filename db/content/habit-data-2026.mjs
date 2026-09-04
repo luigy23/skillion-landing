@@ -19,7 +19,7 @@ import { AUTHORS, SOURCES } from './sources.mjs';
 export const habitData2026 = {
   translationKey: 'habit-data-2026',
   category: 'science',
-  icon: 'coin',
+  icon: 'coin3',
   readingMinutes: 10,
   xp: 50,
   featured: false,
