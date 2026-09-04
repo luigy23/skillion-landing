@@ -1,4 +1,4 @@
-import { SOURCES } from './sources.mjs';
+import { AUTHORS, SOURCES } from './sources.mjs';
 
 /**
  * Los cinco artículos originales del artboard 1c.
@@ -13,11 +13,6 @@ import { SOURCES } from './sources.mjs';
  *   > cita             -> blockquote en menta
  */
 
-export const TEAM = {
-  es: { name: 'EQUIPO SKILLION', bio: 'Diseñamos sistemas de progreso para humanos reales.' },
-  en: { name: 'SKILLION TEAM', bio: 'We design progress systems for real humans.' },
-};
-
 export const legacyPosts = [
   // ─────────────────────────────────────────────────────────── 1 · destacado
   {
@@ -30,6 +25,7 @@ export const legacyPosts = [
     // Deja de ser el destacado: lo es la comparativa con Habitica, que es la
     // pieza que SCRUM-450 quiere que se encuentre primero.
     publishedAt: '2026-08-14',
+    author: AUTHORS.jesus,
     sources: [SOURCES.schultz1997, SOURCES.hamari2014, SOURCES.ryanDeci2000, SOURCES.deci1999],
     es: {
       slug: 'la-ciencia-detras-del-xp',
@@ -52,7 +48,9 @@ export const legacyPosts = [
           a: 'Sí. Hay bastante investigación juntada sobre premios y castigos que apunta a lo mismo: cuando el premio se vuelve muy controlador, acaba comiéndose las ganas de hacer la cosa por sí misma. Si terminas haciendo la tarea por los puntos y no por lo que buscabas, el sistema te ha cambiado el motivo.',
         },
       ],
-      body: `Cuando completas una misión en un juego, tu cerebro no celebra la barra que sube: celebra la señal de que estás avanzando. Es la misma señal que notas cuando sales del gimnasio, cuando terminas un informe que llevabas días evitando o cuando cierras el libro por la noche. La diferencia es que los juegos la hacen visible y la vida real casi nunca.
+      body: `Yo escribo el código que reparte el XP, así que me paso el día decidiendo cuántos puntos vale una cosa. Y hay una pregunta que no me quitaba el sueño hasta que la miré de cerca: ¿por qué demonios funciona un número que me acabo de inventar?
+
+Porque cuando completas una misión en un juego, tu cerebro no celebra la barra que sube: celebra la señal de que estás avanzando. Es la misma señal que notas cuando sales del gimnasio, cuando terminas un informe que llevabas días evitando o cuando cierras el libro por la noche. La diferencia es que los juegos la hacen visible y la vida real casi nunca.
 
 Las listas de tareas fallan justo ahí. Un check gris no comunica progreso acumulado: comunica que había algo pendiente y ahora hay menos. No hay memoria, no hay curva, no hay historia. Por eso a las dos semanas la motivación se cae aunque la persona siga siendo la misma.
 
@@ -97,7 +95,9 @@ Empieza por tres skills, ponles misiones diarias pequeñas y revisa tu resumen e
           a: 'Yes. There is a decent pile of research on rewards and punishments pointing the same way: when the reward gets too controlling, it eats the appetite for doing the thing itself. If you end up doing the task for the points rather than for what you were after, the system has swapped your reason out.',
         },
       ],
-      body: `When you finish a quest in a game, your brain is not celebrating the bar going up: it is celebrating the signal that you are making progress. It is the same signal you get walking out of the gym, finishing a report you had been dodging for days, or closing the book at night. The difference is that games make it visible and real life almost never does.
+      body: `I write the code that hands out the XP, so I spend my days deciding how many points a thing is worth. And there is one question I never lost sleep over until I looked at it properly: why on earth does a number I just made up work at all?
+
+Because when you finish a quest in a game, your brain is not celebrating the bar going up: it is celebrating the signal that you are making progress. It is the same signal you get walking out of the gym, finishing a report you had been dodging for days, or closing the book at night. The difference is that games make it visible and real life almost never does.
 
 That is exactly where to-do lists fall apart. A grey checkmark does not communicate accumulated progress: it communicates that something was pending and now there is less of it. No memory, no curve, no story. That is why motivation collapses after two weeks even though the person has not changed.
 
@@ -132,6 +132,7 @@ Start with three skills, give them small daily quests, and review your recap on 
     xp: 30,
     featured: false,
     publishedAt: '2026-08-07',
+    author: AUTHORS.luigy,
     sources: [SOURCES.lally2010, SOURCES.gardner2012],
     es: {
       slug: 'tus-primeras-tres-skills',
@@ -154,7 +155,9 @@ Start with three skills, give them small daily quests, and review your recap on 
           a: 'Cuando las tres primeras hayan dejado de costarte esfuerzo consciente. Si todavía tienes que acordarte de abrir la app, añadir una cuarta solo reparte la atención.',
         },
       ],
-      body: `El primer día en Skillion casi todo el mundo hace lo mismo: crear una skill por cada cosa que le gustaría mejorar. Salud, Lectura, Idiomas, Finanzas, Cocina, Sueño, Meditación… doce barras a cero. Y doce barras a cero no son doce motivaciones: son doce recordatorios de todo lo que aún no has hecho.
+      body: `Cuando montamos el arranque de Skillion discutimos cuántas habilidades sembrar. Yo quería seis. Pusimos tres, y de todas las decisiones que he tomado en esta app es la que más veces me han agradecido.
+
+Porque el primer día casi todo el mundo hace lo mismo: crear una skill por cada cosa que le gustaría mejorar. Salud, Lectura, Idiomas, Finanzas, Cocina, Sueño, Meditación… doce barras a cero. Y **doce barras a cero no son doce motivaciones: son doce recordatorios de todo lo que aún no has hecho.**
 
 ## 1 · Tres, y ninguna más
 
@@ -207,7 +210,9 @@ Dale una semana entera antes de tocar nada. Al séptimo día abre tu resumen y m
           a: 'When the first three have stopped costing you conscious effort. If you still have to remember to open the app, a fourth only splits your attention.',
         },
       ],
-      body: `On day one in Skillion almost everyone does the same thing: create one skill for every part of life they would like to improve. Health, Reading, Languages, Finance, Cooking, Sleep, Meditation… twelve bars at zero. And twelve bars at zero are not twelve motivations: they are twelve reminders of everything you have not done yet.
+      body: `When we built the first run of Skillion we argued about how many skills to plant. I wanted six. We shipped three, and of every decision I have made in this app it is the one people thank me for most.
+
+Because on day one almost everyone does the same thing: create one skill for every part of life they would like to improve. Health, Reading, Languages, Finance, Cooking, Sleep, Meditation… twelve bars at zero. And **twelve bars at zero are not twelve motivations: they are twelve reminders of everything you have not done yet.**
 
 ## 1 · Three, and no more
 
@@ -250,6 +255,7 @@ Give it a full week before changing anything. On the seventh day open your recap
     xp: 25,
     featured: false,
     publishedAt: '2026-07-24',
+    author: AUTHORS.luigy,
     sources: [SOURCES.lally2010, SOURCES.woodRunger2016],
     es: {
       slug: 'trucos-para-no-romper-tu-racha',
@@ -272,7 +278,9 @@ Give it a full week before changing anything. On the seventh day open your recap
           a: 'No es trampa. La investigación sobre hábitos apunta a que el comportamiento consolidado depende de señales de contexto estables, y un viaje rompe todas a la vez. Pausar es más honesto que fingir una racha que no ocurrió.',
         },
       ],
-      body: `Las rachas no se rompen los días malos. Se rompen los días raros: el viaje, la mudanza, la gripe, la semana de entregas. Días en los que el sistema que montaste para tu vida normal no encaja, y en vez de adaptarlo, lo abandonas.
+      body: `Rompí una racha de 61 días por una mudanza. No por vaguería: estuve dos días sin encontrar el cargador.
+
+Y ahí aprendí lo que llevo repitiendo desde entonces. **Las rachas no se rompen los días malos. Se rompen los días raros:** el viaje, la mudanza, la gripe, la semana de entregas. Días en los que el sistema que montaste para tu vida normal no encaja, y en vez de adaptarlo, lo abandonas.
 
 ## 1 · Ten una misión de emergencia por skill
 
@@ -321,7 +329,9 @@ Suena raro, pero funciona: la gente que más rachas largas mantiene es la que ya
           a: 'Not cheating. Habit research points to established behaviour depending on stable context cues, and travel breaks all of them at once. Pausing is more honest than faking a streak that did not happen.',
         },
       ],
-      body: `Streaks do not break on bad days. They break on strange days: the trip, the move, the flu, the deadline week. Days when the system you built for your normal life does not fit, and instead of adapting it, you drop it.
+      body: `I broke a 61-day streak because I moved house. Not through laziness: I could not find the charger for two days.
+
+And that is where I learned the thing I have been repeating ever since. **Streaks do not break on bad days. They break on strange days:** the trip, the move, the flu, the deadline week. Days when the system you built for your normal life does not fit, and instead of adapting it, you drop it.
 
 ## 1 · Keep one emergency quest per skill
 
@@ -360,6 +370,7 @@ It sounds odd, but it works: the people who sustain the longest streaks are the 
     xp: 35,
     featured: false,
     publishedAt: '2026-07-10',
+    author: AUTHORS.luigy,
     sources: [SOURCES.gollwitzer1999, SOURCES.gollwitzer2006, SOURCES.lally2010],
     es: {
       slug: 'metas-grandes-misiones-diarias',
@@ -382,7 +393,9 @@ It sounds odd, but it works: the people who sustain the longest streaks are the 
           a: 'Porque quita la decisión del momento. Dejarlo escrito como \\"si pasa X, entonces hago Y\\", traslada el esfuerzo del momento de actuar al momento de planificar, que sale mucho más barato.',
         },
       ],
-      body: `"Aprender inglés" no es una meta: es una dirección. No tiene final claro, no se puede completar un martes y no te dice qué hacer en los próximos quince minutos. Por eso lleva cuatro años en tu lista.
+      body: `Tuve "aprender alemán" en una lista durante cuatro años. Cuatro. Y no es que no lo intentara: es que **no era una meta, era una dirección.**
+
+Una dirección no tiene final claro, no se puede completar un martes y no te dice qué hacer en los próximos quince minutos. Por eso se queda ahí, mirándote, año tras año.
 
 ## 1 · Baja un peldaño hasta que puedas empezar hoy
 
@@ -434,7 +447,9 @@ Las misiones se ajustan a menudo; las metas, no. Cambiar de meta cada dos semana
           a: 'Because it removes the decision from the moment. Writing it down as \\"if X happens, then I do Y\\", moves the effort from the moment of acting to the moment of planning, which is far cheaper.',
         },
       ],
-      body: `"Learn Spanish" is not a goal: it is a direction. It has no clear end, it cannot be completed on a Tuesday, and it does not tell you what to do in the next fifteen minutes. That is why it has been on your list for four years.
+      body: `I had "learn German" on a list for four years. Four. And it is not that I never tried: it is that **it was not a goal, it was a direction.**
+
+A direction has no clear end, it cannot be completed on a Tuesday, and it does not tell you what to do in the next fifteen minutes. So it sits there, staring at you, year after year.
 
 ## 1 · Step down until you can start today
 
@@ -476,6 +491,7 @@ Quests get adjusted often; goals do not. Changing your goal every two weeks is t
     xp: 20,
     featured: false,
     publishedAt: '2026-06-26',
+    author: AUTHORS.luigy,
     sources: [SOURCES.woodNeal2007, SOURCES.woodRunger2016],
     es: {
       slug: 'configura-tu-resumen-semanal',
@@ -498,7 +514,9 @@ Quests get adjusted often; goals do not. Changing your goal every two weeks is t
           a: 'Antes de compartirlo, mira qué skills aparecen. Es tu semana, pero también es información sobre ti: puedes ocultar las que no quieras enseñar sin que dejen de contar para tu XP.',
         },
       ],
-      body: `El Resumen Semanal es la única pantalla de Skillion que no sirve para registrar nada. Sirve para mirar hacia atrás, y resulta que mirar hacia atrás es lo que hace que la semana siguiente vaya mejor.
+      body: `El Resumen Semanal es **la única pantalla de Skillion que no sirve para registrar nada**, y estuvo a punto de no existir. En una app de hábitos, una pantalla donde no puedes hacer nada parece un desperdicio de espacio.
+
+La metimos igual, y resulta que mirar hacia atrás es lo que hace que la semana siguiente vaya mejor.
 
 ## 1 · Elige tres números, no todos
 
@@ -547,7 +565,9 @@ No hace falta un ritual de media hora. Abre el resumen y pregúntate: ¿qué ski
           a: 'Before sharing, check which skills show up. It is your week, but it is also information about you: you can hide the ones you would rather not display without them losing XP.',
         },
       ],
-      body: `The Weekly Recap is the only screen in Skillion that does not record anything. It exists so you can look back, and looking back turns out to be what makes the following week go better.
+      body: `The Weekly Recap is **the only screen in Skillion where you cannot log anything**, and it nearly did not ship. In a habit app, a screen you cannot do anything on looks like wasted space.
+
+We built it anyway, and looking back turns out to be what makes the following week go better.
 
 ## 1 · Pick three metrics, not all of them
 

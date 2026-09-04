@@ -50,9 +50,11 @@ export const whyHabitsFail = {
         a: 'En la rutina, y esto no es opinión mía. Lo que dispara un hábito ya asentado suele ser el contexto: la hora, el sitio, lo que acabas de hacer. Casi nunca una decisión heroica en el momento. La motivación sirve para arrancar, no para aguantar.',
       },
     ],
-    body: `Cuando alguien deja un hábito, la explicación que se da a sí mismo casi siempre es la misma: me falta disciplina. Es cómoda, porque no hay manera de comprobarla. Y casi siempre es mentira.
+    body: `Me creí lo de los 21 días durante años. Lo repetí en conversaciones y lo di por bueno cuando diseñamos la primera versión de las rachas.
 
-Lo que sale en los estudios es más aburrido y te sirve mucho más: la gente lo deja antes de que la cosa llegue a salirle sola. Calculaste mal cuánto iba a durar la parte difícil, y ya está.
+Resulta que no sale de ningún estudio sobre hábitos. Sale de un cirujano plástico de los años sesenta. Cuando fui a buscar el dato de verdad me encontré otra cosa, y explica bastante mejor por qué la gente lo deja.
+
+Porque la explicación que uno se da a sí mismo casi siempre es la misma, *me falta disciplina*, y es cómoda justamente porque no hay manera de comprobarla. Lo que sale en los estudios es más aburrido y te sirve mucho más: **la gente lo deja antes de que la cosa llegue a salirle sola.** Calculaste mal cuánto iba a durar la parte difícil, y ya está.
 
 ## 1 · ¿Cuánto tarda de verdad?
 
@@ -66,7 +68,7 @@ Ese margen es lo que importa. Si te apuntaste al gimnasio contando con que a las
 
 Los primeros días te empuja la novedad. Al cabo de unos meses te empuja la costumbre. Entre una cosa y la otra hay un tramo de dos a seis semanas en el que lo único que te empuja eres tú a pulso, y esa es la gasolina más cara que tienes.
 
-Ahí se cae casi todo el mundo. No te has ablandado. Es que en esas semanas el hábito te sigue cobrando el precio entero cada día y no te devuelve nada todavía.
+**Ahí se cae casi todo el mundo.** No te has ablandado. Es que en esas semanas el hábito te sigue cobrando el precio entero cada día y no te devuelve nada todavía.
 
 ## 3 · Los cuatro motivos que más pesan
 
@@ -92,7 +94,8 @@ Traducido: no diseñes para el día que te apetece. Diseña para el martes de ll
 
 En el estudio que te contaba, saltarse un día no movió la aguja. Uno suelto no rompe nada.
 
-Lo que rompe es lo que haces después: fallas el martes, decides que "ya la he liado" y no vuelves el miércoles. La racha es el termómetro, no la fiebre. Confundir las dos cosas es lo que convierte un tropiezo en un abandono.
+Lo que rompe es lo que haces después: fallas el martes, decides que "ya la he liado" y no vuelves el miércoles. 
+> La racha es el termómetro, no la fiebre. Confundir las dos cosas es lo que convierte un tropiezo en un abandono.
 
 :::tip
 Vas a fallar. Decide de antemano cuál es tu versión mínima. Cinco minutos de lectura siguen siendo leer. Lo que sostiene el hábito es no perder el hilo, no lo largo que sea la sesión.
@@ -104,7 +107,7 @@ Hay un quinto motivo que no está en ti, sino en la herramienta.
 
 Cuando alguien lleva años premiándote por algo, el premio puede acabar comiéndose las ganas originales. Está estudiado y es un resultado incómodo para media industria de apps de hábitos, la mía incluida: si el sistema te aplaude demasiado por cumplir o te riñe demasiado por fallar, terminas haciéndolo por el sistema y no por el motivo por el que empezaste.
 
-La señal de que te está pasando es muy concreta: empiezas a evitar abrir la app. No por falta de tiempo, sino porque abrirla es sentarte delante de una lista de reproches. Cuando llegas ahí, esa app dejó de ayudarte hace semanas.
+La señal de que te está pasando es muy concreta: **empiezas a evitar abrir la app.** No por falta de tiempo, sino porque abrirla es sentarte delante de una lista de reproches. Cuando llegas ahí, esa app dejó de ayudarte hace semanas.
 
 ## 5 · Qué hacer con todo esto
 
@@ -143,9 +146,11 @@ Nada de esto necesita una app. Una app decente hace que estos cuatro pasos te cu
         a: 'Routine, and that is not just my opinion. What fires a settled habit is usually the context: the time, the place, what you have just done. Hardly ever a heroic decision in the moment. Motivation is for starting, not for lasting.',
       },
     ],
-    body: `When people give up on a habit, the story they tell themselves is nearly always the same: I have no discipline. It is a comfortable story, because there is no way to check it. It is also usually wrong.
+    body: `I believed the 21-day thing for years. I repeated it in conversations and took it as read when we designed the first version of the streaks.
 
-What the research says is duller and far more useful: people quit before the thing ever starts running by itself. You got the timeline wrong, that is all.
+It turns out it comes from no habit study at all. It comes from a plastic surgeon in the 1960s. When I went looking for the real figure I found something else, and it explains far better why people give up.
+
+Because the story people tell themselves is nearly always the same, *I have no discipline*, and it is comfortable precisely because there is no way to check it. What the research says is duller and far more useful: **people quit before the thing ever starts running by itself.** You got the timeline wrong, that is all.
 
 ## 1 · How long does it actually take?
 
@@ -159,7 +164,7 @@ That spread is the part that matters. If you joined a gym expecting it to stop c
 
 For the first few days, novelty pushes you. Months later, routine pushes you. In between there is a stretch of two to six weeks where the only thing pushing you is you, by hand, and that is the most expensive fuel you own.
 
-That is where almost everybody falls off. You did not go soft. In those weeks the habit still charges you full price every day and gives you nothing back yet.
+**That is where almost everybody falls off.** You did not go soft. In those weeks the habit still charges you full price every day and gives you nothing back yet.
 
 ## 3 · The four reasons that weigh most
 
@@ -185,7 +190,8 @@ Translated: do not design for the day you feel like it. Design for the rainy Tue
 
 In that same study, skipping a single day moved nothing. One miss breaks nothing.
 
-What breaks things is what you do next: you miss Tuesday, decide you have blown it, and skip Wednesday too. The streak is the thermometer, not the fever. Mixing those up is what turns a stumble into quitting.
+What breaks things is what you do next: you miss Tuesday, decide you have blown it, and skip Wednesday too. > 
+> The streak is the thermometer, not the fever. Mixing those up is what turns a stumble into quitting.
 
 :::tip
 You are going to miss. Decide your minimum version in advance. Five minutes of reading is still reading. What holds a habit up is not losing the thread, not how long the session was.
@@ -197,7 +203,7 @@ There is a fifth reason, and it lives in the tool rather than in you.
 
 When something rewards you for long enough, the reward can end up eating the reason you started. It has been studied, and it is an uncomfortable finding for half the habit-app industry, mine included: if the system claps too hard when you comply and scolds too hard when you slip, you end up doing it for the system.
 
-The sign that this is happening is very specific: you start avoiding the app. Not for lack of time, but because opening it means sitting down in front of a list of reproaches. By the time you get there, that app stopped helping weeks ago.
+The sign that this is happening is very specific: **you start avoiding the app.** Not for lack of time, but because opening it means sitting down in front of a list of reproaches. By the time you get there, that app stopped helping weeks ago.
 
 ## 5 · What to do with all this
 

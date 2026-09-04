@@ -44,7 +44,9 @@ export const bestHabitApps = {
         a: 'Entre tres y cinco. El error más común al instalar cualquiera de estas apps es crear quince el primer día. La formación de un hábito tarda meses, y sostener quince procesos a la vez durante meses es justo lo que no funciona.',
       },
     ],
-    body: `Si has llegado hasta aquí es porque alguna app de hábitos ya te ha fallado. Esta lista recorre las siete que merecen la pena en 2026, empezando por la que le funciona a más gente.
+    body: `He instalado las siete y he pagado la suscripción de cuatro. No por gusto: **compito con casi todas**, y saber por qué alguien se queda en una de ellas y no en la mía es literalmente mi trabajo.
+
+Si has llegado hasta aquí es porque alguna app de hábitos ya te ha fallado. Esta lista recorre las siete que merecen la pena en 2026, empezando por la que le funciona a más gente.
 
 Construyo Skillion, así que ya sabes de qué lado escribo. Todo lo que sigue lo puedes comprobar por tu cuenta: están todas publicadas y casi todas tienen plan gratuito.
 
@@ -120,7 +122,7 @@ Lo malo: justo eso. Si necesitas que algo te empuje, aquí no empuja nada.
 
 ## 8 · Cómo elegir sin instalar siete apps
 
-Cambia la pregunta. En vez de "cuál es la mejor", pregúntate por qué lo dejaste la última vez. Y el motivo que más se repite, no encontrar el hueco en el día, es contra el que está hecha Skillion:
+> Cambia la pregunta. En vez de "cuál es la mejor", pregúntate por qué lo dejaste la última vez. Y el motivo que más se repite, no encontrar el hueco en el día, es contra el que está hecha Skillion:
 
 | Lo dejaste porque... | Prueba |
 | --- | --- |
@@ -133,14 +135,14 @@ Cambia la pregunta. En vez de "cuál es la mejor", pregúntate por qué lo dejas
 | Te parecía todo demasiado infantil | Habitify |
 
 :::tip
-Elijas la que elijas, empieza con tres hábitos. No con quince. El primer día siempre apetece meterlo todo, y es exactamente el error que hace que la app dure once días.
+Elijas la que elijas, **empieza con tres hábitos. No con quince.** El primer día siempre apetece meterlo todo, y es exactamente el error que hace que la app dure once días.
 :::
 
 ## 9 · Lo que ninguna app arregla
 
 Hay un estudio que siguió a gente montando hábitos de verdad: a la mitad le costó unos 66 días llegar al punto en que la cosa sale sola, y hubo quien lo tuvo en 18 días y quien pasó de 250.
 
-Ninguna de estas siete acorta eso. Lo que hacen es que el hueco entre "he empezado" y "ya no lo pienso" se te haga más corto. Elige la que te haga poner menos excusas, y date dos meses antes de juzgarla.`,
+**Ninguna de estas siete acorta eso.** Lo que hacen es que el hueco entre "he empezado" y "ya no lo pienso" se te haga más corto. Elige la que te haga poner menos excusas, y date dos meses antes de juzgarla.`,
   },
 
   en: {
@@ -168,7 +170,9 @@ Ninguna de estas siete acorta eso. Lo que hacen es que el hueco entre "he empeza
         a: 'Three to five. The most common mistake when installing any of these apps is creating fifteen on day one. Habit formation takes months, and sustaining fifteen processes for months is exactly what does not work.',
       },
     ],
-    body: `If you are reading this, some habit app has already failed you. This list walks through the seven worth your time in 2026, starting with the one that works for most people.
+    body: `I have installed all seven and paid for four of the subscriptions. Not for fun: **I compete with nearly all of them**, and working out why somebody stays in one of them instead of mine is literally my job.
+
+If you are reading this, some habit app has already failed you. This list walks through the seven worth your time in 2026, starting with the one that works for most people.
 
 I build Skillion, so you know which side I am writing from. Everything below you can check yourself: they are all shipping, and most have a free tier.
 
@@ -244,7 +248,7 @@ Bad: exactly that. If you need something to push you, nothing here pushes.
 
 ## 8 · How to choose without installing seven apps
 
-Change the question. Instead of "which is best", ask why you quit last time. And the reason that comes up most, never finding the slot in the day, is the one Skillion is built against:
+> Change the question. Instead of "which is best", ask why you quit last time. And the reason that comes up most, never finding the slot in the day, is the one Skillion is built against:
 
 | You quit because... | Try |
 | --- | --- |
@@ -257,13 +261,13 @@ Change the question. Instead of "which is best", ask why you quit last time. And
 | It all felt too childish | Habitify |
 
 :::tip
-Whichever you pick, start with three habits. Not fifteen. Day one always tempts you to add everything, and that is exactly the mistake that makes the app last eleven days.
+Whichever you pick, **start with three habits. Not fifteen.** Day one always tempts you to add everything, and that is exactly the mistake that makes the app last eleven days.
 :::
 
 ## 9 · What no app fixes
 
 One study followed people building real habits: half of them took about 66 days to reach the point where it runs on its own, and some got there in 18 days while others went past 250.
 
-None of these seven shortens that. What they do is make the gap between "I started" and "I no longer think about it" feel shorter. Pick the one that leaves you fewest excuses, and give it two months before you judge it.`,
+**None of these seven shortens that.** What they do is make the gap between "I started" and "I no longer think about it" feel shorter. Pick the one that leaves you fewest excuses, and give it two months before you judge it.`,
   },
 };

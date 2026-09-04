@@ -74,25 +74,48 @@ export const SOURCES = {
  * generado en masa, y la bio es lo que dice por qué esa persona puede hablar
  * del tema.
  */
+/**
+ * Las dos firmas del blog, y CÓMO ESCRIBE CADA UNA.
+ *
+ * Esto no es decoración: hasta ahora los diez artículos sonaban al mismo
+ * narrador impersonal —una afirmación general sobre "la gente" y nadie
+ * apareciendo nunca— y cinco los firmaba "SKILLION TEAM", que no es nadie.
+ * Se leía vacío porque estaba vacío de persona.
+ *
+ * LUIGY, el fundador. Escribe de producto, comparativas y decisiones.
+ *   - Tiene piel en el juego y lo dice en el primer párrafo, no al final.
+ *   - Opina y se moja. Cuenta lo que decidió y lo que se dejó fuera.
+ *   - Admite lo que la app no hace antes de que se lo digan.
+ *   - Arranca con una decisión o una escena, nunca con una generalidad.
+ *
+ * JESÚS, el que lo construye. Escribe de datos, ciencia y tripas.
+ *   - Enseña el trabajo: de dónde sale el número y qué consulta lo saca.
+ *   - Escéptico consigo mismo. Dice lo que los datos NO permiten concluir.
+ *   - Cuenta lo que esperaba encontrar cuando no lo encontró.
+ *   - Arranca con la cifra que le sorprendió, no con el contexto.
+ *
+ * Lo que comparten: primera persona del singular, nadie dice "nosotros
+ * creemos", y ningún artículo empieza hablando de "la gente" en abstracto.
+ */
 export const AUTHORS = {
   luigy: {
     es: {
       name: 'Luigy Leonardo',
-      bio: 'Fundador de Skillion. Decide qué entra en cada versión de la app y qué se queda fuera.',
+      bio: 'Fundador de Skillion. Decide qué entra en cada versión y qué se queda fuera, y escribe aquí de producto y de la competencia.',
     },
     en: {
       name: 'Luigy Leonardo',
-      bio: 'Founder of Skillion. Decides what ships in every release and what does not.',
+      bio: 'Founder of Skillion. Decides what ships in every release and what does not, and writes here about the product and the competition.',
     },
   },
   jesus: {
     es: {
       name: 'Jesús Beleño',
-      bio: 'Desarrollador en Skillion. Construye por dentro el sistema de hábitos, XP y rachas.',
+      bio: 'Desarrollador en Skillion. Construye el sistema de hábitos, XP y rachas, y lanza las consultas de las que salen los números de este blog.',
     },
     en: {
       name: 'Jesús Beleño',
-      bio: 'Developer at Skillion. Builds the habit, XP and streak system from the inside.',
+      bio: 'Developer at Skillion. Builds the habit, XP and streak system, and runs the queries the numbers on this blog come out of.',
     },
   },
 };

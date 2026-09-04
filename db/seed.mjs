@@ -14,7 +14,7 @@
 import { neon } from '@neondatabase/serverless';
 import fs from 'node:fs';
 
-import { legacyPosts, TEAM } from './content/legacy-five.mjs';
+import { legacyPosts } from './content/legacy-five.mjs';
 import { skillionVsHabitica } from './content/skillion-vs-habitica.mjs';
 import { bestHabitApps } from './content/best-habit-apps.mjs';
 import { whyHabitsFail } from './content/why-habits-fail.mjs';
@@ -39,7 +39,7 @@ for (const post of posts) {
     // Los cinco originales no traen autor propio: son contenido de producto y
     // firman como equipo. Los de SCRUM-450 sí, porque el ticket pide autor con
     // nombre real y esa es la señal que miran los modelos.
-    const author = (post.author ?? TEAM)[lang];
+    const author = post.author[lang];
 
     rows.push({
       translation_key: post.translationKey,

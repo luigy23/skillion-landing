@@ -44,13 +44,15 @@ export const skillionVsHabitica = {
         a: 'Alguien juntó los estudios que hay y sale que sí, pero depende muchísimo de la persona y de para qué. Traducido: te ayuda a aguantar algo que ya querías hacer, y no vuelve interesante algo que te da igual.',
       },
     ],
-    body: `Si andas buscando "alternativas a Habitica" es porque algo de Habitica te enganchó y algo te echó para atrás. Suele ser la misma cosa las dos veces: es un juego de verdad, con lo bueno y lo pesado que eso trae.
+    body: `Habitica me duró once días. Me creé el personaje, me leí media wiki, y a la segunda semana estaba gestionando oro y gemas en vez de ir al gimnasio.
+
+Eso fue en 2023 y es una de las razones por las que existe Skillion. Si andas buscando "alternativas a Habitica" es porque te pasó algo parecido: **algo de Habitica te enganchó y algo te echó para atrás, y suele ser la misma cosa las dos veces.** Es un juego de verdad, con lo bueno y lo pesado que eso trae.
 
 Yo hago Skillion, así que ya sabes por dónde tiro y prefiero decírtelo de entrada. Aun así vas a encontrar aquí un apartado entero con todo lo que Habitica tiene y Skillion no, porque si no comparo en serio esta página no te sirve para decidir nada.
 
 ## 1 · ¿En qué se parecen?
 
-Las dos salen del mismo problema: una lista de tareas no te enseña lo que llevas hecho. Marcas la casilla, se pone gris, desaparece. Y al mes no te queda ni rastro de nada.
+Las dos salen del mismo problema: **una lista de tareas no te enseña lo que llevas hecho.** Marcas la casilla, se pone gris, desaparece. Y al mes no te queda ni rastro de nada.
 
 Las dos lo arreglan igual: cumplir una tarea te da puntos, los puntos te suben de nivel y el nivel enseña algo que antes no se veía. Las dos tienen personaje, rachas, tareas que se repiten, versión de móvil y de web, y las dos son gratis en lo básico.
 
@@ -74,7 +76,11 @@ Si lo que te falta para cumplir es que alguien lo note, las fiestas de Habitica 
 
 Las habilidades te las inventas tú. En Habitica tu personaje tiene clases y estadísticas de juego. En Skillion decides tú qué habilidades existen en tu vida, "Fuerza", "Cocina", "Alemán", y cada tarea reparte sus puntos entre las que elijas. Lo que sube ahí es algo tuyo, no algo del juego.
 
-Planificas el día, no solo lo apuntas. Colocas cada tarea en una franja horaria, clavas como rocas las que no se mueven y el resto se recoloca solo alrededor. Habitica te dice lo que te falta. Skillion te dice a qué hora lo vas a hacer. Y esa diferencia pesa: de todo lo que se ha probado para que la gente cumpla, decidir de antemano cuándo y dónde es de lo que mejor funciona en los estudios.
+Planificas el día, no solo lo apuntas. Colocas cada tarea en una franja horaria, clavas como rocas las que no se mueven y el resto se recoloca solo alrededor.
+
+> Habitica te dice lo que te falta. Skillion te dice a qué hora lo vas a hacer.
+
+Y esa diferencia pesa: de todo lo que se ha probado para que la gente cumpla, decidir de antemano cuándo y dónde es de lo que mejor funciona en los estudios.
 
 Va con tus dispositivos. Las tareas viajan de uno a otro y el widget de la pantalla de inicio te enseña lo de hoy sin abrir nada. Puedes tachar una tarea desde ahí mismo.
 
@@ -82,7 +88,7 @@ Empezar cuesta menos. Tres habilidades y ya estás dentro. Nada de aprenderte el
 
 No te castiga. En Habitica, fallar hiere a tu personaje y puede fastidiar a tu grupo. Es su mecánica central y a mucha gente le va bien. A otra le pasa lo contrario: ansiedad primero, y luego dejar de abrir la app. Skillion te deja intacto lo que has ganado. Perder una racha se ve, pero no te quita ni un punto.
 
-Y eso último no es manía mía. Hay bastantes estudios juntados sobre premios y castigos que apuntan a lo mismo: cuando el premio se vuelve muy controlador, acaba comiéndose las ganas de hacer la cosa por sí misma, que son justo las que necesitas para aguantar meses. Un sistema que castiga empuja fuerte al principio y se desinfla en cuanto el castigo deja de doler.
+Y eso último no es manía mía. Hay bastantes estudios juntados sobre premios y castigos que apuntan a lo mismo: cuando el premio se vuelve muy controlador, acaba comiéndose las ganas de hacer la cosa por sí misma, que son justo las que necesitas para aguantar meses. **Un sistema que castiga empuja fuerte al principio y se desinfla en cuanto el castigo deja de doler.**
 
 ## 4 · ¿Cuál te conviene?
 
@@ -128,13 +134,15 @@ Ninguna app te crea un hábito. Hay un estudio que siguió a gente montando háb
         a: 'Someone gathered up the studies and the answer is yes, but it depends enormously on the person and on what for. Translated: it helps you stick with something you already wanted to do. It does not make something you do not care about interesting.',
       },
     ],
-    body: `If you are searching for "Habitica alternatives", something about Habitica hooked you and something pushed you away. It is usually the same thing both times: it is a real game, with everything good and everything heavy that brings.
+    body: `Habitica lasted me eleven days. I made the character, read half the wiki, and by week two I was managing gold and gems instead of going to the gym.
+
+That was 2023 and it is one of the reasons Skillion exists. If you are searching for "Habitica alternatives", something similar happened to you: **something about Habitica hooked you and something pushed you away, and it is usually the same thing both times.** It is a real game, with everything good and everything heavy that brings.
 
 I make Skillion, so you know which way I lean and I would rather say it up front. You will still find a whole section here on everything Habitica has that Skillion does not, because if I do not compare properly this page is no use to you for deciding anything.
 
 ## 1 · Where they overlap
 
-Both come from the same problem: a to-do list never shows you what you have built. You tick the box, it goes grey, it vanishes. A month later there is no trace of any of it.
+Both come from the same problem: **a to-do list never shows you what you have built.** You tick the box, it goes grey, it vanishes. A month later there is no trace of any of it.
 
 Both fix it the same way: finishing a task earns you points, points raise your level, and the level shows something that was invisible before. Both have a character, streaks, repeating tasks, phone and web versions, and both are free at the core.
 
@@ -158,7 +166,11 @@ If the missing piece for you is someone noticing, Habitica's parties go straight
 
 You invent the skills yourself. In Habitica your character has classes and game stats. In Skillion you decide which skills exist in your life, "Strength", "Cooking", "German", and every task splits its points across the ones you pick. What goes up there is yours, not the game's.
 
-You plan the day rather than just logging it. You put each task on a slot, pin the immovable ones as rocks, and everything else shuffles around them. Habitica tells you what you are missing. Skillion tells you what time you are doing it. And that gap matters: out of everything anyone has tested to get people to follow through, deciding the when and the where in advance is one of the things that comes out best in the studies.
+You plan the day rather than just logging it. You put each task on a slot, pin the immovable ones as rocks, and everything else shuffles around them.
+
+> Habitica tells you what you are missing. Skillion tells you what time you are doing it.
+
+And that gap matters: out of everything anyone has tested to get people to follow through, deciding the when and the where in advance is one of the things that comes out best in the studies.
 
 It travels with your devices. Tasks move between them and the home screen widget shows you today without opening anything. You can tick a task off from there.
 
@@ -166,7 +178,7 @@ Starting costs less. Three skills and you are in. No learning gold, gems, damage
 
 It does not punish you. In Habitica, missing hurts your character and can hurt your group. That is its core mechanic and plenty of people thrive on it. Others get the opposite: anxiety first, then not opening the app. Skillion leaves what you earned alone. Losing a streak shows, but it does not take a single point off you.
 
-And that last one is not a personal preference. There is a decent pile of research on rewards and punishments pointing the same way: when the reward gets too controlling, it eats the appetite for doing the thing itself, which is exactly the appetite you need to last months. A system that punishes pushes hard early and deflates the moment the punishment stops stinging.
+And that last one is not a personal preference. There is a decent pile of research on rewards and punishments pointing the same way: when the reward gets too controlling, it eats the appetite for doing the thing itself, which is exactly the appetite you need to last months. **A system that punishes pushes hard early and deflates the moment the punishment stops stinging.**
 
 ## 4 · Which one is for you
 

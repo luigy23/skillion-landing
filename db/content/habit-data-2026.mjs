@@ -24,7 +24,7 @@ export const habitData2026 = {
   xp: 50,
   featured: false,
   publishedAt: '2026-08-30',
-  author: AUTHORS.luigy,
+  author: AUTHORS.jesus,
   sources: [SOURCES.lally2010, SOURCES.gardner2012, SOURCES.woodRunger2016],
 
   es: {
@@ -56,9 +56,11 @@ export const habitData2026 = {
         a: 'No. Todo está agregado y ningún grupo con menos de 50 usuarios aparece publicado. No hay datos por persona, ni nombres de tareas, ni nada que se pueda cruzar para llegar a una cuenta concreta.',
       },
     ],
-    body: `Casi todo lo que has leído sobre hábitos sale de estudios con unas decenas de voluntarios que aceptaron que los siguieran durante semanas. Son estudios serios y los citamos a menudo. Pero les falta media película: solo miden a gente que se apuntó y aguantó.
+    body: `Lancé la consulta un domingo por la tarde contando con que la cifra saliera fea. Salió peor.
 
-Nosotros vemos justo lo contrario. Vemos a quien se instala la app un martes, se crea cuatro hábitos, cumple dos días y no vuelve. Esa persona no sale en ningún estudio, y resulta que es la mayoría.
+**La mitad de los hábitos que alguien se propone en Skillion no llega a los siete días.** Yo construyo por dentro el sistema de rachas y de XP, así que ese número habla de mi trabajo antes que del de nadie. Lo publicamos igual.
+
+Y es un número que casi nadie puede darte, porque casi todo lo que has leído sobre hábitos sale de estudios con unas decenas de voluntarios que aceptaron que los siguieran durante semanas. Son estudios serios y los citamos a menudo, pero les falta media película: solo miden a gente que se apuntó y aguantó. Yo veo lo contrario. Veo a quien se instala la app un martes, se crea cuatro hábitos, cumple dos días y no vuelve.
 
 Esto es lo que encontramos al mirar nuestros propios números, incluida la parte que preferiríamos no contar.
 
@@ -81,7 +83,7 @@ De 9.923 hábitos que se repiten:
 | La mitad, menos de | 7 días |
 | Tres cuartas partes, menos de | 19 días |
 
-O sea que la mitad de los hábitos que alguien se propone aquí no pasa de la primera semana. Y un 16,8% se cumple una vez y nunca más: nacen y se mueren el mismo día.
+O sea que **la mitad de los hábitos que alguien se propone aquí no pasa de la primera semana.** Y un 16,8% se cumple una vez y nunca más: nacen y se mueren el mismo día.
 
 En la otra punta, el hábito vivo más veterano lleva 314 días.
 
@@ -102,11 +104,11 @@ Si miras solo a quien tuvo oportunidad de verdad, gente que lleva 90 días o má
 | 90 días | 6% | 48% |
 | La mitad aguanta | 7 días | 85 días |
 
-Siete días contra ochenta y cinco. Las dos columnas son verdad y ninguna de las dos es la buena.
+> Siete días contra ochenta y cinco. Las dos columnas son verdad y ninguna de las dos es la buena.
 
 La primera contesta a "si me propongo un hábito hoy, ¿qué posibilidades tiene de durar?". La segunda contesta a "de los que llevan tres meses aquí, ¿cómo les ha ido?", y tira para arriba porque solo cuenta a los que siguen.
 
-Lo que se saca de las dos juntas: el filtro no está en el hábito, está en la primera semana. Quien la cruza se parece muchísimo más a la gente de los estudios.
+Lo que se saca de las dos juntas: **el filtro no está en el hábito, está en la primera semana.** Quien la cruza se parece muchísimo más a la gente de los estudios.
 
 ## 4 · ¿Y los 66 días de los que todo el mundo habla?
 
@@ -116,7 +118,7 @@ No nos lleva la contraria. Está midiendo otra cosa.
 
 Ellos midieron cuánto tarda algo en salirte solo, en gente que siguió participando tres meses. Nosotros medimos cuánto aguanta la gente antes de tirar la toalla, en una app que puedes cerrar y no volver a abrir jamás.
 
-Juntando las dos, sale algo incómodo: la mayoría abandona en la primera semana una cosa que tarda dos meses en cuajar. No es falta de constancia. Es que nadie te dijo el plazo. Y como solo el 8,7% llega a los 66 días, casi nadie llega a comprobar si aquello le funcionaba.
+Juntando las dos, sale algo incómodo: **la mayoría abandona en la primera semana una cosa que tarda dos meses en cuajar.** No es falta de constancia. Es que nadie te dijo el plazo. Y como solo el 8,7% llega a los 66 días, casi nadie llega a comprobar si aquello le funcionaba.
 
 ## 5 · Nadie avisa de que lo deja
 
@@ -124,7 +126,7 @@ Este es el dato que más nos descolocó.
 
 De 7.070 personas que completaron 156.042 tareas, solo 801 marcaron alguna vez una tarea como fallida. Un 11%.
 
-No quiere decir que el otro 89% cumpla todo. Quiere decir que rendirse no se anuncia. Nadie entra en la app para decir que lo deja. Sencillamente deja de abrirla.
+No quiere decir que el otro 89% cumpla todo. Quiere decir que **rendirse no se anuncia**. Nadie entra en la app para decir que lo deja. Sencillamente deja de abrirla.
 
 Los datos de uso cuentan lo mismo desde otro lado. Mirando 31 grupos distintos, de unas 1.125 personas cada uno:
 
@@ -136,7 +138,7 @@ Los datos de uso cuentan lo mismo desde otro lado. Mirando 31 grupos distintos, 
 | A los 14 días | 10% |
 | Al mes | ~5% |
 
-El 42% no vuelve al día siguiente de instalarla. Y encaja con lo anterior: si el 16,8% de los hábitos se muere en 24 horas y el 42% de la gente no vuelve al día siguiente, son dos cuentas distintas contando la misma historia.
+**El 42% no vuelve al día siguiente de instalarla.** Y encaja con lo anterior: si el 16,8% de los hábitos se muere en 24 horas y el 42% de la gente no vuelve al día siguiente, son dos cuentas distintas contando la misma historia.
 
 :::tip
 Si llevas tres días seguidos ya vas por delante del 73% de la gente que se instaló la app el mismo día que tú. La primera semana no es el principio del camino. Es casi todo el camino.
@@ -153,7 +155,7 @@ Comparando las tareas de una sola vez con las que se repiten:
 
 Justo la mitad. Y aun así la gente crea más de las que se repiten que de las otras.
 
-Nos comprometemos más con lo que menos cumplimos. Y tiene su lógica: cuando creas la tarea no estás prometiendo hacerla hoy, estás prometiendo hacerla siempre, y "siempre" desde el sofá siempre parece más fácil.
+> Nos comprometemos más con lo que menos cumplimos. Y tiene su lógica: cuando creas la tarea no estás prometiendo hacerla hoy, estás prometiendo hacerla siempre, y "siempre" desde el sofá siempre parece más fácil.
 
 ## 7 · El día de la semana da igual
 
@@ -177,7 +179,7 @@ No sabemos a qué hora cumple la gente. Guardamos la hora en horario universal y
 
 ## 9 · Qué haríamos nosotros con esto
 
-Si tuviéramos que sacar una sola conclusión de diez meses de datos: el problema no es mantener un hábito, es llegar a la segunda semana.
+Si tuviéramos que sacar una sola conclusión de diez meses de datos: **el problema no es mantener un hábito, es llegar a la segunda semana.**
 
 Todo lo que se escribe sobre hábitos, las rachas, el refuerzo, la identidad, los 66 días, sirve a partir de ahí. Antes de ahí lo único que importa es que mañana vuelvas a abrir la app.
 
@@ -217,9 +219,11 @@ Así que el consejo es aburrido y es el que sale de los números: haz el hábito
         a: 'No. Everything is aggregated and no group with fewer than 50 users is published. There is no per-person data, no task names, nothing that can be cross-referenced back to an account.',
       },
     ],
-    body: `Almost everything you have read about habits comes from studies with a few dozen volunteers who agreed to be followed for weeks. They are serious studies and we cite them often. But they are missing half the picture: they only measure people who signed up and stuck around.
+    body: `I ran the query on a Sunday afternoon expecting an ugly number. It came out worse.
 
-We see the opposite. We see the person who installs the app on a Tuesday, creates four habits, shows up twice and never comes back. That person appears in no study, and it turns out they are the majority.
+**Half the habits anyone sets in Skillion never reach day seven.** I build the streak and XP system from the inside, so that figure is about my work before it is about anyone else's. We are publishing it anyway.
+
+And it is a number almost nobody can hand you, because almost everything you have read about habits comes from studies with a few dozen volunteers who agreed to be followed for weeks. They are serious studies and we cite them often, but they are missing half the picture: they only measure people who signed up and stuck around. I see the opposite. I see the person who installs the app on a Tuesday, creates four habits, shows up twice and never comes back.
 
 Here is what we found in our own numbers, including the part we would rather not tell you.
 
@@ -242,7 +246,7 @@ Out of 9,923 repeating habits:
 | Half, less than | 7 days |
 | Three quarters, less than | 19 days |
 
-So half the habits anyone sets here do not get past the first week. And 16.8% get completed once and never again: born and dead the same day.
+So **half the habits anyone sets here do not get past the first week.** And 16.8% get completed once and never again: born and dead the same day.
 
 At the other end, the oldest habit still alive is on 314 days.
 
@@ -263,11 +267,11 @@ If you look only at people who had a real shot, those who have been around 90 da
 | 90 days | 6% | 48% |
 | Half of them last | 7 days | 85 days |
 
-Seven days against eighty-five. Both columns are true and neither is the right one.
+> Seven days against eighty-five. Both columns are true and neither is the right one.
 
 The first answers "if I set myself a habit today, what are its chances?". The second answers "of the people still here after three months, how did it go?", and it skews high because it only counts survivors.
 
-What the two together tell you: the filter is not in the habit, it is in the first week. Anyone who gets through it looks a great deal more like the people in the studies.
+What the two together tell you: **the filter is not in the habit, it is in the first week.** Anyone who gets through it looks a great deal more like the people in the studies.
 
 ## 4 · What about the 66 days everyone quotes?
 
@@ -277,7 +281,7 @@ It does not contradict us. It measures something else.
 
 They measured how long something takes to become automatic, in people who kept taking part for three months. We measure how long people last before giving up, in an app you can close and never open again.
 
-Put the two together and you get something uncomfortable: most people quit in the first week on a thing that takes two months to set. That is not a lack of grit. Nobody told them the timeline. And since only 8.7% reach 66 days, hardly anyone finds out whether it would have worked for them.
+Put the two together and you get something uncomfortable: **most people quit in the first week on a thing that takes two months to set.** That is not a lack of grit. Nobody told them the timeline. And since only 8.7% reach 66 days, hardly anyone finds out whether it would have worked for them.
 
 ## 5 · Nobody announces they are quitting
 
@@ -285,7 +289,7 @@ This is the number that threw us most.
 
 Of 7,070 people who completed 156,042 tasks, only 801 ever marked a task as failed. That is 11%.
 
-That does not mean the other 89% do everything. It means giving up is not announced. Nobody opens the app to say they are done. They just stop opening it.
+That does not mean the other 89% do everything. It means **giving up is not announced**. Nobody opens the app to say they are done. They just stop opening it.
 
 The usage data says the same thing from another angle. Looking at 31 separate groups of about 1,125 people each:
 
@@ -297,7 +301,7 @@ The usage data says the same thing from another angle. Looking at 31 separate gr
 | After 14 days | 10% |
 | After a month | ~5% |
 
-42% never come back the day after installing it. And it fits with the above: if 16.8% of habits die within 24 hours and 42% of people do not return the next day, those are two separate sums telling the same story.
+**42% never come back the day after installing it.** And it fits with the above: if 16.8% of habits die within 24 hours and 42% of people do not return the next day, those are two separate sums telling the same story.
 
 :::tip
 If you are three days in, you are already ahead of 73% of the people who installed the app the same day you did. The first week is not the start of the road. It is most of the road.
@@ -314,7 +318,7 @@ Comparing one-off tasks with repeating ones:
 
 Exactly half. And people still create more repeating ones than one-offs.
 
-We commit hardest to what we deliver least. Which makes sense: when you create the task you are not promising to do it today, you are promising to do it always, and "always" always looks easier from the sofa.
+> We commit hardest to what we deliver least. Which makes sense: when you create the task you are not promising to do it today, you are promising to do it always, and "always" always looks easier from the sofa.
 
 ## 7 · The day of the week barely matters
 
@@ -338,7 +342,7 @@ We do not know what time of day people deliver. We store the time in universal t
 
 ## 9 · What we would do with this
 
-If we had to pull one conclusion out of ten months of data: the problem is not keeping a habit going, it is reaching week two.
+If we had to pull one conclusion out of ten months of data: **the problem is not keeping a habit going, it is reaching week two.**
 
 Everything written about habits, the streaks, the reinforcement, the identity, the 66 days, applies from there on. Before that, the only thing that matters is that you open the app again tomorrow.
 

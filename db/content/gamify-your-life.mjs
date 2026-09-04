@@ -49,7 +49,9 @@ export const gamifyYourLife = {
         a: 'Alguien juntó los estudios que hay y sale que sí, pero depende muchísimo de la persona y de para qué. Te ayuda a aguantar algo que ya querías hacer. No vuelve interesante algo que te da igual.',
       },
     ],
-    body: `Hay una cosa que un videojuego malísimo hace mejor que tu lista de tareas: enseñarte lo que llevas hecho. Juegas dos horas a algo mediocre y sabes exactamente cuánto has avanzado. Cumples tus tareas dos semanas seguidas y no te queda ni rastro.
+    body: `Llevaba años apuntando cosas en listas y borrándolas. Un día me di cuenta de que **un videojuego malísimo hacía mejor que yo una cosa concreta**: enseñarme lo que llevaba hecho.
+
+Juegas dos horas a algo mediocre y sabes exactamente cuánto has avanzado. Cumples tus tareas dos semanas seguidas y no te queda ni rastro. Skillion nació de ahí, así que ya sabes de qué lado escribo.
 
 Gamificar tu vida es tapar ese agujero. No es ponerse a jugar. Es ponerle un marcador al esfuerzo.
 
@@ -59,7 +61,11 @@ Lo que sí es: coger las piezas que hacen que un juego enganche y ponérselas a 
 
 Lo que no es: hacer que fregar los platos sea divertido. No lo va a ser. Lo que cambia no es la tarea, es que dejas de hacerla a ciegas.
 
-Y hay una diferencia que decide si el sistema te dura o no. Un juego te enseña tu progreso. Una lista de tareas te enseña tu deuda. Marcas la casilla, se pone gris, desaparece, y lo único que queda a la vista es lo que aún no has hecho. Por eso a las dos semanas se te cae, aunque tú seas exactamente la misma persona.
+Y hay una diferencia que decide si el sistema te dura o no.
+
+> Un juego te enseña tu progreso. Una lista de tareas te enseña tu deuda.
+
+Marcas la casilla, se pone gris, desaparece, y lo único que queda a la vista es lo que aún no has hecho. Por eso a las dos semanas se te cae, aunque tú seas exactamente la misma persona.
 
 ## 2 · Las cuatro piezas
 
@@ -69,7 +75,7 @@ Da igual si lo montas en papel, en una hoja de cálculo o en una app. Si falta u
 
 El error de casi todos los sistemas caseros es repartir puntos por igual. Diez por lavar los platos, diez por ir al gimnasio. A la semana ya sabes que los platos no valen lo mismo y dejas de fiarte del marcador.
 
-Los puntos son tu presupuesto de motivación. Gástalos donde hay resistencia, no donde ya te sale solo. Lo que te cuesta empezar vale mucho; lo que ya haces sin pensar vale poco y está ahí solo para que las semanas malas no salgan a cero.
+**Los puntos son tu presupuesto de motivación.** Gástalos donde hay resistencia, no donde ya te sale solo. Lo que te cuesta empezar vale mucho; lo que ya haces sin pensar vale poco y está ahí solo para que las semanas malas no salgan a cero.
 
 ### Categorías que digan quién quieres ser
 
@@ -79,7 +85,7 @@ Aquí está la diferencia entre un sistema que aguanta un mes y uno que aguanta 
 
 Elige tres. Una que ya haces, para tener suelo. Una que empezaste alguna vez y se cayó. Y una que llevas tiempo evitando, que es la que justifica montar todo esto.
 
-Tres, no doce. Doce barras a cero no son doce motivaciones: son doce recordatorios de todo lo que no estás haciendo.
+**Tres, no doce.** Doce barras a cero no son doce motivaciones: son doce recordatorios de todo lo que no estás haciendo.
 
 ### Misiones que quepan en tu peor día
 
@@ -117,7 +123,7 @@ Dos motivos, y los dos se ven venir.
 
 El primero es empezar con quince. A la mitad de la gente le cuesta unos dos meses que un hábito le salga solo, así que quince a la vez son quince cosas caras aguantando meses. Se cae la torre entera y encima te llevas la sensación de haber fallado en quince frentes a la vez.
 
-El segundo es más traicionero: el sistema te castiga. Hay bastante investigación sobre premios y castigos que apunta a lo mismo, y es incómoda para media industria de apps de hábitos, la mía incluida. Cuando el premio se vuelve muy controlador, acaba comiéndose las ganas de hacer la cosa por sí misma, que son justo las que necesitas para aguantar meses.
+El segundo es más traicionero: **el sistema te castiga.** Hay bastante investigación sobre premios y castigos que apunta a lo mismo, y es incómoda para media industria de apps de hábitos, la mía incluida. Cuando el premio se vuelve muy controlador, acaba comiéndose las ganas de hacer la cosa por sí misma, que son justo las que necesitas para aguantar meses.
 
 La señal de que te está pasando es muy concreta: empiezas a evitar abrir la app. No por falta de tiempo, sino porque abrirla es sentarte delante de una lista de reproches. Cuando llegas ahí, ese sistema dejó de ayudarte hace semanas.
 
@@ -169,7 +175,9 @@ Pero si te montas lo tuyo en un cuaderno y te funciona, has ganado igual. El ord
         a: 'Someone gathered up the studies and the answer is yes, but it depends enormously on the person and on what for. It helps you stick with something you already wanted to do. It will not make something you do not care about interesting.',
       },
     ],
-    body: `There is one thing a terrible video game does better than your to-do list: it shows you what you have built. Play something mediocre for two hours and you know exactly how far you got. Follow through on your tasks for two weeks and there is no trace of any of it.
+    body: `I spent years writing things on lists and crossing them off. One day it hit me that **a terrible video game was beating me at one specific thing**: showing me what I had built.
+
+Play something mediocre for two hours and you know exactly how far you got. Follow through on your tasks for two weeks and there is no trace of any of it. Skillion came out of that, so you know which way I lean.
 
 Gamifying your life is plugging that hole. It is not about playing games. It is about putting a scoreboard on your effort.
 
@@ -179,7 +187,11 @@ What it is: taking the pieces that make a game stick and bolting them onto what 
 
 What it is not: making the washing up fun. It will not be. What changes is not the task. What changes is that you stop doing it blind.
 
-And there is one difference that decides whether your system lasts. A game shows you your progress. A to-do list shows you your debt. You tick the box, it goes grey, it vanishes, and the only thing left on screen is what you have not done yet. That is why it falls apart after two weeks even though you are exactly the same person.
+And there is one difference that decides whether your system lasts.
+
+> A game shows you your progress. A to-do list shows you your debt.
+
+You tick the box, it goes grey, it vanishes, and the only thing left on screen is what you have not done yet. That is why it falls apart after two weeks even though you are exactly the same person.
 
 ## 2 · The four pieces
 
@@ -189,7 +201,7 @@ It does not matter whether you build it on paper, in a spreadsheet or in an app.
 
 The mistake in nearly every homemade system is handing out points evenly. Ten for the washing up, ten for the gym. Within a week you know the washing up is not worth the same, and you stop trusting the scoreboard.
 
-Points are your motivation budget. Spend them where the resistance is, not where it already comes easy. What is hard to start is worth a lot. What you already do without thinking is worth little, and it is only there so your bad weeks do not come out at zero.
+**Points are your motivation budget.** Spend them where the resistance is, not where it already comes easy. What is hard to start is worth a lot. What you already do without thinking is worth little, and it is only there so your bad weeks do not come out at zero.
 
 ### Categories that say who you want to be
 
@@ -199,7 +211,7 @@ This is the difference between a system that lasts a month and one that lasts a 
 
 Pick three. One you already do, so you have a floor. One you started once and dropped. And one you have been avoiding for ages, which is the one that justifies building any of this.
 
-Three, not twelve. Twelve bars at zero are not twelve motivations. They are twelve reminders of everything you are not doing.
+**Three, not twelve.** Twelve bars at zero are not twelve motivations. They are twelve reminders of everything you are not doing.
 
 ### Quests that fit your worst day
 
@@ -237,7 +249,7 @@ Two reasons, and you can see both coming.
 
 The first is starting with fifteen. Half of people need around two months before a habit runs on its own, so fifteen at once means fifteen expensive things running for months. The whole tower comes down and you walk away feeling like you failed on fifteen fronts at the same time.
 
-The second is sneakier: the system punishes you. There is a decent pile of research on rewards and punishments pointing the same way, and it is uncomfortable for half the habit-app industry, mine included. When the reward gets too controlling, it eats the appetite for doing the thing itself, which is exactly the appetite you need to last months.
+The second is sneakier: **the system punishes you.** There is a decent pile of research on rewards and punishments pointing the same way, and it is uncomfortable for half the habit-app industry, mine included. When the reward gets too controlling, it eats the appetite for doing the thing itself, which is exactly the appetite you need to last months.
 
 The sign that this is happening is very specific: you start avoiding the app. Not for lack of time, but because opening it means sitting down in front of a list of reproaches. By the time you get there, that system stopped helping weeks ago.
 
