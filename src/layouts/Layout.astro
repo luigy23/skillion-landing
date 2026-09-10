@@ -6,7 +6,7 @@ import SpeedInsights from "@vercel/speed-insights/astro";
 
 import { ClientRouter } from 'astro:transitions';
 import { getAlternates, type Alternates } from '../lib/i18n';
-import { organization, serializeGraph, ORG_ID, SAME_AS } from '../lib/schema';
+import { homeGraph, serializeGraph } from '../lib/schema';
 
 export interface Props {
 	title: string;
@@ -97,41 +97,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 // artículo. Se queda solo donde es cierto: la portada.
 const isHome = ['/', '/es', '/es/'].includes(Astro.url.pathname);
 
-// Los dos grafos van en un solo @graph para poder referenciarse entre sí por
-// @id: la app la publica la organización, y así se declara una vez y no dos
-// entidades sueltas que casualmente se llaman igual.
+// El grafo (organización + sitio + app) vive en src/lib/schema.ts; aquí solo se
+// resuelven las URLs contra Astro.site para no fijar el dominio allí.
 const siteBase = Astro.site ?? new URL('https://skillion.app');
 const absUrl = (path: string) => new URL(path, siteBase).href;
-
-const homeGraph = {
-	'@context': 'https://schema.org',
-	'@graph': [
-		organization(absUrl),
-		{
-			'@type': 'SoftwareApplication',
-			'@id': absUrl('/#app'),
-			name: 'Skillion',
-			description:
-				'App de gamificación que convierte tus hábitos y metas en una aventura RPG. Gana XP en la vida real por cada tarea que completas.',
-			url: absUrl('/'),
-			applicationCategory: 'ProductivityApplication',
-			operatingSystem: 'iOS, Android',
-			offers: {
-				'@type': 'Offer',
-				price: '0',
-				priceCurrency: 'USD',
-			},
-			// Las fichas de tienda son la misma app en otro sitio: es lo que
-			// permite atar lo que se dice aquí con lo que hay publicado allí.
-			sameAs: SAME_AS.filter((url) => url.includes('apple.com') || url.includes('play.google')),
-			downloadUrl: SAME_AS.filter((url) => url.includes('apple.com') || url.includes('play.google')),
-			publisher: { '@id': ORG_ID },
-			creator: { '@id': ORG_ID },
-			keywords:
-				'gamificación, hábitos, productividad, RPG, XP, vida real, motivación, metas',
-		},
-	],
-};
 ---
 
 <!doctype html>
@@ -198,7 +167,7 @@ const homeGraph = {
 		    fichas de tienda son la misma entidad que esta web. Sin eso somos
 		    cinco perfiles sin relación entre sí. */}
 		{isHome && (
-			<script type="application/ld+json" set:html={serializeGraph(homeGraph)} />
+			<script type="application/ld+json" set:html={serializeGraph(homeGraph(absUrl, isSpanish ? 'es' : 'en'))} />
 		)}
 		
 	<!-- Poppins se autoaloja y se declara en global.css. Se precargan los dos

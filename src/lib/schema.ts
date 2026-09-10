@@ -16,6 +16,8 @@
  * que se llaman igual, que es peor que no declarar ninguna.
  */
 
+import type { Lang } from './i18n';
+
 /** IRI de la entidad. Es un identificador, no una página que haya que visitar. */
 export const ORG_ID = 'https://skillion.app/#organization';
 
@@ -78,3 +80,113 @@ export function organization(abs: (path: string) => string) {
  * etiqueta antes de tiempo y volcaría el resto del JSON en el body.
  */
 export const serializeGraph = (graph: unknown) => JSON.stringify(graph).replace(/</g, '\\u003c');
+
+/**
+ * El sitio como entidad. Sale de la portada de cada idioma con su `url` e
+ * `inLanguage`, y el mismo `@id` en las dos: es un sitio, no dos. Sin
+ * SearchAction a propósito: no hay buscador interno que declarar.
+ */
+export function website(abs: (path: string) => string, lang: Lang) {
+  return {
+    '@type': 'WebSite',
+    '@id': abs('/#website'),
+    url: abs(lang === 'es' ? '/es/' : '/'),
+    name: 'Skillion',
+    inLanguage: lang,
+    publisher: { '@id': ORG_ID },
+  };
+}
+
+/**
+ * Las fichas de tienda son la misma app en otro sitio: es lo que permite atar
+ * lo que se dice aquí con lo que hay publicado allí.
+ */
+const STORE_URLS = SAME_AS.filter((url) => url.includes('apple.com') || url.includes('play.google'));
+
+/**
+ * Textos de la app por idioma. Antes había un solo bloque en español que se
+ * emitía también en la portada inglesa.
+ *
+ * featureList solo lleva lo que la FAQ (src/data/faq.ts) ya afirma de la app:
+ * habilidades propias que suben de nivel, XP por tarea, energía diaria de 100
+ * puntos, hitos de racha a los 3/7/14/30/60/100 días, Time Blocking con
+ * plantillas, widget, Máquina del destino y sincronización entre
+ * dispositivos. Si una función no consta allí, no se declara aquí.
+ */
+const APP_COPY: Record<Lang, { description: string; keywords: string; featureList: string[] }> = {
+  en: {
+    description:
+      'Skillion is a gamified productivity app that turns your habits and daily tasks into an RPG: ' +
+      'you earn XP for every task you complete, level up skills you define yourself, and keep streaks alive.',
+    keywords: 'gamified productivity app, habit tracker, gamification app, RPG, XP, streaks, time blocking',
+    featureList: [
+      'Custom skills that level up as you complete tasks',
+      'XP for every task you complete',
+      'Daily energy budget of 100 points',
+      'Streak milestones at 3, 7, 14, 30, 60 and 100 days',
+      'Time Blocking with routine templates',
+      'Home-screen widget',
+      'Task of destiny: a slot machine for your pending tasks',
+      'Cross-device sync',
+    ],
+  },
+  es: {
+    description:
+      'App de gamificación que convierte tus hábitos y metas en una aventura RPG. ' +
+      'Gana XP en la vida real por cada tarea que completas.',
+    keywords: 'app de productividad gamificada, hábitos, gamificación, RPG, XP, rachas',
+    featureList: [
+      'Habilidades propias que suben de nivel al completar tareas',
+      'XP por cada tarea completada',
+      'Energía diaria de 100 puntos',
+      'Hitos de racha a los 3, 7, 14, 30, 60 y 100 días',
+      'Time Blocking con plantillas de rutina',
+      'Widget de pantalla de inicio',
+      'Máquina del destino: una tragaperras de tareas pendientes',
+      'Sincronización entre dispositivos',
+    ],
+  },
+};
+
+/**
+ * La app. Sin aggregateRating ni review: declaraba 4.8 sobre 1000 valoraciones
+ * sin respaldo en las tiendas, y el marcado de reseñas sin datos reales es
+ * motivo de penalización manual de Google.
+ */
+export function softwareApplication(abs: (path: string) => string, lang: Lang) {
+  const copy = APP_COPY[lang];
+  return {
+    '@type': 'SoftwareApplication',
+    '@id': abs('/#app'),
+    name: 'Skillion',
+    description: copy.description,
+    url: abs('/'),
+    applicationCategory: 'ProductivityApplication',
+    operatingSystem: 'iOS, Android',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    sameAs: STORE_URLS,
+    downloadUrl: STORE_URLS,
+    publisher: { '@id': ORG_ID },
+    creator: { '@id': ORG_ID },
+    inLanguage: ['en', 'es'],
+    keywords: copy.keywords,
+    featureList: copy.featureList,
+  };
+}
+
+/**
+ * El grafo de la portada. Los tres nodos van en un solo @graph para poder
+ * referenciarse entre sí por @id: la app y el sitio los publica la
+ * organización, y así se declara una vez y no tres entidades sueltas que
+ * casualmente se llaman igual.
+ */
+export function homeGraph(abs: (path: string) => string, lang: Lang) {
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [organization(abs), website(abs, lang), softwareApplication(abs, lang)],
+  };
+}
