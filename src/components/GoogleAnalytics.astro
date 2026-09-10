@@ -5,13 +5,14 @@ const isProd = import.meta.env.PROD;
 {isProd && GA_ID && (
   <>
     <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
-    <script is:inline>
+    {/* define:vars y no '{GA_ID}' en el cuerpo: un script is:inline no interpola,
+        así que el id llegaba a gtag('config') como el texto literal "{GA_ID}"
+        y ninguna página registraba visitas. */}
+    <script is:inline define:vars={{ GA_ID }}>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', '{GA_ID}');
+      gtag('config', GA_ID);
     </script>
   </>
 )}
-
-
