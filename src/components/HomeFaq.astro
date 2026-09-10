@@ -1,0 +1,105 @@
+---
+/**
+ * FAQ de portada: seis preguntas de src/data/faq.ts con el recuadro exacto de
+ * la página de FAQ (FaqEntries) y su FAQPage en JSON-LD.
+ *
+ * Por qué en la portada y no solo en /faq/: la portada es la página con más
+ * autoridad del sitio y la primera que abre un modelo. Que las respuestas a
+ * "cuál es la mejor app de hábitos gamificada" o "en qué se diferencia de
+ * Habitica" estén aquí, como <h3> + <p>, es lo que las hace recortables. Van
+ * por id y no copiadas para que portada y FAQ digan literalmente lo mismo.
+ *
+ * Los estilos son los tokens de FaqPage (fondo, ancho, rótulo de grupo) y el
+ * enlace de "todas las preguntas" de ContactPage, no una versión propia: la
+ * sección tiene que parecer un trozo de la FAQ, no otra cosa.
+ */
+import FaqEntries from './FaqEntries.astro';
+import { FAQ_UI, homeFaqEntries } from '../data/faq';
+import type { Lang } from '../lib/blog';
+import { serializeGraph } from '../lib/schema';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props as Props;
+const ui = FAQ_UI[lang];
+const entries = homeFaqEntries(lang);
+const faqHref = lang === 'es' ? '/es/preguntas-frecuentes/' : '/faq/';
+
+// Solo las seis que se ven: declarar en máquina preguntas que no están en la
+// página es justo lo que un buscador considera marcado engañoso.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: lang === 'es' ? 'es-ES' : 'en-US',
+  mainEntity: entries.map((entry) => ({
+    '@type': 'Question',
+    name: entry.q,
+    acceptedAnswer: { '@type': 'Answer', text: entry.a },
+  })),
+};
+---
+
+<section class="home-faq">
+  <div class="home-faq-inner">
+    <h2 class="home-faq-title">{ui.homeTitle}</h2>
+    <FaqEntries lang={lang} entries={entries} />
+    <a class="home-faq-all" href={faqHref}>{ui.homeAll}</a>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={serializeGraph(faqSchema)} />
+
+<style>
+  /* Mismos tokens que .faq-page, .faq-body y .group-title de FaqPage y que
+     .faq-all de ContactPage. Si se retoca aquello, hay que retocar esto. */
+  .home-faq {
+    background: #0f1526;
+    color: #c9d6f5;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+    border-top: 4px solid #1b2547;
+  }
+
+  .home-faq-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 56px 24px;
+  }
+
+  .home-faq-title {
+    margin: 0 0 24px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    /* Caja alta sin tildes: Press Start 2P no tiene mayúsculas acentuadas y
+       el navegador las sacaría de otra fuente, descuadrando la línea. */
+    font-size: 11px;
+    line-height: 1.7;
+    color: #8fe3da;
+    padding-bottom: 14px;
+    border-bottom: 3px solid #1b2547;
+  }
+
+  .home-faq-all {
+    display: inline-block;
+    /* 24 y no los 8 de contacto: allí cada pregunta lleva margen inferior;
+       aquí las entradas van en una columna flex sin margen de cierre. */
+    margin-top: 24px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    color: #90c5bf;
+    text-decoration: none;
+    transition: color 0.15s steps(2);
+  }
+
+  .home-faq-all:hover,
+  .home-faq-all:focus-visible {
+    color: #ffc53d;
+  }
+
+  @media (max-width: 640px) {
+    .home-faq-inner {
+      padding: 40px 16px;
+    }
+  }
+</style>

@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import ParallaxHero from '../components/ParallaxHero.astro';
 import ParallaxProductivity from '../components/ParallaxProductivity.astro';
+import HomeFaq from '../components/HomeFaq.astro';
 import FinalCTA from '../components/FinalCTA.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 
@@ -19,7 +20,8 @@ import SiteFooter from '../components/SiteFooter.astro';
 		<!-- Section 3: The Solution -->
 		<ParallaxProductivity />
 
-		<!-- Hueco para la FAQ de portada (lote 2) -->
+		<!-- FAQ: six entries from src/data/faq.ts, same look as /faq/ -->
+		<HomeFaq lang="en" />
 
 		<!-- Final CTA -->
 		<FinalCTA lang="en" />
