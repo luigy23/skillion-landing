@@ -13,29 +13,6 @@ import SiteFooter from '../components/SiteFooter.astro';
 	description="🎮 Skillion turns your habits into an epic RPG. Earn real-life XP, level up personalized skills, and defeat procrastination. The most fun habit gamification app."
 >
 	<main class="bg-pixel-gradient text-pixel-text">
-		<script>
-		{`
-		  (function(){
-			try {
-			  var ua = navigator.userAgent.toLowerCase();
-			  var isBot = /(bot|crawler|spider|crawling)/.test(ua);
-			  if (isBot) return;
-			  var pref = null;
-			  try { pref = localStorage.getItem('preferredLang'); } catch(e) {}
-			  if (window.location.pathname === '/') {
-				if (pref === 'es') {
-				  window.location.replace('/es/');
-				  return;
-				}
-				if (!pref && navigator.language && navigator.language.toLowerCase().startsWith('es')) {
-				  window.location.replace('/es/');
-				}
-			  }
-			} catch(e) {}
-		  })();
-		`}
-		</script>
-		
 		<!-- Parallax Hero Section -->
 		<ParallaxHero lang="en" />
 
