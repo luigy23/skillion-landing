@@ -1,0 +1,69 @@
+---
+/**
+ * Datos estructurados del índice del blog.
+ *
+ * El índice no emitía nada: el SoftwareApplication se quedó solo en la
+ * portada (con razón) y el BlogPosting es de cada artículo, así que /blog/ y
+ * /es/blog/ no declaraban qué son. Aquí se dice: una CollectionPage cuya
+ * entidad principal es la lista ordenada de artículos, en el mismo orden en
+ * que se ven (destacado primero, luego del más reciente al más antiguo), y la
+ * miga Skillion → Blog, que ArticleSchema ya declara con un nivel más.
+ *
+ * El publisher va como nodo entero y no como {'@id'}: el grafo de la portada
+ * no existe en esta página, y un puntero suelto no apuntaría a nada. Mismo
+ * criterio que en ArticleSchema.
+ */
+import { BLOG_SEO, blogIndexPath, blogPostPath, type BlogPost, type Lang } from '../../lib/blog';
+import { organization, serializeGraph } from '../../lib/schema';
+
+interface Props {
+  lang: Lang;
+  featured: BlogPost | null;
+  rest: BlogPost[];
+}
+
+const { lang, featured, rest } = Astro.props as Props;
+
+const site = Astro.site ?? new URL('https://skillion.app');
+const abs = (path: string) => new URL(path, site).href;
+
+// Formato directorio: la canónica del <head> lleva barra final y el @id tiene
+// que coincidir con ella exactamente, o son dos entidades para una página.
+const withSlash = (path: string) => (path.endsWith('/') ? path : `${path}/`);
+const canonical = abs(withSlash(blogIndexPath(lang)));
+
+const seo = BLOG_SEO[lang];
+const posts = [featured, ...rest].filter((post): post is BlogPost => post !== null);
+
+const collectionPage = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': canonical,
+  url: canonical,
+  name: seo.title,
+  description: seo.description,
+  inLanguage: lang === 'es' ? 'es-ES' : 'en-US',
+  publisher: organization(abs, lang),
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: posts.map((post, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: abs(withSlash(blogPostPath(lang, post.data.slug))),
+      name: post.data.title,
+    })),
+  },
+};
+
+const breadcrumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Skillion', item: abs(lang === 'es' ? '/es/' : '/') },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: canonical },
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={serializeGraph(collectionPage)} />
+<script type="application/ld+json" set:html={serializeGraph(breadcrumbs)} />
