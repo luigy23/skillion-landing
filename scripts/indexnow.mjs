@@ -18,6 +18,22 @@
  */
 import { readFileSync } from 'node:fs';
 
+// Vercel construye también previews y ramas; solo el deploy de producción debe
+// avisar, o Bing recibiría en cada PR URLs que no han cambiado.
+if (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production') {
+  console.log(`IndexNow omitido: VERCEL_ENV=${process.env.VERCEL_ENV}`);
+  process.exit(0);
+}
+
+// En Vercel un fallo de IndexNow no puede tumbar el deploy: es un aviso a un
+// buscador, no parte del sitio. En local sigue siendo estricto para que un
+// error se vea al momento.
+const onVercel = Boolean(process.env.VERCEL);
+const fail = (/** @type {string} */ message) => {
+  console.error(message);
+  process.exit(onVercel ? 0 : 1);
+};
+
 const KEY = 'd3a7392fdd8cd524adcbb7d8b9e824e4';
 const HOST = 'skillion.app';
 
@@ -31,21 +47,25 @@ if (urlList.length === 0) {
   process.exit(1);
 }
 
-const response = await fetch('https://api.indexnow.org/IndexNow', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json; charset=utf-8' },
-  body: JSON.stringify({
-    host: HOST,
-    key: KEY,
-    keyLocation: `https://${HOST}/${KEY}.txt`,
-    urlList,
-  }),
-});
+let response;
+try {
+  response = await fetch('https://api.indexnow.org/IndexNow', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({
+      host: HOST,
+      key: KEY,
+      keyLocation: `https://${HOST}/${KEY}.txt`,
+      urlList,
+    }),
+  });
+} catch (error) {
+  fail(`IndexNow no responde: ${error instanceof Error ? error.message : String(error)}`);
+}
 
 // 200 = aceptado. 202 = aceptado, clave pendiente de validar (normal la primera
 // vez, hasta que el fichero de clave esté desplegado).
 console.log(`${response.status} ${response.statusText} · ${urlList.length} URLs enviadas`);
 if (!response.ok && response.status !== 202) {
-  console.error(await response.text());
-  process.exit(1);
+  fail(await response.text());
 }
