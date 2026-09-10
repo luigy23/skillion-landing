@@ -62,7 +62,7 @@ const blogPosting = {
   // nada. Repetirlo deja cada artículo autosuficiente —quien llegue directo
   // desde un modelo, sin pasar por la home, ve igualmente de quién es— y el
   // @id compartido hace que siga siendo una entidad y no una por artículo.
-  publisher: organization(abs),
+  publisher: organization(abs, lang),
   mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
   url: canonical,
   ...(image ? { image: [abs(image)] } : {}),

@@ -42,7 +42,21 @@ export const SUPPORT_EMAIL = 'hello@skillion.app';
  * @param abs  Resuelve una ruta del sitio a URL absoluta. Se pasa desde fuera
  *             para que respete `Astro.site` y no haya un dominio a fuego aquí.
  */
-export function organization(abs: (path: string) => string) {
+const ORG_DESCRIPTION: Record<Lang, string> = {
+  en:
+    'Skillion is a habit app that turns real-life goals into an RPG: you earn XP for ' +
+    'completing tasks, level up skills you define yourself, and keep streaks alive.',
+  es:
+    'Skillion es una app de hábitos que convierte tus metas reales en un RPG: ganas XP por ' +
+    'completar tareas, subes de nivel habilidades que defines tú y mantienes rachas vivas.',
+};
+
+/**
+ * @param lang Idioma de la página que emite el nodo. La entidad es la misma
+ *             (mismo @id); solo cambia el texto de la descripción, que antes
+ *             salía en inglés también en las páginas en español.
+ */
+export function organization(abs: (path: string) => string, lang: Lang = 'en') {
   return {
     '@type': 'Organization',
     '@id': ORG_ID,
@@ -56,9 +70,7 @@ export function organization(abs: (path: string) => string) {
       width: 512,
       height: 512,
     },
-    description:
-      'Skillion is a habit app that turns real-life goals into an RPG: you earn XP for ' +
-      'completing tasks, level up skills you define yourself, and keep streaks alive.',
+    description: ORG_DESCRIPTION[lang],
     sameAs: SAME_AS,
     // El fundador con nombre real es señal de que detrás hay alguien, no una
     // marca anónima. Coincide con el que firma los artículos en db/content.
@@ -187,6 +199,6 @@ export function softwareApplication(abs: (path: string) => string, lang: Lang) {
 export function homeGraph(abs: (path: string) => string, lang: Lang) {
   return {
     '@context': 'https://schema.org',
-    '@graph': [organization(abs), website(abs, lang), softwareApplication(abs, lang)],
+    '@graph': [organization(abs, lang), website(abs, lang), softwareApplication(abs, lang)],
   };
 }
