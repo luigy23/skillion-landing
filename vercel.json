@@ -22,5 +22,11 @@
       "destination": "https://skillion.app/$1",
       "permanent": true
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap-index.xml"
+    }
   ]
 }
