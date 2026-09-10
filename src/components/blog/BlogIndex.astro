@@ -3,6 +3,7 @@ import SiteNav from '../SiteNav.astro';
 import PostCard from './PostCard.astro';
 import SiteFooter from '../SiteFooter.astro';
 import CoverFallback from './CoverFallback.astro';
+import BlogIndexSchema from './BlogIndexSchema.astro';
 import {
   CATEGORIES,
   CATEGORY_COLORS,
@@ -163,6 +164,7 @@ const PAGE_SIZE = 4;
 </div>
 
 <CoverFallback />
+<BlogIndexSchema lang={lang} featured={featured} rest={rest} />
 
 <script>
   // Filtro por categoría y "cargar más" en cliente: el sitio es estático y
