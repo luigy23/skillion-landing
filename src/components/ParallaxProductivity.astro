@@ -96,13 +96,14 @@ const t = content[lang];
   class="relative w-full min-h-screen overflow-visible"
   style="background-color: #97b7d1;"
 >
-  <!-- Parallax container for reward assets -->
+  <!-- Parallax container for reward assets. Decorado: alt vacío y fuera del
+       árbol de accesibilidad, como las capas del hero. -->
   <div data-parallax-root-rewards class="absolute inset-0 overflow-visible pointer-events-none">
-    <img id="parallax-grass" loading="lazy" decoding="async" src={grassUrl.src} alt={lang === 'es' ? 'Césped' : 'Grass'}
+    <img id="parallax-grass" loading="lazy" decoding="async" src={grassUrl.src} alt="" aria-hidden="true"
          class="absolute pixel-art" />
-    <img id="parallax-knight" loading="lazy" decoding="async" src={knightUrl.src} alt={lang === 'es' ? 'Caballero' : 'Knight'}
+    <img id="parallax-knight" loading="lazy" decoding="async" src={knightUrl.src} alt="" aria-hidden="true"
          class="absolute pixel-art" />
-    <img id="parallax-tree2" loading="lazy" decoding="async" src={tree2Url.src} alt={lang === 'es' ? 'Árbol' : 'Tree 2'}
+    <img id="parallax-tree2" loading="lazy" decoding="async" src={tree2Url.src} alt="" aria-hidden="true"
          class="absolute pixel-art" />
   </div>
 
@@ -156,12 +157,14 @@ const t = content[lang];
         >
           {t.card3Body}
           <Fragment slot="extra">
-            <!-- Iconos servidos sin <Image>: ver nota en FeatureCard.astro -->
+            <!-- Iconos servidos sin <Image>: ver nota en FeatureCard.astro.
+                 Son adorno del texto de la card (alt vacío): "Moneda, Monedas,
+                 Trébol, Café" no le decía nada a nadie. -->
             <div class="loot-row">
-              <img src={CoinIcon.src} alt={lang === 'es' ? 'Moneda' : 'Coin'} width="28" height="28" class="loot-icon" loading="lazy" decoding="async" />
-              <img src={Coin2Icon.src} alt={lang === 'es' ? 'Monedas' : 'Coins'} width="28" height="28" class="loot-icon" loading="lazy" decoding="async" />
-              <img src={CloverIcon.src} alt={lang === 'es' ? 'Trébol' : 'Clover'} width="28" height="24" class="loot-icon" loading="lazy" decoding="async" />
-              <img src={CoffeeIcon.src} alt={lang === 'es' ? 'Café' : 'Coffee'} width="28" height="28" class="loot-icon" loading="lazy" decoding="async" />
+              <img src={CoinIcon.src} alt="" width="28" height="28" class="loot-icon" loading="lazy" decoding="async" />
+              <img src={Coin2Icon.src} alt="" width="28" height="28" class="loot-icon" loading="lazy" decoding="async" />
+              <img src={CloverIcon.src} alt="" width="28" height="24" class="loot-icon" loading="lazy" decoding="async" />
+              <img src={CoffeeIcon.src} alt="" width="28" height="28" class="loot-icon" loading="lazy" decoding="async" />
             </div>
           </Fragment>
         </FeatureCard>
