@@ -21,8 +21,9 @@
  * de verdad está en el HTML de arriba.
  */
 import SiteNav from './SiteNav.astro';
+import FaqEntries from './FaqEntries.astro';
 import { FAQ, FAQ_SEO, FAQ_UI, allFaqEntries } from '../data/faq';
-import { getBlogPosts, blogPostPath, type Lang } from '../lib/blog';
+import type { Lang } from '../lib/blog';
 import { serializeGraph } from '../lib/schema';
 
 interface Props {
@@ -37,15 +38,6 @@ const altHref = isEs ? '/faq/' : '/es/preguntas-frecuentes/';
 const seo = FAQ_SEO[lang];
 const ui = FAQ_UI[lang];
 const groups = FAQ[lang];
-
-// Los enlaces a artículos se resuelven por translationKey y no por slug: los
-// slugs difieren entre idiomas y viven en Neon, así que escribirlos a mano en
-// el fichero de contenido sería una promesa que se rompe sola. Si la clave no
-// está publicada, el enlace no se pinta y la respuesta se queda sin él.
-const posts = await getBlogPosts(lang);
-const pathByKey = new Map(
-  posts.map((post) => [post.data.translationKey, blogPostPath(lang, post.data.slug)]),
-);
 
 const site = Astro.site ?? new URL('https://skillion.app');
 const abs = (path: string) => new URL(path, site).href;
@@ -88,22 +80,9 @@ const breadcrumbs = {
         <section class="faq-group">
           <h2 class="group-title">{group.title}</h2>
 
-          <div class="group-entries">
-            {group.entries.map((entry) => {
-              const href = entry.more ? pathByKey.get(entry.more) : undefined;
-              return (
-                <article class="faq-entry">
-                  <h3 class="entry-q">{entry.q}</h3>
-                  <p class="entry-a">{entry.a}</p>
-                  {href && (
-                    <a class="entry-more" href={href}>
-                      {entry.moreLabel ?? ui.more} →
-                    </a>
-                  )}
-                </article>
-              );
-            })}
-          </div>
+          {/* Las entradas (recuadro, pregunta, respuesta, enlace) viven en
+              FaqEntries: la portada pinta seis con el mismo aspecto. */}
+          <FaqEntries lang={lang} entries={group.entries} />
         </section>
       ))
     }
@@ -193,62 +172,8 @@ const breadcrumbs = {
     border-bottom: 3px solid #1b2547;
   }
 
-  .group-entries {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .faq-entry {
-    padding: 22px 24px;
-    background: #141b32;
-    border: 3px solid #26325c;
-    /* Bisel pixel: la sombra dura, sin difuminar, es lo que le da el volumen
-       de recuadro de juego en vez de tarjeta de web. */
-    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35);
-  }
-
-  .entry-q {
-    margin: 0 0 16px;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    /* Press Start 2P avanza un cuadratin por glifo, asi que ocupa mucho mas
-       que Nunito al mismo tamano: la pregunta mas larga son 52 caracteres y a
-       13px pide 676 px, justo lo que cabe en la tarjeta en escritorio. En
-       movil baja a 10 y parte en dos lineas, que es lo esperado. */
-    font-size: clamp(10px, 1.6vw, 13px);
-    /* 400 y no 900: la fuente tiene un solo grosor y pedirle negrita hace que
-       el navegador la simule engordando los trazos, que en un tipo de pixeles
-       se ve como un borron. */
-    font-weight: 400;
-    line-height: 1.7;
-    color: #ffe6a0;
-    text-wrap: balance;
-  }
-
-  .entry-a {
-    margin: 0;
-    font-size: 15.5px;
-    font-weight: 400;
-    line-height: 1.65;
-    color: #c9d6f5;
-    text-wrap: pretty;
-  }
-
-  .entry-more {
-    display: inline-block;
-    margin-top: 14px;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 8px;
-    line-height: 1.6;
-    color: #90c5bf;
-    text-decoration: none;
-    transition: color 0.15s steps(2);
-  }
-
-  .entry-more:hover,
-  .entry-more:focus-visible {
-    color: #ffc53d;
-  }
+  /* Los estilos de cada entrada (.faq-entry, .entry-q, .entry-a, .entry-more)
+     van con su markup en FaqEntries.astro. */
 
   /* ---------- CIERRE ---------- */
   .faq-outro {
@@ -307,10 +232,6 @@ const breadcrumbs = {
   }
 
   @media (max-width: 640px) {
-    .faq-entry {
-      padding: 18px 16px;
-    }
-
     .faq-body {
       padding: 40px 16px 16px;
     }
