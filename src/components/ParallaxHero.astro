@@ -107,19 +107,22 @@ const updatesHref = lang === 'es' ? '/es/novedades/' : '/updates/';
        style={`--sky: url('${skyUrl}')`}>
   </div>
 
-  <!-- Parallax container -->
+  <!-- Parallax container. Las capas son decorado: alt vacío y fuera del árbol
+       de accesibilidad, como la montaña de FinalCTA. Un lector de pantalla
+       anunciaba "Sun, Mountains, Waterfall Background, Waterfall, Tree" antes
+       de llegar al titular. -->
   <div data-parallax-root class="absolute inset-0 overflow-visible pointer-events-none">
-    <img id="parallax-sun" src={sunUrl.src} alt="Sun"
+    <img id="parallax-sun" src={sunUrl.src} alt="" aria-hidden="true"
          class="absolute pixel-art" />
-    <img id="parallax-mountain" src={mountainUrl.src} alt="Mountains"
+    <img id="parallax-mountain" src={mountainUrl.src} alt="" aria-hidden="true"
          class="absolute pixel-art" />
-    <img id="parallax-waterfall-bg" src={waterfallBgUrl.src} alt="Waterfall Background"
+    <img id="parallax-waterfall-bg" src={waterfallBgUrl.src} alt="" aria-hidden="true"
          class="absolute pixel-art object-contain object-right-bottom" />
-    <img id="parallax-waterfall" src={waterfallUrl.src} alt="Waterfall"
+    <img id="parallax-waterfall" src={waterfallUrl.src} alt="" aria-hidden="true"
          class="absolute pixel-art" />
     {/* fetchpriority alta: medido, este arbol es el elemento LCP de la
          portada. Nunca lazy. */}
-    <img id="parallax-tree" src={treeUrl.src} alt="Tree" fetchpriority="high"
+    <img id="parallax-tree" src={treeUrl.src} alt="" aria-hidden="true" fetchpriority="high"
          class="absolute pixel-art object-contain" />
   </div>
 
