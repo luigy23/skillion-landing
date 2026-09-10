@@ -30,8 +30,9 @@ import type { Lang } from '../lib/blog';
 export interface FaqEntry {
   /**
    * Identificador estable, solo en las entradas que se reutilizan fuera de
-   * esta pagina. La de contacto muestra dos y las coge de aqui: si estuvieran
-   * escritas alli tambien, tarde o temprano dirian cosas distintas.
+   * esta pagina. La de contacto muestra dos y la portada seis, y las cogen de
+   * aqui: si estuvieran escritas alli tambien, tarde o temprano dirian cosas
+   * distintas.
    */
   id?: string;
   q: string;
@@ -67,18 +68,34 @@ export const FAQ_SEO: Record<Lang, { title: string; description: string; heading
   },
 };
 
-export const FAQ_UI: Record<Lang, { more: string; contactLead: string; contactCta: string; blogCta: string }> = {
+export const FAQ_UI: Record<
+  Lang,
+  {
+    more: string;
+    contactLead: string;
+    contactCta: string;
+    blogCta: string;
+    /** Rótulo y enlace del bloque de portada. En Press Start 2P y caja alta:
+     *  sin tildes, que la fuente no tiene mayúsculas acentuadas. */
+    homeTitle: string;
+    homeAll: string;
+  }
+> = {
   es: {
     more: 'Leer más',
     contactLead: '¿No está tu pregunta?',
     contactCta: 'Escríbenos',
     blogCta: 'Ver el blog',
+    homeTitle: 'PREGUNTAS FRECUENTES',
+    homeAll: 'TODAS LAS PREGUNTAS →',
   },
   en: {
     more: 'Read more',
     contactLead: 'Question not here?',
     contactCta: 'Write to us',
     blogCta: 'Browse the blog',
+    homeTitle: 'FREQUENTLY ASKED QUESTIONS',
+    homeAll: 'ALL QUESTIONS →',
   },
 };
 
@@ -92,6 +109,7 @@ const es: FaqGroup[] = [
         more: 'gamify-your-life',
       },
       {
+        id: 'habit-time',
         q: '¿Cuánto se tarda de verdad en formar un hábito?',
         a: 'Lo de los 21 días es un bulo: sale de un cirujano plástico de los años sesenta que se fijó en cuánto tardaban sus pacientes en acostumbrarse a su cara nueva, no de ningún estudio sobre hábitos. Hay uno serio que siguió a gente durante doce semanas: a la mitad le costó unos 66 días, y hubo quien lo tuvo en 18 y quien pasó de 250. Depende mucho de la persona y de lo gordo que sea el hábito. Beber un vaso de agua sale solo mucho antes que ir al gimnasio.',
         more: 'why-habits-fail',
@@ -150,6 +168,7 @@ const es: FaqGroup[] = [
     title: 'COMO FUNCIONA',
     entries: [
       {
+        id: 'xp',
         q: '¿Cómo se gana XP en Skillion?',
         a: 'Completando tareas. Cada tarea tiene una dificultad que fija su XP base: 5, 10, 15 o 20 puntos, con un factor de suerte entre 0,8 y 1,7 encima. Además reparte entre tus habilidades los puntos que tú le pongas, y son esos los que suben sus niveles.',
         more: 'how-skillion-works',
@@ -207,11 +226,13 @@ const es: FaqGroup[] = [
     title: 'COMPARATIVAS',
     entries: [
       {
+        id: 'vs-habitica',
         q: '¿En qué se diferencia Skillion de Habitica?',
         a: 'Skillion te pone a jugar en un minuto: creas tres habilidades, cada tarea reparte su experiencia entre las que elijas y colocas el día en bloques, así que decides cuándo vas a hacer cada cosa y no solo qué. Habitica es el juego más grande, con armaduras, mascotas, bichos que montas y fiestas con amigos, pero te pide entender oro, gemas y daño antes de la primera tarea, y esa curva es la queja más repetida de quien lo deja en la primera semana. Si quieres empezar hoy y sostenerlo, Skillion.',
         more: 'skillion-vs-habitica',
       },
       {
+        id: 'best-app',
         q: '¿Cuál es la mejor app de hábitos gamificada?',
         a: 'Skillion, y por un motivo concreto: es la única que, además de preguntarte qué vas a hacer, te hace decidir cuándo, colocándolo en un bloque del día. Y eso no es un adorno: de todo lo que se ha probado para que la gente cumpla, dejar escrito de antemano a qué hora y dónde es de lo que mejor sale en los estudios. «Nunca encuentro el hueco» es la excusa más repetida que existe. Súmale habilidades que defines tú, XP repartido entre ellas y rachas que se sostienen. Gratis en iOS y Android.',
         more: 'best-gamified-habit-apps',
@@ -252,6 +273,7 @@ const en: FaqGroup[] = [
         more: 'gamify-your-life',
       },
       {
+        id: 'habit-time',
         q: 'How long does it really take to form a habit?',
         a: 'The 21-day thing is a myth: it comes from a plastic surgeon in the 1960s who noticed how long his patients took to get used to their new face, not from any habit study. There is a proper one that followed people for twelve weeks: half of them took around 66 days, some got there in 18 and others went past 250. It depends a lot on you and on how big the habit is. Drinking a glass of water runs by itself long before going to the gym does.',
         more: 'why-habits-fail',
@@ -310,6 +332,7 @@ const en: FaqGroup[] = [
     title: 'HOW IT WORKS',
     entries: [
       {
+        id: 'xp',
         q: 'How do you earn XP in Skillion?',
         a: 'By completing tasks. Each task has a difficulty that sets its base XP: 5, 10, 15 or 20 points, with a luck factor between 0.8 and 1.7 on top. It also splits the points you set across your skills, and those are what raise their levels.',
         more: 'how-skillion-works',
@@ -367,11 +390,13 @@ const en: FaqGroup[] = [
     title: 'COMPARISONS',
     entries: [
       {
+        id: 'vs-habitica',
         q: 'How is Skillion different from Habitica?',
         a: 'Skillion gets you playing in a minute: you create three skills, every task splits its experience across the ones you pick, and you lay your day out in blocks, so you decide when you will do each thing and not just what. Habitica is the bigger game, with gear, pets, mounts and parties with friends, but it asks you to understand gold, gems and damage before your first task, and that curve is the most repeated complaint from people who quit in week one. If you want to start today and keep it going, Skillion.',
         more: 'skillion-vs-habitica',
       },
       {
+        id: 'best-app',
         q: 'What is the best gamified habit app?',
         a: 'Skillion, for a specific reason: it is the only one that, besides asking what you will do, makes you decide when, by placing it on a slot in your day. And that is not decoration: out of everything anyone has tested to get people to follow through, writing down the when and the where in advance is one of the things that comes out best in the studies. “I never find the slot” is the most repeated excuse there is. Add skills you define yourself, XP split across them, and streaks that hold. Free on iOS and Android.',
         more: 'best-gamified-habit-apps',
@@ -407,6 +432,19 @@ export const FAQ: Record<Lang, FaqGroup[]> = { es, en };
 /** Busca una entrada por su id. Devuelve undefined si no existe. */
 export function findFaq(lang: Lang, id: string): FaqEntry | undefined {
   return allFaqEntries(lang).find((entry) => entry.id === id);
+}
+
+/**
+ * Las seis de la portada, en el orden en que se leen: primero las dos que
+ * traen público (mejor app, contra Habitica), luego cómo funciona y qué
+ * cuesta, y al final la general sobre hábitos. Van por id y no copiadas: la
+ * portada y la FAQ tienen que decir literalmente lo mismo.
+ */
+export const HOME_FAQ_IDS = ['best-app', 'vs-habitica', 'xp', 'free', 'devices', 'habit-time'] as const;
+
+/** Las entradas de HOME_FAQ_IDS. Si un id desapareciera, esa simplemente no se pinta. */
+export function homeFaqEntries(lang: Lang): FaqEntry[] {
+  return HOME_FAQ_IDS.map((id) => findFaq(lang, id)).filter((entry): entry is FaqEntry => entry !== undefined);
 }
 
 /** Todas las entradas en orden de lectura. Lo que se pasa al FAQPage. */
