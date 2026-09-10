@@ -181,6 +181,16 @@ export function isoDate(date: Date): string {
 }
 
 /**
+ * Fechas del artículo tal y como salen a la máquina: datePublished y
+ * dateModified del BlogPosting (ArticleSchema.astro) y article:published_time
+ * y article:modified_time del <head> (Layout). Un solo sitio para que las dos
+ * no deriven. La de publicación va en día; la de modificación, completa.
+ */
+export function articleDates(post: BlogPost): { published: string; modified: string } {
+  return { published: isoDate(post.data.publishedAt), modified: post.data.updatedAt.toISOString() };
+}
+
+/**
  * Imagen que se usa al compartir un artículo.
  *
  * Orden: portada propia del post (columna cover_image) > tarjeta generada por
