@@ -25,6 +25,12 @@ export interface Props {
 	showLanguageSwitcher?: boolean;
 	/** Deja fuera del índice páginas como /gracias. */
 	noindex?: boolean;
+	/** website salvo en los artículos del blog, que van como article. */
+	ogType?: 'website' | 'article';
+	/** Fechas y sección del artículo (metas article:*). Solo con ogType article. */
+	article?: { publishedTime: string; modifiedTime: string; section?: string };
+	/** Firma de la página. Los artículos pasan la de su autor. */
+	author?: string;
 	/**
 	 * Color de lienzo de la página.
 	 *
@@ -56,7 +62,10 @@ export interface Props {
 
 const {
 	title,
-	description = "Skillion - La app que gamifica tu vida real. Convierte tus hábitos en un RPG, gana XP por cada tarea completada y sube de nivel en la vida real. Descarga la app de gamificación de hábitos más divertida.",
+	description: descriptionProp,
+	ogType = 'website',
+	article,
+	author = 'Skillion',
 	ogImage = "/og/skillion.png",
 	lang = "es",
 	alternates,
@@ -68,10 +77,21 @@ const {
 
 const isSpanish = (lang === 'es');
 
+// La descripción por defecto va por idioma: antes era solo en español y una
+// página inglesa sin descripción propia la heredaba.
+const DEFAULT_DESCRIPTION = {
+	es: "Skillion - La app que gamifica tu vida real. Convierte tus hábitos en un RPG, gana XP por cada tarea completada y sube de nivel en la vida real. Descarga la app de gamificación de hábitos más divertida.",
+	en: "Skillion - The app that gamifies your real life. Turn your habits into an RPG, earn XP for every task you complete and level up in real life. Download the most fun habit gamification app.",
+};
+const description = descriptionProp ?? DEFAULT_DESCRIPTION[isSpanish ? 'es' : 'en'];
+
 // og:image y twitter:image exigen URL ABSOLUTA. Antes se emitía
 // "/assets/Skillion.png": ruta relativa y, además, un fichero que no existe en
 // dist, así que ninguna página tenía imagen al compartirse.
 const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url).href;
+// Las tarjetas de /og/ las generan los scripts a 1200x630; la portada propia de
+// un post (cover_image) puede tener otro tamaño y sus medidas no se declaran.
+const isOgCard = ogImage.startsWith('/og/');
 
 // Los hreflang se calculan por ruta. Antes eran fijos al home: en /contact se
 // declaraba que la versión española era /es/.
@@ -119,18 +139,25 @@ const absUrl = (path: string) => new URL(path, siteBase).href;
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<meta name="author" content="Skillion Team" />
+		<meta name="author" content={author} />
 		<meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
 		<link rel="canonical" href={canonical} />
 
 		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={ogType} />
 		<meta property="og:url" content={canonical} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={ogImageUrl} />
+		{isOgCard && <meta property="og:image:width" content="1200" />}
+		{isOgCard && <meta property="og:image:height" content="630" />}
+		<meta property="og:image:alt" content={title} />
 		<meta property="og:site_name" content="Skillion" />
 		<meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+		{alts && <meta property="og:locale:alternate" content={isSpanish ? 'en_US' : 'es_ES'} />}
+		{article && <meta property="article:published_time" content={article.publishedTime} />}
+		{article && <meta property="article:modified_time" content={article.modifiedTime} />}
+		{article?.section && <meta property="article:section" content={article.section} />}
 
 		<!-- Hreflang alternates: calculados por ruta (ver src/lib/i18n.ts) -->
 		{urlEs && <link rel="alternate" hreflang="es" href={urlEs} />}
@@ -139,13 +166,14 @@ const absUrl = (path: string) => new URL(path, siteBase).href;
 		{urlEn && <link rel="alternate" hreflang="en-US" href={urlEn} />}
 		{urlEn && <link rel="alternate" hreflang="x-default" href={urlEn} />}
 
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content={canonical} />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content={ogImageUrl} />
-		<meta property="twitter:creator" content="@skillion_app" />
+		<!-- Twitter. name= y no property=, que es lo que lee X. Sin twitter:site ni
+		     twitter:creator: la cuenta @skillion_app no existe (comprobado el
+		     10-sep-2026) y apuntar a una cuenta ajena o vacía no aporta nada. -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageUrl} />
+		<meta name="twitter:image:alt" content={title} />
 		
 		<!-- Additional SEO -->
 		<meta name="theme-color" content="#90c5bf" />

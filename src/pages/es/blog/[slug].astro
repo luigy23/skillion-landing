@@ -2,7 +2,9 @@
 import Layout from '../../../layouts/Layout.astro';
 import BlogArticle from '../../../components/blog/BlogArticle.astro';
 import {
+  CATEGORY_LABELS,
   SHOW_XP_REWARDS,
+  articleDates,
   blogIndexPath,
   blogPostPath,
   getBlogPosts,
@@ -44,6 +46,9 @@ const altHref = translation ? blogPostPath('en', translation.data.slug) : blogIn
 const alternates = translation
   ? { es: blogPostPath(lang, post.data.slug), en: blogPostPath('en', translation.data.slug) }
   : null;
+
+// Las mismas fechas que declara el BlogPosting, para que head y JSON-LD no deriven.
+const dates = articleDates(post);
 ---
 
 <Layout
@@ -52,6 +57,13 @@ const alternates = translation
   description={post.data.excerpt}
   ogImage={postOgImage(lang, post.data.slug, post.data.coverImage)}
   alternates={alternates}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    section: CATEGORY_LABELS[lang][post.data.category],
+  }}
+  author={post.data.authorName}
   showLanguageSwitcher={false}
   background="#0f1526"
   clientRouter

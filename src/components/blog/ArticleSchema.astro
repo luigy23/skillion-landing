@@ -14,7 +14,7 @@
  *                    BlogArticle pinta en pantalla.
  *   - BreadcrumbList — la miga ya existía en el markup, faltaba declararla.
  */
-import { CATEGORY_LABELS, blogIndexPath, blogPostPath, postOgImage, type BlogPost, type Lang } from '../../lib/blog';
+import { CATEGORY_LABELS, articleDates, blogIndexPath, blogPostPath, postOgImage, type BlogPost, type Lang } from '../../lib/blog';
 import { organization } from '../../lib/schema';
 
 interface Props {
@@ -35,6 +35,7 @@ const withSlash = (path: string) => (path.endsWith('/') ? path : `${path}/`);
 const canonical = abs(withSlash(blogPostPath(lang, data.slug)));
 
 const image = postOgImage(lang, data.slug, data.coverImage);
+const dates = articleDates(post);
 
 const author = {
   '@type': 'Person',
@@ -52,8 +53,8 @@ const blogPosting = {
   // modelo vale más el primero.
   description: data.tldr ?? data.excerpt,
   inLanguage: lang === 'es' ? 'es-ES' : 'en-US',
-  datePublished: data.publishedAt.toISOString().slice(0, 10),
-  dateModified: data.updatedAt.toISOString(),
+  datePublished: dates.published,
+  dateModified: dates.modified,
   articleSection: CATEGORY_LABELS[lang][data.category],
   author,
   // El nodo entero, no solo una referencia {'@id': ...}: el grafo de la
