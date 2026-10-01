@@ -2,15 +2,21 @@
 import { Image } from 'astro:assets';
 import swordUrl from '../assets/skillion-sword.svg';
 import SiteNav from './SiteNav.astro';
-// Recompensas: escalan de moneda pequeña a cetro. Todos a múltiplo entero del
-// sprite real (24→48 = 2x, 31→62 = 2x, 160→80 = 0.5x) para que no se emborronen.
-import coin3Url from '../assets/pixelartAssets/blog/coin3.png';
-import coin2Url from '../assets/pixelartAssets/features/coin2.png';
-import cetroUrl from '../assets/pixelartAssets/features/cetro.png';
-// Pasos: los tres son 64x64 y se muestran a 1x.
-import computerUrl from '../assets/pixelartAssets/blog/computer.png';
-import starUrl from '../assets/pixelartAssets/blog/star.png';
-import coinUrl from '../assets/pixelartAssets/features/coin.png';
+// Iconos pixel art, siempre a múltiplo entero del sprite (o 0,5x el cetro de
+// 160) para que no se emborronen.
+import coin3Url from '../assets/pixelartAssets/blog/coin3.png'; // 24
+import coin2Url from '../assets/pixelartAssets/features/coin2.png'; // 31
+import cetroUrl from '../assets/pixelartAssets/features/cetro.png'; // 160
+import knightUrl from '../assets/pixelartAssets/rewards/knight.png'; // 76x104
+import computerUrl from '../assets/pixelartAssets/blog/computer.png'; // 64
+import checklistUrl from '../assets/pixelartAssets/blog/checklist.png'; // 23x22
+import starUrl from '../assets/pixelartAssets/blog/star.png'; // 64
+import magoUrl from '../assets/pixelartAssets/features/mago.png'; // 60x66
+import cloverUrl from '../assets/pixelartAssets/features/clover.png'; // 115x100
+import calendarUrl from '../assets/pixelartAssets/blog/calendar.png'; // 48x46
+import fireUrl from '../assets/pixelartAssets/blog/fire.png'; // 48
+import energyUrl from '../assets/pixelartAssets/blog/energy.png'; // 48
+import coinUrl from '../assets/pixelartAssets/features/coin.png'; // 64
 
 interface Props {
   lang?: 'en' | 'es';
@@ -21,299 +27,662 @@ interface Props {
 const { lang = 'en', altHref } = Astro.props as Props;
 const isEs = lang === 'es';
 
+/**
+ * El reto de likes es lo principal. El Gremio (le mandamos carruseles y los
+ * sube a cambio de Premium) es otra vía, compatible con el reto, y se pide por
+ * correo: Luigy contesta en persona y a los que entran les manda el enlace del
+ * bot de Telegram (1-oct-2026). La web no enlaza el bot.
+ */
+const MAIL = 'hello@skillion.app';
+const mailSubject = isEs ? 'Quiero entrar al Gremio Skillion' : 'I want to join the Skillion Guild';
+const mailBody = isEs
+  ? 'Mi TikTok: @\n¿Cuenta nueva o la que ya usas?: \nCorreo de mi cuenta de Skillion: \nPaís: \nPor qué quiero entrar: \n'
+  : 'My TikTok: @\nNew account or the one you already use?: \nEmail of my Skillion account: \nCountry: \nWhy I want to join: \n';
+const GUILD_MAIL_URL = `mailto:${MAIL}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+
+// Press Start 2P pinta las mayúsculas con tilde como minúsculas ("úNETE"):
+// todo lo que va en esa fuente se escribe sin tildes, como la página anterior.
 const content = {
   en: {
-    badge: 'GET PREMIUM FOR FREE',
+    badge: 'FREE PREMIUM · NO RAFFLE',
     title: 'THE SKILLION QUEST IS LIVE',
     subtitle: 'and it is challenging you',
-    lead: 'Show how you are building your character in real life. Post it, tag us, claim your reward. No raffles, no forms.',
-    jump: 'SEE THE REWARDS',
+    lead: 'Show how you are building your character in real life. Post it and claim your reward.',
+    facts: ['No raffle: every tier is guaranteed', 'TikTok, Instagram or X', 'Premium in under 48 h'],
+    cta: 'SEE THE REWARDS',
+    more: 'No video ideas? The Guild',
+
+    qcLabel: 'ACTIVE QUEST',
+    qcTitle: 'Post a video using Skillion',
+    qcLikes: '63 LIKES',
+    qcRewardLabel: 'UNLOCKED',
+    qcReward: '3 months of Premium',
+    qcNext: '37 more likes for the full year',
 
     rewardsTitle: 'REAL REWARDS',
-    rewardsLead: 'The more you move, the more you win. Every tier is guaranteed — there is no draw.',
-    tier1Likes: '10+ LIKES',
-    tier1Prize: '1 month of Premium',
-    tier2Likes: '50+ LIKES',
-    tier2Prize: '3 months of Premium',
-    tier3Likes: '100+ LIKES',
-    tier3Prize: '1 FULL YEAR of Premium',
-    tierBest: 'BEST',
-    rewardsNote: 'No forms. No pointless surveys. Just your impact, just your story.',
+    rewardsLead: 'The more you move, the more you win. Every tier is guaranteed: there is no raffle.',
+    tiers: [
+      { when: '10+ LIKES', prize: '1 month of Premium' },
+      { when: '50+ LIKES', prize: '3 months of Premium' },
+      { when: '100+ LIKES', prize: '1 FULL YEAR of Premium' },
+    ],
+    tierBest: 'TOP',
+    perksTitle: 'WHAT PREMIUM UNLOCKS',
+    perks: [
+      { title: 'Unlimited skills', body: 'The free plan stops at 3 active.' },
+      { title: 'Configure with magic', body: 'The AI suggests difficulty, energy and skills for each task.' },
+      { title: 'Task of Destiny, no caps', body: 'No limit on accepted tasks or bets.' },
+      { title: 'Stats your way', body: 'Pick any date range you want.' },
+    ],
 
     stepsTitle: 'HOW TO JOIN',
-    stepsLead: 'Three steps. Fifteen minutes. No drama.',
-
+    stepsLead: 'Three steps, no forms and no surveys.',
     step1Title: 'Record your run',
-    step1Body: 'Post a screenshot or a video using Skillion. Completing a task, creating your avatar, or just celebrating that you levelled up.',
-    step1Extra: 'Other ideas: a meme, a tip, a POV, a sketch or educational content.',
+    step1Body: 'Post a screenshot or a video using Skillion: completing a task, creating your avatar or celebrating that you levelled up. A meme, a tip, a POV or a sketch works too.',
     step1Rule: 'ONLY RULE: THE APP HAS TO BE VISIBLE',
-    step1Where: 'Post it on TikTok, Instagram or X. Wherever you want.',
-
-    step2Title: 'Tag us',
-    step2Body: 'Use the hashtag',
-    step2Hashtag: '#SkillionApp',
-    step2And: 'and mention us:',
-    copyLabel: 'Copy',
-    copied: 'Copied',
-
+    step2Title: 'Post it',
+    step2Body: 'On TikTok, Instagram or X, from your own account. No need to tag us or add hashtags: you send us the link.',
     step3Title: 'Claim your Premium',
-    step3Body: 'Once you hit one of the tiers, email',
-    step3Send: 'Send us:',
-    step3Item1: 'A screenshot showing the likes',
-    step3Item2: 'The link to your post',
-    step3Item3: 'The email of your Skillion account',
-    step3Note: 'You get your reward in under 48 hours.',
+    step3Body: 'When you hit one of the tiers, email',
+    step3Send: 'with a screenshot of the likes, the link to your post and the email of your Skillion account.',
+    step3Note: 'YOUR REWARD IN UNDER 48 HOURS',
 
-    manifestoTitle: 'WHY THIS MATTERS',
-    manifesto1: 'It is not about playing, it is about living your own game.',
-    manifesto2: 'Every skill you level up, every challenge you complete, is a story about who you are. And now we want to see that story in action.',
-    manifesto3: 'Discipline, Charisma, Inner Peace, Programming, Social Energy… it does not matter which skill. What matters is that you are levelling it up.',
-    manifestoQuote: 'Stop watching other people level up. Show your progress. Lead the game.',
+    gBadge: 'ANOTHER WAY TO EARN PREMIUM',
+    gTitle: 'THE SKILLION GUILD',
+    gLead: 'Do not want to come up with videos? Join the Guild: we send you a ready-to-post carousel Monday to Friday, you post it on your TikTok and play with Premium while you keep posting. You can do it alongside the challenge.',
+    gSteps: [
+      { title: 'Email us', body: 'Send us an email with your details (the list is below). We read them one by one and reply within 48 hours.' },
+      { title: 'Your quest arrives', body: 'If you get in, Monday to Friday a carousel ready to post arrives on Telegram, with the images and the text to copy. It is made for your account and nobody else posts it.' },
+      { title: 'Play with Premium', body: 'Post it as it is and tap ✅. Finish your first week and Premium turns on, and it stays on every week you complete your 5 videos.' },
+    ],
 
-    downloadTitle: 'Do not have Skillion yet?',
-    downloadBody: 'Download it and start building your definitive character build.',
+    tgName: 'Skillion Guild',
+    tgStatus: 'bot',
+    tgQuest: '⚔️ Thursday quest',
+    tgQuestBody: 'Your carousel for today. Post it as photos, in this order.',
+    tgCover: 'HABITS 10/10 IF YOU STUDY NURSING',
+    tgSwipe: 'swipe ▸',
+    tgTip: 'Flashcards right before bed',
+    tgApp: 'Turn your exams into quests',
+    tgCopyLabel: 'Text to copy',
+    tgCaption: 'Habits 10/10 if you study nursing #nursingstudent #habits #studytok',
+    tgDone: '✅ Posted',
+    tgSkip: "Can't today",
+    tgProgress: '🔥 4/5 this week. One more and your Premium stays on.',
+    tgFigcaption: 'This is what a Guild quest looks like on Telegram.',
+
+    itemBadge: 'GUILD ONLY',
+    itemTitle: 'An exclusive item for your character',
+    itemBody: 'Guild members get a special item for their Skillion avatar that cannot be earned any other way.',
+
+    pathTitle: 'YOUR PATH IN THE GUILD',
+    path: [
+      { when: 'WEEK 1', prize: 'Premium turns on' },
+      { when: 'EVERY WEEK', prize: 'It stays on while you complete your 5 videos' },
+      { when: 'WEEK 12', prize: '1 FULL YEAR of Premium, yours even if you stop later' },
+    ],
+    streakTitle: 'STREAK',
+    streakEnd: '1 YEAR',
+    streakNote: 'Miss your 5 videos in a week and Premium pauses and your streak goes back to zero.',
+    lootTitle: 'BONUS LOOT',
+    lootLead: 'If one of your videos blows up, you get more. It stacks on top of what you already have.',
+    loot: [
+      { views: '50,000 VIEWS', prize: '+3 months of Premium' },
+      { views: '100,000 VIEWS', prize: '+1 year of Premium' },
+    ],
+
+    needsTitle: 'WHAT THE GUILD ASKS FOR',
+    needs: [
+      'A public TikTok account. If it is new, before your first quest we send you a 5-day warm-up guide.',
+      'Your Skillion account, so we know who gets the Premium.',
+      'Telegram, which is where your quests arrive.',
+      'Keeping the videos up. A deleted video does not count for the week.',
+    ],
+
+    applyTitle: 'WE OPEN WITH 10 SPOTS',
+    applyLead: 'Every carousel is made for a single account, so we open few spots and choose by hand. Email us at',
+    applyLeadPost: 'with:',
+    applyItems: ['Your TikTok username', 'Whether it is a new account or the one you already use', 'The email of your Skillion account', 'Your country', 'One line on why you want to join'],
+    applyCta: 'EMAIL US TO JOIN',
+    applyNote: 'If there is no spot, we put you on the waiting list and let you know.',
+
+    faqTitle: 'QUESTIONS',
+    faq: [
+      { q: 'Is there a raffle?', a: 'No. Every likes tier is guaranteed: you hit it and we give it to you.' },
+      { q: 'Which networks count for the challenge?', a: 'TikTok, Instagram or X. The only rule is that the app is visible.' },
+      { q: 'How long does the Premium take?', a: 'Under 48 hours from when you email us the screenshot.' },
+      { q: 'Can I do the challenge and the Guild at the same time?', a: 'Yes. They are two ways to earn Premium and you can do both.' },
+      { q: 'In the Guild, do I have to be in the videos?', a: 'No. They are photo carousels with text, and your face is never in them.' },
+      { q: 'Do I need lots of followers for the Guild?', a: 'No. TikTok shows every video to people who do not follow you, and we have had carousels reach thousands of views on accounts with fewer than 20 followers.' },
+      { q: 'Can I change the Guild photos or text?', a: 'Post it as it is. That is how we learn what works and make your next quest better.' },
+      { q: 'What if I cannot make it one week?', a: 'Your Guild Premium pauses and your streak goes back to zero. As soon as you complete another week, it turns back on.' },
+    ],
+
+    finalTitle: 'START THE CHALLENGE',
+    finalLead: 'Post your video today. As soon as it passes 10 likes, your first month of Premium is yours.',
+    finalCta: 'SEE HOW TO JOIN',
+
+    downloadTitle: "Don't have Skillion yet?",
+    downloadBody: 'Download it and start building your character.',
     play: 'GOOGLE PLAY',
     appStore: 'APP STORE',
-    logoAlt: 'Skillion',
   },
   es: {
-    badge: 'CONSIGUE PREMIUM GRATIS',
+    badge: 'PREMIUM GRATIS · SIN SORTEO',
     title: 'EL SKILLION QUEST ESTA VIVO',
-    subtitle: 'y te esta retando',
-    lead: 'Muestra cómo estás construyendo tu personaje en la vida real. Publícalo, etiquétanos y reclama tu recompensa. Sin sorteos, sin formularios.',
-    jump: 'VER LAS RECOMPENSAS',
+    subtitle: 'y te está retando',
+    lead: 'Muestra cómo estás construyendo tu personaje en la vida real. Publícalo y reclama tu recompensa.',
+    facts: ['Sin sorteo: cada nivel es seguro', 'TikTok, Instagram o X', 'Premium en menos de 48 h'],
+    cta: 'VER LAS RECOMPENSAS',
+    more: '¿Sin ideas para videos? El Gremio',
+
+    qcLabel: 'MISION ACTIVA',
+    qcTitle: 'Sube un video usando Skillion',
+    qcLikes: '63 LIKES',
+    qcRewardLabel: 'DESBLOQUEADO',
+    qcReward: '3 meses de Premium',
+    qcNext: 'Faltan 37 likes para el año completo',
 
     rewardsTitle: 'RECOMPENSAS REALES',
-    rewardsLead: 'Cuanto más muevas, más ganas. Cada nivel es seguro — aquí no hay sorteo.',
-    tier1Likes: '10+ LIKES',
-    tier1Prize: '1 mes de Premium',
-    tier2Likes: '50+ LIKES',
-    tier2Prize: '3 meses de Premium',
-    tier3Likes: '100+ LIKES',
-    tier3Prize: '1 AÑO COMPLETO de Premium',
+    rewardsLead: 'Cuanto más muevas, más ganas. Cada nivel es seguro: aquí no hay sorteo.',
+    tiers: [
+      { when: '10+ LIKES', prize: '1 mes de Premium' },
+      { when: '50+ LIKES', prize: '3 meses de Premium' },
+      { when: '100+ LIKES', prize: '1 AÑO COMPLETO de Premium' },
+    ],
     tierBest: 'TOP',
-    rewardsNote: 'Nada de formularios ni encuestas absurdas. Solo tu impacto, solo tu historia.',
+    perksTitle: 'LO QUE DESBLOQUEA PREMIUM',
+    perks: [
+      { title: 'Skills sin límite', body: 'El plan gratis se queda en 3 activas.' },
+      { title: 'Configurar con magia', body: 'La IA propone dificultad, energía y habilidades de cada tarea.' },
+      { title: 'Máquina del destino sin tope', body: 'Sin límite de tareas aceptadas ni de apuesta.' },
+      { title: 'Estadísticas a tu medida', body: 'Elige el rango de fechas que quieras.' },
+    ],
 
     stepsTitle: 'COMO PARTICIPAR',
-    stepsLead: 'Tres pasos. Quince minutos. Sin dramas.',
-
+    stepsLead: 'Tres pasos, sin formularios ni encuestas.',
     step1Title: 'Graba tu partida',
-    step1Body: 'Sube un screenshot o un vídeo usando Skillion. Completando una tarea, creando tu avatar, o simplemente celebrando que subiste de nivel.',
-    step1Extra: 'Otras ideas: un meme, un tip, un POV, un sketch o contenido educativo.',
+    step1Body: 'Sube una captura o un video usando Skillion: completando una tarea, creando tu avatar o celebrando que subiste de nivel. También vale un meme, un tip, un POV o un sketch.',
     step1Rule: 'REGLA UNICA: SE TIENE QUE VER LA APP',
-    step1Where: 'Publícalo en TikTok, Instagram o X. Donde quieras.',
-
-    step2Title: 'Etiquétanos',
-    step2Body: 'Usa el hashtag',
-    step2Hashtag: '#SkillionApp',
-    step2And: 'y menciónanos:',
-    copyLabel: 'Copiar',
-    copied: 'Copiado',
-
+    step2Title: 'Publícalo',
+    step2Body: 'En TikTok, Instagram o X, desde tu propia cuenta. No hace falta etiquetarnos ni poner hashtags: el enlace nos lo mandas tú.',
     step3Title: 'Reclama tu Premium',
-    step3Body: 'Cuando alcances uno de los niveles, escribe a',
-    step3Send: 'Mándanos:',
-    step3Item1: 'Un screenshot con los likes',
-    step3Item2: 'El link de tu post',
-    step3Item3: 'El correo de tu cuenta Skillion',
-    step3Note: 'Tienes tu recompensa en menos de 48 horas.',
+    step3Body: 'Cuando llegues a uno de los niveles, escríbenos a',
+    step3Send: 'con una captura de los likes, el enlace de tu post y el correo de tu cuenta de Skillion.',
+    step3Note: 'TU RECOMPENSA EN MENOS DE 48 HORAS',
 
-    manifestoTitle: 'POR QUE ESTO IMPORTA',
-    manifesto1: 'No se trata de jugar, se trata de vivir tu propio juego.',
-    manifesto2: 'Cada habilidad que subes, cada reto que completas, es una historia que cuenta quién eres. Y ahora queremos ver esa historia en acción.',
-    manifesto3: 'Disciplina, Carisma, Paz Interior, Programación, Energía Social… da igual cuál sea tu skill. Lo importante es que la estés subiendo.',
-    manifestoQuote: 'Deja de mirar cómo otros suben de nivel. Muestra tu progreso. Lidera la partida.',
+    gBadge: 'OTRA FORMA DE GANAR PREMIUM',
+    gTitle: 'EL GREMIO SKILLION',
+    gLead: '¿No quieres inventar videos? Únete al Gremio: te mandamos un carrusel listo de lunes a viernes, tú lo subes a tu TikTok y juegas con Premium mientras publiques. Puedes hacerlo además del reto.',
+    gSteps: [
+      { title: 'Escríbenos', body: 'Mándanos un correo con tus datos (abajo tienes la lista). Los leemos uno por uno y te contestamos en menos de 48 horas.' },
+      { title: 'Te llega la misión', body: 'Si entras, de lunes a viernes te llega por Telegram un carrusel listo para subir, con las imágenes y el texto para copiar. Está hecho para tu cuenta y nadie más lo sube.' },
+      { title: 'Juegas con Premium', body: 'Lo publicas tal cual y tocas ✅. Al completar tu primera semana se activa tu Premium, y sigue activo cada semana que completes tus 5 videos.' },
+    ],
+
+    tgName: 'Gremio Skillion',
+    tgStatus: 'bot',
+    tgQuest: '⚔️ Misión del jueves',
+    tgQuestBody: 'Tu carrusel de hoy. Súbelo como fotos, en este orden.',
+    tgCover: 'HÁBITOS 10/10 SI ESTUDIAS MEDICINA',
+    tgSwipe: 'desliza ▸',
+    tgTip: 'Repasar con tarjetas antes de dormir',
+    tgApp: 'Convertir tus parciales en misiones',
+    tgCopyLabel: 'Texto para copiar',
+    tgCaption: 'Hábitos 10/10 si estudias medicina #medicina #habitos #estudiante',
+    tgDone: '✅ Publicado',
+    tgSkip: 'Hoy no puedo',
+    tgProgress: '🔥 4/5 esta semana. Con uno más mantienes tu Premium.',
+    tgFigcaption: 'Así se ve una misión del Gremio en Telegram.',
+
+    itemBadge: 'SOLO DEL GREMIO',
+    itemTitle: 'Un objeto exclusivo para tu personaje',
+    itemBody: 'Los miembros del Gremio reciben un objeto especial para su avatar de Skillion que no se consigue de ninguna otra forma.',
+
+    pathTitle: 'TU CAMINO EN EL GREMIO',
+    path: [
+      { when: 'SEMANA 1', prize: 'Se activa tu Premium' },
+      { when: 'CADA SEMANA', prize: 'Sigue activo mientras completes tus 5 videos' },
+      { when: 'SEMANA 12', prize: '1 AÑO COMPLETO de Premium, tuyo aunque después lo dejes' },
+    ],
+    streakTitle: 'RACHA',
+    streakEnd: '1 AÑO',
+    streakNote: 'Si una semana no completas tus 5 videos, tu Premium se pausa y la racha vuelve a cero.',
+    lootTitle: 'BOTIN EXTRA',
+    lootLead: 'Si uno de tus videos explota, te llevas más. Se suma a lo que ya tengas.',
+    loot: [
+      { views: '50.000 VISTAS', prize: '+3 meses de Premium' },
+      { views: '100.000 VISTAS', prize: '+1 año de Premium' },
+    ],
+
+    needsTitle: 'QUE PIDE EL GREMIO',
+    needs: [
+      'Una cuenta de TikTok pública. Si es nueva, antes de tu primera misión te pasamos una guía para calentarla en 5 días.',
+      'Tu cuenta de Skillion, para saber a quién activarle el Premium.',
+      'Telegram, que es por donde te llegan las misiones.',
+      'Dejar los videos publicados. Un video borrado no cuenta para la semana.',
+    ],
+
+    applyTitle: 'ABRIMOS CON 10 PLAZAS',
+    applyLead: 'Cada carrusel se hace para una sola cuenta, así que abrimos pocas plazas y elegimos a mano. Escríbenos a',
+    applyLeadPost: 'con:',
+    applyItems: ['Tu usuario de TikTok', 'Si es una cuenta nueva o la que ya usas', 'El correo de tu cuenta de Skillion', 'Tu país', 'En una línea, por qué quieres entrar'],
+    applyCta: 'ESCRIBIRNOS PARA ENTRAR',
+    applyNote: 'Si no hay plaza, te dejamos en lista de espera y te avisamos.',
+
+    faqTitle: 'PREGUNTAS',
+    faq: [
+      { q: '¿Hay sorteo?', a: 'No. Cada nivel de likes es seguro: llegas y te lo damos.' },
+      { q: '¿En qué redes vale el reto?', a: 'En TikTok, Instagram o X. La única regla es que se vea la app.' },
+      { q: '¿Cuánto tarda el Premium?', a: 'Menos de 48 horas desde que nos escribes con la captura.' },
+      { q: '¿Puedo hacer el reto y el Gremio a la vez?', a: 'Sí. Son dos formas de ganar Premium y puedes hacer las dos.' },
+      { q: '¿En el Gremio tengo que salir en los videos?', a: 'No. Son carruseles de fotos con texto y tu cara no aparece en ninguno.' },
+      { q: '¿Necesito muchos seguidores para el Gremio?', a: 'No. TikTok enseña cada video a gente que no te sigue, y hemos tenido carruseles con miles de vistas en cuentas de menos de 20 seguidores.' },
+      { q: '¿Puedo cambiar las fotos o el texto del Gremio?', a: 'Súbelo tal cual. Así sabemos qué funciona y tu próxima misión sale mejor.' },
+      { q: '¿Qué pasa si una semana no puedo?', a: 'Tu Premium del Gremio se pausa y la racha vuelve a cero. En cuanto completes otra semana, se activa de nuevo.' },
+    ],
+
+    finalTitle: 'EMPIEZA EL RETO',
+    finalLead: 'Sube tu video hoy. En cuanto pase de 10 likes, tu primer mes de Premium es tuyo.',
+    finalCta: 'VER COMO PARTICIPAR',
 
     downloadTitle: '¿Aún no tienes Skillion?',
-    downloadBody: 'Descárgala y empieza a construir tu build de personaje definitivo.',
+    downloadBody: 'Descárgala y empieza a construir tu personaje.',
     play: 'GOOGLE PLAY',
     appStore: 'APP STORE',
-    logoAlt: 'Skillion',
   },
 } as const;
 
 const t = content[lang];
-const base = isEs ? '/es' : '';
 
-const handles = [
-  { network: 'Instagram', handle: '@skillion.app', href: 'https://instagram.com/skillion.app' },
-  { network: 'TikTok', handle: '@skilliones', href: 'https://tiktok.com/@skilliones' },
-  { network: 'X', handle: '@luigy_dev', href: 'https://x.com/luigy_dev' },
+const tierIcons = [
+  { src: coin3Url.src, size: 48, tone: 'bronze' },
+  { src: coin2Url.src, size: 62, tone: 'silver' },
+  { src: cetroUrl.src, size: 80, tone: 'gold' },
 ];
 
-const tiers = [
-  { icon: coin3Url, size: 48, likes: t.tier1Likes, prize: t.tier1Prize, tone: 'bronze' },
-  { icon: coin2Url, size: 62, likes: t.tier2Likes, prize: t.tier2Prize, tone: 'silver' },
-  { icon: cetroUrl, size: 80, likes: t.tier3Likes, prize: t.tier3Prize, tone: 'gold' },
+const perkIcons = [
+  { src: starUrl.src, w: 48, h: 48 },
+  { src: magoUrl.src, w: 45, h: 50 },
+  { src: cloverUrl.src, w: 58, h: 50 },
+  { src: calendarUrl.src, w: 48, h: 46 },
 ];
+
+const gStepIcons = [
+  { src: knightUrl.src, w: 38, h: 52 },
+  { src: computerUrl.src, w: 48, h: 48 },
+  { src: coin2Url.src, w: 62, h: 62 },
+];
+
+const lootIcons = [energyUrl.src, fireUrl.src];
+
+// Barra de likes de la tarjeta del hero: hitos 10, 50 y 100 sobre 0-100.
+const likeMarks = [
+  { at: 10, done: true },
+  { at: 50, done: true },
+  { at: 100, done: false },
+];
+
+const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
 ---
 
 <SiteNav lang={lang} altHref={altHref} section="premium" isCurrent />
 
-<main class="quest-page">
-  <!-- ============ HERO ============ -->
-  <section class="quest-hero">
-    <span class="quest-badge">{t.badge}</span>
+<main class="guild">
+  <!-- ============ HERO: el reto de likes ============ -->
+  <section class="g-hero">
+    <div class="g-hero-inner">
+      <div class="g-hero-copy">
+        <span class="g-badge">{t.badge}</span>
+        <h1 class="g-h1">
+          {t.title}
+          <span class="g-h1-sub">{t.subtitle}</span>
+        </h1>
+        <p class="g-lead">{t.lead}</p>
 
-    {/* Espada en SVG: vectorial, nítida a cualquier tamaño. El PNG anterior
-        era un reescalado con pérdida del maestro de 432 y a 96px se veía
-        blando. */}
-    <Image src={swordUrl} alt={t.logoAlt} width={66} height={96} class="quest-logo" />
+        <ul class="g-facts">
+          {t.facts.map((fact) => <li>{fact}</li>)}
+        </ul>
 
-    <h1 class="quest-h1">
-      {t.title}<br /><span class="quest-h1-sub">— {t.subtitle}</span>
-    </h1>
+        <div class="g-ctas">
+          <a href="#recompensas" class="pixel-cta pixel-cta--gold g-cta-big">{t.cta}</a>
+          <a href="#gremio" class="g-link">{t.more} <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
 
-    <p class="quest-lead">{t.lead}</p>
-
-    <a href="#recompensas" class="pixel-cta pixel-cta--gold">{t.jump}</a>
+      <!-- Tarjeta de misión: un video que va por 63 likes. Decorado: lo que
+           dice está explicado en texto más abajo. -->
+      <div class="g-hero-art" aria-hidden="true">
+        <Image src={swordUrl} alt="" width={44} height={64} class="qc-sword" />
+        <div class="qc">
+          <div class="qc-top">
+            <span class="qc-label">{t.qcLabel}</span>
+            <span class="qc-count">{t.qcLikes}</span>
+          </div>
+          <p class="qc-title">
+            <img src={starUrl.src} alt="" width="32" height="32" class="pixel-img" />
+            {t.qcTitle}
+          </p>
+          <div class="lk">
+            <div class="lk-bar"><span class="lk-fill"></span></div>
+            <ol class="lk-marks">
+              {likeMarks.map((mark) => (
+                <li class={mark.done ? 'is-done' : ''} style={`--p:${mark.at}%`}>{mark.at}</li>
+              ))}
+            </ol>
+          </div>
+          <div class="qc-reward">
+            <img src={coin2Url.src} alt="" width="31" height="31" class="pixel-img" />
+            <span class="qc-reward-label">{t.qcRewardLabel}</span>
+            <span class="qc-reward-value">{t.qcReward}</span>
+          </div>
+          <div class="qc-streak">
+            <img src={fireUrl.src} alt="" width="24" height="24" class="pixel-img" />
+            {t.qcNext}
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- ============ RECOMPENSAS (el gancho va primero) ============ -->
-  <section id="recompensas" class="quest-section">
-    <h2 class="quest-h2">{t.rewardsTitle}</h2>
-    <p class="quest-section-lead">{t.rewardsLead}</p>
+  <!-- ============ RECOMPENSAS DEL RETO ============ -->
+  <section id="recompensas" class="g-section">
+    <header class="g-head" data-reveal>
+      <h2 class="g-h2">{t.rewardsTitle}</h2>
+      <p class="g-sublead">{t.rewardsLead}</p>
+    </header>
 
     <ol class="tier-grid">
-      {tiers.map((tier) => (
-        <li class={`tier-card tier-card--${tier.tone}`}>
-          {tier.tone === 'gold' && <span class="tier-flag">{t.tierBest}</span>}
-          <div class="tier-icon" style={`height:${tier.size}px`}>
-            <img src={tier.icon.src} alt="" width={tier.size} height={tier.size} class="pixel-img" loading="lazy" decoding="async" />
+      {t.tiers.map((tier, i) => (
+        <li class={`tier-card tier-card--${tierIcons[i].tone}`} data-reveal style={`--d:${i}`}>
+          {i === 2 && <span class="tier-flag">{t.tierBest}</span>}
+          <div class="tier-icon" style={`height:${tierIcons[i].size}px`}>
+            <img src={tierIcons[i].src} alt="" width={tierIcons[i].size} height={tierIcons[i].size} class="pixel-img" loading="lazy" decoding="async" />
           </div>
-          <span class="tier-likes">{tier.likes}</span>
+          <span class="tier-when">{tier.when}</span>
           <span class="tier-prize">{tier.prize}</span>
         </li>
       ))}
     </ol>
 
-    <p class="quest-note">{t.rewardsNote}</p>
+    <h3 class="g-h3" data-reveal>{t.perksTitle}</h3>
+    <ul class="perk-grid">
+      {t.perks.map((perk, i) => (
+        <li class="perk" data-reveal style={`--d:${i}`}>
+          <div class="perk-icon">
+            <img src={perkIcons[i].src} alt="" width={perkIcons[i].w} height={perkIcons[i].h} class="pixel-img" loading="lazy" decoding="async" />
+          </div>
+          <h4 class="perk-title">{perk.title}</h4>
+          <p>{perk.body}</p>
+        </li>
+      ))}
+    </ul>
   </section>
 
-  <!-- ============ PASOS ============ -->
-  <section class="quest-section quest-section--alt">
-    <h2 class="quest-h2">{t.stepsTitle}</h2>
-    <p class="quest-section-lead">{t.stepsLead}</p>
+  <!-- ============ COMO PARTICIPAR EN EL RETO ============ -->
+  <section id="como-participar" class="g-section g-section--alt">
+    <div class="g-wrap">
+      <header class="g-head" data-reveal>
+        <h2 class="g-h2">{t.stepsTitle}</h2>
+        <p class="g-sublead">{t.stepsLead}</p>
+      </header>
 
-    <ol class="step-list">
-      <!-- 01 -->
-      <li class="step-card">
-        <div class="step-head">
-          <img src={computerUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" loading="lazy" decoding="async" />
-          <span class="step-num">01</span>
-          <h3 class="step-title">{t.step1Title}</h3>
-        </div>
-        <div class="step-body">
-          <p>{t.step1Body}</p>
-          <p class="step-muted">{t.step1Extra}</p>
-          <p>{t.step1Where}</p>
-          <p class="step-rule">{t.step1Rule}</p>
-        </div>
-      </li>
+      <ol class="how-steps how-steps--narrow">
+        <li class="how-step" data-reveal>
+          <div class="how-icon">
+            <img src={computerUrl.src} alt="" width="48" height="48" class="pixel-img" loading="lazy" decoding="async" />
+          </div>
+          <div class="how-text">
+            <span class="how-num">01</span>
+            <h3 class="how-title">{t.step1Title}</h3>
+            <p>{t.step1Body}</p>
+            <p class="step-rule">{t.step1Rule}</p>
+          </div>
+        </li>
 
-      <!-- 02 -->
-      <li class="step-card">
-        <div class="step-head">
-          <img src={starUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" loading="lazy" decoding="async" />
-          <span class="step-num">02</span>
-          <h3 class="step-title">{t.step2Title}</h3>
-        </div>
-        <div class="step-body">
-          <p>
-            {t.step2Body} <strong class="step-hashtag">{t.step2Hashtag}</strong> {t.step2And}
-          </p>
-          <ul class="handle-list">
-            {handles.map((h) => (
-              <li class="handle-row">
-                <span class="handle-network">{h.network}</span>
-                <a href={h.href} target="_blank" rel="noopener noreferrer" class="handle-link">
-                  {h.handle}
-                </a>
-                <button
-                  type="button"
-                  class="handle-copy"
-                  data-copy={h.handle}
-                  data-copied-label={`${t.copied} ${h.handle}`}
-                  aria-label={`${t.copyLabel} ${h.handle}`}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                      <path d="M7 9.667A2.667 2.667 0 0 1 9.667 7h8.666A2.667 2.667 0 0 1 21 9.667v8.666A2.667 2.667 0 0 1 18.333 21H9.667A2.667 2.667 0 0 1 7 18.333z" />
-                      <path d="M4.012 16.737A2 2 0 0 1 3 15V5c0-1.1.9-2 2-2h10c.75 0 1.158.385 1.5 1" />
-                    </g>
-                  </svg>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </li>
+        <li class="how-step" data-reveal style="--d:1">
+          <div class="how-icon">
+            <img src={starUrl.src} alt="" width="48" height="48" class="pixel-img" loading="lazy" decoding="async" />
+          </div>
+          <div class="how-text">
+            <span class="how-num">02</span>
+            <h3 class="how-title">{t.step2Title}</h3>
+            <p>{t.step2Body}</p>
+          </div>
+        </li>
 
-      <!-- 03 -->
-      <li class="step-card">
-        <div class="step-head">
-          <img src={coinUrl.src} alt="" width="64" height="64" class="pixel-img step-icon" loading="lazy" decoding="async" />
-          <span class="step-num">03</span>
-          <h3 class="step-title">{t.step3Title}</h3>
-        </div>
-        <div class="step-body">
-          <p>
-            {t.step3Body}{' '}
-            <a href="mailto:hello@skillion.app" class="step-mail">hello@skillion.app</a>
-          </p>
-          <p class="step-send">{t.step3Send}</p>
-          <ul class="send-list">
-            <li>{t.step3Item1}</li>
-            <li>{t.step3Item2}</li>
-            <li>{t.step3Item3}</li>
-          </ul>
-          <p class="step-rule step-rule--mint">{t.step3Note}</p>
-        </div>
-      </li>
-    </ol>
-  </section>
-
-  <!-- ============ MANIFIESTO ============ -->
-  <section class="quest-section">
-    <h2 class="quest-h2 quest-h2--small">{t.manifestoTitle}</h2>
-    <div class="manifesto">
-      <p class="manifesto-lead">{t.manifesto1}</p>
-      <p>{t.manifesto2}</p>
-      <p>{t.manifesto3}</p>
-      <blockquote class="manifesto-quote">{t.manifestoQuote}</blockquote>
+        <li class="how-step" data-reveal style="--d:2">
+          <div class="how-icon">
+            <img src={coinUrl.src} alt="" width="48" height="48" class="pixel-img" loading="lazy" decoding="async" />
+          </div>
+          <div class="how-text">
+            <span class="how-num">03</span>
+            <h3 class="how-title">{t.step3Title}</h3>
+            <p>{t.step3Body} <a href={`mailto:${MAIL}`} class="g-mail">{MAIL}</a> {t.step3Send}</p>
+            <p class="step-rule step-rule--mint">{t.step3Note}</p>
+          </div>
+        </li>
+      </ol>
     </div>
   </section>
 
-  <!-- ============ DESCARGA ============ -->
-  <section class="quest-section quest-section--alt quest-download">
-    <h2 class="quest-h2 quest-h2--small">{t.downloadTitle}</h2>
-    <p class="quest-section-lead">{t.downloadBody}</p>
-    <div class="store-row">
-      <a
-        href="https://play.google.com/store/apps/details?id=app.skillion&pcampaignid=web_share"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="pixel-cta pixel-cta--gold"
-      >
-        {t.play}
+  <!-- ============ EL GREMIO (siguiente nivel, se pide por correo) ============ -->
+  <section id="gremio" class="g-section">
+    <header class="g-head" data-reveal>
+      <span class="g-badge g-badge--mint">{t.gBadge}</span>
+      <h2 class="g-h2 g-h2--big">{t.gTitle}</h2>
+      <p class="g-sublead">{t.gLead}</p>
+    </header>
+
+    <div class="how-grid">
+      <ol class="how-steps">
+        {t.gSteps.map((step, i) => (
+          <li class="how-step" data-reveal style={`--d:${i}`}>
+            <div class="how-icon">
+              <img src={gStepIcons[i].src} alt="" width={gStepIcons[i].w} height={gStepIcons[i].h} class="pixel-img" loading="lazy" decoding="async" />
+            </div>
+            <div class="how-text">
+              <span class="how-num">0{i + 1}</span>
+              <h3 class="how-title">{step.title}</h3>
+              <p>{step.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <figure class="tg" data-reveal>
+        <div class="tg-phone">
+          <div class="tg-bar">
+            <span class="tg-back" aria-hidden="true">‹</span>
+            <span class="tg-avatar"><Image src={swordUrl} alt="" width={14} height={20} /></span>
+            <span class="tg-who">
+              <strong>{t.tgName}</strong>
+              <span>{t.tgStatus}</span>
+            </span>
+          </div>
+
+          <div class="tg-chat">
+            <div class="tg-msg">
+              <p class="tg-msg-title">{t.tgQuest}</p>
+              <p>{t.tgQuestBody}</p>
+            </div>
+
+            <div class="tg-album">
+              <div class="sl sl-cover">
+                <span class="sl-cover-title">{t.tgCover}</span>
+                <span class="sl-swipe">{t.tgSwipe}</span>
+              </div>
+              <div class="sl sl-tip">
+                <span class="sl-num">1</span>
+                <span class="sl-text">{t.tgTip}</span>
+                <span class="sl-meter"><i></i><i></i><i></i><i></i><i></i></span>
+              </div>
+              <div class="sl sl-app">
+                <span class="sl-text">{t.tgApp}</span>
+                <span class="sl-phone"><i></i><i></i><i></i></span>
+              </div>
+            </div>
+
+            <div class="tg-msg tg-msg--copy">
+              <span class="tg-copy-label">{t.tgCopyLabel}</span>
+              <span class="tg-code">{t.tgCaption}</span>
+            </div>
+
+            <div class="tg-buttons">
+              <span class="tg-btn">{t.tgDone}</span>
+              <span class="tg-btn">{t.tgSkip}</span>
+            </div>
+
+            <div class="tg-msg tg-msg--note">{t.tgProgress}</div>
+          </div>
+        </div>
+        <figcaption>{t.tgFigcaption}</figcaption>
+      </figure>
+    </div>
+
+    <div class="item" data-reveal>
+      <div class="item-box" aria-hidden="true"><span>?</span></div>
+      <div class="item-text">
+        <span class="item-badge">{t.itemBadge}</span>
+        <h3 class="item-title">{t.itemTitle}</h3>
+        <p>{t.itemBody}</p>
+      </div>
+    </div>
+
+    <h3 class="g-h3" data-reveal>{t.pathTitle}</h3>
+    <ol class="tier-grid">
+      {t.path.map((tier, i) => (
+        <li class={`tier-card tier-card--${tierIcons[i].tone}`} data-reveal style={`--d:${i}`}>
+          {i === 2 && <span class="tier-flag">{t.tierBest}</span>}
+          <div class="tier-icon" style={`height:${tierIcons[i].size}px`}>
+            <img src={tierIcons[i].src} alt="" width={tierIcons[i].size} height={tierIcons[i].size} class="pixel-img" loading="lazy" decoding="async" />
+          </div>
+          <span class="tier-when">{tier.when}</span>
+          <span class="tier-prize">{tier.prize}</span>
+        </li>
+      ))}
+    </ol>
+
+    <div class="streak" data-reveal>
+      <div class="streak-head">
+        <img src={fireUrl.src} alt="" width="24" height="24" class="pixel-img" />
+        <span class="streak-title">{t.streakTitle}</span>
+      </div>
+      <ol class="streak-track" aria-hidden="true">
+        {streakWeeks.map((w) => (
+          <li class="streak-cell" style={`--i:${w}`}><span>{w + 1}</span></li>
+        ))}
+        <li class="streak-goal" style="--i:12">
+          <img src={cetroUrl.src} alt="" width="40" height="40" class="pixel-img" />
+          <span>{t.streakEnd}</span>
+        </li>
+      </ol>
+      <p class="streak-note">{t.streakNote}</p>
+    </div>
+
+    <div class="loot" data-reveal>
+      <h3 class="g-h3 g-h3--gold">{t.lootTitle}</h3>
+      <p class="g-sublead g-sublead--tight">{t.lootLead}</p>
+      <ul class="loot-grid">
+        {t.loot.map((drop, i) => (
+          <li class="loot-card">
+            <img src={lootIcons[i]} alt="" width="48" height="48" class="pixel-img" loading="lazy" decoding="async" />
+            <span class="loot-views">{drop.views}</span>
+            <span class="loot-prize">{drop.prize}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <h3 class="g-h3" data-reveal>{t.needsTitle}</h3>
+    <ul class="needs" data-reveal>
+      {t.needs.map((need) => (
+        <li>
+          <span class="needs-check" aria-hidden="true"></span>
+          <span>{need}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- ============ SOLICITUD AL GREMIO (por correo) ============ -->
+  <section class="g-section g-section--alt">
+    <div class="g-wrap spots" data-reveal>
+      <h2 class="g-h2">{t.applyTitle}</h2>
+      <p class="g-sublead">
+        {t.applyLead} <a href={`mailto:${MAIL}`} class="g-mail">{MAIL}</a> {t.applyLeadPost}
+      </p>
+      <ul class="apply-list">
+        {t.applyItems.map((item) => <li>{item}</li>)}
+      </ul>
+      <a href={GUILD_MAIL_URL} class="pixel-cta pixel-cta--gold g-cta-big" data-cta="gremio_correo">
+        {t.applyCta}
       </a>
-      <a
-        href="https://apps.apple.com/app/skillion-gamify-your-life/id6752905262"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="pixel-cta pixel-cta--mint"
-      >
-        {t.appStore}
-      </a>
+      <p class="apply-note">{t.applyNote}</p>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="g-section">
+    <header class="g-head" data-reveal>
+      <h2 class="g-h2">{t.faqTitle}</h2>
+    </header>
+    <div class="faq" data-reveal>
+      {t.faq.map((item) => (
+        <details class="faq-item">
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ CIERRE ============ -->
+  <section class="g-final">
+    <div class="g-final-inner" data-reveal>
+      <Image src={swordUrl} alt="" width={50} height={72} class="g-final-sword" />
+      <h2 class="g-h2">{t.finalTitle}</h2>
+      <p class="g-sublead">{t.finalLead}</p>
+      <a href="#como-participar" class="pixel-cta pixel-cta--gold g-cta-big">{t.finalCta}</a>
+    </div>
+
+    <div class="g-download">
+      <h3 class="g-download-title">{t.downloadTitle}</h3>
+      <p>{t.downloadBody}</p>
+      <div class="store-row">
+        <a href="https://play.google.com/store/apps/details?id=app.skillion&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="pixel-cta pixel-cta--mint">
+          {t.play}
+        </a>
+        <a href="https://apps.apple.com/app/skillion-gamify-your-life/id6752905262" target="_blank" rel="noopener noreferrer" class="pixel-cta pixel-cta--mint">
+          {t.appStore}
+        </a>
+      </div>
     </div>
   </section>
 </main>
 
 <style>
-  .quest-page {
-    background: #0f1526;
-    color: #c9d6f5;
+  .guild {
+    --bg: #0f1526;
+    --bg-deep: #0b1020;
+    --ink: #0a0f1f;
+    --panel: #1b2547;
+    --panel-2: #141b32;
+    --line: #243157;
+    --blue: #3f5da8;
+    --text: #c9d6f5;
+    --muted: #8fa6dd;
+    --gold: #ffc53d;
+    --gold-light: #ffe6a0;
+    --gold-dark: #c98a12;
+    --mint: #8fe3da;
+    --bronze: #a9784a;
+    --pixel: 'Press Start 2P', 'Courier New', monospace;
+
+    background: var(--bg);
+    color: var(--text);
     font-family: 'Nunito', 'Poppins', sans-serif;
+    overflow-x: clip;
   }
 
   .pixel-img {
@@ -322,94 +691,32 @@ const tiers = [
     image-rendering: crisp-edges;
   }
 
-  /* ---------- HERO ---------- */
-  .quest-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 64px 24px 64px;
-    text-align: center;
-    background: linear-gradient(#141b32 0%, #0f1526 100%);
-    border-bottom: 4px solid #1b2547;
-  }
-
-  .quest-badge {
-    padding: 8px 12px;
-    background: #ffc53d;
-    color: #2a1a06;
-    border: 3px solid #0a0f1f;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 9px;
-    line-height: 1.5;
-  }
-
-  .quest-logo {
-    width: auto;
-    height: 96px;
-    animation: quest-float 3s ease-in-out infinite;
-  }
-
-  @keyframes quest-float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-8px);
-    }
-  }
-
-  .quest-h1 {
-    margin: 0;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: clamp(15px, 3.4vw, 28px);
-    line-height: 1.7;
-    color: #ffe6a0;
-    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
-    text-wrap: balance;
-  }
-
-  .quest-h1-sub {
-    color: #8fa6dd;
-    font-size: 0.62em;
-  }
-
-  .quest-lead {
-    margin: 0;
-    max-width: 620px;
-    font-size: clamp(15px, 2.2vw, 18px);
-    font-weight: 700;
-    line-height: 1.55;
-    color: #c9d6f5;
-    text-wrap: pretty;
-  }
-
   /* ---------- BOTONES ---------- */
   .pixel-cta {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 15px 20px;
-    border: 4px solid #0a0f1f;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
+    border: 4px solid var(--ink);
+    font-family: var(--pixel);
     font-size: clamp(9px, 1.4vw, 11px);
     line-height: 1.5;
+    text-align: center;
     text-decoration: none;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   .pixel-cta--gold {
-    background: #ffc53d;
+    background: var(--gold);
     color: #2a1a06;
     box-shadow:
-      inset -4px -4px 0 0 #c98a12,
-      inset 4px 4px 0 0 #ffe6a0,
+      inset -4px -4px 0 0 var(--gold-dark),
+      inset 4px 4px 0 0 var(--gold-light),
       6px 6px 0 0 rgba(5, 8, 18, 0.45);
   }
 
   .pixel-cta--mint {
-    background: #8fe3da;
+    background: var(--mint);
     color: #0a2b28;
     box-shadow:
       inset -4px -4px 0 0 #3f8f86,
@@ -421,78 +728,778 @@ const tiers = [
     transform: translate(-2px, -2px);
   }
 
-  .pixel-cta--gold:hover {
-    box-shadow:
-      inset -4px -4px 0 0 #c98a12,
-      inset 4px 4px 0 0 #ffe6a0,
-      8px 8px 0 0 rgba(5, 8, 18, 0.5);
+  .pixel-cta:active {
+    transform: translate(2px, 2px);
   }
 
-  .pixel-cta--mint:hover {
+  .pixel-cta:focus-visible,
+  .g-link:focus-visible,
+  .faq-item summary:focus-visible {
+    outline: 3px solid var(--mint);
+    outline-offset: 3px;
+  }
+
+  .g-cta-big {
+    padding: 18px 26px;
+    font-size: clamp(10px, 1.6vw, 13px);
+  }
+
+  /* ---------- HERO ---------- */
+  .g-hero {
+    position: relative;
+    padding: 56px 20px 72px;
+    background:
+      radial-gradient(60% 50% at 78% 30%, rgba(255, 197, 61, 0.12), transparent 70%),
+      linear-gradient(#141b32 0%, var(--bg) 100%);
+    border-bottom: 4px solid var(--panel);
+  }
+
+  .g-hero-inner {
+    display: grid;
+    gap: 44px;
+    max-width: 68rem;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .g-hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .g-badge {
+    padding: 8px 12px;
+    background: var(--gold);
+    color: #2a1a06;
+    border: 3px solid var(--ink);
+    font-family: var(--pixel);
+    font-size: 9px;
+    line-height: 1.5;
+  }
+
+  .g-h1 {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    font-family: var(--pixel);
+    font-size: clamp(24px, 5.4vw, 44px);
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--gold-light);
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+  }
+
+  .g-h1-sub {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(20px, 3.4vw, 30px);
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--mint);
+    text-shadow: none;
+  }
+
+  .g-lead {
+    margin: 0;
+    max-width: 34rem;
+    font-size: clamp(17px, 2.2vw, 20px);
+    font-weight: 700;
+    line-height: 1.55;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  .g-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 4px 0 6px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .g-facts li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--panel-2);
+    border: 3px solid var(--line);
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .g-facts li::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--mint);
+    box-shadow: 0 0 0 2px var(--ink);
+  }
+
+  .g-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 22px;
+  }
+
+  .g-link {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+  }
+
+  .g-link:hover {
+    color: var(--gold-light);
+  }
+
+  /* ---------- TARJETA DE MISION ---------- */
+  .g-hero-art {
+    position: relative;
+    justify-self: center;
+    width: min(100%, 360px);
+    padding-top: 18px;
+  }
+
+  .qc-sword {
+    position: absolute;
+    top: -14px;
+    left: -12px;
+    z-index: 2;
+    width: 44px;
+    height: auto;
+    animation: g-float 3s ease-in-out infinite;
+  }
+
+  .qc {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 22px 20px 20px;
+    background: var(--panel);
+    border: 4px solid var(--ink);
     box-shadow:
-      inset -4px -4px 0 0 #3f8f86,
-      inset 4px 4px 0 0 #d5fbf6,
-      8px 8px 0 0 rgba(5, 8, 18, 0.5);
+      inset 0 0 0 4px var(--gold),
+      10px 10px 0 0 rgba(5, 8, 18, 0.5);
+    transform: rotate(-1.5deg);
+  }
+
+  .qc-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .qc-label,
+  .qc-count {
+    font-family: var(--pixel);
+    font-size: 10px;
+    line-height: 1.4;
+    color: var(--gold);
+  }
+
+  .qc-count {
+    color: var(--mint);
+  }
+
+  .qc-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1.3;
+    color: #fff;
+  }
+
+  /* Barra de likes con hitos 10 · 50 · 100 */
+  .lk {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .lk-bar {
+    position: relative;
+    height: 24px;
+    background: var(--panel-2);
+    border: 3px solid var(--ink);
+    box-shadow: inset 0 0 0 3px var(--line);
+  }
+
+  .lk-fill {
+    position: absolute;
+    inset: 3px auto 3px 3px;
+    width: calc(63% - 6px);
+    background: repeating-linear-gradient(90deg, #ff5d7a 0 10px, #ff8aa0 10px 20px);
+    animation: g-fill 1.4s steps(14, end) 0.4s both;
+  }
+
+  .lk-marks {
+    position: relative;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lk-marks li {
+    position: absolute;
+    left: var(--p);
+    transform: translateX(-50%);
+    font-family: var(--pixel);
+    font-size: 9px;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .lk-marks li:last-child {
+    transform: translateX(-100%);
+  }
+
+  .lk-marks li.is-done {
+    color: #ff8aa0;
+  }
+
+  .qc-reward {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    row-gap: 4px;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--panel-2);
+    border: 3px solid var(--line);
+  }
+
+  .qc-reward img {
+    grid-row: span 2;
+  }
+
+  .qc-reward-label {
+    font-family: var(--pixel);
+    font-size: 8px;
+    color: var(--muted);
+  }
+
+  .qc-reward-value {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--gold-light);
+  }
+
+  .qc-streak {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  @keyframes g-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @keyframes g-fill {
+    from {
+      width: 0;
+    }
+  }
+
+  .g-badge--mint {
+    display: inline-block;
+    margin-bottom: 18px;
+    background: var(--mint);
+    color: #0a2b28;
   }
 
   /* ---------- SECCIONES ---------- */
-  .quest-section {
-    max-width: 62rem;
+  .g-section {
+    max-width: 68rem;
     margin: 0 auto;
-    padding: 64px 24px;
+    padding: 72px 20px;
   }
 
-  .quest-section--alt {
+  .g-section--alt {
     max-width: none;
-    background: #0b1020;
-    border-block: 4px solid #1b2547;
+    background: var(--bg-deep);
+    border-block: 4px solid var(--panel);
   }
 
-  .quest-section--alt > * {
-    max-width: 62rem;
-    margin-inline: auto;
+  .g-wrap {
+    max-width: 68rem;
+    margin: 0 auto;
   }
 
-  .quest-h2 {
+  .g-head {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  .g-h2 {
     margin: 0 0 14px;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: clamp(14px, 2.6vw, 22px);
+    font-family: var(--pixel);
+    font-size: clamp(16px, 3vw, 24px);
+    font-weight: 400;
     line-height: 1.6;
-    color: #ffc53d;
+    color: var(--gold);
     text-align: center;
     text-wrap: balance;
   }
 
-  .quest-h2--small {
-    font-size: clamp(12px, 2.1vw, 17px);
+  .g-h2--big {
+    font-size: clamp(20px, 4vw, 32px);
+    color: var(--gold-light);
   }
 
-  .quest-section-lead {
-    margin: 0 auto 40px;
-    max-width: 620px;
+  .g-h2--small {
+    font-size: clamp(13px, 2.2vw, 18px);
+  }
+
+  .g-h3 {
+    margin: 64px 0 24px;
+    font-family: var(--pixel);
+    font-size: clamp(11px, 1.8vw, 14px);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--gold-light);
+    text-align: center;
+  }
+
+  .g-h3--gold {
+    margin-top: 0;
+    color: var(--gold);
+  }
+
+  .g-sublead {
+    margin: 0 auto;
+    max-width: 40rem;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--muted);
+    text-align: center;
+    text-wrap: pretty;
+  }
+
+  .g-sublead--tight {
+    margin-bottom: 24px;
+  }
+
+  /* ---------- COMO FUNCIONA ---------- */
+  .how-grid {
+    display: grid;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .how-steps {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Camino de puntos entre pasos */
+  .how-steps::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    bottom: 40px;
+    left: 39px;
+    width: 4px;
+    background: repeating-linear-gradient(to bottom, var(--blue) 0 8px, transparent 8px 16px);
+  }
+
+  .how-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 82px 1fr;
+    gap: 18px;
+    align-items: start;
+    padding: 18px 20px 20px 0;
+  }
+
+  .how-icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 82px;
+    height: 82px;
+    background: var(--panel);
+    border: 4px solid var(--ink);
+    box-shadow: inset 0 0 0 4px var(--blue), 6px 6px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  .how-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 4px;
+  }
+
+  .how-num {
+    font-family: var(--pixel);
+    font-size: 11px;
+    color: var(--blue);
+  }
+
+  .how-title {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1.3;
+    color: var(--gold-light);
+  }
+
+  .how-text p {
+    margin: 0;
     font-size: 16px;
     font-weight: 700;
-    line-height: 1.55;
-    color: #8fa6dd;
-    text-align: center;
+    line-height: 1.6;
+    color: var(--text);
     text-wrap: pretty;
   }
 
-  .quest-note {
-    margin: 32px auto 0;
-    max-width: 560px;
+  .how-steps--narrow {
+    max-width: 46rem;
+    margin: 0 auto;
+  }
+
+  .step-rule {
+    align-self: flex-start;
+    margin-top: 4px !important;
+    padding: 9px 12px;
+    border: 3px solid var(--blue);
+    font-family: var(--pixel);
+    font-size: 9px !important;
+    line-height: 1.6 !important;
+    color: var(--muted) !important;
+  }
+
+  .step-rule--mint {
+    border-color: var(--mint);
+    color: var(--mint) !important;
+  }
+
+  /* ---------- TELEGRAM ---------- */
+  .tg {
+    justify-self: center;
+    width: min(100%, 340px);
+    margin: 0;
+  }
+
+  .tg figcaption {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .tg-phone {
+    overflow: hidden;
+    background: #0e1621;
+    border: 10px solid #05070d;
+    border-radius: 36px;
+    box-shadow:
+      0 0 0 2px #2a3550,
+      14px 14px 0 0 rgba(5, 8, 18, 0.55);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .tg-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 14px 10px;
+    background: #17212b;
+    border-bottom: 1px solid #0b1118;
+  }
+
+  .tg-back {
+    font-size: 26px;
+    line-height: 1;
+    color: #6ab3f3;
+  }
+
+  .tg-avatar {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #3f5da8, #1b2547);
+    border-radius: 50%;
+  }
+
+  .tg-who {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .tg-who strong {
+    font-size: 14px;
+    color: #fff;
+  }
+
+  .tg-who span {
+    font-size: 12px;
+    color: #708499;
+  }
+
+  .tg-chat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 14px 10px 16px;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(106, 179, 243, 0.06), transparent 40%),
+      #0e1621;
+  }
+
+  .tg-msg {
+    max-width: 92%;
+    padding: 8px 11px 9px;
+    background: #182533;
+    border-radius: 14px 14px 14px 4px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #e9eef4;
+  }
+
+  .tg-msg p {
+    margin: 0;
+  }
+
+  .tg-msg-title {
+    margin-bottom: 2px !important;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .tg-album {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    width: 92%;
+    overflow: hidden;
+    border-radius: 14px 14px 14px 4px;
+  }
+
+  .sl {
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+    color: #fff;
+    background: #0b0907;
+  }
+
+  .sl-cover {
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 4 / 5;
+    padding: 12px 10px;
+    text-align: center;
+    background:
+      radial-gradient(70% 45% at 82% 34%, rgba(255, 196, 120, 0.55), transparent 70%),
+      radial-gradient(90% 60% at 15% 100%, rgba(95, 70, 45, 0.7), transparent 70%),
+      linear-gradient(165deg, #2c231a, #0b0907 75%);
+  }
+
+  .sl-cover-title {
+    font-family: 'Bodoni 72', Didot, 'Playfair Display', Georgia, serif;
+    font-size: 13px;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  .sl-swipe {
+    position: absolute;
+    bottom: 8px;
+    font-size: 8px;
+    opacity: 0.85;
+  }
+
+  .sl-tip,
+  .sl-app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px;
+    background:
+      radial-gradient(80% 60% at 70% 20%, rgba(120, 140, 170, 0.25), transparent 70%),
+      linear-gradient(160deg, #1a1d24, #08090c);
+  }
+
+  .sl-num {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .sl-text {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-size: 9.5px;
+    line-height: 1.2;
+  }
+
+  .sl-meter {
+    display: flex;
+    gap: 2px;
+  }
+
+  .sl-meter i {
+    width: 7px;
+    height: 7px;
+    background: #f2a33a;
+  }
+
+  .sl-phone {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-self: center;
+    width: 46%;
+    padding: 6px 5px;
+    background: #222;
+    border: 2px solid #3a3a3a;
+    border-radius: 7px;
+  }
+
+  .sl-phone i {
+    height: 5px;
+    background: linear-gradient(to right, #4cd964 60%, #555 60%);
+    border-radius: 2px;
+  }
+
+  .sl-phone i:nth-child(2) {
+    background: linear-gradient(to right, #4cd964 40%, #555 40%);
+  }
+
+  .sl-phone i:nth-child(3) {
+    background: linear-gradient(to right, #4cd964 75%, #555 75%);
+  }
+
+  .tg-msg--copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .tg-copy-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6ab3f3;
+  }
+
+  .tg-code {
+    padding: 6px 8px;
+    background: #0e1621;
+    border-radius: 6px;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #c6e0f8;
+  }
+
+  .tg-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    width: 92%;
+  }
+
+  .tg-btn {
+    padding: 8px 6px;
+    background: rgba(24, 37, 51, 0.85);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+  }
+
+  .tg-msg--note {
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  /* ---------- PREMIUM ---------- */
+  .perk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .perk {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 22px 20px;
+    background: var(--panel);
+    border: 4px solid var(--ink);
+    box-shadow: 6px 6px 0 0 rgba(5, 8, 18, 0.45);
+  }
+
+  .perk-icon {
+    display: flex;
+    align-items: flex-end;
+    height: 52px;
+    margin-bottom: 6px;
+  }
+
+  .perk-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1.3;
+    color: var(--gold-light);
+  }
+
+  .perk p {
+    margin: 0;
     font-size: 15px;
     font-weight: 700;
-    line-height: 1.55;
-    color: #8fa6dd;
-    text-align: center;
-    text-wrap: pretty;
+    line-height: 1.5;
+    color: var(--muted);
   }
 
-  /* ---------- RECOMPENSAS ---------- */
+  /* ---------- ESCALERA ---------- */
   .tier-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 22px;
     margin: 0;
     padding: 0;
@@ -507,21 +1514,21 @@ const tiers = [
     gap: 14px;
     padding: 30px 20px 26px;
     text-align: center;
-    background: #1b2547;
-    border: 4px solid #0a0f1f;
-    box-shadow: 8px 8px 0 0 rgba(5, 8, 18, 0.45);
+    background: var(--panel);
+    border: 4px solid var(--ink);
   }
 
   .tier-card--bronze {
-    box-shadow: inset 0 0 0 4px #a9784a, 8px 8px 0 0 rgba(5, 8, 18, 0.45);
+    box-shadow: inset 0 0 0 4px var(--bronze), 8px 8px 0 0 rgba(5, 8, 18, 0.45);
   }
 
   .tier-card--silver {
-    box-shadow: inset 0 0 0 4px #8fa6dd, 8px 8px 0 0 rgba(5, 8, 18, 0.45);
+    box-shadow: inset 0 0 0 4px var(--muted), 8px 8px 0 0 rgba(5, 8, 18, 0.45);
   }
 
   .tier-card--gold {
-    box-shadow: inset 0 0 0 4px #ffc53d, 10px 10px 0 0 rgba(5, 8, 18, 0.5);
+    box-shadow: inset 0 0 0 4px var(--gold), 10px 10px 0 0 rgba(5, 8, 18, 0.5);
+    background: linear-gradient(#24305a, var(--panel));
   }
 
   .tier-flag {
@@ -530,257 +1537,503 @@ const tiers = [
     left: 50%;
     transform: translateX(-50%);
     padding: 6px 10px;
-    background: #ffc53d;
+    background: var(--gold);
     color: #2a1a06;
-    border: 3px solid #0a0f1f;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
+    border: 3px solid var(--ink);
+    font-family: var(--pixel);
     font-size: 8px;
     line-height: 1;
     white-space: nowrap;
   }
 
-  /* Alto fijo para que los tres iconos, de tamaños distintos, se alineen abajo */
   .tier-icon {
     display: flex;
     align-items: flex-end;
   }
 
-  .tier-likes {
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 13px;
+  .tier-when {
+    font-family: var(--pixel);
+    font-size: 12px;
     line-height: 1.5;
-    color: #ffe6a0;
+    color: var(--gold-light);
   }
 
   .tier-prize {
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 800;
     line-height: 1.45;
-    color: #c9d6f5;
+    color: var(--text);
     text-wrap: balance;
   }
 
-  /* ---------- PASOS ---------- */
-  .step-list {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .step-card {
-    padding: 26px 24px 28px;
-    background: #1b2547;
-    border: 4px solid #0a0f1f;
-    box-shadow: inset 0 0 0 4px #3f5da8, 8px 8px 0 0 rgba(5, 8, 18, 0.45);
-  }
-
-  .step-head {
-    display: flex;
+  /* ---------- OBJETO EXCLUSIVO DEL GREMIO ----------
+     Caja misteriosa con "?": el objeto no se enseña. */
+  .item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
     align-items: center;
-    gap: 16px;
-    padding-bottom: 18px;
-    margin-bottom: 18px;
-    border-bottom: 3px solid #243157;
+    max-width: 46rem;
+    margin: 64px auto 0;
+    padding: 24px;
+    background: linear-gradient(135deg, #2a1f52, var(--panel));
+    border: 4px solid var(--ink);
+    box-shadow:
+      inset 0 0 0 4px #b48cff,
+      10px 10px 0 0 rgba(5, 8, 18, 0.5);
   }
 
-  .step-icon {
-    flex: none;
+  .item-box {
+    display: grid;
+    place-items: center;
+    width: 88px;
+    height: 88px;
+    background: #1a1238;
+    border: 4px solid var(--ink);
+    box-shadow:
+      inset 0 0 0 4px #7d5cd6,
+      0 0 24px rgba(180, 140, 255, 0.45);
+    animation: g-glow 2.4s ease-in-out infinite;
   }
 
-  .step-num {
-    flex: none;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 22px;
+  .item-box span {
+    font-family: var(--pixel);
+    font-size: 34px;
     line-height: 1;
-    color: #3f5da8;
+    color: #e3d4ff;
+    text-shadow: 3px 3px 0 #4b2f9e;
   }
 
-  .step-title {
-    margin: 0;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: clamp(11px, 1.9vw, 15px);
-    line-height: 1.6;
-    color: #ffe6a0;
-    text-wrap: balance;
+  @keyframes g-glow {
+    0%,
+    100% {
+      box-shadow:
+        inset 0 0 0 4px #7d5cd6,
+        0 0 18px rgba(180, 140, 255, 0.35);
+    }
+    50% {
+      box-shadow:
+        inset 0 0 0 4px #b48cff,
+        0 0 34px rgba(180, 140, 255, 0.7);
+    }
   }
 
-  .step-body {
+  .item-text {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    align-items: flex-start;
+    gap: 8px;
   }
 
-  .step-body p {
+  .item-badge {
+    padding: 6px 10px;
+    background: #b48cff;
+    color: #1a1238;
+    border: 3px solid var(--ink);
+    font-family: var(--pixel);
+    font-size: 8px;
+    line-height: 1.4;
+  }
+
+  .item-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1.3;
+    color: #fff;
+  }
+
+  .item-text p {
     margin: 0;
     font-size: 16px;
     font-weight: 700;
     line-height: 1.55;
-    color: #c9d6f5;
-    text-wrap: pretty;
+    color: var(--text);
   }
 
-  .step-muted {
-    color: #8fa6dd !important;
-    font-style: italic;
+  /* ---------- RACHA ---------- */
+  .streak {
+    margin-top: 40px;
+    padding: 24px 22px 22px;
+    background: var(--panel-2);
+    border: 4px solid var(--ink);
+    box-shadow: inset 0 0 0 4px var(--line);
   }
 
-  .step-hashtag {
-    color: #8fe3da;
-  }
-
-  .step-rule {
-    align-self: flex-start;
-    margin-top: 4px !important;
-    padding: 9px 12px;
-    border: 3px solid #3f5da8;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 9px !important;
-    line-height: 1.6 !important;
-    color: #8fa6dd !important;
-  }
-
-  .step-rule--mint {
-    border-color: #8fe3da;
-    color: #8fe3da !important;
-  }
-
-  .step-send {
-    margin-top: 4px !important;
-    color: #8fa6dd !important;
-  }
-
-  /* ---------- HANDLES ---------- */
-  .handle-list {
+  .streak-head {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .streak-title {
+    font-family: var(--pixel);
+    font-size: 11px;
+    color: var(--gold);
+  }
+
+  .streak-track {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr) auto;
+    gap: 6px;
+    align-items: center;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .handle-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    padding: 12px 14px;
-    background: #141b32;
-    border: 3px solid #243157;
-  }
-
-  .handle-network {
-    min-width: 84px;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 9px;
-    line-height: 1.5;
-    color: #8fa6dd;
-  }
-
-  .handle-link {
-    flex: 1;
-    font-size: 15px;
-    font-weight: 700;
-    color: #ffe6a0;
-    text-decoration: none;
-  }
-
-  .handle-link:hover {
-    color: #ffc53d;
-    text-decoration: underline;
-  }
-
-  .handle-copy {
-    flex: none;
+  .streak-cell {
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
+    aspect-ratio: 1;
+    background: var(--panel);
+    border: 3px solid var(--ink);
+    transition: background 0.25s steps(2, end), box-shadow 0.25s steps(2, end);
+    transition-delay: calc(var(--i) * 90ms);
+  }
+
+  .streak-cell span {
+    font-family: var(--pixel);
+    font-size: 8px;
+    color: var(--muted);
+    transition: color 0.25s steps(2, end);
+    transition-delay: calc(var(--i) * 90ms);
+  }
+
+  .streak-goal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding-left: 6px;
+    filter: grayscale(1) brightness(0.7);
+    transition: filter 0.3s ease;
+    transition-delay: calc(var(--i) * 90ms);
+  }
+
+  .streak-goal span {
+    font-size: 12px;
+    font-weight: 900;
+    color: var(--gold-light);
+    white-space: nowrap;
+  }
+
+  /* Encendida al entrar en pantalla; sin JS, encendida desde el principio */
+  .streak.is-in .streak-cell,
+  .guild:not([data-reveal-ready]) .streak-cell {
+    background: #ff8a3d;
+    box-shadow: inset 0 0 0 3px #ffc27a;
+  }
+
+  .streak.is-in .streak-cell span,
+  .guild:not([data-reveal-ready]) .streak-cell span {
+    color: #2a1206;
+  }
+
+  .streak.is-in .streak-goal,
+  .guild:not([data-reveal-ready]) .streak-goal {
+    filter: none;
+  }
+
+  .streak-note {
+    margin: 18px 0 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  /* ---------- BOTIN ---------- */
+  .loot {
+    margin-top: 64px;
+  }
+
+  .loot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    max-width: 44rem;
+    margin: 0 auto;
     padding: 0;
-    background: #1b2547;
-    color: #8fa6dd;
-    border: 3px solid #3f5da8;
-    cursor: pointer;
-    transition: color 0.15s ease, border-color 0.15s ease;
+    list-style: none;
   }
 
-  .handle-copy:hover {
-    color: #ffc53d;
-    border-color: #ffc53d;
+  .loot-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px 18px;
+    text-align: center;
+    background: var(--panel);
+    border: 4px dashed var(--gold);
   }
 
-  .handle-copy[data-done='true'] {
-    color: #8fe3da;
-    border-color: #8fe3da;
+  .loot-views {
+    font-family: var(--pixel);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--gold-light);
   }
 
-  /* ---------- LISTA DE ENVIO ---------- */
-  .send-list {
+  .loot-prize {
+    font-size: 17px;
+    font-weight: 900;
+    color: var(--mint);
+  }
+
+  /* ---------- REQUISITOS ---------- */
+  .needs {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  .needs li {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 14px;
+    align-items: start;
+    padding: 16px 18px;
+    background: var(--panel);
+    border: 3px solid var(--ink);
+    box-shadow: inset 0 0 0 3px var(--line);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.55;
+    color: var(--text);
+  }
+
+  .needs-check {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    margin-top: 1px;
+    background: var(--mint);
+    border: 3px solid var(--ink);
+  }
+
+  .needs-check::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 1px;
+    width: 6px;
+    height: 12px;
+    border-right: 4px solid #0a2b28;
+    border-bottom: 4px solid #0a2b28;
+    transform: rotate(40deg);
+  }
+
+  /* ---------- PLAZAS ---------- */
+  .spots {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    text-align: center;
+  }
+
+  .apply-list {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin: 4px 0 0;
+    padding: 18px 22px;
+    background: var(--panel);
+    border: 3px solid var(--ink);
+    box-shadow: inset 0 0 0 3px var(--line);
+    list-style: none;
+    text-align: left;
+  }
+
+  .apply-list li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .apply-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+  }
+
+  .apply-note {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .spots .g-h2 {
+    margin-bottom: 0;
+  }
+
+  .spots .g-cta-big {
+    margin-top: 10px;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 46rem;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: var(--panel);
+    border: 3px solid var(--ink);
+    box-shadow: inset 0 0 0 3px var(--line);
+  }
+
+  .faq-item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    font-size: 17px;
+    font-weight: 900;
+    line-height: 1.4;
+    color: var(--gold-light);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    flex: none;
+    font-family: var(--pixel);
+    font-size: 14px;
+    color: var(--gold);
+  }
+
+  .faq-item[open] summary::after {
+    content: '−';
+  }
+
+  .faq-item p {
+    margin: 0;
+    padding: 0 20px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  /* ---------- POR TU CUENTA ---------- */
+  .own {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    max-width: 46rem;
+  }
+
+  .g-mail {
+    color: var(--gold-light);
+    font-weight: 900;
+  }
+
+  .own-tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .send-list li {
-    position: relative;
-    padding-left: 22px;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.5;
-    color: #c9d6f5;
-  }
-
-  .send-list li::before {
-    content: '▸';
-    position: absolute;
-    left: 0;
-    color: #ffc53d;
-  }
-
-  /* ---------- MANIFIESTO ---------- */
-  .manifesto {
+  .own-tiers li {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    max-width: 680px;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 8px;
+    background: var(--panel);
+    border: 3px solid var(--ink);
+    box-shadow: inset 0 0 0 3px var(--line);
+    text-align: center;
+  }
+
+  .own-likes {
+    font-family: var(--pixel);
+    font-size: 10px;
+    line-height: 1.4;
+    color: var(--gold-light);
+  }
+
+  .own-prize {
+    font-size: 15px;
+    font-weight: 900;
+    color: var(--text);
+  }
+
+  /* ---------- CIERRE ---------- */
+  .g-final {
+    padding: 80px 20px 72px;
+    background:
+      radial-gradient(50% 60% at 50% 0%, rgba(255, 197, 61, 0.14), transparent 70%),
+      var(--bg);
+    text-align: center;
+  }
+
+  .g-final-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    max-width: 40rem;
     margin: 0 auto;
   }
 
-  .manifesto p {
+  .g-final-sword {
+    width: 50px;
+    height: auto;
+    animation: g-float 3s ease-in-out infinite;
+  }
+
+  .g-final .g-h2 {
     margin: 0;
+    font-size: clamp(18px, 3.6vw, 28px);
+  }
+
+  .g-download {
+    max-width: 40rem;
+    margin: 72px auto 0;
+    padding-top: 40px;
+    border-top: 4px solid var(--panel);
+  }
+
+  .g-download-title {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--gold-light);
+  }
+
+  .g-download p {
+    margin: 0 0 22px;
     font-size: 16px;
     font-weight: 700;
-    line-height: 1.6;
-    color: #8fa6dd;
-    text-wrap: pretty;
-  }
-
-  .manifesto-lead {
-    color: #c9d6f5 !important;
-    font-size: 18px !important;
-  }
-
-  .manifesto-quote {
-    margin: 8px 0 0;
-    padding: 18px 22px;
-    background: #1b2547;
-    border-left: 5px solid #ffc53d;
-    font-size: 17px;
-    font-weight: 900;
-    line-height: 1.5;
-    color: #ffe6a0;
-    text-wrap: pretty;
-  }
-
-  /* ---------- DESCARGA ---------- */
-  .quest-download {
-    text-align: center;
+    color: var(--muted);
   }
 
   .store-row {
@@ -790,84 +2043,254 @@ const tiers = [
     justify-content: center;
   }
 
+  /* ---------- APARICION AL HACER SCROLL ----------
+     Solo con JS (data-reveal-ready lo pone el script): sin JS todo se ve. */
+  .guild[data-reveal-ready] [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+    transition-delay: calc(var(--d, 0) * 90ms);
+  }
+
+  .guild[data-reveal-ready] [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+
   /* ---------- RESPONSIVE ---------- */
-  @media (max-width: 640px) {
-    .quest-hero {
-      padding: 48px 20px 52px;
+  @media (min-width: 900px) {
+    .g-hero {
+      padding: 80px 32px 96px;
     }
 
-    .quest-section {
-      padding: 48px 20px;
+    .g-hero-inner {
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 56px;
     }
 
-    .step-head {
-      flex-wrap: wrap;
-      gap: 12px;
+    .g-section {
+      padding: 96px 32px;
     }
 
-    .step-title {
-      flex-basis: 100%;
+    .how-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 56px;
     }
 
-    .handle-network {
-      min-width: 0;
+    .tg {
+      position: sticky;
+      top: 96px;
     }
   }
 
+  @media (max-width: 640px) {
+    .g-hero {
+      padding: 40px 16px 56px;
+    }
+
+    .g-section {
+      padding: 56px 16px;
+    }
+
+    .g-final {
+      padding: 64px 16px 72px;
+    }
+
+    .g-facts li {
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+
+    .g-ctas {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    /* En móvil las tarjetas van en horizontal (icono a la izquierda) para
+       que la escalera se lea de un vistazo y no ocupe tres pantallas. */
+    .perk {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      column-gap: 14px;
+      row-gap: 4px;
+      padding: 16px;
+    }
+
+    .perk-icon {
+      grid-row: span 2;
+      justify-content: center;
+      align-items: center;
+      height: auto;
+      margin: 0;
+    }
+
+    .tier-grid {
+      gap: 16px;
+    }
+
+    .tier-card {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      column-gap: 14px;
+      row-gap: 6px;
+      align-items: center;
+      padding: 20px 16px 18px;
+      text-align: left;
+    }
+
+    .tier-icon {
+      grid-row: span 2;
+      justify-content: center;
+      height: auto !important;
+    }
+
+    .tier-prize {
+      text-wrap: pretty;
+    }
+
+    .item {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: 16px;
+      padding: 22px 18px;
+      text-align: center;
+    }
+
+    .item-text {
+      align-items: center;
+    }
+
+    .loot-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .loot-card {
+      padding: 18px 10px;
+    }
+
+    .loot-views {
+      font-size: 10px;
+    }
+
+    .loot-prize {
+      font-size: 15px;
+    }
+
+    .g-ctas .g-link {
+      text-align: center;
+    }
+
+    .how-steps::before {
+      left: 31px;
+    }
+
+    .how-step {
+      grid-template-columns: 66px 1fr;
+      gap: 14px;
+      padding-right: 0;
+    }
+
+    .how-icon {
+      width: 66px;
+      height: 66px;
+    }
+
+    .how-icon img {
+      transform: scale(0.8);
+    }
+
+    .how-title {
+      font-size: 19px;
+    }
+
+    .streak {
+      padding: 20px 14px 18px;
+    }
+
+    .streak-track {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .streak-goal {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      justify-content: center;
+      gap: 10px;
+      padding: 8px 0 0;
+    }
+
+    .own-tiers li {
+      padding: 14px 4px;
+    }
+
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .quest-logo {
+    .qc-sword,
+    .g-final-sword,
+    .lk-fill {
       animation: none;
+    }
+
+    .streak-cell,
+    .streak-cell span,
+    .streak-goal {
+      transition: none;
+    }
+
+    .guild[data-reveal-ready] [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
     }
   }
 </style>
 
 <script>
-  // Copiar handle. Sustituye a los onclick inline que llamaban a window.showToast:
-  // delegación + feedback en el propio botón, sin depender del componente Toast.
-  function initCopyButtons() {
-    document.querySelectorAll<HTMLButtonElement>('.handle-copy').forEach((button) => {
-      // Con View Transitions esto corre en la carga inicial Y en cada
-      // astro:page-load. Sin la marca, volver a esta página engancharía un
-      // segundo listener y cada clic copiaría dos veces.
-      if (button.dataset.bound === 'true') return;
-      button.dataset.bound = 'true';
+  // Con View Transitions esto corre en la carga inicial Y en cada
+  // astro:page-load. Cada pieza se marca para no engancharse dos veces.
 
-      button.addEventListener('click', async () => {
-        const value = button.dataset.copy;
-        if (!value) return;
+  function initReveal() {
+    const root = document.querySelector<HTMLElement>('.guild');
+    if (!root || root.dataset.revealReady !== undefined) return;
+    if (!('IntersectionObserver' in window)) return;
 
-        try {
-          await navigator.clipboard.writeText(value);
-        } catch {
-          // Safari sin permiso de portapapeles, http, etc.
-          const helper = document.createElement('textarea');
-          helper.value = value;
-          helper.setAttribute('readonly', '');
-          helper.style.position = 'absolute';
-          helper.style.left = '-9999px';
-          document.body.appendChild(helper);
-          helper.select();
-          try {
-            document.execCommand('copy');
-          } catch {
-            document.body.removeChild(helper);
-            return;
-          }
-          document.body.removeChild(helper);
-        }
+    const targets = root.querySelectorAll<HTMLElement>('[data-reveal]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-in');
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
+    );
+    targets.forEach((el) => observer.observe(el));
+    root.dataset.revealReady = '';
+  }
 
-        button.dataset.done = 'true';
-        const previous = button.getAttribute('aria-label') || '';
-        button.setAttribute('aria-label', button.dataset.copiedLabel || previous);
-
-        window.setTimeout(() => {
-          delete button.dataset.done;
-          button.setAttribute('aria-label', previous);
-        }, 1600);
+  // Clics en "escribirnos para entrar" a GA4, con el sitio del botón.
+  function initCtaTracking() {
+    document.querySelectorAll<HTMLAnchorElement>('[data-cta]').forEach((link) => {
+      if (link.dataset.tracked === 'true') return;
+      link.dataset.tracked = 'true';
+      link.addEventListener('click', () => {
+        const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+        gtag?.('event', 'gremio_cta', { location: link.dataset.cta, lang: document.documentElement.lang });
       });
     });
   }
 
-  initCopyButtons();
-  document.addEventListener('astro:page-load', initCopyButtons);
+  function init() {
+    initReveal();
+    initCtaTracking();
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>
