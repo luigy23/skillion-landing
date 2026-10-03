@@ -41,9 +41,159 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
   {
+    version: '2.8.4',
+    date: '2026-10-02',
+    highlight: true,
+    codename: {
+      en: 'Pacts',
+      es: 'Pactos',
+    },
+    entries: [
+      {
+        icon: '🤝',
+        tag: 'feature',
+        title: {
+          en: 'Pacts: challenge someone',
+          es: 'Pactos: reta a alguien',
+        },
+        description: {
+          en: 'Pick a task and a rival and compete in Race to the finish, Survival or Most in X days. Every step is proven with a photo, and whoever delivers wins.',
+          es: 'Elige una tarea y un rival y competid en Carrera final, Supervivencia o Más en X días. Cada avance se demuestra con una foto, y quien cumpla gana.',
+        },
+      },
+      {
+        icon: '🧙',
+        tag: 'improvement',
+        title: {
+          en: 'Your character, redrawn',
+          es: 'Tu personaje, redibujado',
+        },
+        description: {
+          en: 'Bodies and clothes with new art from head to toe. And your avatar shows its face in your pacts too.',
+          es: 'Cuerpos y ropa con arte nuevo de pies a cabeza. Y tu avatar también da la cara en tus pactos.',
+        },
+      },
+      {
+        icon: '✨',
+        tag: 'improvement',
+        title: {
+          en: 'Plan my day',
+          es: 'Arma mi día',
+        },
+        description: {
+          en: 'Magic planning fits your missions into the day without you typing a thing, and you can adjust the plan just by asking in your own words.',
+          es: 'La planificación mágica coloca tus misiones en el día sin que escribas nada, y puedes ajustar el plan pidiéndoselo con tus palabras.',
+        },
+      },
+      {
+        icon: '⏰',
+        tag: 'feature',
+        title: {
+          en: 'A reminder for every task',
+          es: 'Un aviso para cada tarea',
+        },
+        description: {
+          en: 'Give each task its own reminder. Complete it from the notification and your loot is waiting when you open the app.',
+          es: 'Ponle a cada tarea su propio recordatorio. Si la completas desde la notificación, tu botín te espera al abrir la app.',
+        },
+      },
+      {
+        icon: '🎉',
+        tag: 'improvement',
+        title: {
+          en: 'Every win, celebrated',
+          es: 'Cada logro, celebrado',
+        },
+        description: {
+          en: 'Tasks, streaks and levels are celebrated at their own size, and your progress bars move on from where you left them.',
+          es: 'Tareas, rachas y niveles se celebran a su medida, y tus barras de progreso avanzan desde donde las dejaste.',
+        },
+      },
+    ],
+  },
+  {
+    version: '2.8.2',
+    date: '2026-09-14',
+    codename: {
+      en: 'Logbook',
+      es: 'Bitácora',
+    },
+    entries: [
+      {
+        icon: '📖',
+        tag: 'feature',
+        title: {
+          en: 'Your Logbook',
+          es: 'Tu Bitácora',
+        },
+        description: {
+          en: 'Your history is now a book of days you can leaf through: what you completed, what slipped, the levels you gained and the streaks you kept alive.',
+          es: 'Tu historial ahora es un libro de días que puedes hojear: lo que lograste, lo que se te escapó, los niveles que subiste y las rachas que mantuviste vivas.',
+        },
+      },
+      {
+        icon: '🕐',
+        tag: 'improvement',
+        title: {
+          en: 'Time Blocking, redesigned',
+          es: 'Time Blocking, rediseñado',
+        },
+        description: {
+          en: 'Your day as a clock where every block is an arc you drag, a deck of block cards, and gaps that now suggest what to do with them.',
+          es: 'Tu jornada como un reloj donde cada bloque es un arco que arrastras, una mano de cartas de bloques y huecos que ahora te sugieren qué hacer con ellos.',
+        },
+      },
+    ],
+  },
+  {
+    version: '2.8.0',
+    date: '2026-08-30',
+    codename: {
+      en: 'Task of destiny',
+      es: 'Tarea del destino',
+    },
+    entries: [
+      {
+        icon: '🎰',
+        tag: 'feature',
+        title: {
+          en: 'Task of destiny',
+          es: 'Tarea del destino',
+        },
+        description: {
+          en: 'Bet your coins, pull the lever and let the machine pick your next task. Finish it and the pot comes back multiplied.',
+          es: 'Apuesta tus monedas, tira de la palanca y deja que la máquina elija tu próxima tarea. Complétala y el bote vuelve multiplicado.',
+        },
+      },
+      {
+        icon: '🔥',
+        tag: 'feature',
+        title: {
+          en: 'Your consistency on the home screen',
+          es: 'Tu constancia en la pantalla de inicio',
+        },
+        description: {
+          en: 'A new widget shows the grid of the task or skill you choose, so you can check your streak without opening the app.',
+          es: 'Un widget nuevo muestra la cuadrícula de la tarea o habilidad que elijas, para ver tu racha sin abrir la app.',
+        },
+      },
+      {
+        icon: '🤖',
+        tag: 'fix',
+        title: {
+          en: 'Widgets are back on Android',
+          es: 'Los widgets vuelven a Android',
+        },
+        description: {
+          en: 'Your tasks live on the home screen again, and now they speak your language.',
+          es: 'Tus tareas están otra vez en la pantalla de inicio, y ahora hablan tu idioma.',
+        },
+      },
+    ],
+  },
+  {
     version: '2.7.4',
     date: '2026-08-15',
-    highlight: true,
     codename: {
       en: 'Deadline Reminders',
       es: 'Recordatorios de fecha límite',
