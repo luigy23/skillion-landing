@@ -30,10 +30,12 @@ const isEs = lang === 'es';
 /**
  * El reto de likes es lo principal. El Gremio (le mandamos carruseles y los
  * sube a cambio de Premium) es otra vía, compatible con el reto, y se pide por
- * correo: Luigy contesta en persona y a los que entran les manda el enlace del
- * bot de Telegram (1-oct-2026). La web no enlaza el bot.
+ * correo: contesta una persona y a los que entran les manda el enlace del bot
+ * de Telegram (1-oct-2026). La web no enlaza el bot. Desde el 5-oct-2026 el
+ * Gremio y los reclamos del reto llegan a creators@, que lleva otra persona;
+ * hello@ queda para soporte.
  */
-const MAIL = 'hello@skillion.app';
+const MAIL = 'creators@skillion.app';
 const mailSubject = isEs ? 'Quiero entrar al Gremio Skillion' : 'I want to join the Skillion Guild';
 const mailBody = isEs
   ? 'Mi TikTok: @\n¿Cuenta nueva o la que ya usas?: \nCorreo de mi cuenta de Skillion: \nPaís: \nPor qué quiero entrar: \n'
