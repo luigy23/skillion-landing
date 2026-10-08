@@ -16,7 +16,6 @@ import cloverUrl from '../assets/pixelartAssets/features/clover.png'; // 115x100
 import calendarUrl from '../assets/pixelartAssets/blog/calendar.png'; // 48x46
 import fireUrl from '../assets/pixelartAssets/blog/fire.png'; // 48
 import energyUrl from '../assets/pixelartAssets/blog/energy.png'; // 48
-import coinUrl from '../assets/pixelartAssets/features/coin.png'; // 64
 
 interface Props {
   lang?: 'en' | 'es';
@@ -28,12 +27,13 @@ const { lang = 'en', altHref } = Astro.props as Props;
 const isEs = lang === 'es';
 
 /**
- * El reto de likes es lo principal. El Gremio (le mandamos carruseles y los
- * sube a cambio de Premium) es otra vía, compatible con el reto, y se pide por
- * correo: contesta una persona y a los que entran les manda el enlace del bot
- * de Telegram (1-oct-2026). La web no enlaza el bot. Desde el 5-oct-2026 el
- * Gremio y los reclamos del reto llegan a creators@, que lleva otra persona;
- * hello@ queda para soporte.
+ * El Gremio es lo principal: le mandamos carruseles a cada creador y los sube a
+ * cambio de Premium. Se pide por correo: contesta una persona y a los que entran
+ * les manda el enlace del bot de Telegram (1-oct-2026). La web no enlaza el bot.
+ * Desde el 5-oct-2026 el Gremio llega a creators@, que lleva otra persona;
+ * hello@ queda para soporte. El reto de likes se cerró en octubre de 2026 (dejaba
+ * poco y le quitaba sitio al Gremio); a quien subió su video antes se le respeta
+ * el premio por correo, como dice la FAQ.
  */
 const MAIL = 'creators@skillion.app';
 const mailSubject = isEs ? 'Quiero entrar al Gremio Skillion' : 'I want to join the Skillion Guild';
@@ -46,29 +46,21 @@ const GUILD_MAIL_URL = `mailto:${MAIL}?subject=${encodeURIComponent(mailSubject)
 // todo lo que va en esa fuente se escribe sin tildes, como la página anterior.
 const content = {
   en: {
-    badge: 'FREE PREMIUM · NO RAFFLE',
-    title: 'THE SKILLION QUEST IS LIVE',
-    subtitle: 'and it is challenging you',
-    lead: 'Show how you are building your character in real life. Post it and claim your reward.',
-    facts: ['No raffle: every tier is guaranteed', 'TikTok, Instagram or X', 'Premium in under 48 h'],
-    cta: 'SEE THE REWARDS',
-    more: 'No video ideas? The Guild',
+    badge: 'FREE PREMIUM · LIMITED SPOTS',
+    title: 'THE SKILLION GUILD',
+    subtitle: 'grow your TikTok',
+    lead: 'We send you a ready-to-post carousel Monday to Friday, made for your account with formats that are already working on TikTok. You post it, your account grows and you play with Premium while you keep posting.',
+    facts: ['No camera: they are photo carousels', 'Every carousel is only for your account', 'Premium from your first week'],
+    cta: 'SEE HOW IT WORKS',
+    more: 'Or email us to join',
 
-    qcLabel: 'ACTIVE QUEST',
-    qcTitle: 'Post a video using Skillion',
-    qcLikes: '63 LIKES',
-    qcRewardLabel: 'UNLOCKED',
-    qcReward: '3 months of Premium',
-    qcNext: '37 more likes for the full year',
+    qcLabel: 'YOUR WEEK',
+    qcCount: '4/5 VIDEOS',
+    qcTitle: 'Thursday quest posted',
+    qcRewardLabel: 'PREMIUM',
+    qcReward: 'On · 4-week streak',
+    qcNext: '+120 followers this week',
 
-    rewardsTitle: 'REAL REWARDS',
-    rewardsLead: 'The more you move, the more you win. Every tier is guaranteed: there is no raffle.',
-    tiers: [
-      { when: '10+ LIKES', prize: '1 month of Premium' },
-      { when: '50+ LIKES', prize: '3 months of Premium' },
-      { when: '100+ LIKES', prize: '1 FULL YEAR of Premium' },
-    ],
-    tierBest: 'TOP',
     perksTitle: 'WHAT PREMIUM UNLOCKS',
     perks: [
       { title: 'Unlimited skills', body: 'The free plan stops at 3 active.' },
@@ -77,21 +69,9 @@ const content = {
       { title: 'Stats your way', body: 'Pick any date range you want.' },
     ],
 
-    stepsTitle: 'HOW TO JOIN',
-    stepsLead: 'Three steps, no forms and no surveys.',
-    step1Title: 'Record your run',
-    step1Body: 'Post a screenshot or a video using Skillion: completing a task, creating your avatar or celebrating that you levelled up. A meme, a tip, a POV or a sketch works too.',
-    step1Rule: 'ONLY RULE: THE APP HAS TO BE VISIBLE',
-    step2Title: 'Post it',
-    step2Body: 'On TikTok, Instagram or X, from your own account. No need to tag us or add hashtags: you send us the link.',
-    step3Title: 'Claim your Premium',
-    step3Body: 'When you hit one of the tiers, email',
-    step3Send: 'with a screenshot of the likes, the link to your post and the email of your Skillion account.',
-    step3Note: 'YOUR REWARD IN UNDER 48 HOURS',
-
-    gBadge: 'ANOTHER WAY TO EARN PREMIUM',
-    gTitle: 'THE SKILLION GUILD',
-    gLead: 'Do not want to come up with videos? Join the Guild: we send you a ready-to-post carousel Monday to Friday, you post it on your TikTok and play with Premium while you keep posting. You can do it alongside the challenge.',
+    gBadge: 'THREE STEPS',
+    gTitle: 'HOW THE GUILD WORKS',
+    gLead: 'We send you every carousel with the images and the text to copy. You post it as it is and tap ✅.',
     gSteps: [
       { title: 'Email us', body: 'Send us an email with your details (the list is below). We read them one by one and reply within 48 hours.' },
       { title: 'Your quest arrives', body: 'If you get in, Monday to Friday a carousel ready to post arrives on Telegram, with the images and the text to copy. It is made for your account and nobody else posts it.' },
@@ -118,6 +98,7 @@ const content = {
     itemBody: 'Guild members get a special item for their Skillion avatar that cannot be earned any other way.',
 
     pathTitle: 'YOUR PATH IN THE GUILD',
+    tierBest: 'TOP',
     path: [
       { when: 'WEEK 1', prize: 'Premium turns on' },
       { when: 'EVERY WEEK', prize: 'It stays on while you complete your 5 videos' },
@@ -141,28 +122,27 @@ const content = {
       'Keeping the videos up. A deleted video does not count for the week.',
     ],
 
-    applyTitle: 'WE OPEN WITH 10 SPOTS',
-    applyLead: 'Every carousel is made for a single account, so we open few spots and choose by hand. Email us at',
+    applyTitle: 'WE OPEN 10 SPOTS PER COHORT',
+    applyLead: 'Every carousel is made for a single account, so we open 10 spots per cohort and choose by hand. Email us at',
     applyLeadPost: 'with:',
     applyItems: ['Your TikTok username', 'Whether it is a new account or the one you already use', 'The email of your Skillion account', 'Your country', 'One line on why you want to join'],
     applyCta: 'EMAIL US TO JOIN',
-    applyNote: 'If there is no spot, we put you on the waiting list and let you know.',
+    applyNote: 'If the current cohort is full, you go on the list for the next one and we let you know.',
 
     faqTitle: 'QUESTIONS',
     faq: [
-      { q: 'Is there a raffle?', a: 'No. Every likes tier is guaranteed: you hit it and we give it to you.' },
-      { q: 'Which networks count for the challenge?', a: 'TikTok, Instagram or X. The only rule is that the app is visible.' },
-      { q: 'How long does the Premium take?', a: 'Under 48 hours from when you email us the screenshot.' },
-      { q: 'Can I do the challenge and the Guild at the same time?', a: 'Yes. They are two ways to earn Premium and you can do both.' },
-      { q: 'In the Guild, do I have to be in the videos?', a: 'No. They are photo carousels with text, and your face is never in them.' },
-      { q: 'Do I need lots of followers for the Guild?', a: 'No. TikTok shows every video to people who do not follow you, and we have had carousels reach thousands of views on accounts with fewer than 20 followers.' },
-      { q: 'Can I change the Guild photos or text?', a: 'Post it as it is. That is how we learn what works and make your next quest better.' },
+      { q: 'What do I get besides Premium?', a: 'A growing account. Every carousel uses a format that is already working on TikTok, and every Monday we tell you how many views and followers you gained.' },
+      { q: 'When does Premium turn on?', a: 'When you complete your first week of 5 videos. It stays on every week you complete them, and after 12 weeks in a row a full year is yours.' },
+      { q: 'Do I have to be in the videos?', a: 'No. They are photo carousels with text, and your face is never in them.' },
+      { q: 'Do I need lots of followers?', a: 'No. TikTok shows every video to people who do not follow you, and we have had carousels reach thousands of views on accounts with fewer than 20 followers.' },
+      { q: 'Can I change the photos or the text?', a: 'Post it as it is. That is how we learn what works and make your next quest better.' },
       { q: 'What if I cannot make it one week?', a: 'Your Guild Premium pauses and your streak goes back to zero. As soon as you complete another week, it turns back on.' },
+      { q: 'What happened to the likes challenge?', a: 'We closed it in October 2026 to focus on the Guild. If you posted your video before that, email creators@skillion.app with a screenshot of the likes and the link, and we will give you what we promised.' },
     ],
 
-    finalTitle: 'START THE CHALLENGE',
-    finalLead: 'Post your video today. As soon as it passes 10 likes, your first month of Premium is yours.',
-    finalCta: 'SEE HOW TO JOIN',
+    finalTitle: 'JOIN THE GUILD',
+    finalLead: 'Email us today. If you get in, your first quest arrives on Telegram and your Premium turns on when you complete your first week.',
+    finalCta: 'EMAIL US TO JOIN',
 
     downloadTitle: "Don't have Skillion yet?",
     downloadBody: 'Download it and start building your character.',
@@ -170,29 +150,21 @@ const content = {
     appStore: 'APP STORE',
   },
   es: {
-    badge: 'PREMIUM GRATIS · SIN SORTEO',
-    title: 'EL SKILLION QUEST ESTA VIVO',
-    subtitle: 'y te está retando',
-    lead: 'Muestra cómo estás construyendo tu personaje en la vida real. Publícalo y reclama tu recompensa.',
-    facts: ['Sin sorteo: cada nivel es seguro', 'TikTok, Instagram o X', 'Premium en menos de 48 h'],
-    cta: 'VER LAS RECOMPENSAS',
-    more: '¿Sin ideas para videos? El Gremio',
+    badge: 'PREMIUM GRATIS · PLAZAS LIMITADAS',
+    title: 'EL GREMIO SKILLION',
+    subtitle: 'haz crecer tu TikTok',
+    lead: 'Te mandamos un carrusel listo de lunes a viernes, hecho para tu cuenta con formatos que ya funcionan en TikTok. Tú lo subes, tu cuenta crece y juegas con Premium mientras publiques.',
+    facts: ['Sin salir en cámara: son carruseles de fotos', 'Cada carrusel es solo para tu cuenta', 'Premium desde tu primera semana'],
+    cta: 'VER COMO FUNCIONA',
+    more: 'O escríbenos ya para entrar',
 
-    qcLabel: 'MISION ACTIVA',
-    qcTitle: 'Sube un video usando Skillion',
-    qcLikes: '63 LIKES',
-    qcRewardLabel: 'DESBLOQUEADO',
-    qcReward: '3 meses de Premium',
-    qcNext: 'Faltan 37 likes para el año completo',
+    qcLabel: 'TU SEMANA',
+    qcCount: '4/5 VIDEOS',
+    qcTitle: 'Misión del jueves publicada',
+    qcRewardLabel: 'PREMIUM',
+    qcReward: 'Activo · racha de 4 semanas',
+    qcNext: '+120 seguidores esta semana',
 
-    rewardsTitle: 'RECOMPENSAS REALES',
-    rewardsLead: 'Cuanto más muevas, más ganas. Cada nivel es seguro: aquí no hay sorteo.',
-    tiers: [
-      { when: '10+ LIKES', prize: '1 mes de Premium' },
-      { when: '50+ LIKES', prize: '3 meses de Premium' },
-      { when: '100+ LIKES', prize: '1 AÑO COMPLETO de Premium' },
-    ],
-    tierBest: 'TOP',
     perksTitle: 'LO QUE DESBLOQUEA PREMIUM',
     perks: [
       { title: 'Skills sin límite', body: 'El plan gratis se queda en 3 activas.' },
@@ -201,21 +173,9 @@ const content = {
       { title: 'Estadísticas a tu medida', body: 'Elige el rango de fechas que quieras.' },
     ],
 
-    stepsTitle: 'COMO PARTICIPAR',
-    stepsLead: 'Tres pasos, sin formularios ni encuestas.',
-    step1Title: 'Graba tu partida',
-    step1Body: 'Sube una captura o un video usando Skillion: completando una tarea, creando tu avatar o celebrando que subiste de nivel. También vale un meme, un tip, un POV o un sketch.',
-    step1Rule: 'REGLA UNICA: SE TIENE QUE VER LA APP',
-    step2Title: 'Publícalo',
-    step2Body: 'En TikTok, Instagram o X, desde tu propia cuenta. No hace falta etiquetarnos ni poner hashtags: el enlace nos lo mandas tú.',
-    step3Title: 'Reclama tu Premium',
-    step3Body: 'Cuando llegues a uno de los niveles, escríbenos a',
-    step3Send: 'con una captura de los likes, el enlace de tu post y el correo de tu cuenta de Skillion.',
-    step3Note: 'TU RECOMPENSA EN MENOS DE 48 HORAS',
-
-    gBadge: 'OTRA FORMA DE GANAR PREMIUM',
-    gTitle: 'EL GREMIO SKILLION',
-    gLead: '¿No quieres inventar videos? Únete al Gremio: te mandamos un carrusel listo de lunes a viernes, tú lo subes a tu TikTok y juegas con Premium mientras publiques. Puedes hacerlo además del reto.',
+    gBadge: 'TRES PASOS',
+    gTitle: 'ASI FUNCIONA EL GREMIO',
+    gLead: 'Te mandamos cada carrusel con las imágenes y el texto para copiar. Tú lo subes tal cual y tocas ✅.',
     gSteps: [
       { title: 'Escríbenos', body: 'Mándanos un correo con tus datos (abajo tienes la lista). Los leemos uno por uno y te contestamos en menos de 48 horas.' },
       { title: 'Te llega la misión', body: 'Si entras, de lunes a viernes te llega por Telegram un carrusel listo para subir, con las imágenes y el texto para copiar. Está hecho para tu cuenta y nadie más lo sube.' },
@@ -242,6 +202,7 @@ const content = {
     itemBody: 'Los miembros del Gremio reciben un objeto especial para su avatar de Skillion que no se consigue de ninguna otra forma.',
 
     pathTitle: 'TU CAMINO EN EL GREMIO',
+    tierBest: 'TOP',
     path: [
       { when: 'SEMANA 1', prize: 'Se activa tu Premium' },
       { when: 'CADA SEMANA', prize: 'Sigue activo mientras completes tus 5 videos' },
@@ -265,28 +226,27 @@ const content = {
       'Dejar los videos publicados. Un video borrado no cuenta para la semana.',
     ],
 
-    applyTitle: 'ABRIMOS CON 10 PLAZAS',
-    applyLead: 'Cada carrusel se hace para una sola cuenta, así que abrimos pocas plazas y elegimos a mano. Escríbenos a',
+    applyTitle: 'ABRIMOS 10 PLAZAS POR COHORTE',
+    applyLead: 'Cada carrusel se hace para una sola cuenta, así que abrimos 10 plazas por cohorte y elegimos a mano. Escríbenos a',
     applyLeadPost: 'con:',
     applyItems: ['Tu usuario de TikTok', 'Si es una cuenta nueva o la que ya usas', 'El correo de tu cuenta de Skillion', 'Tu país', 'En una línea, por qué quieres entrar'],
     applyCta: 'ESCRIBIRNOS PARA ENTRAR',
-    applyNote: 'Si no hay plaza, te dejamos en lista de espera y te avisamos.',
+    applyNote: 'Si la cohorte de ahora está llena, quedas en la lista de la siguiente y te avisamos.',
 
     faqTitle: 'PREGUNTAS',
     faq: [
-      { q: '¿Hay sorteo?', a: 'No. Cada nivel de likes es seguro: llegas y te lo damos.' },
-      { q: '¿En qué redes vale el reto?', a: 'En TikTok, Instagram o X. La única regla es que se vea la app.' },
-      { q: '¿Cuánto tarda el Premium?', a: 'Menos de 48 horas desde que nos escribes con la captura.' },
-      { q: '¿Puedo hacer el reto y el Gremio a la vez?', a: 'Sí. Son dos formas de ganar Premium y puedes hacer las dos.' },
-      { q: '¿En el Gremio tengo que salir en los videos?', a: 'No. Son carruseles de fotos con texto y tu cara no aparece en ninguno.' },
-      { q: '¿Necesito muchos seguidores para el Gremio?', a: 'No. TikTok enseña cada video a gente que no te sigue, y hemos tenido carruseles con miles de vistas en cuentas de menos de 20 seguidores.' },
-      { q: '¿Puedo cambiar las fotos o el texto del Gremio?', a: 'Súbelo tal cual. Así sabemos qué funciona y tu próxima misión sale mejor.' },
+      { q: '¿Qué gano además del Premium?', a: 'Una cuenta que crece. Cada carrusel usa un formato que ya está funcionando en TikTok, y cada lunes te contamos cuántas vistas y seguidores ganaste.' },
+      { q: '¿Cuándo se activa el Premium?', a: 'Al completar tu primera semana de 5 videos. Sigue activo cada semana que los completes, y a las 12 semanas seguidas es tuyo un año entero.' },
+      { q: '¿Tengo que salir en los videos?', a: 'No. Son carruseles de fotos con texto y tu cara no aparece en ninguno.' },
+      { q: '¿Necesito muchos seguidores?', a: 'No. TikTok enseña cada video a gente que no te sigue, y hemos tenido carruseles con miles de vistas en cuentas de menos de 20 seguidores.' },
+      { q: '¿Puedo cambiar las fotos o el texto?', a: 'Súbelo tal cual. Así sabemos qué funciona y tu próxima misión sale mejor.' },
       { q: '¿Qué pasa si una semana no puedo?', a: 'Tu Premium del Gremio se pausa y la racha vuelve a cero. En cuanto completes otra semana, se activa de nuevo.' },
+      { q: '¿Qué pasó con el reto de likes?', a: 'Lo cerramos en octubre de 2026 para dedicarnos al Gremio. Si subiste tu video antes, escríbenos a creators@skillion.app con la captura de los likes y el enlace, y te damos lo prometido.' },
     ],
 
-    finalTitle: 'EMPIEZA EL RETO',
-    finalLead: 'Sube tu video hoy. En cuanto pase de 10 likes, tu primer mes de Premium es tuyo.',
-    finalCta: 'VER COMO PARTICIPAR',
+    finalTitle: 'ENTRA AL GREMIO',
+    finalLead: 'Escríbenos hoy. Si entras, tu primera misión te llega por Telegram y tu Premium se activa al completar la primera semana.',
+    finalCta: 'ESCRIBIRNOS PARA ENTRAR',
 
     downloadTitle: '¿Aún no tienes Skillion?',
     downloadBody: 'Descárgala y empieza a construir tu personaje.',
@@ -318,12 +278,9 @@ const gStepIcons = [
 
 const lootIcons = [energyUrl.src, fireUrl.src];
 
-// Barra de likes de la tarjeta del hero: hitos 10, 50 y 100 sobre 0-100.
-const likeMarks = [
-  { at: 10, done: true },
-  { at: 50, done: true },
-  { at: 100, done: false },
-];
+// Barra de la tarjeta del hero: los 5 videos de la semana, 4 hechos.
+const weekMarks = [1, 2, 3, 4, 5].map((n) => ({ at: n * 20, label: n, done: n <= 4 }));
+const weekFill = 80;
 
 const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
 ---
@@ -331,7 +288,7 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
 <SiteNav lang={lang} altHref={altHref} section="premium" isCurrent />
 
 <main class="guild">
-  <!-- ============ HERO: el reto de likes ============ -->
+  <!-- ============ HERO: el Gremio ============ -->
   <section class="g-hero">
     <div class="g-hero-inner">
       <div class="g-hero-copy">
@@ -347,29 +304,30 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
         </ul>
 
         <div class="g-ctas">
-          <a href="#recompensas" class="pixel-cta pixel-cta--gold g-cta-big">{t.cta}</a>
-          <a href="#gremio" class="g-link">{t.more} <span aria-hidden="true">↓</span></a>
+          <a href="#gremio" class="pixel-cta pixel-cta--gold g-cta-big">{t.cta}</a>
+          <a href={GUILD_MAIL_URL} class="g-link" data-cta="gremio_correo_hero">{t.more} <span aria-hidden="true">→</span></a>
         </div>
       </div>
 
-      <!-- Tarjeta de misión: un video que va por 63 likes. Decorado: lo que
-           dice está explicado en texto más abajo. -->
+      <!-- Tarjeta de la semana de un creador: 4 de 5 videos, Premium activo y
+           lo que creció su cuenta. Decorado: lo que dice está explicado en
+           texto más abajo. -->
       <div class="g-hero-art" aria-hidden="true">
         <Image src={swordUrl} alt="" width={44} height={64} class="qc-sword" />
         <div class="qc">
           <div class="qc-top">
             <span class="qc-label">{t.qcLabel}</span>
-            <span class="qc-count">{t.qcLikes}</span>
+            <span class="qc-count">{t.qcCount}</span>
           </div>
           <p class="qc-title">
             <img src={starUrl.src} alt="" width="32" height="32" class="pixel-img" />
             {t.qcTitle}
           </p>
           <div class="lk">
-            <div class="lk-bar"><span class="lk-fill"></span></div>
+            <div class="lk-bar"><span class="lk-fill" style={`--fill:${weekFill}%`}></span></div>
             <ol class="lk-marks">
-              {likeMarks.map((mark) => (
-                <li class={mark.done ? 'is-done' : ''} style={`--p:${mark.at}%`}>{mark.at}</li>
+              {weekMarks.map((mark) => (
+                <li class={mark.done ? 'is-done' : ''} style={`--p:${mark.at}%`}>{mark.label}</li>
               ))}
             </ol>
           </div>
@@ -387,88 +345,7 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
     </div>
   </section>
 
-  <!-- ============ RECOMPENSAS DEL RETO ============ -->
-  <section id="recompensas" class="g-section">
-    <header class="g-head" data-reveal>
-      <h2 class="g-h2">{t.rewardsTitle}</h2>
-      <p class="g-sublead">{t.rewardsLead}</p>
-    </header>
-
-    <ol class="tier-grid">
-      {t.tiers.map((tier, i) => (
-        <li class={`tier-card tier-card--${tierIcons[i].tone}`} data-reveal style={`--d:${i}`}>
-          {i === 2 && <span class="tier-flag">{t.tierBest}</span>}
-          <div class="tier-icon" style={`height:${tierIcons[i].size}px`}>
-            <img src={tierIcons[i].src} alt="" width={tierIcons[i].size} height={tierIcons[i].size} class="pixel-img" loading="lazy" decoding="async" />
-          </div>
-          <span class="tier-when">{tier.when}</span>
-          <span class="tier-prize">{tier.prize}</span>
-        </li>
-      ))}
-    </ol>
-
-    <h3 class="g-h3" data-reveal>{t.perksTitle}</h3>
-    <ul class="perk-grid">
-      {t.perks.map((perk, i) => (
-        <li class="perk" data-reveal style={`--d:${i}`}>
-          <div class="perk-icon">
-            <img src={perkIcons[i].src} alt="" width={perkIcons[i].w} height={perkIcons[i].h} class="pixel-img" loading="lazy" decoding="async" />
-          </div>
-          <h4 class="perk-title">{perk.title}</h4>
-          <p>{perk.body}</p>
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <!-- ============ COMO PARTICIPAR EN EL RETO ============ -->
-  <section id="como-participar" class="g-section g-section--alt">
-    <div class="g-wrap">
-      <header class="g-head" data-reveal>
-        <h2 class="g-h2">{t.stepsTitle}</h2>
-        <p class="g-sublead">{t.stepsLead}</p>
-      </header>
-
-      <ol class="how-steps how-steps--narrow">
-        <li class="how-step" data-reveal>
-          <div class="how-icon">
-            <img src={computerUrl.src} alt="" width="48" height="48" class="pixel-img" loading="lazy" decoding="async" />
-          </div>
-          <div class="how-text">
-            <span class="how-num">01</span>
-            <h3 class="how-title">{t.step1Title}</h3>
-            <p>{t.step1Body}</p>
-            <p class="step-rule">{t.step1Rule}</p>
-          </div>
-        </li>
-
-        <li class="how-step" data-reveal style="--d:1">
-          <div class="how-icon">
-            <img src={starUrl.src} alt="" width="48" height="48" class="pixel-img" loading="lazy" decoding="async" />
-          </div>
-          <div class="how-text">
-            <span class="how-num">02</span>
-            <h3 class="how-title">{t.step2Title}</h3>
-            <p>{t.step2Body}</p>
-          </div>
-        </li>
-
-        <li class="how-step" data-reveal style="--d:2">
-          <div class="how-icon">
-            <img src={coinUrl.src} alt="" width="48" height="48" class="pixel-img" loading="lazy" decoding="async" />
-          </div>
-          <div class="how-text">
-            <span class="how-num">03</span>
-            <h3 class="how-title">{t.step3Title}</h3>
-            <p>{t.step3Body} <a href={`mailto:${MAIL}`} class="g-mail">{MAIL}</a> {t.step3Send}</p>
-            <p class="step-rule step-rule--mint">{t.step3Note}</p>
-          </div>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- ============ EL GREMIO (siguiente nivel, se pide por correo) ============ -->
+  <!-- ============ COMO FUNCIONA EL GREMIO ============ -->
   <section id="gremio" class="g-section">
     <header class="g-head" data-reveal>
       <span class="g-badge g-badge--mint">{t.gBadge}</span>
@@ -596,6 +473,19 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
       </ul>
     </div>
 
+    <h3 class="g-h3" data-reveal>{t.perksTitle}</h3>
+    <ul class="perk-grid">
+      {t.perks.map((perk, i) => (
+        <li class="perk" data-reveal style={`--d:${i}`}>
+          <div class="perk-icon">
+            <img src={perkIcons[i].src} alt="" width={perkIcons[i].w} height={perkIcons[i].h} class="pixel-img" loading="lazy" decoding="async" />
+          </div>
+          <h4 class="perk-title">{perk.title}</h4>
+          <p>{perk.body}</p>
+        </li>
+      ))}
+    </ul>
+
     <h3 class="g-h3" data-reveal>{t.needsTitle}</h3>
     <ul class="needs" data-reveal>
       {t.needs.map((need) => (
@@ -645,7 +535,7 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
       <Image src={swordUrl} alt="" width={50} height={72} class="g-final-sword" />
       <h2 class="g-h2">{t.finalTitle}</h2>
       <p class="g-sublead">{t.finalLead}</p>
-      <a href="#como-participar" class="pixel-cta pixel-cta--gold g-cta-big">{t.finalCta}</a>
+      <a href={GUILD_MAIL_URL} class="pixel-cta pixel-cta--gold g-cta-big" data-cta="gremio_correo_final">{t.finalCta}</a>
     </div>
 
     <div class="g-download">
@@ -924,7 +814,7 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
     color: #fff;
   }
 
-  /* Barra de likes con hitos 10 · 50 · 100 */
+  /* Barra de la semana: los 5 videos */
   .lk {
     display: flex;
     flex-direction: column;
@@ -942,7 +832,7 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
   .lk-fill {
     position: absolute;
     inset: 3px auto 3px 3px;
-    width: calc(63% - 6px);
+    width: calc(var(--fill, 63%) - 6px);
     background: repeating-linear-gradient(90deg, #ff5d7a 0 10px, #ff8aa0 10px 20px);
     animation: g-fill 1.4s steps(14, end) 0.4s both;
   }
@@ -1182,27 +1072,6 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
     line-height: 1.6;
     color: var(--text);
     text-wrap: pretty;
-  }
-
-  .how-steps--narrow {
-    max-width: 46rem;
-    margin: 0 auto;
-  }
-
-  .step-rule {
-    align-self: flex-start;
-    margin-top: 4px !important;
-    padding: 9px 12px;
-    border: 3px solid var(--blue);
-    font-family: var(--pixel);
-    font-size: 9px !important;
-    line-height: 1.6 !important;
-    color: var(--muted) !important;
-  }
-
-  .step-rule--mint {
-    border-color: var(--mint);
-    color: var(--mint) !important;
   }
 
   /* ---------- TELEGRAM ---------- */
