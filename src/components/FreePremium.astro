@@ -28,19 +28,18 @@ const isEs = lang === 'es';
 
 /**
  * El Gremio es lo principal: le mandamos carruseles a cada creador y los sube a
- * cambio de Premium. Se pide por correo: contesta una persona y a los que entran
- * les manda el enlace del bot de Telegram (1-oct-2026). La web no enlaza el bot.
- * Desde el 5-oct-2026 el Gremio llega a creators@, que lleva otra persona;
- * hello@ queda para soporte. El reto de likes se cerró en octubre de 2026 (dejaba
- * poco y le quitaba sitio al Gremio); a quien subió su video antes se le respeta
- * el premio por correo, como dice la FAQ.
+ * cambio de Premium. Desde el 12-oct-2026 la plaza se pide directo en el bot de
+ * Telegram, que hace las cuatro preguntas y pasa la solicitud a quien elige a mano.
+ * Antes se pedía por correo y se perdía a la mitad: plantillas que llegaban vacías y
+ * aceptados que nunca abrían el bot. creators@ queda para dudas y para los premios
+ * del reto de likes, que se cerró en octubre de 2026 (a quien subió su video antes
+ * se le respeta, como dice la FAQ).
  */
 const MAIL = 'creators@skillion.app';
-const mailSubject = isEs ? 'Quiero entrar al Gremio Skillion' : 'I want to join the Skillion Guild';
-const mailBody = isEs
-  ? 'Mi TikTok: @\n¿Cuenta nueva o la que ya usas?: \nCorreo de mi cuenta de Skillion: \nPaís: \nPor qué quiero entrar: \n'
-  : 'My TikTok: @\nNew account or the one you already use?: \nEmail of my Skillion account: \nCountry: \nWhy I want to join: \n';
-const GUILD_MAIL_URL = `mailto:${MAIL}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+const BOT_URL = `https://t.me/skilliontiktokbot?start=${isEs ? 'gremio' : 'guild'}`;
+// Las dudas las contesta Leonardo, que lleva el Gremio: por Telegram o en creators@.
+const LEONARDO = '@Nbodyy21';
+const LEONARDO_URL = 'https://t.me/Nbodyy21';
 
 // Press Start 2P pinta las mayúsculas con tilde como minúsculas ("úNETE"):
 // todo lo que va en esa fuente se escribe sin tildes, como la página anterior.
@@ -52,7 +51,7 @@ const content = {
     lead: 'We send you a ready-to-post carousel Monday to Friday, made for your account. You post it on your TikTok and play with Premium while you keep posting.',
     facts: ['No camera: they are photo carousels', 'Every carousel is only for your account', 'Premium from your first week'],
     cta: 'SEE HOW IT WORKS',
-    more: 'Or email us to join',
+    more: 'Or ask for your spot on Telegram now',
 
     qcLabel: 'YOUR WEEK',
     qcCount: '4/5 VIDEOS',
@@ -73,7 +72,7 @@ const content = {
     gTitle: 'HOW THE GUILD WORKS',
     gLead: 'We send you every carousel with the images and the text to copy. You post it as it is and tap ✅.',
     gSteps: [
-      { title: 'Email us', body: 'Send us an email with your details (the list is below). We read them one by one and reply within 48 hours.' },
+      { title: 'Ask on Telegram', body: 'Open our Telegram bot and answer four quick questions. We review every request by hand and reply there within 48 hours.' },
       { title: 'Your quest arrives', body: 'If you get in, Monday to Friday a carousel ready to post arrives on Telegram, with the images and the text to copy. It is made for your account and nobody else posts it.' },
       { title: 'Play with Premium', body: 'Post it as it is and tap ✅. Finish your first week and Premium turns on, and it stays on every week you complete your 5 videos.' },
     ],
@@ -123,11 +122,12 @@ const content = {
     ],
 
     applyTitle: 'WE OPEN 10 SPOTS PER COHORT',
-    applyLead: 'Every carousel is made for a single account, so we open 10 spots per cohort and choose by hand. Email us at',
-    applyLeadPost: 'with:',
-    applyItems: ['Your TikTok username', 'Whether it is a new account or the one you already use', 'The email of your Skillion account', 'Your country', 'One line on why you want to join'],
-    applyCta: 'EMAIL US TO JOIN',
-    applyNote: 'If the current cohort is full, you go on the list for the next one and we let you know.',
+    applyLead: 'Every carousel is made for a single account, so we open 10 spots per cohort and choose by hand. Ask for yours on Telegram. The bot asks you for:',
+    applyItems: ['Your TikTok username', 'The email of your Skillion account', 'Your country', 'Whether it is a new account or the one you already use'],
+    applyCta: 'ASK ON TELEGRAM',
+    applyNote: 'If the current cohort is full, you go on the list for the next one and the bot lets you know.',
+    applyDoubts: 'Questions? Message Leonardo on Telegram,',
+    applyDoubtsOr: 'or email',
 
     faqTitle: 'QUESTIONS',
     faq: [
@@ -140,8 +140,8 @@ const content = {
     ],
 
     finalTitle: 'JOIN THE GUILD',
-    finalLead: 'Email us today. If you get in, your first quest arrives on Telegram and your Premium turns on when you complete your first week.',
-    finalCta: 'EMAIL US TO JOIN',
+    finalLead: 'Ask for your spot on Telegram today. If you get in, your first quest arrives right there and your Premium turns on when you complete your first week.',
+    finalCta: 'ASK ON TELEGRAM',
 
     downloadTitle: "Don't have Skillion yet?",
     downloadBody: 'Download it and start building your character.',
@@ -155,7 +155,7 @@ const content = {
     lead: 'Te mandamos un carrusel listo de lunes a viernes, hecho para tu cuenta. Tú lo subes a tu TikTok y juegas con Premium mientras publiques.',
     facts: ['Sin salir en cámara: son carruseles de fotos', 'Cada carrusel es solo para tu cuenta', 'Premium desde tu primera semana'],
     cta: 'VER COMO FUNCIONA',
-    more: 'O escríbenos ya para entrar',
+    more: 'O pide ya tu plaza en Telegram',
 
     qcLabel: 'TU SEMANA',
     qcCount: '4/5 VIDEOS',
@@ -176,7 +176,7 @@ const content = {
     gTitle: 'ASI FUNCIONA EL GREMIO',
     gLead: 'Te mandamos cada carrusel con las imágenes y el texto para copiar. Tú lo subes tal cual y tocas ✅.',
     gSteps: [
-      { title: 'Escríbenos', body: 'Mándanos un correo con tus datos (abajo tienes la lista). Los leemos uno por uno y te contestamos en menos de 48 horas.' },
+      { title: 'Pide tu plaza', body: 'Abre nuestro bot de Telegram y contesta cuatro preguntas rápidas. Revisamos cada solicitud a mano y te contestamos ahí en menos de 48 horas.' },
       { title: 'Te llega la misión', body: 'Si entras, de lunes a viernes te llega por Telegram un carrusel listo para subir, con las imágenes y el texto para copiar. Está hecho para tu cuenta y nadie más lo sube.' },
       { title: 'Juegas con Premium', body: 'Lo publicas tal cual y tocas ✅. Al completar tu primera semana se activa tu Premium, y sigue activo cada semana que completes tus 5 videos.' },
     ],
@@ -226,11 +226,12 @@ const content = {
     ],
 
     applyTitle: 'ABRIMOS 10 PLAZAS POR COHORTE',
-    applyLead: 'Cada carrusel se hace para una sola cuenta, así que abrimos 10 plazas por cohorte y elegimos a mano. Escríbenos a',
-    applyLeadPost: 'con:',
-    applyItems: ['Tu usuario de TikTok', 'Si es una cuenta nueva o la que ya usas', 'El correo de tu cuenta de Skillion', 'Tu país', 'En una línea, por qué quieres entrar'],
-    applyCta: 'ESCRIBIRNOS PARA ENTRAR',
-    applyNote: 'Si la cohorte de ahora está llena, quedas en la lista de la siguiente y te avisamos.',
+    applyLead: 'Cada carrusel se hace para una sola cuenta, así que abrimos 10 plazas por cohorte y elegimos a mano. Pide la tuya en Telegram. El bot te pregunta:',
+    applyItems: ['Tu usuario de TikTok', 'El correo de tu cuenta de Skillion', 'Tu país', 'Si es una cuenta nueva o la que ya usas'],
+    applyCta: 'PEDIR PLAZA EN TELEGRAM',
+    applyNote: 'Si la cohorte de ahora está llena, quedas en la lista de la siguiente y el bot te avisa.',
+    applyDoubts: '¿Dudas? Escríbele a Leonardo por Telegram,',
+    applyDoubtsOr: 'o al correo',
 
     faqTitle: 'PREGUNTAS',
     faq: [
@@ -243,8 +244,8 @@ const content = {
     ],
 
     finalTitle: 'ENTRA AL GREMIO',
-    finalLead: 'Escríbenos hoy. Si entras, tu primera misión te llega por Telegram y tu Premium se activa al completar la primera semana.',
-    finalCta: 'ESCRIBIRNOS PARA ENTRAR',
+    finalLead: 'Pide hoy tu plaza en Telegram. Si entras, tu primera misión te llega ahí mismo y tu Premium se activa al completar la primera semana.',
+    finalCta: 'PEDIR PLAZA EN TELEGRAM',
 
     downloadTitle: '¿Aún no tienes Skillion?',
     downloadBody: 'Descárgala y empieza a construir tu personaje.',
@@ -303,7 +304,7 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
 
         <div class="g-ctas">
           <a href="#gremio" class="pixel-cta pixel-cta--gold g-cta-big">{t.cta}</a>
-          <a href={GUILD_MAIL_URL} class="g-link" data-cta="gremio_correo_hero">{t.more} <span aria-hidden="true">→</span></a>
+          <a href={BOT_URL} target="_blank" rel="noopener noreferrer" class="g-link" data-cta="gremio_bot_hero">{t.more} <span aria-hidden="true">→</span></a>
         </div>
       </div>
 
@@ -495,20 +496,21 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
     </ul>
   </section>
 
-  <!-- ============ SOLICITUD AL GREMIO (por correo) ============ -->
+  <!-- ============ SOLICITUD AL GREMIO (en el bot de Telegram) ============ -->
   <section class="g-section g-section--alt">
     <div class="g-wrap spots" data-reveal>
       <h2 class="g-h2">{t.applyTitle}</h2>
-      <p class="g-sublead">
-        {t.applyLead} <a href={`mailto:${MAIL}`} class="g-mail">{MAIL}</a> {t.applyLeadPost}
-      </p>
+      <p class="g-sublead">{t.applyLead}</p>
       <ul class="apply-list">
         {t.applyItems.map((item) => <li>{item}</li>)}
       </ul>
-      <a href={GUILD_MAIL_URL} class="pixel-cta pixel-cta--gold g-cta-big" data-cta="gremio_correo">
+      <a href={BOT_URL} target="_blank" rel="noopener noreferrer" class="pixel-cta pixel-cta--gold g-cta-big" data-cta="gremio_bot">
         {t.applyCta}
       </a>
       <p class="apply-note">{t.applyNote}</p>
+      <p class="apply-note">
+        {t.applyDoubts} <a href={LEONARDO_URL} target="_blank" rel="noopener noreferrer" class="g-mail">{LEONARDO}</a>, {t.applyDoubtsOr} <a href={`mailto:${MAIL}`} class="g-mail">{MAIL}</a>.
+      </p>
     </div>
   </section>
 
@@ -533,7 +535,7 @@ const streakWeeks = Array.from({ length: 12 }, (_, i) => i);
       <Image src={swordUrl} alt="" width={50} height={72} class="g-final-sword" />
       <h2 class="g-h2">{t.finalTitle}</h2>
       <p class="g-sublead">{t.finalLead}</p>
-      <a href={GUILD_MAIL_URL} class="pixel-cta pixel-cta--gold g-cta-big" data-cta="gremio_correo_final">{t.finalCta}</a>
+      <a href={BOT_URL} target="_blank" rel="noopener noreferrer" class="pixel-cta pixel-cta--gold g-cta-big" data-cta="gremio_bot_final">{t.finalCta}</a>
     </div>
 
     <div class="g-download">
