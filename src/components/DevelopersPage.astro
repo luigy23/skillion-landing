@@ -4,12 +4,16 @@
  *
  * La API es solo para Premium y la clave se saca de un rincón escondido de
  * Ajustes (tocar 7 veces la versión): esta página es la única que lo cuenta.
+ * Los pasos y los rótulos salen de skillapp (settings_version_line.dart,
+ * developer_api_settings_entry.dart): si allí cambian, se cambian aquí.
  * Por eso no está en el menú, pero sí en llms.txt y con su pareja EN/ES.
  *
  * Todo lo de aquí describe lo que hace de verdad el servidor
  * (skillion-infra/functions-server/functions/api.ts y api-resources.ts): si
  * cambia un límite o un campo allí, se cambia aquí en la misma tanda.
  */
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import SiteNav from './SiteNav.astro';
 import type { Lang } from '../lib/blog';
 
@@ -24,7 +28,6 @@ const BASE = 'https://api.skillion.app/functions/v1/api/v1';
 
 const T = {
   en: {
-    eyebrow: 'DEVELOPERS',
     title: 'Skillion API',
     intro:
       'Read and change your own skills and tasks from your scripts, shortcuts and integrations. ' +
@@ -32,14 +35,16 @@ const T = {
     keyTitle: 'GET YOUR KEY',
     keySteps: [
       'Open Skillion and go to Settings.',
-      'Tap the version number at the bottom seven times. A Developer section appears.',
-      'Create a key and copy it: it is shown only once. You can have up to 5 and revoke any of them there.',
+      'Scroll to the bottom and tap the line «Version …» seven times in a row, with less than 2 seconds between taps. Your phone vibrates and you see «Developer options unlocked».',
+      'A new row appears in Settings: «Developer API». Open it.',
+      'Tap «Create key», give it a name and tap «Create». Then tap «Copy»: the key is shown only once. You can have up to 5 active keys and revoke any of them on that screen.',
     ],
     keyNote:
-      'Keys need Skillion Premium and a registered account (not a guest one). Treat a key like a password: ' +
+      'Keys need Skillion Premium and a registered account (not a guest one): without Premium the row shows a ' +
+      'lock and opens the paywall. Treat a key like a password: ' +
       'anyone with it can change your tasks.',
     authTitle: 'AUTHENTICATION',
-    authText: 'Send the key as a Bearer token on every request. All bodies are JSON.',
+    authText: 'Send the key as a `Bearer` token on every request. All bodies are JSON.',
     limitsTitle: 'LIMITS',
     limits: [
       ['120 requests per minute', 'per account, all your keys together'],
@@ -48,12 +53,12 @@ const T = {
       ['64 KB per body', ''],
     ],
     limitsNote:
-      'Over a limit you get 429 with a retry-after header (seconds). Every answer carries ' +
-      'x-ratelimit-limit and x-ratelimit-remaining.',
+      'Over a limit you get `429` with a `retry-after` header (seconds). Every answer carries ' +
+      '`x-ratelimit-limit` and `x-ratelimit-remaining`.',
     endpointsTitle: 'ENDPOINTS',
     pagingTitle: 'LISTS AND PAGING',
     pagingText:
-      'Lists come oldest change first. Pass next_cursor back as cursor until it is null. ' +
+      'Lists come oldest change first. Pass `next_cursor` back as `cursor` until it is `null`. ' +
       'Deleted and archived items are left out unless you ask for them.',
     paging: [
       ['limit', '1 to 100, default 50'],
@@ -66,33 +71,33 @@ const T = {
     ],
     tasksTitle: 'TASK FIELDS YOU CAN SET',
     tasksNote:
-      'Only title is required. Anything else (XP, level, status, coins earned) is calculated by the app ' +
-      'and is read-only. Unknown fields are refused with 422, so a typo never goes unnoticed.',
+      'Only `title` is required. Anything else (XP, level, status, coins earned) is calculated by the app ' +
+      'and is read-only. Unknown fields are refused with `422`, so a typo never goes unnoticed.',
     skillsTitle: 'SKILL FIELDS YOU CAN SET',
     skillsNote:
-      'level, total_xp (the XP inside the current level) and the streaks are read-only. Free accounts keep ' +
+      '`level`, `total_xp` (the XP inside the current level) and the streaks are read-only. Free accounts keep ' +
       '3 active skills, but the API itself is Premium only.',
     completeTitle: 'COMPLETING A TASK',
     completeText:
       'XP, coins, energy and streaks are calculated by the app, so completing through the API is a request: ' +
-      'you get 202 at once and your phone applies it the next time Skillion syncs (when you open it). ' +
-      'Follow it in /v1/completions: pending → claimed → applied, or rejected with a reason ' +
-      '(already_completed, insufficient_energy…).',
+      'you get `202` at once and your phone applies it the next time Skillion syncs (when you open it). ' +
+      'Follow it in `/v1/completions`: `pending` → `claimed` → `applied`, or `rejected` with a reason ' +
+      '(`already_completed`, `insufficient_energy`…).',
     completeNote:
-      'Pact tasks are completed with a check-in in the app and bad habits are never completed: both answer 409.',
+      'Pact tasks are completed with a check-in in the app and bad habits are never completed: both answer `409`.',
     deleteTitle: 'DELETING',
     deleteText:
-      'DELETE does what the app does: skills and recurring tasks are archived (their history stays), ' +
+      '`DELETE` does what the app does: skills and recurring tasks are archived (their history stays), ' +
       'one-off tasks are deleted. Either way they disappear from your phone on its next sync.',
     syncTitle: 'GOOD TO KNOW',
     sync: [
       'Changes reach your phone on its next sync, usually when you open the app.',
       'If you edit the same task on your phone before it syncs, the phone wins.',
       'Recurring tasks get their next due date from your phone, which knows your time zone and daily reset hour.',
-      'Dates are ISO 8601 with a time zone, for example 2026-10-21T18:00:00Z.',
+      'Dates are ISO 8601 with a time zone, for example `2026-10-21T18:00:00Z`.',
     ],
     errorsTitle: 'ERRORS',
-    errorsText: 'Errors always have the same shape. details lists each field that was not valid.',
+    errorsText: 'Errors always have the same shape. `details` lists each field that was not valid.',
     errors: [
       ['400', 'invalid_request / invalid_json', 'bad query parameter or body'],
       ['401', 'unauthorized', 'missing, malformed or revoked key'],
@@ -114,11 +119,28 @@ const T = {
     what: 'What it does',
     param: 'Parameter',
     code: 'Code',
+    baseLabel: 'Base URL',
+    meta: ['Premium only', 'JSON', 'Bearer token'],
+    onThisPage: 'On this page',
+    copy: 'Copy',
+    copied: 'Copied',
+    toc: [
+      ['Get started', [['key', 'Your key'], ['auth', 'Authentication'], ['limits', 'Limits']]],
+      ['Reference', [['endpoints', 'Endpoints'], ['paging', 'Lists and paging'], ['tasks', 'Task fields'], ['skills', 'Skill fields'], ['errors', 'Errors']]],
+      ['Behaviour', [['complete', 'Completing a task'], ['delete', 'Deleting'], ['sync', 'Good to know']]],
+      ['Examples', [['examples', 'Three recipes']]],
+    ],
+    shotAlt: [
+      'Skillion screenshot with an arrow on the way into Settings',
+      'Screenshot of the bottom of Settings with an arrow on the version line',
+      'Screenshot of Settings with the new Developer API row',
+      'Screenshot of the new key with an arrow on Copy',
+    ],
+    groups: { me: 'Account', skills: 'Skills', tasks: 'Tasks', completions: 'Completions', categories: 'Read-only', history: 'Read-only' },
     help: 'Help? Write to us from the contact page.',
     contact: 'Contact',
   },
   es: {
-    eyebrow: 'DESARROLLADORES',
     title: 'API de Skillion',
     intro:
       'Lee y cambia tus propias skills y tareas desde tus scripts, atajos e integraciones. ' +
@@ -126,14 +148,16 @@ const T = {
     keyTitle: 'TU CLAVE',
     keySteps: [
       'Abre Skillion y ve a Ajustes.',
-      'Toca siete veces el número de versión, abajo del todo. Aparece la sección Desarrollador.',
-      'Crea una clave y cópiala: solo se enseña una vez. Puedes tener hasta 5 y revocar cualquiera desde ahí.',
+      'Baja hasta el final y toca siete veces seguidas la línea «Versión …», con menos de 2 segundos entre toque y toque. El móvil vibra y sale «Opciones de desarrollador activadas».',
+      'En Ajustes aparece una fila nueva: «API para desarrolladores». Ábrela.',
+      'Toca «Crear clave», ponle un nombre y toca «Crear». Después toca «Copiar»: la clave solo se enseña una vez. Puedes tener hasta 5 activas y revocar cualquiera desde esa pantalla.',
     ],
     keyNote:
-      'Las claves necesitan Skillion Premium y una cuenta registrada (no de invitado). Trata la clave como una ' +
+      'Las claves necesitan Skillion Premium y una cuenta registrada (no de invitado): sin Premium la fila sale ' +
+      'con candado y abre la pantalla de suscripción. Trata la clave como una ' +
       'contraseña: quien la tenga puede cambiar tus tareas.',
     authTitle: 'AUTENTICACION',
-    authText: 'Manda la clave como token Bearer en cada petición. Todos los cuerpos van en JSON.',
+    authText: 'Manda la clave como token `Bearer` en cada petición. Todos los cuerpos van en JSON.',
     limitsTitle: 'LIMITES',
     limits: [
       ['120 peticiones por minuto', 'por cuenta, todas tus claves juntas'],
@@ -142,13 +166,13 @@ const T = {
       ['64 KB por cuerpo', ''],
     ],
     limitsNote:
-      'Si te pasas recibes 429 con la cabecera retry-after (segundos). Cada respuesta lleva ' +
-      'x-ratelimit-limit y x-ratelimit-remaining.',
+      'Si te pasas recibes `429` con la cabecera `retry-after` (segundos). Cada respuesta lleva ' +
+      '`x-ratelimit-limit` y `x-ratelimit-remaining`.',
     endpointsTitle: 'ENDPOINTS',
     pagingTitle: 'LISTAS Y PAGINADO',
     pagingText:
-      'Las listas vienen del cambio más antiguo al más nuevo. Devuelve next_cursor como cursor hasta que sea ' +
-      'null. Lo borrado y lo archivado no sale salvo que lo pidas.',
+      'Las listas vienen del cambio más antiguo al más nuevo. Devuelve `next_cursor` como `cursor` hasta que sea ' +
+      '`null`. Lo borrado y lo archivado no sale salvo que lo pidas.',
     paging: [
       ['limit', 'de 1 a 100, 50 por defecto'],
       ['cursor', 'el next_cursor de la página anterior'],
@@ -160,34 +184,34 @@ const T = {
     ],
     tasksTitle: 'CAMPOS DE TAREA QUE PUEDES PONER',
     tasksNote:
-      'Solo title es obligatorio. Lo demás (XP, nivel, estado, monedas ganadas) lo calcula la app y es de solo ' +
-      'lectura. Un campo desconocido da 422, así que una errata nunca pasa desapercibida.',
+      'Solo `title` es obligatorio. Lo demás (XP, nivel, estado, monedas ganadas) lo calcula la app y es de solo ' +
+      'lectura. Un campo desconocido da `422`, así que una errata nunca pasa desapercibida.',
     skillsTitle: 'CAMPOS DE SKILL QUE PUEDES PONER',
     skillsNote:
-      'level, total_xp (el XP dentro del nivel actual) y las rachas son de solo lectura. Las cuentas gratis ' +
+      '`level`, `total_xp` (el XP dentro del nivel actual) y las rachas son de solo lectura. Las cuentas gratis ' +
       'mantienen 3 skills activas, pero la API en sí es solo Premium.',
     completeTitle: 'COMPLETAR UNA TAREA',
     completeText:
       'El XP, las monedas, la energía y las rachas los calcula la app, así que completar por la API es una ' +
-      'petición: recibes 202 al momento y tu móvil la aplica la próxima vez que Skillion sincroniza (al abrirla). ' +
-      'Síguela en /v1/completions: pending → claimed → applied, o rejected con el motivo ' +
-      '(already_completed, insufficient_energy…).',
+      'petición: recibes `202` al momento y tu móvil la aplica la próxima vez que Skillion sincroniza (al abrirla). ' +
+      'Síguela en `/v1/completions`: `pending` → `claimed` → `applied`, o `rejected` con el motivo ' +
+      '(`already_completed`, `insufficient_energy`…).',
     completeNote:
       'Las tareas de un pacto se completan con un check-in en la app y los malos hábitos nunca se completan: ' +
-      'las dos dan 409.',
+      'las dos dan `409`.',
     deleteTitle: 'BORRAR',
     deleteText:
-      'DELETE hace lo mismo que la app: las skills y las tareas recurrentes se archivan (su historial se queda) ' +
+      '`DELETE` hace lo mismo que la app: las skills y las tareas recurrentes se archivan (su historial se queda) ' +
       'y las tareas sueltas se borran. En los dos casos desaparecen de tu móvil en el siguiente sync.',
     syncTitle: 'CONVIENE SABER',
     sync: [
       'Los cambios llegan a tu móvil en el siguiente sync, normalmente al abrir la app.',
       'Si editas la misma tarea en el móvil antes de que sincronice, gana el móvil.',
       'Las tareas recurrentes reciben su próxima fecha desde tu móvil, que sabe tu zona horaria y tu hora de reinicio.',
-      'Las fechas van en ISO 8601 con zona horaria, por ejemplo 2026-10-21T18:00:00Z.',
+      'Las fechas van en ISO 8601 con zona horaria, por ejemplo `2026-10-21T18:00:00Z`.',
     ],
     errorsTitle: 'ERRORES',
-    errorsText: 'Los errores tienen siempre la misma forma. details dice qué campo no es válido.',
+    errorsText: 'Los errores tienen siempre la misma forma. `details` dice qué campo no es válido.',
     errors: [
       ['400', 'invalid_request / invalid_json', 'parámetro o cuerpo incorrecto'],
       ['401', 'unauthorized', 'clave ausente, mal formada o revocada'],
@@ -211,6 +235,24 @@ const T = {
     code: 'Código',
     help: '¿Dudas? Escríbenos desde la página de contacto.',
     contact: 'Contacto',
+    baseLabel: 'URL base',
+    meta: ['Solo Premium', 'JSON', 'Token Bearer'],
+    onThisPage: 'En esta página',
+    copy: 'Copiar',
+    copied: 'Copiado',
+    toc: [
+      ['Empezar', [['key', 'Tu clave'], ['auth', 'Autenticación'], ['limits', 'Límites']]],
+      ['Referencia', [['endpoints', 'Endpoints'], ['paging', 'Listas y paginado'], ['tasks', 'Campos de tarea'], ['skills', 'Campos de skill'], ['errors', 'Errores']]],
+      ['Comportamiento', [['complete', 'Completar una tarea'], ['delete', 'Borrar'], ['sync', 'Conviene saber']]],
+      ['Ejemplos', [['examples', 'Tres recetas']]],
+    ],
+    shotAlt: [
+      'Captura de Skillion con la flecha en la entrada a Ajustes',
+      'Captura del final de Ajustes con la flecha en la línea de la versión',
+      'Captura de Ajustes con la fila nueva API para desarrolladores',
+      'Captura de la clave nueva con la flecha en Copiar',
+    ],
+    groups: { me: 'Cuenta', skills: 'Skills', tasks: 'Tareas', completions: 'Completados', categories: 'Solo lectura', history: 'Solo lectura' },
   },
 }[lang];
 
@@ -306,125 +348,283 @@ const errorExample = `{
     "details": { "custom_days": "must be weekdays like \\"1,3,5\\" …" }
   }
 }`
+
+// Las comillas invertidas de los textos marcan código: rich() los parte y la
+// plantilla pinta los trozos impares como <code>.
+const rich = (text: string) => text.split('`');
+
+// Las capturas de los pasos llegan aparte (public/images/developers/). Hasta
+// que existan, el paso sale sin hueco: mejor eso que un recuadro vacío.
+const shots = T.keySteps.map((_, i) => {
+  const file = `/images/developers/paso-${i + 1}-${lang}.png`;
+  return existsSync(join(process.cwd(), 'public', file)) ? file : null;
+});
+const hasShots = shots.some(Boolean);
+
+// Endpoints agrupados por recurso, en el orden de la tabla.
+const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints }[]>((acc, row) => {
+  const label = T.groups[row[1].split('/')[1] as keyof typeof T.groups];
+  const last = acc[acc.length - 1];
+  if (last && last.label === label) last.rows.push(row);
+  else acc.push({ label, rows: [row] });
+  return acc;
+}, []);
 ---
 
 <SiteNav lang={lang} altHref={altHref} section="legal" />
 
 <main class="dev-page">
-  <section class="dev-hero">
-    <p class="hero-eyebrow">{T.eyebrow}</p>
-    <h1 class="hero-title">{T.title}</h1>
-    <p class="hero-subtitle">{T.intro}</p>
-    <p class="hero-base"><code>{BASE}</code></p>
-  </section>
+  <header class="dev-hero">
+    <div class="dev-hero__inner">
+      <h1 class="hero-title">{T.title}</h1>
+      <p class="hero-subtitle">{T.intro}</p>
+      <div class="base">
+        <span class="base__label">{T.baseLabel}</span>
+        <code class="base__url">{BASE}</code>
+        <button type="button" class="copy" data-copy-text={BASE} data-copied={T.copied}>{T.copy}</button>
+      </div>
+      <ul class="hero-meta">{T.meta.map((m) => <li>{m}</li>)}</ul>
+    </div>
+  </header>
 
-  <div class="dev-body">
-    <section class="dev-section" id="key">
-      <h2 class="section-title">{T.keyTitle}</h2>
-      <ol class="steps">{T.keySteps.map((s) => <li>{s}</li>)}</ol>
-      <p class="note">{T.keyNote}</p>
-    </section>
+  <div class="dev-layout">
+    <details class="toc" open>
+      <summary class="toc__summary">{T.onThisPage}</summary>
+      <nav aria-label={T.onThisPage}>
+        {T.toc.map(([group, items]) => (
+          <div class="toc__group">
+            <p class="toc__label">{group}</p>
+            <ul>
+              {items.map(([id, label]) => (
+                <li><a href={`#${id}`} data-toc-link>{label}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+    </details>
 
-    <section class="dev-section" id="auth">
-      <h2 class="section-title">{T.authTitle}</h2>
-      <p>{T.authText}</p>
-      <pre><code>{authExample}</code></pre>
-    </section>
+    <div class="dev-content">
+      <section class="dev-section" id="key">
+        <h2 class="section-title">{T.keyTitle}<a class="anchor" href="#key" aria-hidden="true" tabindex="-1">#</a></h2>
+        <ol class:list={['steps', hasShots && 'steps--shots']}>
+          {T.keySteps.map((step, i) => (
+            <li class="step">
+              <span class="step__num" aria-hidden="true">{i + 1}</span>
+              <div class="step__body">
+                <p>{step}</p>
+                {shots[i] && (
+                  <img
+                    class="step__shot"
+                    src={shots[i]}
+                    alt={T.shotAlt[i]}
+                    width="1179"
+                    height="2556"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p class="note">{T.keyNote}</p>
+      </section>
 
-    <section class="dev-section" id="limits">
-      <h2 class="section-title">{T.limitsTitle}</h2>
-      <ul class="facts">{T.limits.map(([a, b]) => <li><strong>{a}</strong>{b && <span> · {b}</span>}</li>)}</ul>
-      <p class="note">{T.limitsNote}</p>
-    </section>
+      <section class="dev-section" id="auth">
+        <h2 class="section-title">{T.authTitle}<a class="anchor" href="#auth" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{rich(T.authText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <div class="code">
+          <div class="code__bar"><span>curl</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+          <pre><code>{authExample}</code></pre>
+        </div>
+      </section>
 
-    <section class="dev-section" id="endpoints">
-      <h2 class="section-title">{T.endpointsTitle}</h2>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>{T.method}</th><th>{T.path}</th><th>{T.what}</th></tr></thead>
-          <tbody>
-            {endpoints.map(([m, p, en, es]) => (
-              <tr><td><span class={`verb verb-${m.toLowerCase()}`}>{m}</span></td><td><code>/v1{p}</code></td><td>{isEs ? es : en}</td></tr>
+      <section class="dev-section" id="limits">
+        <h2 class="section-title">{T.limitsTitle}<a class="anchor" href="#limits" aria-hidden="true" tabindex="-1">#</a></h2>
+        <dl class="limits">
+          {T.limits.map(([a, b]) => (
+            <div class="limits__row">
+              <dt>{a}</dt>
+              {b && <dd>{b}</dd>}
+            </div>
+          ))}
+        </dl>
+        <p class="note">{rich(T.limitsNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+      </section>
+
+      <section class="dev-section" id="endpoints">
+        <h2 class="section-title">{T.endpointsTitle}<a class="anchor" href="#endpoints" aria-hidden="true" tabindex="-1">#</a></h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">{T.method}</th><th scope="col">{T.path}</th><th scope="col">{T.what}</th></tr></thead>
+            {endpointGroups.map((group) => (
+              <tbody>
+                <tr class="group-row"><th scope="colgroup" colspan="3">{group.label}</th></tr>
+                {group.rows.map(([m, p, en, es]) => (
+                  <tr>
+                    <td><span class={`verb verb-${m.toLowerCase()}`}>{m}</span></td>
+                    <td><code>/v1{p}</code></td>
+                    <td>{isEs ? es : en}</td>
+                  </tr>
+                ))}
+              </tbody>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
+          </table>
+        </div>
+      </section>
 
-    <section class="dev-section" id="paging">
-      <h2 class="section-title">{T.pagingTitle}</h2>
-      <p>{T.pagingText}</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>{T.param}</th><th>{T.rule}</th></tr></thead>
-          <tbody>{T.paging.map(([p, r]) => <tr><td><code>{p}</code></td><td>{r}</td></tr>)}</tbody>
-        </table>
-      </div>
-    </section>
+      <section class="dev-section" id="paging">
+        <h2 class="section-title">{T.pagingTitle}<a class="anchor" href="#paging" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{rich(T.pagingText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">{T.param}</th><th scope="col">{T.rule}</th></tr></thead>
+            <tbody>{T.paging.map(([p, r]) => <tr><td><code>{p}</code></td><td>{r}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </section>
 
-    <section class="dev-section" id="tasks">
-      <h2 class="section-title">{T.tasksTitle}</h2>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>{T.field}</th><th>{T.rule}</th></tr></thead>
-          <tbody>{taskFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
-        </table>
-      </div>
-      <p class="note">{T.tasksNote}</p>
-    </section>
+      <section class="dev-section" id="tasks">
+        <h2 class="section-title">{T.tasksTitle}<a class="anchor" href="#tasks" aria-hidden="true" tabindex="-1">#</a></h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
+            <tbody>{taskFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <p class="note">{rich(T.tasksNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+      </section>
 
-    <section class="dev-section" id="skills">
-      <h2 class="section-title">{T.skillsTitle}</h2>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>{T.field}</th><th>{T.rule}</th></tr></thead>
-          <tbody>{skillFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
-        </table>
-      </div>
-      <p class="note">{T.skillsNote}</p>
-    </section>
+      <section class="dev-section" id="skills">
+        <h2 class="section-title">{T.skillsTitle}<a class="anchor" href="#skills" aria-hidden="true" tabindex="-1">#</a></h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
+            <tbody>{skillFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <p class="note">{rich(T.skillsNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+      </section>
 
-    <section class="dev-section" id="complete">
-      <h2 class="section-title">{T.completeTitle}</h2>
-      <p>{T.completeText}</p>
-      <p class="note">{T.completeNote}</p>
-    </section>
+      <section class="dev-section" id="errors">
+        <h2 class="section-title">{T.errorsTitle}<a class="anchor" href="#errors" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{rich(T.errorsText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <div class="code">
+          <div class="code__bar"><span>JSON</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+          <pre><code>{errorExample}</code></pre>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">HTTP</th><th scope="col">{T.code}</th><th scope="col">{T.what}</th></tr></thead>
+            <tbody>{T.errors.map(([h, c, w]) => <tr><td class="num">{h}</td><td><code>{c}</code></td><td>{w}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </section>
 
-    <section class="dev-section" id="delete">
-      <h2 class="section-title">{T.deleteTitle}</h2>
-      <p>{T.deleteText}</p>
-    </section>
+      <section class="dev-section" id="complete">
+        <h2 class="section-title">{T.completeTitle}<a class="anchor" href="#complete" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{rich(T.completeText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <p class="note">{rich(T.completeNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+      </section>
 
-    <section class="dev-section" id="sync">
-      <h2 class="section-title">{T.syncTitle}</h2>
-      <ul class="facts">{T.sync.map((s) => <li>{s}</li>)}</ul>
-    </section>
+      <section class="dev-section" id="delete">
+        <h2 class="section-title">{T.deleteTitle}<a class="anchor" href="#delete" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{rich(T.deleteText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+      </section>
 
-    <section class="dev-section" id="errors">
-      <h2 class="section-title">{T.errorsTitle}</h2>
-      <p>{T.errorsText}</p>
-      <pre><code>{errorExample}</code></pre>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>HTTP</th><th>{T.code}</th><th>{T.what}</th></tr></thead>
-          <tbody>{T.errors.map(([h, c, w]) => <tr><td>{h}</td><td><code>{c}</code></td><td>{w}</td></tr>)}</tbody>
-        </table>
-      </div>
-    </section>
+      <section class="dev-section" id="sync">
+        <h2 class="section-title">{T.syncTitle}<a class="anchor" href="#sync" aria-hidden="true" tabindex="-1">#</a></h2>
+        <ul class="facts">
+          {T.sync.map((s) => <li>{rich(s).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</li>)}
+        </ul>
+      </section>
 
-    <section class="dev-section" id="examples">
-      <h2 class="section-title">{T.examplesTitle}</h2>
-      <h3 class="example-title">{T.exCreate}</h3>
-      <pre><code>{createExample}</code></pre>
-      <h3 class="example-title">{T.exComplete}</h3>
-      <pre><code>{completeExample}</code></pre>
-      <h3 class="example-title">{T.exList}</h3>
-      <pre><code>{listExample}</code></pre>
-    </section>
+      <section class="dev-section" id="examples">
+        <h2 class="section-title">{T.examplesTitle}<a class="anchor" href="#examples" aria-hidden="true" tabindex="-1">#</a></h2>
+        <h3 class="example-title">{T.exCreate}</h3>
+        <div class="code">
+          <div class="code__bar"><span>curl</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+          <pre><code>{createExample}</code></pre>
+        </div>
+        <h3 class="example-title">{T.exComplete}</h3>
+        <div class="code">
+          <div class="code__bar"><span>curl</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+          <pre><code>{completeExample}</code></pre>
+        </div>
+        <h3 class="example-title">{T.exList}</h3>
+        <div class="code">
+          <div class="code__bar"><span>JavaScript</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+          <pre><code>{listExample}</code></pre>
+        </div>
+      </section>
 
-    <p class="help">{T.help} <a href={isEs ? '/es/contact/' : '/contact/'}>{T.contact}</a></p>
+      <p class="help">{T.help} <a href={isEs ? '/es/contact/' : '/contact/'}>{T.contact}</a></p>
+    </div>
   </div>
 </main>
+
+<script>
+  function initDevDocs() {
+    const root = document.querySelector<HTMLElement>('.dev-page');
+    // Con el ClientRouter esto corre en la carga y en cada astro:page-load:
+    // sin la marca, volver a la página duplicaría los listeners.
+    if (!root || root.dataset.bound === 'true') return;
+    root.dataset.bound = 'true';
+
+    root.querySelectorAll<HTMLButtonElement>('.copy').forEach((button) => {
+      const label = button.textContent ?? '';
+      button.addEventListener('click', async () => {
+        const text =
+          button.dataset.copyText ?? button.closest('.code')?.querySelector('pre')?.innerText ?? '';
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          return;
+        }
+        button.textContent = button.dataset.copied ?? label;
+        button.classList.add('is-copied');
+        window.setTimeout(() => {
+          button.textContent = label;
+          button.classList.remove('is-copied');
+        }, 1600);
+      });
+    });
+
+    // En móvil el índice empieza plegado y se pliega al elegir sección; en
+    // escritorio es la columna fija y siempre está abierto.
+    const toc = root.querySelector<HTMLDetailsElement>('details.toc');
+    const narrow = window.matchMedia('(max-width: 1023px)');
+    if (toc && narrow.matches) toc.open = false;
+    toc?.querySelectorAll('a').forEach((link) =>
+      link.addEventListener('click', () => {
+        if (narrow.matches) toc.open = false;
+      }),
+    );
+
+    // Marca en el índice la sección que se está leyendo.
+    const links = new Map(
+      Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')).map((a) => [
+        a.hash.slice(1),
+        a,
+      ]),
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          links.forEach((a) => a.removeAttribute('aria-current'));
+          links.get(entry.target.id)?.setAttribute('aria-current', 'location');
+        }
+      },
+      { rootMargin: '0px 0px -70% 0px' },
+    );
+    root.querySelectorAll('.dev-section').forEach((section) => observer.observe(section));
+  }
+
+  initDevDocs();
+  document.addEventListener('astro:page-load', initDevDocs);
+</script>
 
 <style>
   .dev-page {
@@ -433,140 +633,430 @@ const errorExample = `{
     font-family: 'Nunito', 'Poppins', sans-serif;
   }
 
-  /* ---------- HERO ---------- */
+  .dev-page ::selection {
+    background: #ffc53d;
+    color: #0a0f1f;
+  }
+
+  .dev-page :focus-visible {
+    outline: 3px solid #ffc53d;
+    outline-offset: 2px;
+  }
+
+  /* ---------- CABECERA ---------- */
   .dev-hero {
-    padding: 72px 24px 48px;
-    text-align: center;
     background: linear-gradient(#141b32 0%, #0f1526 100%);
     border-bottom: 4px solid #1b2547;
   }
 
-  .hero-eyebrow {
-    margin: 0 0 18px;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 9px;
-    line-height: 1.6;
-    letter-spacing: 0.1em;
-    color: #8fe3da;
+  .dev-hero__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 64px 24px 44px;
   }
 
   .hero-title {
-    margin: 0 0 20px;
+    margin: 0 0 16px;
     font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: clamp(16px, 3.4vw, 30px);
+    font-size: clamp(18px, 3vw, 28px);
+    font-weight: 400;
     line-height: 1.5;
     color: #ffe6a0;
     text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
-    text-wrap: balance;
   }
 
   .hero-subtitle {
-    margin: 0 auto 20px;
-    max-width: 560px;
-    font-size: clamp(15px, 2.2vw, 18px);
+    margin: 0 0 28px;
+    max-width: 58ch;
+    font-size: clamp(16px, 2vw, 18px);
     font-weight: 700;
     line-height: 1.55;
     color: #8fa6dd;
     text-wrap: pretty;
   }
 
-  .hero-base code {
-    display: inline-block;
-    max-width: 100%;
-    padding: 8px 12px;
+  .base {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .base__label {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1.6;
+    color: #8fa6dd;
+  }
+
+  .dev-page .base__url {
+    padding: 9px 12px;
     overflow-wrap: anywhere;
     font-size: 13px;
     color: #ffe6a0;
-    background: #141b32;
+    background: #0a0f1f;
     border: 3px solid #3f5da8;
   }
 
-  /* ---------- CUERPO ---------- */
-  .dev-body {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 56px 24px 72px;
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
+  .hero-meta li {
+    padding: 6px 8px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1.4;
+    color: #8fe3da;
+    border: 3px solid #1b2547;
+  }
+
+  /* ---------- BOTÓN COPIAR ---------- */
+  .copy {
+    padding: 7px 9px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1;
+    color: #dceafe;
+    background: #1b2547;
+    border: 3px solid #0a0f1f;
+    box-shadow: inset 0 0 0 2px #3f5da8;
+    cursor: pointer;
+  }
+
+  .copy:hover {
+    color: #ffffff;
+    box-shadow: inset 0 0 0 2px #ffc53d;
+  }
+
+  .copy:active {
+    transform: translateY(1px);
+  }
+
+  .copy.is-copied {
+    color: #0a2b28;
+    background: #8fe3da;
+    box-shadow: none;
+  }
+
+  /* ---------- ESQUELETO: ÍNDICE + CONTENIDO ---------- */
+  .dev-layout {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 64px;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .toc {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #3f5da8 transparent;
+  }
+
+  /* En escritorio el índice es una columna, no un desplegable. */
+  .toc__summary {
+    display: none;
+  }
+
+  .toc__group + .toc__group {
+    margin-top: 24px;
+  }
+
+  .toc__label {
+    margin: 0 0 8px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1.6;
+    color: #8fa6dd;
+  }
+
+  .toc ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .toc a {
+    position: relative;
+    display: block;
+    padding: 6px 10px 6px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #a9b9e3;
+    text-decoration: none;
+  }
+
+  .toc a:hover {
+    color: #ffffff;
+  }
+
+  .toc a[aria-current] {
+    color: #ffe6a0;
+    background: #141b32;
+  }
+
+  /* Un píxel de 6 × 6 marca la sección actual. */
+  .toc a[aria-current]::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    background: #ffc53d;
+  }
+
+  .dev-content {
+    min-width: 0;
+    max-width: 760px;
+  }
+
+  /* ---------- SECCIONES ---------- */
   .dev-section {
-    margin-bottom: 56px;
+    scroll-margin-top: 24px;
+  }
+
+  .dev-section + .dev-section {
+    margin-top: 64px;
   }
 
   .section-title {
     margin: 0 0 20px;
+    padding-bottom: 14px;
     font-family: 'Press Start 2P', 'Courier New', monospace;
     /* Rótulos sin tildes a propósito: Press Start 2P no tiene mayúsculas
        acentuadas (ver FaqPage). */
     font-size: 11px;
+    font-weight: 400;
     line-height: 1.7;
     color: #8fe3da;
-    padding-bottom: 14px;
     border-bottom: 3px solid #1b2547;
   }
 
+  .anchor {
+    margin-left: 12px;
+    color: #3f5da8;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 150ms ease-out;
+  }
+
+  .section-title:hover .anchor {
+    opacity: 1;
+  }
+
   .example-title {
-    margin: 28px 0 12px;
+    margin: 32px 0 12px;
     font-size: 16px;
+    font-weight: 700;
     color: #ffe6a0;
   }
 
-  p,
-  li {
+  .dev-content p,
+  .dev-content li {
+    max-width: 68ch;
     font-size: 16px;
     line-height: 1.65;
   }
 
-  .note {
-    color: #8fa6dd;
+  .dev-content p {
+    margin: 0 0 16px;
+  }
+
+  /* La nota ocupa todo el ancho, como las tablas y el código que acompaña. */
+  .dev-content .note {
+    max-width: none;
+    margin-top: 20px;
+    padding: 14px 16px;
     font-size: 15px;
+    color: #a9b9e3;
+    background: #141b32;
+    border: 3px solid #1b2547;
   }
 
-  .steps,
+  /* ---------- PASOS DE LA CLAVE ----------
+     El mismo raíl y los mismos nodos cuadrados que la línea de tiempo de
+     /updates: un paso es un nodo, y el raíl dice que van en orden. */
+  .steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 18px;
+    padding-bottom: 22px;
+  }
+
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 38px;
+    bottom: 0;
+    width: 4px;
+    background: #1b2547;
+  }
+
+  .step__num {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1;
+    color: #ffc53d;
+    background: #1b2547;
+    border: 4px solid #0a0f1f;
+    box-shadow: inset 0 0 0 3px #3f5da8;
+  }
+
+  .step__body p {
+    margin: 6px 0 0;
+  }
+
+  .steps--shots .step__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 200px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .step__shot {
+    width: 100%;
+    height: auto;
+    border: 4px solid #0a0f1f;
+    box-shadow: 6px 6px 0 rgba(5, 8, 18, 0.45);
+  }
+
+  /* ---------- LÍMITES ---------- */
+  .limits {
+    margin: 0;
+    border: 3px solid #1b2547;
+  }
+
+  .limits__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 14px;
+    padding: 12px 14px;
+  }
+
+  .limits__row + .limits__row {
+    border-top: 2px solid #1b2547;
+  }
+
+  .limits dt {
+    font-weight: 800;
+    color: #ffe6a0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .limits dd {
+    margin: 0;
+    font-size: 15px;
+    color: #a9b9e3;
+  }
+
   .facts {
+    margin: 0;
     padding-left: 22px;
+    list-style: square;
   }
 
-  .steps li,
   .facts li {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
-  .facts strong {
-    color: #ffe6a0;
+  .facts li::marker {
+    color: #ffc53d;
   }
 
-  code {
+  /* ---------- CÓDIGO ---------- */
+  .dev-page code {
     font-family: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
-    font-size: 0.92em;
+    font-size: 0.9em;
     color: #ffe6a0;
+  }
+
+  /* Código dentro del texto: una caja mínima para distinguirlo de la prosa. */
+  .dev-content :is(p, li, td) code {
+    padding: 1px 5px;
+    background: #141b32;
+    border: 1px solid #243157;
+    overflow-wrap: anywhere;
+  }
+
+  .code {
+    margin: 16px 0 20px;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .code__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 6px 6px 14px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    line-height: 1.6;
+    color: #8fa6dd;
+    background: #141b32;
+    border: 3px solid #1b2547;
+    border-bottom: 0;
   }
 
   pre {
-    margin: 16px 0;
+    margin: 0;
     padding: 18px;
     overflow-x: auto;
     background: #0a0f1f;
     border: 3px solid #1b2547;
-    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35);
+    scrollbar-width: thin;
+    scrollbar-color: #3f5da8 #0a0f1f;
   }
 
-  pre code {
+  .dev-page pre code {
     font-size: 13px;
     line-height: 1.6;
     color: #dceafe;
     white-space: pre;
   }
 
-  /* Las tablas se desplazan dentro de su caja: la página nunca scrollea en horizontal. */
+  /* ---------- TABLAS ----------
+     Se desplazan dentro de su caja: la página nunca scrollea en horizontal. */
   .table-wrap {
     overflow-x: auto;
     border: 3px solid #1b2547;
+    scrollbar-width: thin;
+    scrollbar-color: #3f5da8 #0f1526;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
     font-size: 15px;
+    font-variant-numeric: tabular-nums;
   }
 
   th,
@@ -577,14 +1067,29 @@ const errorExample = `{
     border-bottom: 2px solid #1b2547;
   }
 
-  th {
+  thead th {
     font-size: 13px;
     color: #8fe3da;
     background: #141b32;
   }
 
+  .group-row th {
+    padding-top: 16px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #ffc53d;
+    background: #0f1730;
+  }
+
   td:first-child {
     white-space: nowrap;
+  }
+
+  td.num {
+    font-weight: 800;
+    color: #ffe6a0;
   }
 
   .verb {
@@ -604,18 +1109,91 @@ const errorExample = `{
   .verb-delete { background: #ff8a8a; }
 
   .help {
-    margin-top: 24px;
-    text-align: center;
+    margin-top: 64px !important;
     color: #8fa6dd;
   }
 
   .help a {
     color: #ffc53d;
+    text-underline-offset: 3px;
+  }
+
+  /* ---------- PANTALLAS ESTRECHAS ----------
+     El índice deja de ser columna y pasa a desplegable encima del contenido. */
+  @media (max-width: 1023px) {
+    .dev-layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      padding-top: 32px;
+    }
+
+    .toc {
+      position: static;
+      max-height: none;
+      background: #141b32;
+      border: 3px solid #1b2547;
+    }
+
+    .toc__summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      font-family: 'Press Start 2P', 'Courier New', monospace;
+      font-size: 9px;
+      line-height: 1.6;
+      color: #ffe6a0;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .toc__summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .toc__summary::after {
+      content: '▸';
+      color: #ffc53d;
+    }
+
+    .toc[open] .toc__summary::after {
+      content: '▾';
+    }
+
+    .toc nav {
+      padding: 0 8px 16px;
+    }
+
+    .dev-content {
+      max-width: none;
+    }
   }
 
   @media (max-width: 640px) {
-    .dev-body {
-      padding: 40px 16px 56px;
+    .dev-hero__inner {
+      padding: 44px 16px 32px;
+    }
+
+    .dev-layout {
+      padding: 24px 16px 56px;
+    }
+
+    .steps--shots .step__body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .step__shot {
+      max-width: 240px;
+    }
+
+    .dev-section + .dev-section {
+      margin-top: 48px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anchor {
+      transition: none;
     }
   }
 </style>
