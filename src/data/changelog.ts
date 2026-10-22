@@ -36,14 +36,190 @@ export interface ChangelogRelease {
   highlight?: boolean;
   /** Optional release codename, shown next to the version. */
   codename?: Localized;
+  /** Look of the app's what's-new modal for this release, when it isn't the
+   *  default one. 'halloween' mirrors ChangelogSkin.halloween in skillapp. */
+  skin?: 'halloween';
   entries: ChangelogEntry[];
 }
 
 export const changelog: ChangelogRelease[] = [
   {
+    version: '2.12.1',
+    date: '2026-10-20',
+    highlight: true,
+    entries: [
+      {
+        icon: '📅',
+        tag: 'improvement',
+        title: {
+          en: 'Relapses on the calendar',
+          es: 'Recaídas en el calendario',
+        },
+        description: {
+          en: "A bad habit's relapses now show in red on the task's weekly activity and monthly calendar, with how many there were.",
+          es: 'Las recaídas de un mal hábito se ven en rojo en la actividad semanal y en el calendario mensual de la tarea, con cuántas hubo.',
+        },
+      },
+    ],
+  },
+  {
+    version: '2.12.0',
+    date: '2026-10-18',
+    skin: 'halloween',
+    codename: {
+      en: 'Halloween',
+      es: 'Halloween',
+    },
+    entries: [
+      {
+        icon: '🎃',
+        tag: 'feature',
+        title: {
+          en: 'Halloween costumes',
+          es: 'Disfraces de Halloween',
+        },
+        description: {
+          en: 'Vampire, mummy, pirate, zombie and elf princess, with capes and movement. In the shop for a limited time.',
+          es: 'Vampiro, momia, pirata, zombi y princesa elfa, con capas y movimiento. Por tiempo limitado en la tienda.',
+        },
+      },
+      {
+        icon: '🚫',
+        tag: 'feature',
+        title: {
+          en: 'Bad habit',
+          es: 'Mal hábito',
+        },
+        description: {
+          en: "Your most requested. When creating a task, give a skill negative XP and «It's a bad habit» appears: every relapse costs you life and every clean day is celebrated.",
+          es: 'Lo más pedido. Al crear una tarea, ponle XP negativa a una habilidad y aparece «Es un mal hábito»: cada recaída te quita vida y cada día limpio se celebra.',
+        },
+      },
+      {
+        icon: '📅',
+        tag: 'improvement',
+        title: {
+          en: 'Fix past days',
+          es: 'Corrige días pasados',
+        },
+        description: {
+          en: "Also highly requested. Tap a day on a task's calendar to complete it, or clear it if you forgot.",
+          es: 'También muy pedido. Toca un día en el calendario de una tarea para completarlo o desmarcarlo si se te olvidó.',
+        },
+      },
+      {
+        icon: '🤝',
+        tag: 'feature',
+        title: {
+          en: 'Your pact on the home screen',
+          es: 'Tu pacto en la pantalla de inicio',
+        },
+        description: {
+          en: "A new widget shows how your pact is going, with your rival's face. Pick which one in Preferences.",
+          es: 'Un widget nuevo te enseña cómo va tu pacto, con la cara de tu rival. Elige cuál en Preferencias.',
+        },
+      },
+      {
+        icon: '🪙',
+        tag: 'improvement',
+        title: {
+          en: 'Several rewards at once',
+          es: 'Varias recompensas de una vez',
+        },
+        description: {
+          en: 'In the shop you can buy and redeem several units of a personal reward in one go.',
+          es: 'En la tienda puedes comprar y canjear varias unidades de una recompensa personal de una sola vez.',
+        },
+      },
+    ],
+  },
+  {
+    version: '2.11.0',
+    date: '2026-10-12',
+    entries: [
+      {
+        icon: '😴',
+        tag: 'feature',
+        title: {
+          en: 'How did you sleep?',
+          es: '¿Cómo dormiste?',
+        },
+        description: {
+          en: 'Tell the app how you slept each morning and you start the day with more or less energy.',
+          es: 'Cada mañana dile a la app cómo dormiste y arrancas el día con más o menos energía.',
+        },
+      },
+      {
+        icon: '🤝',
+        tag: 'improvement',
+        title: {
+          en: 'Pacts, more flexible',
+          es: 'Pactos, más flexibles',
+        },
+        description: {
+          en: 'In Most in X days every check-in counts, and you choose which day the week starts. With Premium, photos from your gallery.',
+          es: 'En Más en X días cuenta cada check-in, y tú eliges qué día empieza la semana. Con Premium, fotos de la galería.',
+        },
+      },
+    ],
+  },
+  {
+    version: '2.10.0',
+    date: '2026-10-08',
+    entries: [
+      {
+        icon: '🧠',
+        tag: 'feature',
+        title: {
+          en: 'Your context for the magic',
+          es: 'Tu contexto para la magia',
+        },
+        description: {
+          en: 'Tell it who you are and what each skill means to you, and the plans it builds fit your life. With Premium.',
+          es: 'Cuéntale quién eres y qué significa cada habilidad para ti, y los planes que te arma encajan con tu vida. Con Premium.',
+        },
+      },
+      {
+        icon: '🕐',
+        tag: 'feature',
+        title: {
+          en: 'Your tasks, straight into the routine',
+          es: 'Tus tareas, directas a la rutina',
+        },
+        description: {
+          en: 'Select several tasks and decide where they go in Time Blocking: at the time you choose or in the next free gap.',
+          es: 'Selecciona varias tareas y decide dónde van en Time Blocking: a la hora que elijas o en el siguiente hueco libre.',
+        },
+      },
+      {
+        icon: '🤝',
+        tag: 'improvement',
+        title: {
+          en: 'Pact check-ins without a connection',
+          es: 'Check-ins de pactos sin conexión',
+        },
+        description: {
+          en: "Check-ins are saved on your phone and sent on their own when you're back online.",
+          es: 'Se guardan en el móvil y se envían solos cuando vuelve la red.',
+        },
+      },
+      {
+        icon: '🔧',
+        tag: 'fix',
+        title: {
+          en: 'Signing in keeps your progress',
+          es: 'Iniciar sesión conserva tu progreso',
+        },
+        description: {
+          en: 'Fixed a case where signing in on a phone another account had used could reset your profile.',
+          es: 'Arreglado un caso en el que iniciar sesión en un móvil que había usado otra cuenta podía reiniciar tu perfil.',
+        },
+      },
+    ],
+  },
+  {
     version: '2.8.4',
     date: '2026-10-02',
-    highlight: true,
     codename: {
       en: 'Pacts',
       es: 'Pactos',
