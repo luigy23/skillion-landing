@@ -18,6 +18,7 @@ const ROUTE_PAIRS: Record<string, string> = {
   '/updates': '/es/novedades',
   '/blog': '/es/blog',
   '/faq': '/es/preguntas-frecuentes',
+  '/developers': '/es/desarrolladores',
 };
 
 const ES_TO_EN: Record<string, string> = Object.fromEntries(

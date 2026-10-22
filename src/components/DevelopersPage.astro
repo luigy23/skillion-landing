@@ -1,0 +1,621 @@
+---
+/**
+ * Documentación de la API pública de Skillion (SCRUM-506).
+ *
+ * La API es solo para Premium y la clave se saca de un rincón escondido de
+ * Ajustes (tocar 7 veces la versión): esta página es la única que lo cuenta.
+ * Por eso no está en el menú, pero sí en llms.txt y con su pareja EN/ES.
+ *
+ * Todo lo de aquí describe lo que hace de verdad el servidor
+ * (skillion-infra/functions-server/functions/api.ts y api-resources.ts): si
+ * cambia un límite o un campo allí, se cambia aquí en la misma tanda.
+ */
+import SiteNav from './SiteNav.astro';
+import type { Lang } from '../lib/blog';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props as Props;
+const isEs = lang === 'es';
+const altHref = isEs ? '/developers/' : '/es/desarrolladores/';
+const BASE = 'https://api.skillion.app/functions/v1/api/v1';
+
+const T = {
+  en: {
+    eyebrow: 'DEVELOPERS',
+    title: 'Skillion API',
+    intro:
+      'Read and change your own skills and tasks from your scripts, shortcuts and integrations. ' +
+      'Part of Skillion Premium.',
+    keyTitle: 'GET YOUR KEY',
+    keySteps: [
+      'Open Skillion and go to Settings.',
+      'Tap the version number at the bottom seven times. A Developer section appears.',
+      'Create a key and copy it: it is shown only once. You can have up to 5 and revoke any of them there.',
+    ],
+    keyNote:
+      'Keys need Skillion Premium and a registered account (not a guest one). Treat a key like a password: ' +
+      'anyone with it can change your tasks.',
+    authTitle: 'AUTHENTICATION',
+    authText: 'Send the key as a Bearer token on every request. All bodies are JSON.',
+    limitsTitle: 'LIMITS',
+    limits: [
+      ['120 requests per minute', 'per account, all your keys together'],
+      ['10,000 requests per day', 'per account, the day resets at 00:00 UTC'],
+      ['100 items per page', 'default 50'],
+      ['64 KB per body', ''],
+    ],
+    limitsNote:
+      'Over a limit you get 429 with a retry-after header (seconds). Every answer carries ' +
+      'x-ratelimit-limit and x-ratelimit-remaining.',
+    endpointsTitle: 'ENDPOINTS',
+    pagingTitle: 'LISTS AND PAGING',
+    pagingText:
+      'Lists come oldest change first. Pass next_cursor back as cursor until it is null. ' +
+      'Deleted and archived items are left out unless you ask for them.',
+    paging: [
+      ['limit', '1 to 100, default 50'],
+      ['cursor', 'the next_cursor of the previous page'],
+      ['updated_since', 'ISO date: only what changed after it'],
+      ['include_deleted', 'true to also get deleted items (deleted_at set)'],
+      ['include_archived', 'true to also get archived skills and tasks'],
+      ['category_id, status', 'tasks only: filter by category or status'],
+      ['event_type', 'history only, for example taskCompleted'],
+    ],
+    tasksTitle: 'TASK FIELDS YOU CAN SET',
+    tasksNote:
+      'Only title is required. Anything else (XP, level, status, coins earned) is calculated by the app ' +
+      'and is read-only. Unknown fields are refused with 422, so a typo never goes unnoticed.',
+    skillsTitle: 'SKILL FIELDS YOU CAN SET',
+    skillsNote:
+      'level, total_xp (the XP inside the current level) and the streaks are read-only. Free accounts keep ' +
+      '3 active skills, but the API itself is Premium only.',
+    completeTitle: 'COMPLETING A TASK',
+    completeText:
+      'XP, coins, energy and streaks are calculated by the app, so completing through the API is a request: ' +
+      'you get 202 at once and your phone applies it the next time Skillion syncs (when you open it). ' +
+      'Follow it in /v1/completions: pending → claimed → applied, or rejected with a reason ' +
+      '(already_completed, insufficient_energy…).',
+    completeNote:
+      'Pact tasks are completed with a check-in in the app and bad habits are never completed: both answer 409.',
+    deleteTitle: 'DELETING',
+    deleteText:
+      'DELETE does what the app does: skills and recurring tasks are archived (their history stays), ' +
+      'one-off tasks are deleted. Either way they disappear from your phone on its next sync.',
+    syncTitle: 'GOOD TO KNOW',
+    sync: [
+      'Changes reach your phone on its next sync, usually when you open the app.',
+      'If you edit the same task on your phone before it syncs, the phone wins.',
+      'Recurring tasks get their next due date from your phone, which knows your time zone and daily reset hour.',
+      'Dates are ISO 8601 with a time zone, for example 2026-10-21T18:00:00Z.',
+    ],
+    errorsTitle: 'ERRORS',
+    errorsText: 'Errors always have the same shape. details lists each field that was not valid.',
+    errors: [
+      ['400', 'invalid_request / invalid_json', 'bad query parameter or body'],
+      ['401', 'unauthorized', 'missing, malformed or revoked key'],
+      ['403', 'premium_required', 'the account is not Premium'],
+      ['404', 'not_found', 'no such item (or not yours)'],
+      ['409', 'pact_task / bad_habit / too_many_pending', 'the app owns this change'],
+      ['413', 'payload_too_large', 'body over 64 KB'],
+      ['422', 'invalid_field', 'see details'],
+      ['429', 'rate_limited', 'wait retry-after seconds'],
+    ],
+    examplesTitle: 'EXAMPLES',
+    exCreate: 'Create a recurring task linked to a skill',
+    exComplete: 'Complete it (from a shortcut, a cron, a button)',
+    exList: 'Read everything that changed since yesterday',
+    field: 'Field',
+    rule: 'Rule',
+    method: 'Method',
+    path: 'Path',
+    what: 'What it does',
+    param: 'Parameter',
+    code: 'Code',
+    help: 'Help? Write to us from the contact page.',
+    contact: 'Contact',
+  },
+  es: {
+    eyebrow: 'DESARROLLADORES',
+    title: 'API de Skillion',
+    intro:
+      'Lee y cambia tus propias skills y tareas desde tus scripts, atajos e integraciones. ' +
+      'Incluida en Skillion Premium.',
+    keyTitle: 'TU CLAVE',
+    keySteps: [
+      'Abre Skillion y ve a Ajustes.',
+      'Toca siete veces el número de versión, abajo del todo. Aparece la sección Desarrollador.',
+      'Crea una clave y cópiala: solo se enseña una vez. Puedes tener hasta 5 y revocar cualquiera desde ahí.',
+    ],
+    keyNote:
+      'Las claves necesitan Skillion Premium y una cuenta registrada (no de invitado). Trata la clave como una ' +
+      'contraseña: quien la tenga puede cambiar tus tareas.',
+    authTitle: 'AUTENTICACION',
+    authText: 'Manda la clave como token Bearer en cada petición. Todos los cuerpos van en JSON.',
+    limitsTitle: 'LIMITES',
+    limits: [
+      ['120 peticiones por minuto', 'por cuenta, todas tus claves juntas'],
+      ['10.000 peticiones al día', 'por cuenta, el día empieza a las 00:00 UTC'],
+      ['100 elementos por página', '50 por defecto'],
+      ['64 KB por cuerpo', ''],
+    ],
+    limitsNote:
+      'Si te pasas recibes 429 con la cabecera retry-after (segundos). Cada respuesta lleva ' +
+      'x-ratelimit-limit y x-ratelimit-remaining.',
+    endpointsTitle: 'ENDPOINTS',
+    pagingTitle: 'LISTAS Y PAGINADO',
+    pagingText:
+      'Las listas vienen del cambio más antiguo al más nuevo. Devuelve next_cursor como cursor hasta que sea ' +
+      'null. Lo borrado y lo archivado no sale salvo que lo pidas.',
+    paging: [
+      ['limit', 'de 1 a 100, 50 por defecto'],
+      ['cursor', 'el next_cursor de la página anterior'],
+      ['updated_since', 'fecha ISO: solo lo que cambió después'],
+      ['include_deleted', 'true para traer también lo borrado (con deleted_at)'],
+      ['include_archived', 'true para traer también skills y tareas archivadas'],
+      ['category_id, status', 'solo tareas: filtra por categoría o estado'],
+      ['event_type', 'solo historial, por ejemplo taskCompleted'],
+    ],
+    tasksTitle: 'CAMPOS DE TAREA QUE PUEDES PONER',
+    tasksNote:
+      'Solo title es obligatorio. Lo demás (XP, nivel, estado, monedas ganadas) lo calcula la app y es de solo ' +
+      'lectura. Un campo desconocido da 422, así que una errata nunca pasa desapercibida.',
+    skillsTitle: 'CAMPOS DE SKILL QUE PUEDES PONER',
+    skillsNote:
+      'level, total_xp (el XP dentro del nivel actual) y las rachas son de solo lectura. Las cuentas gratis ' +
+      'mantienen 3 skills activas, pero la API en sí es solo Premium.',
+    completeTitle: 'COMPLETAR UNA TAREA',
+    completeText:
+      'El XP, las monedas, la energía y las rachas los calcula la app, así que completar por la API es una ' +
+      'petición: recibes 202 al momento y tu móvil la aplica la próxima vez que Skillion sincroniza (al abrirla). ' +
+      'Síguela en /v1/completions: pending → claimed → applied, o rejected con el motivo ' +
+      '(already_completed, insufficient_energy…).',
+    completeNote:
+      'Las tareas de un pacto se completan con un check-in en la app y los malos hábitos nunca se completan: ' +
+      'las dos dan 409.',
+    deleteTitle: 'BORRAR',
+    deleteText:
+      'DELETE hace lo mismo que la app: las skills y las tareas recurrentes se archivan (su historial se queda) ' +
+      'y las tareas sueltas se borran. En los dos casos desaparecen de tu móvil en el siguiente sync.',
+    syncTitle: 'CONVIENE SABER',
+    sync: [
+      'Los cambios llegan a tu móvil en el siguiente sync, normalmente al abrir la app.',
+      'Si editas la misma tarea en el móvil antes de que sincronice, gana el móvil.',
+      'Las tareas recurrentes reciben su próxima fecha desde tu móvil, que sabe tu zona horaria y tu hora de reinicio.',
+      'Las fechas van en ISO 8601 con zona horaria, por ejemplo 2026-10-21T18:00:00Z.',
+    ],
+    errorsTitle: 'ERRORES',
+    errorsText: 'Los errores tienen siempre la misma forma. details dice qué campo no es válido.',
+    errors: [
+      ['400', 'invalid_request / invalid_json', 'parámetro o cuerpo incorrecto'],
+      ['401', 'unauthorized', 'clave ausente, mal formada o revocada'],
+      ['403', 'premium_required', 'la cuenta no es Premium'],
+      ['404', 'not_found', 'no existe (o no es tuyo)'],
+      ['409', 'pact_task / bad_habit / too_many_pending', 'ese cambio es de la app'],
+      ['413', 'payload_too_large', 'cuerpo de más de 64 KB'],
+      ['422', 'invalid_field', 'mira details'],
+      ['429', 'rate_limited', 'espera retry-after segundos'],
+    ],
+    examplesTitle: 'EJEMPLOS',
+    exCreate: 'Crear una tarea recurrente unida a una skill',
+    exComplete: 'Completarla (desde un atajo, un cron, un botón)',
+    exList: 'Leer todo lo que cambió desde ayer',
+    field: 'Campo',
+    rule: 'Regla',
+    method: 'Método',
+    path: 'Ruta',
+    what: 'Qué hace',
+    param: 'Parámetro',
+    code: 'Código',
+    help: '¿Dudas? Escríbenos desde la página de contacto.',
+    contact: 'Contacto',
+  },
+}[lang];
+
+const endpoints: [string, string, string, string][] = [
+  ['GET', '/me', 'Your level, XP, coins, energy and the limits', 'Tu nivel, XP, monedas, energía y los límites'],
+  ['GET', '/skills', 'List skills', 'Lista las skills'],
+  ['POST', '/skills', 'Create a skill', 'Crea una skill'],
+  ['GET', '/skills/{id}', 'One skill', 'Una skill'],
+  ['PATCH', '/skills/{id}', 'Change a skill', 'Cambia una skill'],
+  ['DELETE', '/skills/{id}', 'Archive a skill', 'Archiva una skill'],
+  ['GET', '/tasks', 'List tasks, each with its skills', 'Lista las tareas, cada una con sus skills'],
+  ['POST', '/tasks', 'Create a task', 'Crea una tarea'],
+  ['GET', '/tasks/{id}', 'One task', 'Una tarea'],
+  ['PATCH', '/tasks/{id}', 'Change a task', 'Cambia una tarea'],
+  ['DELETE', '/tasks/{id}', 'Delete or archive a task', 'Borra o archiva una tarea'],
+  ['POST', '/tasks/{id}/complete', 'Ask the app to complete it (202)', 'Pide a la app que la complete (202)'],
+  ['GET', '/completions', 'Your completion requests and what happened', 'Tus peticiones de completar y qué pasó'],
+  ['GET', '/categories', 'Your categories (read-only)', 'Tus categorías (solo lectura)'],
+  ['GET', '/history', 'Your history: completions, level-ups… (read-only)', 'Tu historial: completados, subidas de nivel… (solo lectura)'],
+]
+
+const taskFields: [string, string, string][] = [
+  ['title', 'text, 1–128', 'texto, 1–128'],
+  ['description', 'text up to 2,000 or null', 'texto hasta 2.000 o null'],
+  ['category_id', 'one of your categories; default: your first default one', 'una de tus categorías; por defecto, la primera predeterminada'],
+  ['skills', '[{"skill_id": "…", "xp": -100…100}], up to 20; xp defaults to 10, negative takes XP away', '[{"skill_id": "…", "xp": -100…100}], hasta 20; xp vale 10 por defecto, negativo resta XP'],
+  ['difficulty', 'very_easy, easy, medium (default), hard, very_hard', 'very_easy, easy, medium (por defecto), hard, very_hard'],
+  ['priority', '1–5, default 3', '1–5, 3 por defecto'],
+  ['energy_cost', '-50…50, default -1 (negative spends energy, positive gives it)', '-50…50, -1 por defecto (negativo gasta energía, positivo la da)'],
+  ['coins', '0–100, default 10', '0–100, 10 por defecto'],
+  ['health_effect', '-50…50', '-50…50'],
+  ['estimated_duration', 'seconds, 0–86,400', 'segundos, 0–86.400'],
+  ['is_recurring', 'true / false', 'true / false'],
+  ['recurrence_pattern', 'daily, weekly, monthly, yearly, custom (needed if recurring)', 'daily, weekly, monthly, yearly, custom (obligatorio si es recurrente)'],
+  ['custom_days', '"1,3,5": 1 = Monday … 7 = Sunday (for custom)', '"1,3,5": 1 = lunes … 7 = domingo (para custom)'],
+  ['recurrence_target', '1–99 times per period', '1–99 veces por periodo'],
+  ['recurrence_day_of_month', '1–31 (monthly, yearly)', '1–31 (monthly, yearly)'],
+  ['recurrence_month', '1–12 (yearly)', '1–12 (yearly)'],
+  ['recurrence_end_date', 'ISO date', 'fecha ISO'],
+  ['deadline', 'ISO date, only for one-off tasks', 'fecha ISO, solo para tareas no recurrentes'],
+  ['daily_deadline_time', '"HH:mm"', '"HH:mm"'],
+  ['reminder_mode', 'auto (default), at_deadline, before_15, before_60, morning, custom, none', 'auto (por defecto), at_deadline, before_15, before_60, morning, custom, none'],
+  ['reminder_minute', '0–1439, minute of the day (with custom)', '0–1439, minuto del día (con custom)'],
+  ['is_penalty', 'true: lose rewards when the deadline passes', 'true: pierdes recompensa si pasa el plazo'],
+  ['icon', 'an emoji, or assets/images/icons/<name>.png', 'un emoji, o assets/images/icons/<nombre>.png'],
+  ['color', '#RRGGBB', '#RRGGBB'],
+]
+
+const skillFields: [string, string, string][] = [
+  ['name', 'text, 1–32 (required)', 'texto, 1–32 (obligatorio)'],
+  ['description', 'text up to 500 or null', 'texto hasta 500 o null'],
+  ['icon', 'an emoji, or assets/images/icons/<name>.png', 'un emoji, o assets/images/icons/<nombre>.png'],
+  ['color', '#RRGGBB or null', '#RRGGBB o null'],
+  ['is_active', 'true / false', 'true / false'],
+]
+
+const authExample = `curl ${BASE}/me \\
+  -H "Authorization: Bearer sk_live_…"`
+
+const createExample = `curl -X POST ${BASE}/tasks \\
+  -H "Authorization: Bearer $SKILLION_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "title": "Gym",
+    "is_recurring": true,
+    "recurrence_pattern": "custom",
+    "custom_days": "1,3,5",
+    "difficulty": "hard",
+    "skills": [{ "skill_id": "<skill id>", "xp": 20 }]
+  }'`
+
+const completeExample = `curl -X POST ${BASE}/tasks/<task id>/complete \\
+  -H "Authorization: Bearer $SKILLION_KEY"
+
+# 202 → { "data": { "id": "…", "status": "pending", … } }`
+
+const listExample = `const since = new Date(Date.now() - 86_400_000).toISOString()
+let cursor = null
+do {
+  const url = new URL('${BASE}/tasks')
+  url.searchParams.set('updated_since', since)
+  if (cursor) url.searchParams.set('cursor', cursor)
+  const res = await fetch(url, { headers: { Authorization: \`Bearer \${process.env.SKILLION_KEY}\` } })
+  const page = await res.json()
+  for (const task of page.data) console.log(task.title, task.status)
+  cursor = page.next_cursor
+} while (cursor)`
+
+const errorExample = `{
+  "error": {
+    "code": "invalid_field",
+    "message": "Some fields are not valid.",
+    "details": { "custom_days": "must be weekdays like \\"1,3,5\\" …" }
+  }
+}`
+---
+
+<SiteNav lang={lang} altHref={altHref} section="legal" />
+
+<main class="dev-page">
+  <section class="dev-hero">
+    <p class="hero-eyebrow">{T.eyebrow}</p>
+    <h1 class="hero-title">{T.title}</h1>
+    <p class="hero-subtitle">{T.intro}</p>
+    <p class="hero-base"><code>{BASE}</code></p>
+  </section>
+
+  <div class="dev-body">
+    <section class="dev-section" id="key">
+      <h2 class="section-title">{T.keyTitle}</h2>
+      <ol class="steps">{T.keySteps.map((s) => <li>{s}</li>)}</ol>
+      <p class="note">{T.keyNote}</p>
+    </section>
+
+    <section class="dev-section" id="auth">
+      <h2 class="section-title">{T.authTitle}</h2>
+      <p>{T.authText}</p>
+      <pre><code>{authExample}</code></pre>
+    </section>
+
+    <section class="dev-section" id="limits">
+      <h2 class="section-title">{T.limitsTitle}</h2>
+      <ul class="facts">{T.limits.map(([a, b]) => <li><strong>{a}</strong>{b && <span> · {b}</span>}</li>)}</ul>
+      <p class="note">{T.limitsNote}</p>
+    </section>
+
+    <section class="dev-section" id="endpoints">
+      <h2 class="section-title">{T.endpointsTitle}</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>{T.method}</th><th>{T.path}</th><th>{T.what}</th></tr></thead>
+          <tbody>
+            {endpoints.map(([m, p, en, es]) => (
+              <tr><td><span class={`verb verb-${m.toLowerCase()}`}>{m}</span></td><td><code>/v1{p}</code></td><td>{isEs ? es : en}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="dev-section" id="paging">
+      <h2 class="section-title">{T.pagingTitle}</h2>
+      <p>{T.pagingText}</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>{T.param}</th><th>{T.rule}</th></tr></thead>
+          <tbody>{T.paging.map(([p, r]) => <tr><td><code>{p}</code></td><td>{r}</td></tr>)}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="dev-section" id="tasks">
+      <h2 class="section-title">{T.tasksTitle}</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>{T.field}</th><th>{T.rule}</th></tr></thead>
+          <tbody>{taskFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <p class="note">{T.tasksNote}</p>
+    </section>
+
+    <section class="dev-section" id="skills">
+      <h2 class="section-title">{T.skillsTitle}</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>{T.field}</th><th>{T.rule}</th></tr></thead>
+          <tbody>{skillFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <p class="note">{T.skillsNote}</p>
+    </section>
+
+    <section class="dev-section" id="complete">
+      <h2 class="section-title">{T.completeTitle}</h2>
+      <p>{T.completeText}</p>
+      <p class="note">{T.completeNote}</p>
+    </section>
+
+    <section class="dev-section" id="delete">
+      <h2 class="section-title">{T.deleteTitle}</h2>
+      <p>{T.deleteText}</p>
+    </section>
+
+    <section class="dev-section" id="sync">
+      <h2 class="section-title">{T.syncTitle}</h2>
+      <ul class="facts">{T.sync.map((s) => <li>{s}</li>)}</ul>
+    </section>
+
+    <section class="dev-section" id="errors">
+      <h2 class="section-title">{T.errorsTitle}</h2>
+      <p>{T.errorsText}</p>
+      <pre><code>{errorExample}</code></pre>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>HTTP</th><th>{T.code}</th><th>{T.what}</th></tr></thead>
+          <tbody>{T.errors.map(([h, c, w]) => <tr><td>{h}</td><td><code>{c}</code></td><td>{w}</td></tr>)}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="dev-section" id="examples">
+      <h2 class="section-title">{T.examplesTitle}</h2>
+      <h3 class="example-title">{T.exCreate}</h3>
+      <pre><code>{createExample}</code></pre>
+      <h3 class="example-title">{T.exComplete}</h3>
+      <pre><code>{completeExample}</code></pre>
+      <h3 class="example-title">{T.exList}</h3>
+      <pre><code>{listExample}</code></pre>
+    </section>
+
+    <p class="help">{T.help} <a href={isEs ? '/es/contact/' : '/contact/'}>{T.contact}</a></p>
+  </div>
+</main>
+
+<style>
+  .dev-page {
+    background: #0f1526;
+    color: #c9d6f5;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+  }
+
+  /* ---------- HERO ---------- */
+  .dev-hero {
+    padding: 72px 24px 48px;
+    text-align: center;
+    background: linear-gradient(#141b32 0%, #0f1526 100%);
+    border-bottom: 4px solid #1b2547;
+  }
+
+  .hero-eyebrow {
+    margin: 0 0 18px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    letter-spacing: 0.1em;
+    color: #8fe3da;
+  }
+
+  .hero-title {
+    margin: 0 0 20px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: clamp(16px, 3.4vw, 30px);
+    line-height: 1.5;
+    color: #ffe6a0;
+    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+    text-wrap: balance;
+  }
+
+  .hero-subtitle {
+    margin: 0 auto 20px;
+    max-width: 560px;
+    font-size: clamp(15px, 2.2vw, 18px);
+    font-weight: 700;
+    line-height: 1.55;
+    color: #8fa6dd;
+    text-wrap: pretty;
+  }
+
+  .hero-base code {
+    display: inline-block;
+    max-width: 100%;
+    padding: 8px 12px;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+    color: #ffe6a0;
+    background: #141b32;
+    border: 3px solid #3f5da8;
+  }
+
+  /* ---------- CUERPO ---------- */
+  .dev-body {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 24px 72px;
+  }
+
+  .dev-section {
+    margin-bottom: 56px;
+  }
+
+  .section-title {
+    margin: 0 0 20px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    /* Rótulos sin tildes a propósito: Press Start 2P no tiene mayúsculas
+       acentuadas (ver FaqPage). */
+    font-size: 11px;
+    line-height: 1.7;
+    color: #8fe3da;
+    padding-bottom: 14px;
+    border-bottom: 3px solid #1b2547;
+  }
+
+  .example-title {
+    margin: 28px 0 12px;
+    font-size: 16px;
+    color: #ffe6a0;
+  }
+
+  p,
+  li {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .note {
+    color: #8fa6dd;
+    font-size: 15px;
+  }
+
+  .steps,
+  .facts {
+    padding-left: 22px;
+  }
+
+  .steps li,
+  .facts li {
+    margin-bottom: 8px;
+  }
+
+  .facts strong {
+    color: #ffe6a0;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.92em;
+    color: #ffe6a0;
+  }
+
+  pre {
+    margin: 16px 0;
+    padding: 18px;
+    overflow-x: auto;
+    background: #0a0f1f;
+    border: 3px solid #1b2547;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  pre code {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #dceafe;
+    white-space: pre;
+  }
+
+  /* Las tablas se desplazan dentro de su caja: la página nunca scrollea en horizontal. */
+  .table-wrap {
+    overflow-x: auto;
+    border: 3px solid #1b2547;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  th,
+  td {
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 2px solid #1b2547;
+  }
+
+  th {
+    font-size: 13px;
+    color: #8fe3da;
+    background: #141b32;
+  }
+
+  td:first-child {
+    white-space: nowrap;
+  }
+
+  .verb {
+    display: inline-block;
+    min-width: 58px;
+    padding: 2px 6px;
+    font-family: 'JetBrains Mono', Menlo, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    color: #0a0f1f;
+  }
+
+  .verb-get { background: #8fe3da; }
+  .verb-post { background: #ffc53d; }
+  .verb-patch { background: #b9a2ff; }
+  .verb-delete { background: #ff8a8a; }
+
+  .help {
+    margin-top: 24px;
+    text-align: center;
+    color: #8fa6dd;
+  }
+
+  .help a {
+    color: #ffc53d;
+  }
+
+  @media (max-width: 640px) {
+    .dev-body {
+      padding: 40px 16px 56px;
+    }
+  }
+</style>
