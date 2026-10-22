@@ -24,6 +24,51 @@ const tagClass: Record<ChangelogTag, string> = {
   fix: 'tag tag--fix',
   improvement: 'tag tag--improvement',
 };
+
+// ---------- SKIN DE HALLOWEEN ----------
+// Copia del marco del modal de novedades de la app para la 2.12.0
+// (skillapp: lib/modules/changelog/presentation/widgets/halloween/). Los
+// números salen de allí; si la app lo cambia, se cambia aquí.
+
+// La telaraña de la esquina: siete radios que bajan del vértice superior
+// derecho hacia la izquierda y cinco anillos que se comban entre ellos.
+// Mismo cálculo que _CobwebPainter, en un lienzo de 132 × 132.
+const cobwebPath = (() => {
+  const spokes = 7;
+  const rings = [26, 50, 76, 104, 130];
+  const angle = (i: number) => Math.PI / 2 + (Math.PI / 2) * (i / (spokes - 1));
+  const at = (r: number, i: number) =>
+    `${(132 + Math.cos(angle(i)) * r).toFixed(1)} ${(Math.sin(angle(i)) * r).toFixed(1)}`;
+  const parts: string[] = [];
+  for (let i = 0; i < spokes; i++) parts.push(`M132 0L${at(rings[rings.length - 1] + 6, i)}`);
+  for (const r of rings) {
+    for (let i = 0; i < spokes - 1; i++) {
+      parts.push(`M${at(r, i)}Q${at(r * 0.86, i + 0.5)} ${at(r, i + 1)}`);
+    }
+  }
+  return parts.join('');
+})();
+
+// La araña en una rejilla de 11 × 9 píxeles: [x, y, ancho, alto, color].
+const spiderPixels: [number, number, number, number, string][] = [
+  [4, 1, 3, 2, '#2b1850'],
+  [3, 3, 5, 4, '#2b1850'],
+  [4, 7, 3, 1, '#2b1850'],
+  [1, 2, 2, 1, '#2b1850'],
+  [0, 3, 1, 2, '#2b1850'],
+  [1, 5, 2, 1, '#2b1850'],
+  [0, 6, 1, 2, '#2b1850'],
+  [8, 2, 2, 1, '#2b1850'],
+  [10, 3, 1, 2, '#2b1850'],
+  [8, 5, 2, 1, '#2b1850'],
+  [10, 6, 1, 2, '#2b1850'],
+  [4, 4, 1, 1, '#ff7700'],
+  [6, 4, 1, 1, '#ff7700'],
+  [3, 3, 5, 1, '#2f1a55'],
+];
+
+// Los tres que asoman por encima del borde, en el orden del banner.
+const peekers = ['vampire_male', 'mummy_female', 'pirate_female'];
 ---
 
 <div class="timeline">
@@ -32,15 +77,55 @@ const tagClass: Record<ChangelogTag, string> = {
   <ol class="release-list">
     {
       changelog.map((release, index) => (
-        <li class="release" hidden={index >= PAGE_SIZE}>
+        <li
+          class:list={['release', release.skin && `release--${release.skin}`]}
+          hidden={index >= PAGE_SIZE}
+        >
           <div
-            class:list={['release-node', release.highlight ? 'release-node--latest' : '']}
+            class:list={[
+              'release-node',
+              release.highlight && 'release-node--latest',
+              release.skin && `release-node--${release.skin}`,
+            ]}
             aria-hidden="true"
           >
             {release.highlight ? '★' : '▸'}
           </div>
 
-          <article class="release-card">
+          {release.skin === 'halloween' && (
+            <div class="hw-peekers" aria-hidden="true">
+              {peekers.map((name) => (
+                <img
+                  class={`hw-peeker hw-peeker--${name}`}
+                  src={`/images/changelog/halloween-2026/${name}.png`}
+                  alt=""
+                  width="384"
+                  height="384"
+                  decoding="async"
+                />
+              ))}
+            </div>
+          )}
+
+          <article class:list={['release-card', release.skin && `release-card--${release.skin}`]}>
+            {release.skin === 'halloween' && (
+              <div class="hw-decor" aria-hidden="true">
+                <div class="hw-glow" />
+                <div class="hw-beam" />
+                <svg class="hw-cobweb" viewBox="0 0 132 132" width="132" height="132">
+                  <path d={cobwebPath} />
+                </svg>
+                <div class="hw-spider">
+                  <div class="hw-spider__thread" />
+                  <svg viewBox="0 0 11 9" width="22" height="18" shape-rendering="crispEdges">
+                    {spiderPixels.map(([x, y, w, h, fill]) => (
+                      <rect x={x} y={y} width={w} height={h} fill={fill} />
+                    ))}
+                  </svg>
+                </div>
+              </div>
+            )}
+
             <header class="release-head">
               <span class="release-version">
                 <span class="release-version__label">{changelogUi.versionLabel[lang]}</span>
@@ -77,6 +162,8 @@ const tagClass: Record<ChangelogTag, string> = {
                 </li>
               ))}
             </ul>
+
+            {release.skin === 'halloween' && <div class="hw-ground" aria-hidden="true" />}
           </article>
         </li>
       ))
@@ -363,6 +450,293 @@ const tagClass: Record<ChangelogTag, string> = {
 
   .show-more[hidden] {
     display: none;
+  }
+
+  /* ---------- SKIN DE HALLOWEEN (2.12.0) ----------
+     Paleta de HalloweenWhatsNewPalette en la app: night #03061d, pumpkin
+     #ff7700, amber #ffa300, candle #ffb347, violet #4f2f88, muted #a3a8c9,
+     web #d9ccff. La tarjeta se queda cuadrada aunque en la app tenga radio 24:
+     aquí todo es pixel art y el redondeo desentona. */
+
+  /* Los personajes asoman 84 px por encima de la tarjeta; sin este margen
+     se meterían en la versión de arriba. */
+  .release--halloween {
+    margin-top: 60px;
+  }
+
+  .release-node--halloween {
+    box-shadow: inset 0 0 0 3px #ff7700;
+    color: #ff7700;
+  }
+
+  .hw-peekers {
+    position: absolute;
+    top: 0;
+    right: 58px;
+  }
+
+  /* Detrás de la tarjeta (z-index 0 frente a su 1): solo se les ve lo que
+     sobresale del borde superior, como en la app. */
+  /* max-width: none porque el preflight de Tailwind pone max-width: 100% a
+     las imágenes, y su contenedor mide 0 de ancho: sin esto no se ven. */
+  .hw-peeker {
+    position: absolute;
+    top: -84px;
+    width: 118px;
+    height: 118px;
+    max-width: none;
+    object-fit: contain;
+  }
+
+  .hw-peeker--vampire_male {
+    right: 180px;
+    transform: rotate(-6deg);
+  }
+
+  .hw-peeker--mummy_female {
+    right: 92px;
+    transform: rotate(5deg);
+  }
+
+  .hw-peeker--pirate_female {
+    right: 6px;
+    transform: rotate(14deg);
+  }
+
+  .release-card--halloween {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    background: #03061d;
+    border-color: rgba(255, 163, 0, 0.5);
+    box-shadow:
+      0 0 14px rgba(255, 163, 0, 0.45),
+      0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .hw-decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hw-glow {
+    position: absolute;
+    top: -70px;
+    right: -60px;
+    width: 260px;
+    height: 240px;
+    background: radial-gradient(closest-side, rgba(79, 47, 136, 0.85), rgba(79, 47, 136, 0));
+  }
+
+  /* El rayo de luna en diagonal. */
+  .hw-beam {
+    position: absolute;
+    top: -60px;
+    left: 200px;
+    width: 26px;
+    height: 380px;
+    background: rgba(187, 218, 237, 0.16);
+    transform: rotate(18deg);
+  }
+
+  .hw-cobweb {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0.55;
+    fill: none;
+    stroke: #d9ccff;
+    stroke-width: 1.1;
+    stroke-linecap: round;
+  }
+
+  .hw-spider {
+    position: absolute;
+    top: 0;
+    right: 38px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: top center;
+    animation: hw-swing 0.8s ease-in-out infinite alternate;
+  }
+
+  .hw-spider__thread {
+    width: 1px;
+    height: 64px;
+    background: rgba(217, 204, 255, 0.6);
+  }
+
+  /* ±3° en un ciclo de 1,6 s de ida y vuelta (0,8 s cada sentido). */
+  @keyframes hw-swing {
+    from {
+      transform: rotate(-3deg);
+    }
+    to {
+      transform: rotate(3deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hw-spider {
+      animation: none;
+    }
+  }
+
+  /* La franja de arbustos y calabazas: 128 × 18 a 3×, repetida a lo ancho.
+     En la app se estira al ancho del móvil; aquí la tarjeta llega a 700 px y
+     estirada mediría casi 100 px de alto. */
+  .hw-ground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 54px;
+    background: url('/images/changelog/halloween-2026/foreground.png') repeat-x left bottom / auto 54px;
+    image-rendering: pixelated;
+  }
+
+  .release-card--halloween .release-head,
+  .release-card--halloween .entry-list {
+    position: relative;
+  }
+
+  /* Hueco a la derecha para que la fecha no caiga encima de la telaraña
+     (132 px) ni de la araña. */
+  .release-card--halloween .release-head {
+    padding-right: 140px;
+    background: transparent;
+    border-bottom: 3px solid rgba(255, 163, 0, 0.35);
+  }
+
+  .release-card--halloween .entry-list {
+    padding-bottom: 58px;
+  }
+
+  .release-card--halloween .release-version {
+    background: rgba(79, 47, 136, 0.45);
+    border-color: rgba(255, 163, 0, 0.5);
+    color: #ffb347;
+  }
+
+  .release-card--halloween .release-version__label,
+  .release-card--halloween .release-date {
+    color: #a3a8c9;
+  }
+
+  .release-card--halloween .release-codename {
+    font-family: 'Creepster', 'Poppins', sans-serif;
+    font-size: 30px;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: #ff7700;
+  }
+
+  .release-card--halloween .entry + .entry {
+    border-top-color: rgba(163, 168, 201, 0.15);
+  }
+
+  .release-card--halloween .entry-icon {
+    background: rgba(79, 47, 136, 0.45);
+    border-color: rgba(255, 163, 0, 0.35);
+  }
+
+  .release-card--halloween .entry-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #ffffff;
+  }
+
+  .release-card--halloween .entry-text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #a3a8c9;
+  }
+
+  /* La primera entrada va destacada, como en el modal. */
+  .release-card--halloween .entry:first-child {
+    margin: 16px 16px 4px;
+    padding-right: 56px;
+    background: rgba(117, 172, 205, 0.07);
+    border: 3px solid rgba(255, 163, 0, 0.35);
+  }
+
+  .release-card--halloween .entry:first-child + .entry {
+    border-top: 0;
+  }
+
+  .release-card--halloween .entry:first-child .entry-title {
+    font-family: 'Creepster', 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    color: #ffb347;
+  }
+
+  .release-card--halloween .entry:first-child .entry-text {
+    color: #ffffff;
+  }
+
+  .release-card--halloween .tag {
+    border-color: transparent;
+  }
+
+  .release-card--halloween .tag--feature {
+    background: rgba(255, 119, 0, 0.2);
+    color: #ffab5c;
+  }
+
+  .release-card--halloween .tag--improvement {
+    background: rgba(160, 120, 255, 0.22);
+    color: #c9b3ff;
+  }
+
+  .release-card--halloween .tag--fix {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+  }
+
+  @media (max-width: 640px) {
+    /* En móvil los tres a 118 px taparían toda la tarjeta. */
+    .release--halloween {
+      margin-top: 44px;
+    }
+
+    .hw-peekers {
+      right: 0;
+    }
+
+    .hw-peeker {
+      top: -60px;
+      width: 84px;
+      height: 84px;
+    }
+
+    .hw-peeker--vampire_male {
+      right: 128px;
+    }
+
+    .hw-peeker--mummy_female {
+      right: 66px;
+    }
+
+    .hw-peeker--pirate_female {
+      right: 4px;
+    }
+
+    .release-card--halloween .entry:first-child {
+      margin: 12px 12px 4px;
+      padding-right: 16px;
+    }
+
+    .release-card--halloween .release-codename {
+      font-size: 24px;
+    }
   }
 
   @media (max-width: 640px) {
