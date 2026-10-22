@@ -609,6 +609,9 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
         a,
       ]),
     );
+    // Arriba del todo ninguna sección ha entrado aún en la franja: la primera
+    // es la que se va a leer.
+    links.values().next().value?.setAttribute('aria-current', 'location');
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -755,12 +758,19 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
     padding: 48px 24px 80px;
   }
 
+  /* El índice va en su propio panel, más oscuro que la página y con el
+     mismo marco que las tarjetas del sitio: sin él se confundía con el
+     contenido, porque los dos estaban sobre el mismo fondo. */
   .toc {
     position: sticky;
     top: 24px;
     align-self: start;
     max-height: calc(100vh - 48px);
+    padding: 20px 10px 20px 12px;
     overflow-y: auto;
+    background: #0a0f1f;
+    border: 4px solid #1b2547;
+    box-shadow: 6px 6px 0 rgba(5, 8, 18, 0.45);
     scrollbar-width: thin;
     scrollbar-color: #3f5da8 transparent;
   }
@@ -776,6 +786,8 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
 
   .toc__label {
     margin: 0 0 8px;
+    padding: 0 6px 8px;
+    border-bottom: 2px solid #1b2547;
     font-family: 'Press Start 2P', 'Courier New', monospace;
     font-size: 8px;
     line-height: 1.6;
@@ -805,7 +817,7 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
 
   .toc a[aria-current] {
     color: #ffe6a0;
-    background: #141b32;
+    background: #1b2547;
   }
 
   /* Un píxel de 6 × 6 marca la sección actual. */
@@ -1130,8 +1142,7 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
     .toc {
       position: static;
       max-height: none;
-      background: #141b32;
-      border: 3px solid #1b2547;
+      padding: 0;
     }
 
     .toc__summary {
