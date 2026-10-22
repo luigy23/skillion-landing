@@ -18,6 +18,7 @@ const content = {
     updates: "What's New",
     blog: 'Blog',
     faq: 'FAQ',
+    developers: 'Developers',
     contact: 'Contact',
     legal: 'LEGAL',
     privacy: 'Privacy',
@@ -34,6 +35,7 @@ const content = {
     updates: 'Novedades',
     blog: 'Blog',
     faq: 'FAQ',
+    developers: 'Desarrolladores',
     contact: 'Contacto',
     legal: 'LEGAL',
     privacy: 'Privacidad',
@@ -49,6 +51,7 @@ const t = content[lang];
 const year = new Date().getFullYear();
 const updatesHref = isEs ? '/es/novedades/' : '/updates/';
 const faqHref = isEs ? '/es/preguntas-frecuentes/' : '/faq/';
+const developersHref = isEs ? '/es/desarrolladores/' : '/developers/';
 ---
 
 <footer class="site-footer">
@@ -66,6 +69,7 @@ const faqHref = isEs ? '/es/preguntas-frecuentes/' : '/faq/';
     <a href={updatesHref}>{t.updates}</a>
     <a href={`${base}/blog/`}>{t.blog}</a>
     <a href={faqHref}>{t.faq}</a>
+    <a href={developersHref}>{t.developers}</a>
     <a href={`${base}/contact/`}>{t.contact}</a>
   </nav>
 
