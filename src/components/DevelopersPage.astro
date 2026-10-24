@@ -10,7 +10,8 @@
  * pareja EN/ES.
  *
  * Todo lo de aquí describe lo que hace de verdad el servidor
- * (skillion-infra/functions-server/functions/api.ts y api-resources.ts): si
+ * (skillion-infra/functions-server/functions/api.ts, api-resources.ts y
+ * api-routines.ts): si
  * cambia un límite o un campo allí, se cambia aquí en la misma tanda.
  */
 import { existsSync } from 'node:fs';
@@ -31,7 +32,8 @@ const T = {
   en: {
     title: 'Skillion API',
     intro:
-      'Read and change your own skills and tasks from your scripts, shortcuts and integrations. ' +
+      'Read and change your own skills, tasks and time-blocking routines from your scripts, shortcuts and ' +
+      'integrations. ' +
       'Part of Skillion Premium.',
     keyTitle: 'Get your key',
     keySteps: [
@@ -79,6 +81,19 @@ const T = {
     skillsNote:
       '`level`, `total_xp` (the XP inside the current level) and the streaks are read-only. Free accounts keep ' +
       '3 active skills, but the API itself is Premium only.',
+    routinesTitle: 'Routines and their blocks',
+    routinesText:
+      'A routine is a day plan of the time blocking screen («Monday», «Work day»…) with its blocks inside. ' +
+      'Plan a whole week with seven `POST /v1/routines`, one per day.',
+    routineFieldsLabel: 'Routine',
+    blockFieldsLabel: 'Each block in `blocks`',
+    routinesNote:
+      '`blocks` is always the whole list: a block with `id` is updated, one without `id` is created and any block ' +
+      'you leave out is deleted. Leave `blocks` out of a `PATCH` to keep them as they are. Blocks come back with ' +
+      '`start_time` and `end_time` («07:30») to read them easily.',
+    routinesWarn:
+      'Which routine your phone shows today is chosen on the phone: the API creates and changes routines but ' +
+      'does not switch the one you see.',
     completeTitle: 'Completing a task is not instant',
     completeText:
       'XP, coins, energy and streaks are calculated by the app, so completing through the API is a request: ' +
@@ -90,7 +105,8 @@ const T = {
     deleteTitle: 'Deleting',
     deleteText:
       '`DELETE` does what the app does: skills and recurring tasks are archived (their history stays), ' +
-      'one-off tasks are deleted. Either way they disappear from your phone on its next sync.',
+      'one-off tasks are deleted, and a routine is deleted with its blocks. Either way they disappear from your ' +
+      'phone on its next sync.',
     syncTitle: 'Good to know',
     sync: [
       'Changes reach your phone on its next sync, usually when you open the app.',
@@ -116,6 +132,7 @@ const T = {
     exCreate: 'Create a recurring task linked to a skill',
     exComplete: 'Complete it (from a shortcut, a cron, a button)',
     exList: 'Read everything that changed since yesterday',
+    exWeek: 'Plan your week: one routine per day',
     field: 'Field',
     rule: 'Rule',
     method: 'Method',
@@ -130,9 +147,9 @@ const T = {
     copied: 'Copied',
     toc: [
       ['Get started', [['quickstart', 'Your first call'], ['key', 'Your key'], ['auth', 'Authentication'], ['complete', 'Completing is not instant']]],
-      ['Reference', [['endpoints', 'Endpoints'], ['paging', 'Lists and paging'], ['tasks', 'Task fields'], ['skills', 'Skill fields'], ['errors', 'Errors'], ['limits', 'Limits']]],
+      ['Reference', [['endpoints', 'Endpoints'], ['paging', 'Lists and paging'], ['tasks', 'Task fields'], ['skills', 'Skill fields'], ['routines', 'Routines'], ['errors', 'Errors'], ['limits', 'Limits']]],
       ['Behaviour', [['delete', 'Deleting'], ['sync', 'Good to know']]],
-      ['Examples', [['examples', 'Three recipes']]],
+      ['Examples', [['examples', 'Four recipes']]],
     ],
     shotAlt: [
       'Skillion screenshot with an arrow on the way into Settings',
@@ -140,7 +157,7 @@ const T = {
       'Screenshot of Settings with the new Developer API row',
       'Screenshot of the new key with an arrow on Copy',
     ],
-    groups: { me: 'Account', skills: 'Skills', tasks: 'Tasks', completions: 'Completions', categories: 'Read-only', history: 'Read-only' },
+    groups: { me: 'Account', skills: 'Skills', tasks: 'Tasks', completions: 'Completions', routines: 'Routines', categories: 'Read-only', history: 'Read-only' },
     qsTitle: 'Your first call',
     qsCta: 'Start with your first call',
     qsSteps: [
@@ -160,7 +177,8 @@ const T = {
   es: {
     title: 'API de Skillion',
     intro:
-      'Lee y cambia tus propias skills y tareas desde tus scripts, atajos e integraciones. ' +
+      'Lee y cambia tus propias skills, tareas y rutinas de time blocking desde tus scripts, atajos e ' +
+      'integraciones. ' +
       'Incluida en Skillion Premium.',
     keyTitle: 'Tu clave',
     keySteps: [
@@ -209,6 +227,19 @@ const T = {
     skillsNote:
       '`level`, `total_xp` (el XP dentro del nivel actual) y las rachas son de solo lectura. Las cuentas gratis ' +
       'mantienen 3 skills activas, pero la API en sí es solo Premium.',
+    routinesTitle: 'Rutinas y sus bloques',
+    routinesText:
+      'Una rutina es un día de la pantalla de time blocking («Lunes», «Día de trabajo»…) con sus bloques dentro. ' +
+      'Una semana entera son siete `POST /v1/routines`, uno por día.',
+    routineFieldsLabel: 'Rutina',
+    blockFieldsLabel: 'Cada bloque de `blocks`',
+    routinesNote:
+      '`blocks` es siempre la lista entera: un bloque con `id` se actualiza, uno sin `id` se crea y el que no ' +
+      'mandes se borra. Si no mandas `blocks` en un `PATCH`, se quedan como están. Los bloques vuelven con ' +
+      '`start_time` y `end_time` («07:30») para leerlos fácil.',
+    routinesWarn:
+      'Qué rutina enseña hoy tu móvil se elige en el móvil: la API crea y cambia rutinas, pero no cambia la que ' +
+      'ves.',
     completeTitle: 'Completar una tarea no es inmediato',
     completeText:
       'El XP, las monedas, la energía y las rachas los calcula la app, así que completar por la API es una ' +
@@ -221,7 +252,8 @@ const T = {
     deleteTitle: 'Borrar',
     deleteText:
       '`DELETE` hace lo mismo que la app: las skills y las tareas recurrentes se archivan (su historial se queda) ' +
-      'y las tareas sueltas se borran. En los dos casos desaparecen de tu móvil en el siguiente sync.',
+      'y las tareas sueltas se borran, y una rutina se borra con sus bloques. En todos los casos desaparecen de ' +
+      'tu móvil en el siguiente sync.',
     syncTitle: 'Conviene saber',
     sync: [
       'Los cambios llegan a tu móvil en el siguiente sync, normalmente al abrir la app.',
@@ -247,6 +279,7 @@ const T = {
     exCreate: 'Crear una tarea recurrente unida a una skill',
     exComplete: 'Completarla (desde un atajo, un cron, un botón)',
     exList: 'Leer todo lo que cambió desde ayer',
+    exWeek: 'Organizar la semana: una rutina por día',
     field: 'Campo',
     rule: 'Regla',
     method: 'Método',
@@ -276,9 +309,9 @@ const T = {
     copied: 'Copiado',
     toc: [
       ['Empezar', [['quickstart', 'Tu primera llamada'], ['key', 'Tu clave'], ['auth', 'Autenticación'], ['complete', 'Completar no es inmediato']]],
-      ['Referencia', [['endpoints', 'Endpoints'], ['paging', 'Listas y paginado'], ['tasks', 'Campos de tarea'], ['skills', 'Campos de skill'], ['errors', 'Errores'], ['limits', 'Límites']]],
+      ['Referencia', [['endpoints', 'Endpoints'], ['paging', 'Listas y paginado'], ['tasks', 'Campos de tarea'], ['skills', 'Campos de skill'], ['routines', 'Rutinas'], ['errors', 'Errores'], ['limits', 'Límites']]],
       ['Comportamiento', [['delete', 'Borrar'], ['sync', 'Conviene saber']]],
-      ['Ejemplos', [['examples', 'Tres recetas']]],
+      ['Ejemplos', [['examples', 'Cuatro recetas']]],
     ],
     shotAlt: [
       'Captura de Skillion con la flecha en la entrada a Ajustes',
@@ -286,7 +319,7 @@ const T = {
       'Captura de Ajustes con la fila nueva API para desarrolladores',
       'Captura de la clave nueva con la flecha en Copiar',
     ],
-    groups: { me: 'Cuenta', skills: 'Skills', tasks: 'Tareas', completions: 'Completados', categories: 'Solo lectura', history: 'Solo lectura' },
+    groups: { me: 'Cuenta', skills: 'Skills', tasks: 'Tareas', completions: 'Completados', routines: 'Rutinas', categories: 'Solo lectura', history: 'Solo lectura' },
   },
 }[lang];
 
@@ -304,6 +337,11 @@ const endpoints: [string, string, string, string][] = [
   ['DELETE', '/tasks/{id}', 'Delete or archive a task', 'Borra o archiva una tarea'],
   ['POST', '/tasks/{id}/complete', 'Ask the app to complete it (202)', 'Pide a la app que la complete (202)'],
   ['GET', '/completions', 'Your completion requests and what happened', 'Tus peticiones de completar y qué pasó'],
+  ['GET', '/routines', 'List routines, each with its blocks', 'Lista las rutinas, cada una con sus bloques'],
+  ['POST', '/routines', 'Create a routine with its blocks', 'Crea una rutina con sus bloques'],
+  ['GET', '/routines/{id}', 'One routine', 'Una rutina'],
+  ['PATCH', '/routines/{id}', 'Change a routine or its blocks', 'Cambia una rutina o sus bloques'],
+  ['DELETE', '/routines/{id}', 'Delete a routine and its blocks', 'Borra una rutina y sus bloques'],
   ['GET', '/categories', 'Your categories (read-only)', 'Tus categorías (solo lectura)'],
   ['GET', '/history', 'Your history: completions, level-ups… (read-only)', 'Tu historial: completados, subidas de nivel… (solo lectura)'],
 ]
@@ -343,6 +381,28 @@ const skillFields: [string, string, string][] = [
   ['is_active', 'true / false', 'true / false'],
 ]
 
+// skillion-infra functions/api-routines.ts: las mismas reglas que la pantalla
+// de time blocking (rejilla de 5 minutos, sin solapes).
+const routineFields: [string, string, string][] = [
+  ['name', 'text, 1–64 (required)', 'texto, 1–64 (obligatorio)'],
+  ['blocks', 'list of up to 96 blocks (below)', 'lista de hasta 96 bloques (abajo)'],
+  ['is_default', 'true: the one the app falls back to; marking one unmarks the others. If you have none yet, the new one is', 'true: la que usa la app por defecto; marcar una desmarca las demás. Si aún no tienes ninguna, la nueva lo es'],
+  ['icon', 'an emoji, or assets/images/icons/<name>.png, or null', 'un emoji, o assets/images/icons/<nombre>.png, o null'],
+  ['color', '#RRGGBB or null', '#RRGGBB o null'],
+]
+
+const blockFields: [string, string, string][] = [
+  ['start_minute', 'minutes from midnight, 0–2879 in steps of 5 (420 = 07:00; 1440 and up is the next day, for a routine that runs past midnight)', 'minutos desde medianoche, 0–2879 de 5 en 5 (420 = 07:00; 1440 o más es el día siguiente, para una rutina que pasa de medianoche)'],
+  ['duration_minute', '5–1440 in steps of 5', '5–1440 de 5 en 5'],
+  ['title', 'text, 1–128; required unless the block has task_id', 'texto, 1–128; obligatorio si el bloque no lleva task_id'],
+  ['task_id', 'one of your tasks: the block is that task', 'una de tus tareas: el bloque es esa tarea'],
+  ['note', 'text up to 2,000 or null', 'texto hasta 2.000 o null'],
+  ['icon', 'an emoji, or assets/images/icons/<name>.png, or null', 'un emoji, o assets/images/icons/<nombre>.png, o null'],
+  ['color', '#RRGGBB or null', '#RRGGBB o null'],
+  ['is_pinned', 'true: «Start now» does not move it', 'true: «Empezar ahora» no lo mueve'],
+  ['id', 'only to change a block the routine already has', 'solo para cambiar un bloque que la rutina ya tiene'],
+]
+
 const authExample = `curl ${BASE}/me \\
   -H "Authorization: Bearer sk_live_…"`
 
@@ -374,6 +434,24 @@ do {
   for (const task of page.data) console.log(task.title, task.status)
   cursor = page.next_cursor
 } while (cursor)`
+
+const weekExample = `const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+for (const name of days) {
+  const weekend = name === 'Saturday' || name === 'Sunday'
+  const res = await fetch('${BASE}/routines', {
+    method: 'POST',
+    headers: { Authorization: \`Bearer \${process.env.SKILLION_KEY}\`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name,
+      blocks: [
+        { start_minute: weekend ? 540 : 420, duration_minute: 30, title: 'Read' },
+        { start_minute: 1080, duration_minute: 60, title: 'Gym', color: '#F29092' },
+        { start_minute: 1380, duration_minute: 60, title: 'Wind down' },
+      ],
+    }),
+  })
+  if (!res.ok) console.error(name, (await res.json()).error)
+}`
 
 const quickstartExample = `export SKILLION_KEY="sk_live_…"   ${T.keyComment}
 
@@ -629,6 +707,30 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
         <p class="callout">{rich(T.skillsNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
       </section>
 
+      <section class="dev-section" id="routines">
+        <h2 class="section-title">{T.routinesTitle}<a class="anchor" href="#routines" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{rich(T.routinesText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <h3 class="example-title">{T.routineFieldsLabel}</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
+            <tbody>{routineFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <h3 class="example-title">{rich(T.blockFieldsLabel).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
+            <tbody>{blockFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <p class="callout">{rich(T.routinesNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <div class="callout callout--warn">
+          <p class="callout__label"><svg class="callout__icon" viewBox="0 0 4 8" width="8" height="16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="5" /><rect x="1" y="6" width="2" height="2" /></svg>{T.warnLabel}</p>
+          <p>{T.routinesWarn}</p>
+        </div>
+      </section>
+
       <section class="dev-section" id="errors">
         <h2 class="section-title">{T.errorsTitle}<a class="anchor" href="#errors" aria-hidden="true" tabindex="-1">#</a></h2>
         <p>{rich(T.errorsText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
@@ -687,6 +789,11 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
         <div class="code">
           <div class="code__bar"><span>JavaScript</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
           <pre><code>{listExample}</code></pre>
+        </div>
+        <h3 class="example-title">{T.exWeek}</h3>
+        <div class="code">
+          <div class="code__bar"><span>JavaScript</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+          <pre><code>{weekExample}</code></pre>
         </div>
       </section>
 
