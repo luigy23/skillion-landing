@@ -52,7 +52,7 @@ export const GET: APIRoute = async ({ site }) => {
     `- [Preguntas frecuentes](${abs('/es/preguntas-frecuentes/')}): las mismas respuestas en español.`,
     `- [What's New](${abs('/updates/')}): release notes for every published version.`,
     `- [Contact](${abs('/contact/')}): how to reach the team.`,
-    `- [Developers](${abs('/developers/')}): the Skillion API (Premium): read and change your own skills and tasks with a personal key; endpoints, limits, paging and examples.`,
+    `- [Developers](${abs('/developers/')}): the Skillion API (Premium): read and change your own skills, tasks and time-blocking routines with a personal key; endpoints, limits, paging and examples.`,
     `- [Desarrolladores](${abs('/es/desarrolladores/')}): la misma documentación en español.`,
     '',
   ];
