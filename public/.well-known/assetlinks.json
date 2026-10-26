@@ -1,10 +1,13 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "app.skillion",
       "sha256_cert_fingerprints": [
+        "14:49:03:65:74:BF:B0:E9:9F:99:12:C1:CC:09:B8:B0:96:DC:DE:93:FB:33:5A:59:5E:0F:CF:80:B8:BA:B9:37",
         "13:D6:7B:2B:E8:2A:51:79:92:0F:00:80:C5:D3:F9:FE:49:6B:CB:13:84:0B:FC:85:73:4B:40:BE:5B:5E:0F:56"
       ]
     }
