@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["8TGXQSFKNH.app.skillion"],
+        "components": [{ "/": "/p/*", "comment": "Invitación a un pacto (SCRUM-589)" }]
+      }
+    ]
+  }
+}
