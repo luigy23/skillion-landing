@@ -27,6 +27,25 @@
     {
       "source": "/sitemap.xml",
       "destination": "/sitemap-index.xml"
+    },
+    {
+      "source": "/p/:code",
+      "destination": "/api/pact-link?code=:code"
+    },
+    {
+      "source": "/p/:code/",
+      "destination": "/api/pact-link?code=:code"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/.well-known/(apple-app-site-association|assetlinks.json)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ]
     }
   ]
 }
