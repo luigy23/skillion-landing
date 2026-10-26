@@ -10,7 +10,8 @@
 //   · Android: a Play con referrer=pact%3D<código>; la app lo lee con el Install
 //     Referrer al arrancar.
 //   · iOS: al tocar el botón copia el enlace al portapapeles y abre el App Store;
-//     la app lo lee en su primer arranque. Sin IP ni huella: Apple lo prohíbe.
+//     al abrir la app, su portada ofrece el botón «Pegar» nativo de iOS (que no
+//     pide permiso) y así recupera el enlace. Sin IP ni huella: Apple lo prohíbe.
 
 const API = 'https://api.skillion.app/functions/v1/pact-link'
 const SITE = 'https://skillion.app'
@@ -26,7 +27,6 @@ const T = {
     lead: 'Descarga Skillion y acepta la invitación. Al abrir la app te llevamos directo al pacto.',
     button: 'Descargar Skillion',
     other: 'Con la app ya instalada, abre este enlace desde el móvil. O escribe el código en Pactos:',
-    copied: 'Enlace copiado. Te llevamos al App Store…',
   },
   en: {
     challenge: (n, h, d) => `${n} challenges you: ${h} · ${d} days`,
@@ -35,8 +35,31 @@ const T = {
     lead: 'Get Skillion and accept the invitation. When you open the app we take you straight to the pact.',
     button: 'Get Skillion',
     other: 'If you already have the app, open this link on your phone. Or type the code in Pacts:',
-    copied: 'Link copied. Taking you to the App Store…',
   },
+}
+
+// iOS, after copying: the app no longer reads the clipboard on its own; its home
+// shows iOS's native Paste button, whose label is this word in each of the app's
+// eight languages.
+const PASTE = {
+  es: 'Enlace copiado. Abre Skillion y toca Pegar.',
+  en: 'Link copied. Open Skillion and tap Paste.',
+  pt: 'Link copiado. Abra o Skillion e toque em Colar.',
+  fr: 'Lien copié. Ouvre Skillion et touche Coller.',
+  de: 'Link kopiert. Öffne Skillion und tippe auf Einsetzen.',
+  it: 'Link copiato. Apri Skillion e tocca Incolla.',
+  ru: 'Ссылка скопирована. Открой Skillion и нажми «Вставить».',
+  uk: 'Посилання скопійовано. Відкрий Skillion і натисни «Вставити».',
+}
+
+/** The reader's preferred language among `known`, by Accept-Language weight; English otherwise. */
+export function pickLang(header, known) {
+  const prefs = String(header ?? '').split(',').map((part, i) => {
+    const [tag, ...params] = part.trim().split(';')
+    const q = params.map((p) => p.trim()).find((p) => p.startsWith('q='))
+    return { lang: tag.split('-')[0].toLowerCase(), q: q ? Number(q.slice(2)) || 0 : 1, i }
+  }).sort((a, b) => b.q - a.q || a.i - b.i)
+  return prefs.find((p) => p.q > 0 && known.includes(p.lang))?.lang ?? 'en'
 }
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
@@ -56,8 +79,9 @@ export default async function handler(req, res) {
     res.writeHead(302, { Location: '/' })
     return res.end()
   }
-  const lang = /^es\b/i.test(String(req.headers['accept-language'] ?? '')) ? 'es' : 'en'
+  const lang = pickLang(req.headers['accept-language'], Object.keys(T))
   const t = T[lang]
+  const copied = PASTE[pickLang(req.headers['accept-language'], Object.keys(PASTE))]
   const p = await preview(code)
   const title = p ? t.challenge(p.name || 'Skillion', p.habit_name, p.duration_days) : t.generic
   const url = `${SITE}/p/${code}/`
@@ -108,7 +132,7 @@ export default async function handler(req, res) {
   <h1>${esc(title)}</h1>
   <p>${esc(t.lead)}</p>
   <a class="btn" id="go" href="${APP_STORE}">${esc(t.button)}</a>
-  <p id="copied" hidden>${esc(t.copied)}</p>
+  <p id="copied" hidden>${esc(copied)}</p>
   <div id="other" hidden>
     <p>${esc(t.other)}</p>
     <div class="code">${esc(code)}</div>
