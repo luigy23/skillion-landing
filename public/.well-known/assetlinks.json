@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.skillion",
+      "sha256_cert_fingerprints": [
+        "13:D6:7B:2B:E8:2A:51:79:92:0F:00:80:C5:D3:F9:FE:49:6B:CB:13:84:0B:FC:85:73:4B:40:BE:5B:5E:0F:56"
+      ]
+    }
+  }
+]
