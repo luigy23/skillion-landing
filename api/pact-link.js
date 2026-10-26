@@ -66,6 +66,9 @@ export default async function handler(req, res) {
   res.setHeader('Content-Type', 'text/html; charset=utf-8')
   // The preview changes when the pact starts or the code dies: short and shared.
   res.setHeader('Cache-Control', 'public, s-maxage=300, max-age=0')
+  // The page is in the reader's language: one cached copy per language, or the
+  // first visitor's would be served to everyone for five minutes.
+  res.setHeader('Vary', 'Accept-Language')
   res.end(`<!doctype html>
 <html lang="${lang}">
 <head>
