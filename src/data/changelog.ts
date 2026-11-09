@@ -44,9 +44,124 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
   {
+    version: '2.15.0',
+    date: '2026-11-09',
+    highlight: true,
+    entries: [
+      {
+        icon: '🕐',
+        tag: 'feature',
+        title: {
+          en: 'A routine for every day',
+          es: 'Una rutina para cada día',
+        },
+        description: {
+          en: 'In Time Blocking, create several routines and paint your week: each day starts with its own. Mark special days and ask the magic to build you a new routine.',
+          es: 'En Time Blocking crea varias rutinas y pinta tu semana: cada día arranca solo con la suya. Marca días especiales y pídele a la magia que te arme una rutina nueva.',
+        },
+      },
+    ],
+  },
+  {
+    version: '2.14.0',
+    date: '2026-11-04',
+    entries: [
+      {
+        icon: '💪',
+        tag: 'feature',
+        title: {
+          en: 'Skill catalog',
+          es: 'Catálogo de habilidades',
+        },
+        description: {
+          en: 'Pick skills from a catalog, each with its own drawing, or create yours with the redesigned sheet.',
+          es: 'Elige habilidades de un catálogo, cada una con su dibujo, o crea la tuya con la hoja rediseñada.',
+        },
+      },
+      {
+        icon: '⚡',
+        tag: 'feature',
+        title: {
+          en: 'New widgets',
+          es: 'Widgets nuevos',
+        },
+        description: {
+          en: 'A stats widget with your level, health, energy and the day, plus redesigned tasks and frequency widgets, on iPhone and Android.',
+          es: 'Un widget de estadísticas con tu nivel, salud, energía y el día, y los de tareas y frecuencia rediseñados, en iPhone y Android.',
+        },
+      },
+      {
+        icon: '💡',
+        tag: 'improvement',
+        title: {
+          en: 'Every option, explained',
+          es: 'Cada opción, explicada',
+        },
+        description: {
+          en: 'Tap the «?» next to each option when creating a task and it tells you what it does.',
+          es: 'Toca el «?» de cada opción al crear una tarea y te cuenta qué hace.',
+        },
+      },
+    ],
+  },
+  {
+    version: '2.13.0',
+    date: '2026-10-26',
+    skin: 'halloween',
+    entries: [
+      {
+        icon: '🕐',
+        tag: 'feature',
+        title: {
+          en: 'Time Blocking widgets',
+          es: 'Widgets de Time Blocking',
+        },
+        description: {
+          en: 'See your day without opening the app: what\'s on now, your day as a clock and your agenda. And the pact widget, redesigned on iPhone and Android.',
+          es: 'Mira tu día sin abrir la app: lo que toca ahora, tu jornada en reloj y tu agenda. Y el widget de pactos, rediseñado en iPhone y Android.',
+        },
+      },
+      {
+        icon: '🔗',
+        tag: 'feature',
+        title: {
+          en: 'Invite to your pact with a link',
+          es: 'Invita a tu pacto con un enlace',
+        },
+        description: {
+          en: 'Share the link and your friend lands straight in your pact, even if they don\'t have the app yet.',
+          es: 'Comparte el enlace y tu amigo entra directo a tu pacto, aunque todavía no tenga la app.',
+        },
+      },
+      {
+        icon: '📸',
+        tag: 'improvement',
+        title: {
+          en: 'Every photo of the pact',
+          es: 'Todas las fotos del pacto',
+        },
+        description: {
+          en: 'Each day\'s photos show up in the pact\'s details and results, and you can zoom into each one.',
+          es: 'Las fotos de cada día aparecen en los detalles y los resultados del pacto, y puedes hacer zoom en cada una.',
+        },
+      },
+      {
+        icon: '⭐',
+        tag: 'feature',
+        title: {
+          en: 'Your Premium benefits',
+          es: 'Tus beneficios Premium',
+        },
+        description: {
+          en: 'Tap the badge on your profile to see everything Premium includes.',
+          es: 'Toca la insignia de tu perfil para ver todo lo que incluye Premium.',
+        },
+      },
+    ],
+  },
+  {
     version: '2.12.1',
     date: '2026-10-20',
-    highlight: true,
     entries: [
       {
         icon: '📅',
