@@ -10,9 +10,9 @@
  * pareja EN/ES.
  *
  * Todo lo de aquí describe lo que hace de verdad el servidor
- * (skillion-infra/functions-server/functions/api.ts, api-resources.ts y
- * api-routines.ts): si
- * cambia un límite o un campo allí, se cambia aquí en la misma tanda.
+ * (skillion-infra/functions-server/functions/: api-ops.ts tiene cada operación
+ * y de ahí salen las rutas y las herramientas del MCP): si cambia un límite o
+ * un campo allí, se cambia aquí en la misma tanda.
  */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -32,8 +32,8 @@ const T = {
   en: {
     title: 'Skillion API',
     intro:
-      'Read and change your own skills, tasks and time-blocking routines from your scripts, shortcuts and ' +
-      'integrations. ' +
+      'Read and change your own skills, tasks, routines and calendar from your scripts, shortcuts, ' +
+      'integrations and AI assistants (MCP). ' +
       'Part of Skillion Premium.',
     keyTitle: 'Get your key',
     keySteps: [
@@ -71,6 +71,8 @@ const T = {
       ['include_deleted', 'true to also get deleted items (deleted_at set)'],
       ['include_archived', 'true to also get archived skills and tasks'],
       ['category_id, status', 'tasks only: filter by category or status'],
+      ['task_id', 'subtasks only: the steps of one task'],
+      ['date, from, to', 'commitments only: one date or a range, yyyy-MM-dd'],
       ['event_type', 'history only, for example taskCompleted'],
     ],
     tasksTitle: 'Task fields you can set',
@@ -83,8 +85,8 @@ const T = {
       '3 active skills, but the API itself is Premium only.',
     routinesTitle: 'Routines and their blocks',
     routinesText:
-      'A routine is a day plan of the time blocking screen («Monday», «Work day»…) with its blocks inside. ' +
-      'Plan a whole week with seven `POST /v1/routines`, one per day.',
+      'A routine is a day plan of the time blocking screen («Workday», «Weekend»…) with its blocks inside and ' +
+      'the `weekdays` it loads. A weekday belongs to one routine: giving it to one takes it from the other.',
     routineFieldsLabel: 'Routine',
     blockFieldsLabel: 'Each block in `blocks`',
     routinesNote:
@@ -92,8 +94,38 @@ const T = {
       'you leave out is deleted. Leave `blocks` out of a `PATCH` to keep them as they are. Blocks come back with ' +
       '`start_time` and `end_time` («07:30») to read them easily.',
     routinesWarn:
-      'Which routine your phone shows today is chosen on the phone: the API creates and changes routines but ' +
-      'does not switch the one you see.',
+      'Until a routine has weekdays, every day loads the routine you picked on your phone. The API cannot see ' +
+      'that choice and uses your default routine instead: the first weekday you set gives the other six to it.',
+    weekTitle: 'The week and each day',
+    weekText:
+      '`GET /v1/days/{date}` tells you which routine a date loads and why (`source`: `date` if that date was ' +
+      'changed, `week` if it follows its weekday, `default` if no week is set yet), the blocks that show and the ' +
+      'ones resting that day (`turned_off`, or covered by a commitment). `GET /v1/days?from=…&to=…` gives up to ' +
+      '31 days. Dates are your local date, `yyyy-MM-dd`.',
+    dayFieldsLabel: 'Change a day: `PUT /v1/days/{date}`',
+    dayNote:
+      'Picking what the week already gives clears the change for that date. `DELETE /v1/days/{date}` takes the ' +
+      'date back to its weekday; its commitments stay. `GET /v1/week` shows the week and `PUT /v1/week/{weekday}` ' +
+      'with `{"routine_id": "…"}` (or `null` for a free day) changes it.',
+    daysWarn:
+      'This works like the app with «Switch by itself every day» on, which is how it comes. With it off, your ' +
+      'phone keeps the routine you picked until you change it.',
+    commitmentsTitle: 'Commitments',
+    commitmentsText:
+      'Something fixed on one date («Dentist, 15:00–16:00»), drawn over that day\'s routine. With ' +
+      '`skip_overlaps` (on unless you say otherwise) the blocks it covers rest that day.',
+    subtasksTitle: 'Subtasks',
+    subtasksText:
+      'Every task comes with its `subtasks`. Add a step with `POST /v1/subtasks` (`task_id` and `title`, 1–200), ' +
+      'tick it with `PATCH /v1/subtasks/{id}` and `{"is_completed": true}`. Ticking every step does not complete ' +
+      'the task: `POST /v1/tasks/{id}/complete` does.',
+    mcpTitle: 'From an AI assistant (MCP)',
+    mcpText:
+      'The same API is an MCP server: every endpoint is a tool with the same rules, named as in the table ' +
+      '(`list_tasks`, `get_day`, `set_day`…). Add it with your key to any MCP client that lets you set a header, ' +
+      'like Claude Code, Cursor or VS Code:',
+    mcpDesktop: 'Claude Desktop, and clients that only run local servers, reach it through `mcp-remote`:',
+    mcpNote: 'It uses the same Premium key and the same limits as the API. Try: «What does my Tuesday look like?»',
     completeTitle: 'Completing a task is not instant',
     completeText:
       'XP, coins, energy and streaks are calculated by the app, so completing through the API is a request: ' +
@@ -105,14 +137,15 @@ const T = {
     deleteTitle: 'Deleting',
     deleteText:
       '`DELETE` does what the app does: skills and recurring tasks are archived (their history stays), ' +
-      'one-off tasks are deleted, and a routine is deleted with its blocks. Either way they disappear from your ' +
-      'phone on its next sync.',
+      'one-off tasks are deleted, and a routine is deleted with its blocks (the dates that loaded it go back to ' +
+      'their weekday). Either way they disappear from your phone on its next sync.',
     syncTitle: 'Good to know',
     sync: [
       'Changes reach your phone on its next sync, usually when you open the app.',
       'If you edit the same task on your phone before it syncs, the phone wins.',
       'Recurring tasks get their next due date from your phone, which knows your time zone and daily reset hour.',
       'Dates are ISO 8601 with a time zone, for example `2026-10-21T18:00:00Z`.',
+      'Calendar dates (days, commitments) are your local date, for example `2026-11-10`.',
     ],
     errorsTitle: 'Errors',
     errorsText: 'Errors always have the same shape. `details` lists each field that was not valid.',
@@ -132,7 +165,8 @@ const T = {
     exCreate: 'Create a recurring task linked to a skill',
     exComplete: 'Complete it (from a shortcut, a cron, a button)',
     exList: 'Read everything that changed since yesterday',
-    exWeek: 'Plan your week: one routine per day',
+    exWeek: 'Plan your week: workdays and weekend',
+    exDay: 'Take Friday off, or use another routine that day only',
     field: 'Field',
     rule: 'Rule',
     method: 'Method',
@@ -146,10 +180,10 @@ const T = {
     copy: 'Copy',
     copied: 'Copied',
     toc: [
-      ['Get started', [['quickstart', 'Your first call'], ['key', 'Your key'], ['auth', 'Authentication'], ['complete', 'Completing is not instant']]],
-      ['Reference', [['endpoints', 'Endpoints'], ['paging', 'Lists and paging'], ['tasks', 'Task fields'], ['skills', 'Skill fields'], ['routines', 'Routines'], ['errors', 'Errors'], ['limits', 'Limits']]],
+      ['Get started', [['quickstart', 'Your first call'], ['key', 'Your key'], ['auth', 'Authentication'], ['mcp', 'AI assistants (MCP)'], ['complete', 'Completing is not instant']]],
+      ['Reference', [['endpoints', 'Endpoints'], ['paging', 'Lists and paging'], ['tasks', 'Task fields'], ['subtasks', 'Subtasks'], ['skills', 'Skill fields'], ['routines', 'Routines'], ['week', 'The week and each day'], ['commitments', 'Commitments'], ['errors', 'Errors'], ['limits', 'Limits']]],
       ['Behaviour', [['delete', 'Deleting'], ['sync', 'Good to know']]],
-      ['Examples', [['examples', 'Four recipes']]],
+      ['Examples', [['examples', 'Five recipes']]],
     ],
     shotAlt: [
       'Skillion screenshot with an arrow on the way into Settings',
@@ -157,7 +191,8 @@ const T = {
       'Screenshot of Settings with the new Developer API row',
       'Screenshot of the new key with an arrow on Copy',
     ],
-    groups: { me: 'Account', skills: 'Skills', tasks: 'Tasks', completions: 'Completions', routines: 'Routines', categories: 'Read-only', history: 'Read-only' },
+    groups: { me: 'Account', skills: 'Skills', tasks: 'Tasks', subtasks: 'Subtasks', completions: 'Completions', routines: 'Routines', week: 'The week', days: 'Days', commitments: 'Commitments', categories: 'Read-only', history: 'Read-only' },
+    tool: 'MCP',
     qsTitle: 'Your first call',
     qsCta: 'Start with your first call',
     qsSteps: [
@@ -177,8 +212,8 @@ const T = {
   es: {
     title: 'API de Skillion',
     intro:
-      'Lee y cambia tus propias skills, tareas y rutinas de time blocking desde tus scripts, atajos e ' +
-      'integraciones. ' +
+      'Lee y cambia tus propias skills, tareas, rutinas y calendario desde tus scripts, atajos, integraciones ' +
+      'y asistentes de IA (MCP). ' +
       'Incluida en Skillion Premium.',
     keyTitle: 'Tu clave',
     keySteps: [
@@ -217,6 +252,8 @@ const T = {
       ['include_deleted', 'true para traer también lo borrado (con deleted_at)'],
       ['include_archived', 'true para traer también skills y tareas archivadas'],
       ['category_id, status', 'solo tareas: filtra por categoría o estado'],
+      ['task_id', 'solo subtareas: los pasos de una tarea'],
+      ['date, from, to', 'solo compromisos: una fecha o un rango, yyyy-MM-dd'],
       ['event_type', 'solo historial, por ejemplo taskCompleted'],
     ],
     tasksTitle: 'Campos de tarea que puedes poner',
@@ -229,8 +266,8 @@ const T = {
       'mantienen 3 skills activas, pero la API en sí es solo Premium.',
     routinesTitle: 'Rutinas y sus bloques',
     routinesText:
-      'Una rutina es un día de la pantalla de time blocking («Lunes», «Día de trabajo»…) con sus bloques dentro. ' +
-      'Una semana entera son siete `POST /v1/routines`, uno por día.',
+      'Una rutina es un día de la pantalla de time blocking («Día de trabajo», «Finde»…) con sus bloques dentro ' +
+      'y los `weekdays` que carga. Un día de la semana es de una sola rutina: dárselo a una se lo quita a la otra.',
     routineFieldsLabel: 'Rutina',
     blockFieldsLabel: 'Cada bloque de `blocks`',
     routinesNote:
@@ -238,8 +275,38 @@ const T = {
       'mandes se borra. Si no mandas `blocks` en un `PATCH`, se quedan como están. Los bloques vuelven con ' +
       '`start_time` y `end_time` («07:30») para leerlos fácil.',
     routinesWarn:
-      'Qué rutina enseña hoy tu móvil se elige en el móvil: la API crea y cambia rutinas, pero no cambia la que ' +
-      'ves.',
+      'Mientras ninguna rutina tiene días, cada día carga la rutina que elegiste en el móvil. La API no ve esa ' +
+      'elección y usa tu rutina predeterminada: el primer día que pongas le da los otros seis a ella.',
+    weekTitle: 'La semana y cada día',
+    weekText:
+      '`GET /v1/days/{date}` te dice qué rutina carga una fecha y por qué (`source`: `date` si cambiaste esa ' +
+      'fecha, `week` si sigue a su día de la semana, `default` si aún no hay semana), los bloques que se ven y los ' +
+      'que descansan ese día (`turned_off`, o tapados por un compromiso). `GET /v1/days?from=…&to=…` da hasta 31 ' +
+      'días. Las fechas son tu fecha local, `yyyy-MM-dd`.',
+    dayFieldsLabel: 'Cambiar un día: `PUT /v1/days/{date}`',
+    dayNote:
+      'Si eliges lo que ya da la semana, el cambio de esa fecha se borra. `DELETE /v1/days/{date}` devuelve la ' +
+      'fecha a su día de la semana; sus compromisos se quedan. `GET /v1/week` enseña la semana y ' +
+      '`PUT /v1/week/{weekday}` con `{"routine_id": "…"}` (o `null` para un día libre) la cambia.',
+    daysWarn:
+      'Funciona como la app con «Cambiar sola cada día» activado, que es como viene. Si lo apagas, tu móvil se ' +
+      'queda con la rutina que elegiste hasta que la cambies.',
+    commitmentsTitle: 'Compromisos',
+    commitmentsText:
+      'Algo fijo en una fecha («Dentista, 15:00–16:00»), dibujado encima de la rutina de ese día. Con ' +
+      '`skip_overlaps` (activado salvo que digas lo contrario) los bloques que tapa descansan ese día.',
+    subtasksTitle: 'Subtareas',
+    subtasksText:
+      'Cada tarea viene con sus `subtasks`. Añade un paso con `POST /v1/subtasks` (`task_id` y `title`, 1–200) y ' +
+      'márcalo con `PATCH /v1/subtasks/{id}` y `{"is_completed": true}`. Marcar todos los pasos no completa la ' +
+      'tarea: eso lo hace `POST /v1/tasks/{id}/complete`.',
+    mcpTitle: 'Desde un asistente de IA (MCP)',
+    mcpText:
+      'La misma API es un servidor MCP: cada endpoint es una herramienta con las mismas reglas, con el nombre ' +
+      'de la tabla (`list_tasks`, `get_day`, `set_day`…). Añádelo con tu clave a cualquier cliente MCP que deje ' +
+      'poner una cabecera, como Claude Code, Cursor o VS Code:',
+    mcpDesktop: 'Claude Desktop, y los clientes que solo arrancan servidores locales, llegan con `mcp-remote`:',
+    mcpNote: 'Usa la misma clave Premium y los mismos límites que la API. Prueba: «¿Cómo es mi martes?»',
     completeTitle: 'Completar una tarea no es inmediato',
     completeText:
       'El XP, las monedas, la energía y las rachas los calcula la app, así que completar por la API es una ' +
@@ -252,14 +319,15 @@ const T = {
     deleteTitle: 'Borrar',
     deleteText:
       '`DELETE` hace lo mismo que la app: las skills y las tareas recurrentes se archivan (su historial se queda) ' +
-      'y las tareas sueltas se borran, y una rutina se borra con sus bloques. En todos los casos desaparecen de ' +
-      'tu móvil en el siguiente sync.',
+      'y las tareas sueltas se borran, y una rutina se borra con sus bloques (las fechas que la cargaban vuelven a ' +
+      'su día de la semana). En todos los casos desaparecen de tu móvil en el siguiente sync.',
     syncTitle: 'Conviene saber',
     sync: [
       'Los cambios llegan a tu móvil en el siguiente sync, normalmente al abrir la app.',
       'Si editas la misma tarea en el móvil antes de que sincronice, gana el móvil.',
       'Las tareas recurrentes reciben su próxima fecha desde tu móvil, que sabe tu zona horaria y tu hora de reinicio.',
       'Las fechas van en ISO 8601 con zona horaria, por ejemplo `2026-10-21T18:00:00Z`.',
+      'Las fechas de calendario (días, compromisos) son tu fecha local, por ejemplo `2026-11-10`.',
     ],
     errorsTitle: 'Errores',
     errorsText: 'Los errores tienen siempre la misma forma. `details` dice qué campo no es válido.',
@@ -279,7 +347,8 @@ const T = {
     exCreate: 'Crear una tarea recurrente unida a una skill',
     exComplete: 'Completarla (desde un atajo, un cron, un botón)',
     exList: 'Leer todo lo que cambió desde ayer',
-    exWeek: 'Organizar la semana: una rutina por día',
+    exWeek: 'Organizar la semana: días de trabajo y finde',
+    exDay: 'Tomarte el viernes libre, o usar otra rutina solo ese día',
     field: 'Campo',
     rule: 'Regla',
     method: 'Método',
@@ -308,10 +377,10 @@ const T = {
     copy: 'Copiar',
     copied: 'Copiado',
     toc: [
-      ['Empezar', [['quickstart', 'Tu primera llamada'], ['key', 'Tu clave'], ['auth', 'Autenticación'], ['complete', 'Completar no es inmediato']]],
-      ['Referencia', [['endpoints', 'Endpoints'], ['paging', 'Listas y paginado'], ['tasks', 'Campos de tarea'], ['skills', 'Campos de skill'], ['routines', 'Rutinas'], ['errors', 'Errores'], ['limits', 'Límites']]],
+      ['Empezar', [['quickstart', 'Tu primera llamada'], ['key', 'Tu clave'], ['auth', 'Autenticación'], ['mcp', 'Asistentes de IA (MCP)'], ['complete', 'Completar no es inmediato']]],
+      ['Referencia', [['endpoints', 'Endpoints'], ['paging', 'Listas y paginado'], ['tasks', 'Campos de tarea'], ['subtasks', 'Subtareas'], ['skills', 'Campos de skill'], ['routines', 'Rutinas'], ['week', 'La semana y cada día'], ['commitments', 'Compromisos'], ['errors', 'Errores'], ['limits', 'Límites']]],
       ['Comportamiento', [['delete', 'Borrar'], ['sync', 'Conviene saber']]],
-      ['Ejemplos', [['examples', 'Cuatro recetas']]],
+      ['Ejemplos', [['examples', 'Cinco recetas']]],
     ],
     shotAlt: [
       'Captura de Skillion con la flecha en la entrada a Ajustes',
@@ -319,31 +388,52 @@ const T = {
       'Captura de Ajustes con la fila nueva API para desarrolladores',
       'Captura de la clave nueva con la flecha en Copiar',
     ],
-    groups: { me: 'Cuenta', skills: 'Skills', tasks: 'Tareas', completions: 'Completados', routines: 'Rutinas', categories: 'Solo lectura', history: 'Solo lectura' },
+    groups: { me: 'Cuenta', skills: 'Skills', tasks: 'Tareas', subtasks: 'Subtareas', completions: 'Completados', routines: 'Rutinas', week: 'La semana', days: 'Días', commitments: 'Compromisos', categories: 'Solo lectura', history: 'Solo lectura' },
+    tool: 'MCP',
   },
 }[lang];
 
-const endpoints: [string, string, string, string][] = [
-  ['GET', '/me', 'Your level, XP, coins, energy and the limits', 'Tu nivel, XP, monedas, energía y los límites'],
-  ['GET', '/skills', 'List skills', 'Lista las skills'],
-  ['POST', '/skills', 'Create a skill', 'Crea una skill'],
-  ['GET', '/skills/{id}', 'One skill', 'Una skill'],
-  ['PATCH', '/skills/{id}', 'Change a skill', 'Cambia una skill'],
-  ['DELETE', '/skills/{id}', 'Archive a skill', 'Archiva una skill'],
-  ['GET', '/tasks', 'List tasks, each with its skills', 'Lista las tareas, cada una con sus skills'],
-  ['POST', '/tasks', 'Create a task', 'Crea una tarea'],
-  ['GET', '/tasks/{id}', 'One task', 'Una tarea'],
-  ['PATCH', '/tasks/{id}', 'Change a task', 'Cambia una tarea'],
-  ['DELETE', '/tasks/{id}', 'Delete or archive a task', 'Borra o archiva una tarea'],
-  ['POST', '/tasks/{id}/complete', 'Ask the app to complete it (202)', 'Pide a la app que la complete (202)'],
-  ['GET', '/completions', 'Your completion requests and what happened', 'Tus peticiones de completar y qué pasó'],
-  ['GET', '/routines', 'List routines, each with its blocks', 'Lista las rutinas, cada una con sus bloques'],
-  ['POST', '/routines', 'Create a routine with its blocks', 'Crea una rutina con sus bloques'],
-  ['GET', '/routines/{id}', 'One routine', 'Una rutina'],
-  ['PATCH', '/routines/{id}', 'Change a routine or its blocks', 'Cambia una rutina o sus bloques'],
-  ['DELETE', '/routines/{id}', 'Delete a routine and its blocks', 'Borra una rutina y sus bloques'],
-  ['GET', '/categories', 'Your categories (read-only)', 'Tus categorías (solo lectura)'],
-  ['GET', '/history', 'Your history: completions, level-ups… (read-only)', 'Tu historial: completados, subidas de nivel… (solo lectura)'],
+// [método, ruta, qué hace en, es, herramienta del MCP]: los mismos nombres que
+// skillion-infra functions/api-ops.ts.
+const endpoints: [string, string, string, string, string][] = [
+  ['GET', '/me', 'Your level, XP, coins, energy and the limits', 'Tu nivel, XP, monedas, energía y los límites', 'get_me'],
+  ['GET', '/tasks', 'List tasks, each with its skills and subtasks', 'Lista las tareas, cada una con sus skills y subtareas', 'list_tasks'],
+  ['POST', '/tasks', 'Create a task', 'Crea una tarea', 'create_task'],
+  ['GET', '/tasks/{id}', 'One task', 'Una tarea', 'get_task'],
+  ['PATCH', '/tasks/{id}', 'Change a task', 'Cambia una tarea', 'update_task'],
+  ['DELETE', '/tasks/{id}', 'Delete or archive a task', 'Borra o archiva una tarea', 'delete_task'],
+  ['POST', '/tasks/{id}/complete', 'Ask the app to complete it (202)', 'Pide a la app que la complete (202)', 'complete_task'],
+  ['GET', '/completions', 'Your completion requests and what happened', 'Tus peticiones de completar y qué pasó', 'list_completions'],
+  ['GET', '/subtasks', 'List subtasks (task_id: those of one task)', 'Lista subtareas (task_id: las de una tarea)', 'list_subtasks'],
+  ['POST', '/subtasks', 'Add a step to a task', 'Añade un paso a una tarea', 'create_subtask'],
+  ['GET', '/subtasks/{id}', 'One subtask', 'Una subtarea', 'get_subtask'],
+  ['PATCH', '/subtasks/{id}', 'Rename it or tick it', 'Cámbiale el nombre o márcala', 'update_subtask'],
+  ['DELETE', '/subtasks/{id}', 'Remove a step', 'Quita un paso', 'delete_subtask'],
+  ['GET', '/skills', 'List skills', 'Lista las skills', 'list_skills'],
+  ['POST', '/skills', 'Create a skill', 'Crea una skill', 'create_skill'],
+  ['GET', '/skills/{id}', 'One skill', 'Una skill', 'get_skill'],
+  ['PATCH', '/skills/{id}', 'Change a skill', 'Cambia una skill', 'update_skill'],
+  ['DELETE', '/skills/{id}', 'Archive a skill', 'Archiva una skill', 'delete_skill'],
+  ['GET', '/categories', 'Your categories (read-only)', 'Tus categorías (solo lectura)', 'list_categories'],
+  ['GET', '/categories/{id}', 'One category', 'Una categoría', 'get_category'],
+  ['GET', '/history', 'Your history: completions, level-ups… (read-only)', 'Tu historial: completados, subidas de nivel… (solo lectura)', 'list_history'],
+  ['GET', '/history/{id}', 'One history entry', 'Una entrada del historial', 'get_history_entry'],
+  ['GET', '/routines', 'List routines, each with its blocks and weekdays', 'Lista las rutinas, cada una con sus bloques y días', 'list_routines'],
+  ['POST', '/routines', 'Create a routine with its blocks', 'Crea una rutina con sus bloques', 'create_routine'],
+  ['GET', '/routines/{id}', 'One routine', 'Una rutina', 'get_routine'],
+  ['PATCH', '/routines/{id}', 'Change a routine, its blocks or its weekdays', 'Cambia una rutina, sus bloques o sus días', 'update_routine'],
+  ['DELETE', '/routines/{id}', 'Delete a routine and its blocks', 'Borra una rutina y sus bloques', 'delete_routine'],
+  ['GET', '/week', 'Which routine each weekday loads', 'Qué rutina carga cada día de la semana', 'get_week'],
+  ['PUT', '/week/{weekday}', 'Give a weekday to a routine, or make it free', 'Da un día de la semana a una rutina, o déjalo libre', 'set_weekday_routine'],
+  ['GET', '/days', 'Your calendar: from, to (up to 31 days)', 'Tu calendario: from, to (hasta 31 días)', 'list_days'],
+  ['GET', '/days/{date}', 'Which routine a date loads and what that day looks like', 'Qué rutina carga una fecha y cómo es ese día', 'get_day'],
+  ['PUT', '/days/{date}', 'Change a day: another routine, free, blocks off, every week', 'Cambia un día: otra rutina, libre, bloques apagados, cada semana', 'set_day'],
+  ['DELETE', '/days/{date}', 'Back to its weekday', 'Vuelve a su día de la semana', 'reset_day'],
+  ['GET', '/commitments', 'List commitments (date, from, to)', 'Lista los compromisos (date, from, to)', 'list_commitments'],
+  ['POST', '/commitments', 'Add a commitment to a date', 'Añade un compromiso a una fecha', 'create_commitment'],
+  ['GET', '/commitments/{id}', 'One commitment', 'Un compromiso', 'get_commitment'],
+  ['PATCH', '/commitments/{id}', 'Change a commitment', 'Cambia un compromiso', 'update_commitment'],
+  ['DELETE', '/commitments/{id}', 'Remove a commitment', 'Quita un compromiso', 'delete_commitment'],
 ]
 
 const taskFields: [string, string, string][] = [
@@ -386,6 +476,7 @@ const skillFields: [string, string, string][] = [
 const routineFields: [string, string, string][] = [
   ['name', 'text, 1–64 (required)', 'texto, 1–64 (obligatorio)'],
   ['blocks', 'list of up to 96 blocks (below)', 'lista de hasta 96 bloques (abajo)'],
+  ['weekdays', '[1, 2, 3, 4, 5]: the weekdays it loads every week (1 = Monday … 7 = Sunday), taken from whichever routine had them; [] or null for none', '[1, 2, 3, 4, 5]: los días que carga cada semana (1 = lunes … 7 = domingo), quitados a la rutina que los tuviera; [] o null para ninguno'],
   ['is_default', 'true: the one the app falls back to; marking one unmarks the others. If you have none yet, the new one is', 'true: la que usa la app por defecto; marcar una desmarca las demás. Si aún no tienes ninguna, la nueva lo es'],
   ['icon', 'an emoji, or assets/images/icons/<name>.png, or null', 'un emoji, o assets/images/icons/<nombre>.png, o null'],
   ['color', '#RRGGBB or null', '#RRGGBB o null'],
@@ -402,6 +493,47 @@ const blockFields: [string, string, string][] = [
   ['is_pinned', 'true: «Start now» does not move it', 'true: «Empezar ahora» no lo mueve'],
   ['id', 'only to change a block the routine already has', 'solo para cambiar un bloque que la rutina ya tiene'],
 ]
+
+// PUT /v1/days/{date}: skillion-infra functions/api-schedule.ts (setDay).
+const dayFields: [string, string, string][] = [
+  ['routine_id', 'the routine that date loads; null = its weekday\'s routine; left out = keep the one it has', 'la rutina que carga esa fecha; null = la de su día de la semana; sin mandar = se queda la que tiene'],
+  ['every_week', 'true: that weekday loads it every week too («every Friday»)', 'true: ese día de la semana también la carga todas las semanas («todos los viernes»)'],
+  ['free', 'true: no routine that day', 'true: ese día sin rutina'],
+  ['disabled_block_ids', 'blocks of that day\'s routine turned off that day only (the whole list)', 'bloques de la rutina de ese día apagados solo ese día (la lista entera)'],
+]
+
+const commitmentFields: [string, string, string][] = [
+  ['date', 'yyyy-MM-dd (required)', 'yyyy-MM-dd (obligatorio)'],
+  ['title', 'text, 1–64 (required)', 'texto, 1–64 (obligatorio)'],
+  ['start_time', '"HH:mm" (required)', '"HH:mm" (obligatorio)'],
+  ['end_time', '"HH:mm", after start_time and 24:00 at the latest (required)', '"HH:mm", después de start_time y como mucho 24:00 (obligatorio)'],
+  ['skip_overlaps', 'true (default): the blocks it covers rest that day', 'true (por defecto): los bloques que tapa descansan ese día'],
+  ['icon', 'an emoji, or assets/images/icons/<name>.png, or null', 'un emoji, o assets/images/icons/<nombre>.png, o null'],
+]
+
+const MCP_URL = 'https://api.skillion.app/functions/v1/api/mcp'
+
+const mcpExample = `claude mcp add --transport http skillion ${MCP_URL} \\
+  --header "Authorization: Bearer sk_live_…"`
+
+const mcpJsonExample = `{
+  "mcpServers": {
+    "skillion": {
+      "url": "${MCP_URL}",
+      "headers": { "Authorization": "Bearer sk_live_…" }
+    }
+  }
+}`
+
+const mcpRemoteExample = `{
+  "mcpServers": {
+    "skillion": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "${MCP_URL}",
+               "--header", "Authorization: Bearer sk_live_…"]
+    }
+  }
+}`
 
 const authExample = `curl ${BASE}/me \\
   -H "Authorization: Bearer sk_live_…"`
@@ -435,23 +567,37 @@ do {
   cursor = page.next_cursor
 } while (cursor)`
 
-const weekExample = `const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-for (const name of days) {
-  const weekend = name === 'Saturday' || name === 'Sunday'
-  const res = await fetch('${BASE}/routines', {
-    method: 'POST',
-    headers: { Authorization: \`Bearer \${process.env.SKILLION_KEY}\`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name,
-      blocks: [
-        { start_minute: weekend ? 540 : 420, duration_minute: 30, title: 'Read' },
-        { start_minute: 1080, duration_minute: 60, title: 'Gym', color: '#F29092' },
-        { start_minute: 1380, duration_minute: 60, title: 'Wind down' },
-      ],
-    }),
-  })
-  if (!res.ok) console.error(name, (await res.json()).error)
-}`
+const weekExample = `const api = (path, body) => fetch('${BASE}' + path, {
+  method: 'POST',
+  headers: { Authorization: \`Bearer \${process.env.SKILLION_KEY}\`, 'Content-Type': 'application/json' },
+  body: JSON.stringify(body),
+}).then((res) => res.json())
+
+await api('/routines', {
+  name: 'Workday',
+  weekdays: [1, 2, 3, 4, 5],
+  blocks: [
+    { start_minute: 420, duration_minute: 30, title: 'Read' },
+    { start_minute: 1080, duration_minute: 60, title: 'Gym', color: '#F29092' },
+  ],
+})
+await api('/routines', {
+  name: 'Weekend',
+  weekdays: [6, 7],
+  blocks: [{ start_minute: 600, duration_minute: 90, title: 'Long walk' }],
+})`
+
+const dayExample = `# Friday 13 November off
+curl -X PUT ${BASE}/days/2026-11-13 \\
+  -H "Authorization: Bearer $SKILLION_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{ "free": true }'
+
+# The Weekend routine that day only (add "every_week": true for every Friday)
+curl -X PUT ${BASE}/days/2026-11-13 \\
+  -H "Authorization: Bearer $SKILLION_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{ "routine_id": "<weekend routine id>" }'`
 
 const quickstartExample = `export SKILLION_KEY="sk_live_…"   ${T.keyComment}
 
@@ -627,6 +773,25 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
         </div>
       </section>
 
+      <section class="dev-section" id="mcp">
+        <h2 class="section-title">{T.mcpTitle}<a class="anchor" href="#mcp" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{rich(T.mcpText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <div class="code">
+          <div class="code__bar"><span>Claude Code</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+          <pre><code>{mcpExample}</code></pre>
+        </div>
+        <div class="code">
+          <div class="code__bar"><span>Cursor · VS Code (mcp.json)</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+          <pre><code>{mcpJsonExample}</code></pre>
+        </div>
+        <p>{rich(T.mcpDesktop).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <div class="code">
+          <div class="code__bar"><span>Claude Desktop</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+          <pre><code>{mcpRemoteExample}</code></pre>
+        </div>
+        <p class="callout">{rich(T.mcpNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+      </section>
+
       <section class="dev-section" id="complete">
         <h2 class="section-title">{T.completeTitle}<a class="anchor" href="#complete" aria-hidden="true" tabindex="-1">#</a></h2>
         <div class="callout callout--warn">
@@ -645,11 +810,11 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
             {endpointGroups.map((group) => (
               <tbody>
                 <tr class="group-row"><th scope="colgroup" colspan="3">{group.label}</th></tr>
-                {group.rows.map(([m, p, en, es]) => (
+                {group.rows.map(([m, p, en, es, tool]) => (
                   <tr>
                     <td><span class={`verb verb-${m.toLowerCase()}`}>{m}</span></td>
                     <td><code>/v1{p}</code></td>
-                    <td>{isEs ? es : en}</td>
+                    <td>{isEs ? es : en} <span class="tool" title={T.tool}>{tool}</span></td>
                   </tr>
                 ))}
               </tbody>
@@ -696,6 +861,11 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
         <p class="callout">{rich(T.tasksNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
       </section>
 
+      <section class="dev-section" id="subtasks">
+        <h2 class="section-title">{T.subtasksTitle}<a class="anchor" href="#subtasks" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{rich(T.subtasksText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+      </section>
+
       <section class="dev-section" id="skills">
         <h2 class="section-title">{T.skillsTitle}<a class="anchor" href="#skills" aria-hidden="true" tabindex="-1">#</a></h2>
         <div class="table-wrap">
@@ -728,6 +898,34 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
         <div class="callout callout--warn">
           <p class="callout__label"><svg class="callout__icon" viewBox="0 0 4 8" width="8" height="16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="5" /><rect x="1" y="6" width="2" height="2" /></svg>{T.warnLabel}</p>
           <p>{T.routinesWarn}</p>
+        </div>
+      </section>
+
+      <section class="dev-section" id="week">
+        <h2 class="section-title">{T.weekTitle}<a class="anchor" href="#week" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{rich(T.weekText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <h3 class="example-title">{rich(T.dayFieldsLabel).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
+            <tbody>{dayFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <p class="callout">{rich(T.dayNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <div class="callout callout--warn">
+          <p class="callout__label"><svg class="callout__icon" viewBox="0 0 4 8" width="8" height="16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="5" /><rect x="1" y="6" width="2" height="2" /></svg>{T.warnLabel}</p>
+          <p>{T.daysWarn}</p>
+        </div>
+      </section>
+
+      <section class="dev-section" id="commitments">
+        <h2 class="section-title">{T.commitmentsTitle}<a class="anchor" href="#commitments" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{rich(T.commitmentsText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
+            <tbody>{commitmentFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
+          </table>
         </div>
       </section>
 
@@ -794,6 +992,11 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
         <div class="code">
           <div class="code__bar"><span>JavaScript</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
           <pre><code>{weekExample}</code></pre>
+        </div>
+        <h3 class="example-title">{T.exDay}</h3>
+        <div class="code">
+          <div class="code__bar"><span>curl</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+          <pre><code>{dayExample}</code></pre>
         </div>
       </section>
 
@@ -1613,6 +1816,14 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
     .dev-section + .dev-section {
       margin-top: 56px;
     }
+  }
+
+  .endpoints .tool {
+    margin-left: 6px;
+    font-family: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.8em;
+    opacity: 0.6;
+    white-space: nowrap;
   }
 
   @media (prefers-reduced-motion: reduce) {
