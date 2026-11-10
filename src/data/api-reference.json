@@ -1,0 +1,3542 @@
+{
+  "base": "https://api.skillion.app/functions/v1/api/v1",
+  "mcp": "https://api.skillion.app/functions/v1/api/mcp",
+  "limits": {
+    "per_minute": 300,
+    "per_day": 20000,
+    "page_max": 100
+  },
+  "ops": [
+    {
+      "name": "get_me",
+      "title": "My profile",
+      "method": "GET",
+      "path": "/me",
+      "description": "The user's level, XP, coins, energy and health, and the API limits.",
+      "input": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "My profile",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/me",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "level": 7,
+            "total_xp": 140,
+            "xp_to_next_level": 350,
+            "coins": 820,
+            "energy_points": 64,
+            "max_energy": 100,
+            "health_points": 100,
+            "max_health": 100,
+            "nickname": "Luna",
+            "updated_at": "2026-11-09T18:30:00.000Z"
+          },
+          "limits": {
+            "per_minute": 300,
+            "per_day": 20000,
+            "page_max": 100
+          }
+        }
+      }
+    },
+    {
+      "name": "list_tasks",
+      "title": "List tasks",
+      "method": "GET",
+      "path": "/tasks",
+      "description": "A task or habit. Completing it gives XP to its skills; recurring ones come back every period. Oldest change first; pass next_cursor back as cursor for the next page.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Default 50"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "next_cursor from the previous page"
+          },
+          "updated_since": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Only rows changed after this"
+          },
+          "include_deleted": {
+            "type": "boolean"
+          },
+          "include_archived": {
+            "type": "boolean"
+          },
+          "category_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "overdue",
+              "completed",
+              "failed",
+              "skipped"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "List tasks",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/tasks",
+        "query": {
+          "status": "pending"
+        },
+        "body": null,
+        "response": {
+          "data": [
+            {
+              "id": "7a5c0000-0000-4000-8000-000000000001",
+              "title": "Gym",
+              "description": null,
+              "icon": "🏋️",
+              "color": null,
+              "category_id": "ca7e0000-0000-4000-8000-000000000001",
+              "difficulty": "hard",
+              "priority": 3,
+              "energy_cost": -10,
+              "health_effect": 0,
+              "coins": 10,
+              "estimated_duration": 3600,
+              "is_recurring": true,
+              "recurrence_pattern": "custom",
+              "custom_days": "1,3,5",
+              "recurrence_target": 1,
+              "recurrence_end_date": null,
+              "recurrence_day_of_month": null,
+              "recurrence_month": null,
+              "deadline": null,
+              "daily_deadline_time": null,
+              "reminder_mode": "auto",
+              "reminder_minute": null,
+              "is_penalty": false,
+              "status": "pending",
+              "times_completed_this_period": 0,
+              "last_completed_at": "2026-11-09T19:05:00.000Z",
+              "next_due_date": "2026-11-11T00:00:00.000Z",
+              "is_bad_habit": false,
+              "clean_since": null,
+              "mission_id": null,
+              "origin": "user",
+              "archived_at": null,
+              "created_at": "2026-11-09T18:30:00.000Z",
+              "updated_at": "2026-11-09T18:30:00.000Z",
+              "deleted_at": null,
+              "skills": [
+                {
+                  "skill_id": "5c1e0000-0000-4000-8000-000000000001",
+                  "xp": 20
+                }
+              ],
+              "subtasks": [
+                {
+                  "id": "5b7a0000-0000-4000-8000-000000000001",
+                  "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                  "title": "Warm up",
+                  "is_completed": false,
+                  "completed_at": null,
+                  "updated_at": "2026-11-09T18:30:00.000Z"
+                },
+                {
+                  "id": "5b7a0000-0000-4000-8000-000000000002",
+                  "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                  "title": "Squats 5×5",
+                  "is_completed": false,
+                  "completed_at": null,
+                  "updated_at": "2026-11-09T18:30:00.000Z"
+                }
+              ],
+              "is_pact_task": false
+            }
+          ],
+          "next_cursor": null
+        }
+      }
+    },
+    {
+      "name": "get_task",
+      "title": "Get a task",
+      "method": "GET",
+      "path": "/tasks/{id}",
+      "description": "One task by id.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Get a task",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/tasks/7a5c0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "id": "7a5c0000-0000-4000-8000-000000000001",
+            "title": "Gym",
+            "description": null,
+            "icon": "🏋️",
+            "color": null,
+            "category_id": "ca7e0000-0000-4000-8000-000000000001",
+            "difficulty": "hard",
+            "priority": 3,
+            "energy_cost": -10,
+            "health_effect": 0,
+            "coins": 10,
+            "estimated_duration": 3600,
+            "is_recurring": true,
+            "recurrence_pattern": "custom",
+            "custom_days": "1,3,5",
+            "recurrence_target": 1,
+            "recurrence_end_date": null,
+            "recurrence_day_of_month": null,
+            "recurrence_month": null,
+            "deadline": null,
+            "daily_deadline_time": null,
+            "reminder_mode": "auto",
+            "reminder_minute": null,
+            "is_penalty": false,
+            "status": "pending",
+            "times_completed_this_period": 0,
+            "last_completed_at": "2026-11-09T19:05:00.000Z",
+            "next_due_date": "2026-11-11T00:00:00.000Z",
+            "is_bad_habit": false,
+            "clean_since": null,
+            "mission_id": null,
+            "origin": "user",
+            "archived_at": null,
+            "created_at": "2026-11-09T18:30:00.000Z",
+            "updated_at": "2026-11-09T18:30:00.000Z",
+            "deleted_at": null,
+            "skills": [
+              {
+                "skill_id": "5c1e0000-0000-4000-8000-000000000001",
+                "xp": 20
+              }
+            ],
+            "subtasks": [
+              {
+                "id": "5b7a0000-0000-4000-8000-000000000001",
+                "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                "title": "Warm up",
+                "is_completed": false,
+                "completed_at": null,
+                "updated_at": "2026-11-09T18:30:00.000Z"
+              },
+              {
+                "id": "5b7a0000-0000-4000-8000-000000000002",
+                "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                "title": "Squats 5×5",
+                "is_completed": false,
+                "completed_at": null,
+                "updated_at": "2026-11-09T18:30:00.000Z"
+              }
+            ],
+            "is_pact_task": false
+          }
+        }
+      }
+    },
+    {
+      "name": "create_task",
+      "title": "Create a task",
+      "method": "POST",
+      "path": "/tasks",
+      "status": 201,
+      "description": "A task or habit. Completing it gives XP to its skills; recurring ones come back every period. Returns it as stored.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "icon": {
+            "type": "string",
+            "description": "An emoji, or a built-in icon: assets/images/icons/<name>.png"
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "category_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Default: the account's main category"
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "very_easy",
+              "easy",
+              "medium",
+              "hard",
+              "very_hard"
+            ]
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "energy_cost": {
+            "type": "integer",
+            "minimum": -50,
+            "maximum": 50,
+            "description": "Energy when completed: negative spends it (default -1)"
+          },
+          "health_effect": {
+            "type": "integer",
+            "minimum": -50,
+            "maximum": 50
+          },
+          "coins": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Coins when completed (default 10)"
+          },
+          "estimated_duration": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 86400,
+                "description": "Seconds"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Seconds"
+          },
+          "is_recurring": {
+            "type": "boolean"
+          },
+          "recurrence_pattern": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "daily",
+                  "weekly",
+                  "monthly",
+                  "yearly",
+                  "custom"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "custom_days": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[1-7](,[1-7]){0,6}$",
+                "description": "Weekdays like \"1,3,5\": 1 = Monday … 7 = Sunday"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recurrence_target": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 99
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recurrence_end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recurrence_day_of_month": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 31
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recurrence_month": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "deadline": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "description": "Only for tasks that are not recurring"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Only for tasks that are not recurring"
+          },
+          "daily_deadline_time": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                "description": "HH:mm, for recurring tasks"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "HH:mm, for recurring tasks"
+          },
+          "reminder_mode": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "at_deadline",
+              "before_15",
+              "before_60",
+              "morning",
+              "custom",
+              "none"
+            ]
+          },
+          "reminder_minute": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1439
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "is_penalty": {
+            "type": "boolean",
+            "description": "Missing the deadline takes XP away"
+          },
+          "skills": {
+            "type": "array",
+            "maxItems": 20,
+            "description": "Every skill the task gives XP to (the whole list: missing ones are unlinked)",
+            "items": {
+              "type": "object",
+              "required": [
+                "skill_id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "skill_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "xp": {
+                  "type": "integer",
+                  "minimum": -100,
+                  "maximum": 100,
+                  "description": "XP per completion (default 10)"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "title"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Create a task",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/tasks",
+        "query": null,
+        "body": {
+          "title": "Run 5 km",
+          "is_recurring": true,
+          "recurrence_pattern": "custom",
+          "custom_days": "2,4",
+          "difficulty": "medium",
+          "skills": [
+            {
+              "skill_id": "5c1e0000-0000-4000-8000-000000000001",
+              "xp": 15
+            }
+          ]
+        },
+        "response": {
+          "data": {
+            "id": "0e5a0000-0000-4000-8000-000000000001",
+            "title": "Run 5 km",
+            "description": null,
+            "icon": "assets/images/icons/book.png",
+            "color": null,
+            "category_id": "ca7e0000-0000-4000-8000-000000000001",
+            "difficulty": "medium",
+            "priority": null,
+            "energy_cost": -1,
+            "health_effect": null,
+            "coins": 10,
+            "estimated_duration": null,
+            "is_recurring": true,
+            "recurrence_pattern": "custom",
+            "custom_days": "2,4",
+            "recurrence_target": null,
+            "recurrence_end_date": null,
+            "recurrence_day_of_month": null,
+            "recurrence_month": null,
+            "deadline": null,
+            "daily_deadline_time": null,
+            "reminder_mode": "auto",
+            "reminder_minute": null,
+            "is_penalty": null,
+            "status": "pending",
+            "times_completed_this_period": 0,
+            "last_completed_at": null,
+            "next_due_date": null,
+            "is_bad_habit": false,
+            "clean_since": null,
+            "mission_id": null,
+            "origin": "api",
+            "archived_at": null,
+            "created_at": "2026-11-10T12:00:00.000Z",
+            "updated_at": "2026-11-10T12:00:01.000Z",
+            "deleted_at": null,
+            "skills": [
+              {
+                "skill_id": "5c1e0000-0000-4000-8000-000000000001",
+                "xp": 15
+              }
+            ],
+            "subtasks": [],
+            "is_pact_task": false
+          }
+        }
+      }
+    },
+    {
+      "name": "update_task",
+      "title": "Update a task",
+      "method": "PATCH",
+      "path": "/tasks/{id}",
+      "description": "Changes only the fields sent.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "icon": {
+            "type": "string",
+            "description": "An emoji, or a built-in icon: assets/images/icons/<name>.png"
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "category_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Default: the account's main category"
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "very_easy",
+              "easy",
+              "medium",
+              "hard",
+              "very_hard"
+            ]
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "energy_cost": {
+            "type": "integer",
+            "minimum": -50,
+            "maximum": 50,
+            "description": "Energy when completed: negative spends it (default -1)"
+          },
+          "health_effect": {
+            "type": "integer",
+            "minimum": -50,
+            "maximum": 50
+          },
+          "coins": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Coins when completed (default 10)"
+          },
+          "estimated_duration": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 86400,
+                "description": "Seconds"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Seconds"
+          },
+          "is_recurring": {
+            "type": "boolean"
+          },
+          "recurrence_pattern": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "daily",
+                  "weekly",
+                  "monthly",
+                  "yearly",
+                  "custom"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "custom_days": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[1-7](,[1-7]){0,6}$",
+                "description": "Weekdays like \"1,3,5\": 1 = Monday … 7 = Sunday"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recurrence_target": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 99
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recurrence_end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recurrence_day_of_month": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 31
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recurrence_month": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "deadline": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "description": "Only for tasks that are not recurring"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Only for tasks that are not recurring"
+          },
+          "daily_deadline_time": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                "description": "HH:mm, for recurring tasks"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "HH:mm, for recurring tasks"
+          },
+          "reminder_mode": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "at_deadline",
+              "before_15",
+              "before_60",
+              "morning",
+              "custom",
+              "none"
+            ]
+          },
+          "reminder_minute": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1439
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "is_penalty": {
+            "type": "boolean",
+            "description": "Missing the deadline takes XP away"
+          },
+          "skills": {
+            "type": "array",
+            "maxItems": 20,
+            "description": "Every skill the task gives XP to (the whole list: missing ones are unlinked)",
+            "items": {
+              "type": "object",
+              "required": [
+                "skill_id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "skill_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "xp": {
+                  "type": "integer",
+                  "minimum": -100,
+                  "maximum": 100,
+                  "description": "XP per completion (default 10)"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Update a task",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/tasks/7a5c0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": {
+          "priority": 5,
+          "daily_deadline_time": "19:00"
+        },
+        "response": {
+          "data": {
+            "id": "7a5c0000-0000-4000-8000-000000000001",
+            "title": "Gym",
+            "description": null,
+            "icon": "🏋️",
+            "color": null,
+            "category_id": "ca7e0000-0000-4000-8000-000000000001",
+            "difficulty": "hard",
+            "priority": 5,
+            "energy_cost": -10,
+            "health_effect": 0,
+            "coins": 10,
+            "estimated_duration": 3600,
+            "is_recurring": true,
+            "recurrence_pattern": "custom",
+            "custom_days": "1,3,5",
+            "recurrence_target": 1,
+            "recurrence_end_date": null,
+            "recurrence_day_of_month": null,
+            "recurrence_month": null,
+            "deadline": null,
+            "daily_deadline_time": "19:00",
+            "reminder_mode": "auto",
+            "reminder_minute": null,
+            "is_penalty": false,
+            "status": "pending",
+            "times_completed_this_period": 0,
+            "last_completed_at": "2026-11-09T19:05:00.000Z",
+            "next_due_date": null,
+            "is_bad_habit": false,
+            "clean_since": null,
+            "mission_id": null,
+            "origin": "user",
+            "archived_at": null,
+            "created_at": "2026-11-09T18:30:00.000Z",
+            "updated_at": "2026-11-10T12:00:06.000Z",
+            "deleted_at": null,
+            "skills": [
+              {
+                "skill_id": "5c1e0000-0000-4000-8000-000000000001",
+                "xp": 20
+              }
+            ],
+            "subtasks": [
+              {
+                "id": "5b7a0000-0000-4000-8000-000000000001",
+                "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                "title": "Warm up",
+                "is_completed": false,
+                "completed_at": null,
+                "updated_at": "2026-11-09T18:30:00.000Z"
+              },
+              {
+                "id": "5b7a0000-0000-4000-8000-000000000002",
+                "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                "title": "Squats 5×5",
+                "is_completed": false,
+                "completed_at": null,
+                "updated_at": "2026-11-09T18:30:00.000Z"
+              }
+            ],
+            "is_pact_task": false
+          }
+        }
+      }
+    },
+    {
+      "name": "delete_task",
+      "title": "Delete a task",
+      "method": "DELETE",
+      "path": "/tasks/{id}",
+      "status": 204,
+      "description": "One-off tasks are deleted; recurring tasks are archived (their history stays), as the app does. Pact tasks and bad habits only change in the app.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Delete a task",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/tasks/7a5c0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": null,
+        "response": null
+      }
+    },
+    {
+      "name": "complete_task",
+      "title": "Complete a task",
+      "method": "POST",
+      "path": "/tasks/{id}/complete",
+      "status": 202,
+      "bodyOptional": true,
+      "description": "Asks the app to complete the task: it applies it with its own rules (XP, coins, energy) on its next sync, usually within minutes. list_completions shows how it went.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When it was done, within the last 7 days (default: now)"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Complete a task",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/tasks/7a5c0000-0000-4000-8000-000000000001/complete",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "id": "0e5a0000-0000-4000-8000-0000000000c1",
+            "status": "pending",
+            "completed_at": "2026-11-10T12:00:00.000Z",
+            "requested_at": "2026-11-10T12:00:00.000Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "list_completions",
+      "title": "Completion requests",
+      "method": "GET",
+      "path": "/completions",
+      "description": "The completions asked through the API, newest first, and whether the app applied them.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "claimed",
+              "applied",
+              "rejected"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Completion requests",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/completions",
+        "query": {
+          "limit": 10
+        },
+        "body": null,
+        "response": {
+          "data": [
+            {
+              "id": "d0e50000-0000-4000-8000-000000000001",
+              "task_id": "7a5c0000-0000-4000-8000-000000000001",
+              "status": "applied",
+              "completed_at": "2026-11-09T19:05:00.000Z",
+              "requested_at": "2026-11-09T19:05:00.000Z",
+              "applied_at": "2026-11-09T19:12:00.000Z",
+              "result": {
+                "xp": 13,
+                "coins": 10,
+                "skill_xp": 20
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "list_subtasks",
+      "title": "List subtasks",
+      "method": "GET",
+      "path": "/subtasks",
+      "description": "A step in a task's checklist. Ticking every step does not complete the task: complete_task does. Recurring tasks untick their steps when the period changes. Oldest change first; pass next_cursor back as cursor for the next page.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Default 50"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "next_cursor from the previous page"
+          },
+          "updated_since": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Only rows changed after this"
+          },
+          "include_deleted": {
+            "type": "boolean"
+          },
+          "task_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "List subtasks",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/subtasks",
+        "query": {
+          "task_id": "7a5c0000-0000-4000-8000-000000000001"
+        },
+        "body": null,
+        "response": {
+          "data": [
+            {
+              "id": "5b7a0000-0000-4000-8000-000000000001",
+              "task_id": "7a5c0000-0000-4000-8000-000000000001",
+              "title": "Warm up",
+              "is_completed": false,
+              "completed_at": null,
+              "updated_at": "2026-11-09T18:30:00.000Z"
+            },
+            {
+              "id": "5b7a0000-0000-4000-8000-000000000002",
+              "task_id": "7a5c0000-0000-4000-8000-000000000001",
+              "title": "Squats 5×5",
+              "is_completed": false,
+              "completed_at": null,
+              "updated_at": "2026-11-09T18:30:00.000Z"
+            }
+          ],
+          "next_cursor": null
+        }
+      }
+    },
+    {
+      "name": "get_subtask",
+      "title": "Get a subtask",
+      "method": "GET",
+      "path": "/subtasks/{id}",
+      "description": "One subtask by id.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Get a subtask",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/subtasks/5b7a0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "id": "5b7a0000-0000-4000-8000-000000000001",
+            "task_id": "7a5c0000-0000-4000-8000-000000000001",
+            "title": "Warm up",
+            "is_completed": false,
+            "completed_at": null,
+            "updated_at": "2026-11-09T18:30:00.000Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "create_subtask",
+      "title": "Create a subtask",
+      "method": "POST",
+      "path": "/subtasks",
+      "status": 201,
+      "description": "A step in a task's checklist. Ticking every step does not complete the task: complete_task does. Recurring tasks untick their steps when the period changes. Returns it as stored.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The task it belongs to (only when creating)"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "is_completed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "task_id",
+          "title"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Create a subtask",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/subtasks",
+        "query": null,
+        "body": {
+          "task_id": "7a5c0000-0000-4000-8000-000000000001",
+          "title": "Stretch"
+        },
+        "response": {
+          "data": {
+            "id": "0e5a0000-0000-4000-8000-000000000004",
+            "task_id": "7a5c0000-0000-4000-8000-000000000001",
+            "title": "Stretch",
+            "is_completed": false,
+            "completed_at": null,
+            "updated_at": "2026-11-10T12:00:09.000Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "update_subtask",
+      "title": "Update a subtask",
+      "method": "PATCH",
+      "path": "/subtasks/{id}",
+      "description": "Changes only the fields sent.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "task_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The task it belongs to (only when creating)"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "is_completed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Update a subtask",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/subtasks/5b7a0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": {
+          "is_completed": true
+        },
+        "response": {
+          "data": {
+            "id": "5b7a0000-0000-4000-8000-000000000001",
+            "task_id": "7a5c0000-0000-4000-8000-000000000001",
+            "title": "Warm up",
+            "is_completed": true,
+            "completed_at": "2026-11-10T22:09:55.787Z",
+            "updated_at": "2026-11-10T12:00:10.000Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "delete_subtask",
+      "title": "Delete a subtask",
+      "method": "DELETE",
+      "path": "/subtasks/{id}",
+      "status": 204,
+      "description": "Removes the step from the checklist.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Delete a subtask",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/subtasks/5b7a0000-0000-4000-8000-000000000002",
+        "query": null,
+        "body": null,
+        "response": null
+      }
+    },
+    {
+      "name": "list_skills",
+      "title": "List skills",
+      "method": "GET",
+      "path": "/skills",
+      "description": "A skill the user levels up (Fitness, Reading…). Tasks give it XP when completed. Oldest change first; pass next_cursor back as cursor for the next page.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Default 50"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "next_cursor from the previous page"
+          },
+          "updated_since": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Only rows changed after this"
+          },
+          "include_deleted": {
+            "type": "boolean"
+          },
+          "include_archived": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "List skills",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/skills",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": [
+            {
+              "id": "5c1e0000-0000-4000-8000-000000000001",
+              "name": "Fitness",
+              "description": "Stronger every week",
+              "icon": "💪",
+              "color": "#F29092",
+              "level": 4,
+              "total_xp": 120,
+              "xp_to_next_level": 400,
+              "streak_count": 6,
+              "best_streak": 14,
+              "is_active": true,
+              "catalog_id": null,
+              "archived_at": null,
+              "created_at": "2026-11-09T18:30:00.000Z",
+              "updated_at": "2026-11-09T18:30:00.000Z",
+              "deleted_at": null
+            }
+          ],
+          "next_cursor": null
+        }
+      }
+    },
+    {
+      "name": "get_skill",
+      "title": "Get a skill",
+      "method": "GET",
+      "path": "/skills/{id}",
+      "description": "One skill by id.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Get a skill",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/skills/5c1e0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "id": "5c1e0000-0000-4000-8000-000000000001",
+            "name": "Fitness",
+            "description": "Stronger every week",
+            "icon": "💪",
+            "color": "#F29092",
+            "level": 4,
+            "total_xp": 120,
+            "xp_to_next_level": 400,
+            "streak_count": 6,
+            "best_streak": 14,
+            "is_active": true,
+            "catalog_id": null,
+            "archived_at": null,
+            "created_at": "2026-11-09T18:30:00.000Z",
+            "updated_at": "2026-11-09T18:30:00.000Z",
+            "deleted_at": null
+          }
+        }
+      }
+    },
+    {
+      "name": "create_skill",
+      "title": "Create a skill",
+      "method": "POST",
+      "path": "/skills",
+      "status": 201,
+      "description": "A skill the user levels up (Fitness, Reading…). Tasks give it XP when completed. Returns it as stored.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "icon": {
+            "type": "string",
+            "description": "An emoji, or a built-in icon: assets/images/icons/<name>.png"
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Active skills show on the home screen"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Create a skill",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/skills",
+        "query": null,
+        "body": {
+          "name": "Reading",
+          "icon": "📚",
+          "color": "#5B8DEF"
+        },
+        "response": {
+          "data": {
+            "id": "0e5a0000-0000-4000-8000-000000000005",
+            "name": "Reading",
+            "description": null,
+            "icon": "📚",
+            "color": "#5B8DEF",
+            "level": 1,
+            "total_xp": 0,
+            "xp_to_next_level": 100,
+            "streak_count": 0,
+            "best_streak": 0,
+            "is_active": true,
+            "catalog_id": null,
+            "archived_at": null,
+            "created_at": "2026-11-10T12:00:12.000Z",
+            "updated_at": "2026-11-10T12:00:13.000Z",
+            "deleted_at": null
+          }
+        }
+      }
+    },
+    {
+      "name": "update_skill",
+      "title": "Update a skill",
+      "method": "PATCH",
+      "path": "/skills/{id}",
+      "description": "Changes only the fields sent.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "icon": {
+            "type": "string",
+            "description": "An emoji, or a built-in icon: assets/images/icons/<name>.png"
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Active skills show on the home screen"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Update a skill",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/skills/5c1e0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": {
+          "description": "Three gym days a week"
+        },
+        "response": {
+          "data": {
+            "id": "5c1e0000-0000-4000-8000-000000000001",
+            "name": "Fitness",
+            "description": "Three gym days a week",
+            "icon": "💪",
+            "color": "#F29092",
+            "level": 4,
+            "total_xp": 120,
+            "xp_to_next_level": 400,
+            "streak_count": 6,
+            "best_streak": 14,
+            "is_active": true,
+            "catalog_id": null,
+            "archived_at": null,
+            "created_at": "2026-11-09T18:30:00.000Z",
+            "updated_at": "2026-11-10T12:00:14.000Z",
+            "deleted_at": null
+          }
+        }
+      }
+    },
+    {
+      "name": "delete_skill",
+      "title": "Delete a skill",
+      "method": "DELETE",
+      "path": "/skills/{id}",
+      "status": 204,
+      "description": "Skills are archived, never deleted: their history stays.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Delete a skill",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/skills/5c1e0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": null,
+        "response": null
+      }
+    },
+    {
+      "name": "list_categories",
+      "title": "List categories",
+      "method": "GET",
+      "path": "/categories",
+      "description": "A list tasks are grouped in (read-only). Oldest change first; pass next_cursor back as cursor for the next page.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Default 50"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "next_cursor from the previous page"
+          },
+          "updated_since": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Only rows changed after this"
+          },
+          "include_deleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "List categories",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/categories",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": [
+            {
+              "id": "ca7e0000-0000-4000-8000-000000000001",
+              "name": "Personal",
+              "is_default": true,
+              "is_active": true,
+              "created_at": "2026-11-09T18:30:00.000Z",
+              "updated_at": "2026-11-09T18:30:00.000Z",
+              "deleted_at": null
+            }
+          ],
+          "next_cursor": null
+        }
+      }
+    },
+    {
+      "name": "get_category",
+      "title": "Get a category",
+      "method": "GET",
+      "path": "/categories/{id}",
+      "description": "One category by id.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Get a category",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/categories/ca7e0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "id": "ca7e0000-0000-4000-8000-000000000001",
+            "name": "Personal",
+            "is_default": true,
+            "is_active": true,
+            "created_at": "2026-11-09T18:30:00.000Z",
+            "updated_at": "2026-11-09T18:30:00.000Z",
+            "deleted_at": null
+          }
+        }
+      }
+    },
+    {
+      "name": "list_history",
+      "title": "List history",
+      "method": "GET",
+      "path": "/history",
+      "description": "What happened: completions, level-ups, streaks (read-only, newest last). Oldest change first; pass next_cursor back as cursor for the next page.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Default 50"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "next_cursor from the previous page"
+          },
+          "updated_since": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Only rows changed after this"
+          },
+          "include_deleted": {
+            "type": "boolean"
+          },
+          "event_type": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "List history",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/history",
+        "query": {
+          "event_type": "taskCompleted"
+        },
+        "body": null,
+        "response": {
+          "data": [
+            {
+              "id": "415e0000-0000-4000-8000-000000000001",
+              "event_type": "taskCompleted",
+              "title": "Gym",
+              "task_id": "7a5c0000-0000-4000-8000-000000000001",
+              "skill_id": "5c1e0000-0000-4000-8000-000000000001",
+              "xp_gained": 20,
+              "xp_lost": 0,
+              "coins_gained": 10,
+              "coins_lost": 0,
+              "previous_level": null,
+              "new_level": null,
+              "streak_count": null,
+              "created_at": "2026-11-09T19:05:00.000Z",
+              "updated_at": "2026-11-09T19:05:00.000Z",
+              "deleted_at": null
+            }
+          ],
+          "next_cursor": null
+        }
+      }
+    },
+    {
+      "name": "get_history_entry",
+      "title": "Get a history entry",
+      "method": "GET",
+      "path": "/history/{id}",
+      "description": "One history entry by id.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Get a history entry",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/history/415e0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "id": "415e0000-0000-4000-8000-000000000001",
+            "event_type": "taskCompleted",
+            "title": "Gym",
+            "task_id": "7a5c0000-0000-4000-8000-000000000001",
+            "skill_id": "5c1e0000-0000-4000-8000-000000000001",
+            "xp_gained": 20,
+            "xp_lost": 0,
+            "coins_gained": 10,
+            "coins_lost": 0,
+            "previous_level": null,
+            "new_level": null,
+            "streak_count": null,
+            "created_at": "2026-11-09T19:05:00.000Z",
+            "updated_at": "2026-11-09T19:05:00.000Z",
+            "deleted_at": null
+          }
+        }
+      }
+    },
+    {
+      "name": "list_routines",
+      "title": "List routines",
+      "method": "GET",
+      "path": "/routines",
+      "description": "A time blocking routine («Workday», «Weekend»…): its blocks of the day and the weekdays it loads. Which routine a date loads: get_day. Oldest change first; pass next_cursor back as cursor for the next page.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Default 50"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "next_cursor from the previous page"
+          },
+          "updated_since": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Only rows changed after this"
+          },
+          "include_deleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "List routines",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/routines",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": [
+            {
+              "id": "0a7e0000-0000-4000-8000-000000000001",
+              "name": "Workday",
+              "is_default": true,
+              "icon": "💼",
+              "color": null,
+              "created_at": "2026-11-09T18:30:00.000Z",
+              "updated_at": "2026-11-09T18:30:00.000Z",
+              "deleted_at": null,
+              "blocks": [
+                {
+                  "id": "b10c0000-0000-4000-8000-000000000001",
+                  "start_minute": 420,
+                  "duration_minute": 30,
+                  "start_time": "07:00",
+                  "end_time": "07:30",
+                  "next_day": false,
+                  "title": "Read",
+                  "note": null,
+                  "icon": null,
+                  "color": null,
+                  "task_id": null,
+                  "is_pinned": false,
+                  "is_completed": false,
+                  "updated_at": "2026-11-09T18:30:00.000Z"
+                },
+                {
+                  "id": "b10c0000-0000-4000-8000-000000000002",
+                  "start_minute": 1080,
+                  "duration_minute": 60,
+                  "start_time": "18:00",
+                  "end_time": "19:00",
+                  "next_day": false,
+                  "title": "Gym",
+                  "note": null,
+                  "icon": null,
+                  "color": "#F29092",
+                  "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                  "is_pinned": false,
+                  "is_completed": false,
+                  "updated_at": "2026-11-09T18:30:00.000Z"
+                }
+              ],
+              "weekdays": [
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            },
+            {
+              "id": "0a7e0000-0000-4000-8000-000000000002",
+              "name": "Weekend",
+              "is_default": false,
+              "icon": "🌿",
+              "color": null,
+              "created_at": "2026-11-09T18:30:00.000Z",
+              "updated_at": "2026-11-09T18:30:00.000Z",
+              "deleted_at": null,
+              "blocks": [
+                {
+                  "id": "b10c0000-0000-4000-8000-000000000003",
+                  "start_minute": 600,
+                  "duration_minute": 90,
+                  "start_time": "10:00",
+                  "end_time": "11:30",
+                  "next_day": false,
+                  "title": "Long walk",
+                  "note": null,
+                  "icon": null,
+                  "color": null,
+                  "task_id": null,
+                  "is_pinned": false,
+                  "is_completed": false,
+                  "updated_at": "2026-11-09T18:30:00.000Z"
+                }
+              ],
+              "weekdays": [
+                6,
+                7
+              ]
+            }
+          ],
+          "next_cursor": null
+        }
+      }
+    },
+    {
+      "name": "get_routine",
+      "title": "Get a routine",
+      "method": "GET",
+      "path": "/routines/{id}",
+      "description": "One routine by id.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Get a routine",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/routines/0a7e0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "id": "0a7e0000-0000-4000-8000-000000000001",
+            "name": "Workday",
+            "is_default": true,
+            "icon": "💼",
+            "color": null,
+            "created_at": "2026-11-09T18:30:00.000Z",
+            "updated_at": "2026-11-09T18:30:00.000Z",
+            "deleted_at": null,
+            "blocks": [
+              {
+                "id": "b10c0000-0000-4000-8000-000000000001",
+                "start_minute": 420,
+                "duration_minute": 30,
+                "start_time": "07:00",
+                "end_time": "07:30",
+                "next_day": false,
+                "title": "Read",
+                "note": null,
+                "icon": null,
+                "color": null,
+                "task_id": null,
+                "is_pinned": false,
+                "is_completed": false,
+                "updated_at": "2026-11-09T18:30:00.000Z"
+              },
+              {
+                "id": "b10c0000-0000-4000-8000-000000000002",
+                "start_minute": 1080,
+                "duration_minute": 60,
+                "start_time": "18:00",
+                "end_time": "19:00",
+                "next_day": false,
+                "title": "Gym",
+                "note": null,
+                "icon": null,
+                "color": "#F29092",
+                "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                "is_pinned": false,
+                "is_completed": false,
+                "updated_at": "2026-11-09T18:30:00.000Z"
+              }
+            ],
+            "weekdays": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "create_routine",
+      "title": "Create a routine",
+      "method": "POST",
+      "path": "/routines",
+      "status": 201,
+      "description": "A time blocking routine («Workday», «Weekend»…): its blocks of the day and the weekdays it loads. Which routine a date loads: get_day. Returns it as stored.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "icon": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "An emoji, or a built-in icon: assets/images/icons/<name>.png"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "is_default": {
+            "type": "boolean"
+          },
+          "weekdays": {
+            "anyOf": [
+              {
+                "type": "array",
+                "maxItems": 7,
+                "uniqueItems": true,
+                "items": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "description": "Weekdays it loads every week (1 = Monday … 7 = Sunday); they are taken from whichever routine had them. [] or null: no fixed day"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Weekdays it loads every week (1 = Monday … 7 = Sunday); they are taken from whichever routine had them. [] or null: no fixed day"
+          },
+          "blocks": {
+            "type": "array",
+            "maxItems": 96,
+            "description": "The whole list of blocks: with id updates that block, without id creates one, and a block left out is deleted. Blocks cannot overlap.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "start_minute": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2879,
+                  "multipleOf": 5,
+                  "description": "Minutes from the routine's midnight (540 = 09:00; 1440+ = the next day)"
+                },
+                "duration_minute": {
+                  "type": "integer",
+                  "minimum": 5,
+                  "maximum": 1440,
+                  "multipleOf": 5
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 2000
+                },
+                "icon": {
+                  "type": "string",
+                  "description": "An emoji, or a built-in icon: assets/images/icons/<name>.png"
+                },
+                "color": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "task_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "The task the block is for; without it, title is required"
+                },
+                "is_pinned": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Create a routine",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/routines",
+        "query": null,
+        "body": {
+          "name": "Study day",
+          "weekdays": [
+            3
+          ],
+          "blocks": [
+            {
+              "start_minute": 540,
+              "duration_minute": 120,
+              "title": "Deep work"
+            },
+            {
+              "start_minute": 1080,
+              "duration_minute": 60,
+              "task_id": "7a5c0000-0000-4000-8000-000000000001"
+            }
+          ]
+        },
+        "response": {
+          "data": {
+            "id": "0e5a0000-0000-4000-8000-000000000006",
+            "name": "Study day",
+            "is_default": false,
+            "icon": null,
+            "color": null,
+            "created_at": "2026-11-10T12:00:16.000Z",
+            "updated_at": "2026-11-10T12:00:19.000Z",
+            "deleted_at": null,
+            "blocks": [
+              {
+                "id": "0e5a0000-0000-4000-8000-000000000007",
+                "start_minute": 540,
+                "duration_minute": 120,
+                "start_time": "09:00",
+                "end_time": "11:00",
+                "next_day": false,
+                "title": "Deep work",
+                "note": null,
+                "icon": null,
+                "color": null,
+                "task_id": null,
+                "is_pinned": false,
+                "is_completed": false,
+                "updated_at": "2026-11-10T12:00:21.000Z"
+              },
+              {
+                "id": "0e5a0000-0000-4000-8000-000000000008",
+                "start_minute": 1080,
+                "duration_minute": 60,
+                "start_time": "18:00",
+                "end_time": "19:00",
+                "next_day": false,
+                "title": null,
+                "note": null,
+                "icon": null,
+                "color": null,
+                "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                "is_pinned": false,
+                "is_completed": false,
+                "updated_at": "2026-11-10T12:00:23.000Z"
+              }
+            ],
+            "weekdays": [
+              3
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "update_routine",
+      "title": "Update a routine",
+      "method": "PATCH",
+      "path": "/routines/{id}",
+      "description": "Changes only the fields sent.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "icon": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "An emoji, or a built-in icon: assets/images/icons/<name>.png"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "is_default": {
+            "type": "boolean"
+          },
+          "weekdays": {
+            "anyOf": [
+              {
+                "type": "array",
+                "maxItems": 7,
+                "uniqueItems": true,
+                "items": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 7
+                },
+                "description": "Weekdays it loads every week (1 = Monday … 7 = Sunday); they are taken from whichever routine had them. [] or null: no fixed day"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Weekdays it loads every week (1 = Monday … 7 = Sunday); they are taken from whichever routine had them. [] or null: no fixed day"
+          },
+          "blocks": {
+            "type": "array",
+            "maxItems": 96,
+            "description": "The whole list of blocks: with id updates that block, without id creates one, and a block left out is deleted. Blocks cannot overlap.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "start_minute": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2879,
+                  "multipleOf": 5,
+                  "description": "Minutes from the routine's midnight (540 = 09:00; 1440+ = the next day)"
+                },
+                "duration_minute": {
+                  "type": "integer",
+                  "minimum": 5,
+                  "maximum": 1440,
+                  "multipleOf": 5
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 2000
+                },
+                "icon": {
+                  "type": "string",
+                  "description": "An emoji, or a built-in icon: assets/images/icons/<name>.png"
+                },
+                "color": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "task_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "The task the block is for; without it, title is required"
+                },
+                "is_pinned": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Update a routine",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/routines/0a7e0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": {
+          "weekdays": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "response": {
+          "data": {
+            "id": "0a7e0000-0000-4000-8000-000000000001",
+            "name": "Workday",
+            "is_default": true,
+            "icon": "💼",
+            "color": null,
+            "created_at": "2026-11-09T18:30:00.000Z",
+            "updated_at": "2026-11-10T12:00:24.000Z",
+            "deleted_at": null,
+            "blocks": [
+              {
+                "id": "b10c0000-0000-4000-8000-000000000001",
+                "start_minute": 420,
+                "duration_minute": 30,
+                "start_time": "07:00",
+                "end_time": "07:30",
+                "next_day": false,
+                "title": "Read",
+                "note": null,
+                "icon": null,
+                "color": null,
+                "task_id": null,
+                "is_pinned": false,
+                "is_completed": false,
+                "updated_at": "2026-11-09T18:30:00.000Z"
+              },
+              {
+                "id": "b10c0000-0000-4000-8000-000000000002",
+                "start_minute": 1080,
+                "duration_minute": 60,
+                "start_time": "18:00",
+                "end_time": "19:00",
+                "next_day": false,
+                "title": "Gym",
+                "note": null,
+                "icon": null,
+                "color": "#F29092",
+                "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                "is_pinned": false,
+                "is_completed": false,
+                "updated_at": "2026-11-09T18:30:00.000Z"
+              }
+            ],
+            "weekdays": [
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "delete_routine",
+      "title": "Delete a routine",
+      "method": "DELETE",
+      "path": "/routines/{id}",
+      "status": 204,
+      "description": "Deletes the routine and its blocks. Its weekdays become free and the dates that loaded it go back to the week.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Delete a routine",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/routines/0a7e0000-0000-4000-8000-000000000002",
+        "query": null,
+        "body": null,
+        "response": null
+      }
+    },
+    {
+      "name": "get_week",
+      "title": "The week",
+      "method": "GET",
+      "path": "/week",
+      "description": "Which routine each weekday loads, Monday first (free = no routine that day).",
+      "input": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "The week",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/week",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "has_week": true,
+            "days": [
+              {
+                "weekday": 1,
+                "name": "monday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000001",
+                  "name": "Workday"
+                },
+                "free": false
+              },
+              {
+                "weekday": 2,
+                "name": "tuesday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000001",
+                  "name": "Workday"
+                },
+                "free": false
+              },
+              {
+                "weekday": 3,
+                "name": "wednesday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000001",
+                  "name": "Workday"
+                },
+                "free": false
+              },
+              {
+                "weekday": 4,
+                "name": "thursday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000001",
+                  "name": "Workday"
+                },
+                "free": false
+              },
+              {
+                "weekday": 5,
+                "name": "friday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000001",
+                  "name": "Workday"
+                },
+                "free": false
+              },
+              {
+                "weekday": 6,
+                "name": "saturday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000002",
+                  "name": "Weekend"
+                },
+                "free": false
+              },
+              {
+                "weekday": 7,
+                "name": "sunday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000002",
+                  "name": "Weekend"
+                },
+                "free": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "set_weekday_routine",
+      "title": "Set a weekday's routine",
+      "method": "PUT",
+      "path": "/week/{weekday}",
+      "description": "Every week, this weekday loads this routine (taken from the one that had it); null makes it a free day. The first time, the other six days go to the default routine.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "weekday": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7,
+            "description": "1 = Monday … 7 = Sunday"
+          },
+          "routine_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "weekday",
+          "routine_id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Set a weekday's routine",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/week/5",
+        "query": null,
+        "body": {
+          "routine_id": "0a7e0000-0000-4000-8000-000000000002"
+        },
+        "response": {
+          "data": {
+            "has_week": true,
+            "days": [
+              {
+                "weekday": 1,
+                "name": "monday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000001",
+                  "name": "Workday"
+                },
+                "free": false
+              },
+              {
+                "weekday": 2,
+                "name": "tuesday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000001",
+                  "name": "Workday"
+                },
+                "free": false
+              },
+              {
+                "weekday": 3,
+                "name": "wednesday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000001",
+                  "name": "Workday"
+                },
+                "free": false
+              },
+              {
+                "weekday": 4,
+                "name": "thursday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000001",
+                  "name": "Workday"
+                },
+                "free": false
+              },
+              {
+                "weekday": 5,
+                "name": "friday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000002",
+                  "name": "Weekend"
+                },
+                "free": false
+              },
+              {
+                "weekday": 6,
+                "name": "saturday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000002",
+                  "name": "Weekend"
+                },
+                "free": false
+              },
+              {
+                "weekday": 7,
+                "name": "sunday",
+                "routine": {
+                  "id": "0a7e0000-0000-4000-8000-000000000002",
+                  "name": "Weekend"
+                },
+                "free": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "list_days",
+      "title": "Calendar",
+      "method": "GET",
+      "path": "/days",
+      "description": "The calendar from one date to another (at most 31 days). Each day says which routine it loads and why (source: date = set for that date, week = its weekday, default = no week set yet), the blocks that show, the ones resting (turned off that day or covered by a commitment) and its commitments.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date",
+            "description": "The user's local date, yyyy-MM-dd"
+          },
+          "to": {
+            "type": "string",
+            "format": "date",
+            "description": "Default: the same as from"
+          }
+        },
+        "required": [
+          "from"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Calendar",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/days",
+        "query": {
+          "from": "2026-11-12",
+          "to": "2026-11-13"
+        },
+        "body": null,
+        "response": {
+          "data": [
+            {
+              "date": "2026-11-12",
+              "weekday": 4,
+              "weekday_name": "thursday",
+              "routine": {
+                "id": "0a7e0000-0000-4000-8000-000000000001",
+                "name": "Workday"
+              },
+              "free": false,
+              "source": "week",
+              "is_special": true,
+              "blocks": [
+                {
+                  "id": "b10c0000-0000-4000-8000-000000000001",
+                  "start_minute": 420,
+                  "duration_minute": 30,
+                  "start_time": "07:00",
+                  "end_time": "07:30",
+                  "next_day": false,
+                  "title": "Read",
+                  "note": null,
+                  "icon": null,
+                  "color": null,
+                  "task_id": null,
+                  "is_pinned": false,
+                  "is_completed": false,
+                  "updated_at": "2026-11-09T18:30:00.000Z",
+                  "task_title": null
+                }
+              ],
+              "resting": [
+                {
+                  "id": "b10c0000-0000-4000-8000-000000000002",
+                  "start_minute": 1080,
+                  "duration_minute": 60,
+                  "start_time": "18:00",
+                  "end_time": "19:00",
+                  "next_day": false,
+                  "title": "Gym",
+                  "note": null,
+                  "icon": null,
+                  "color": "#F29092",
+                  "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                  "is_pinned": false,
+                  "is_completed": false,
+                  "updated_at": "2026-11-09T18:30:00.000Z",
+                  "task_title": "Gym",
+                  "reason": "commitment",
+                  "commitment_id": "c0de0000-0000-4000-8000-000000000001"
+                }
+              ],
+              "commitments": [
+                {
+                  "id": "c0de0000-0000-4000-8000-000000000001",
+                  "date": "2026-11-12",
+                  "title": "Dentist",
+                  "icon": "🦷",
+                  "start_time": "17:30",
+                  "end_time": "19:00",
+                  "start_minute": 1050,
+                  "end_minute": 1140,
+                  "skip_overlaps": true,
+                  "updated_at": "2026-11-09T18:30:00.000Z"
+                }
+              ],
+              "disabled_block_ids": []
+            },
+            {
+              "date": "2026-11-13",
+              "weekday": 5,
+              "weekday_name": "friday",
+              "routine": {
+                "id": "0a7e0000-0000-4000-8000-000000000001",
+                "name": "Workday"
+              },
+              "free": false,
+              "source": "week",
+              "is_special": false,
+              "blocks": [
+                {
+                  "id": "b10c0000-0000-4000-8000-000000000001",
+                  "start_minute": 420,
+                  "duration_minute": 30,
+                  "start_time": "07:00",
+                  "end_time": "07:30",
+                  "next_day": false,
+                  "title": "Read",
+                  "note": null,
+                  "icon": null,
+                  "color": null,
+                  "task_id": null,
+                  "is_pinned": false,
+                  "is_completed": false,
+                  "updated_at": "2026-11-09T18:30:00.000Z",
+                  "task_title": null
+                },
+                {
+                  "id": "b10c0000-0000-4000-8000-000000000002",
+                  "start_minute": 1080,
+                  "duration_minute": 60,
+                  "start_time": "18:00",
+                  "end_time": "19:00",
+                  "next_day": false,
+                  "title": "Gym",
+                  "note": null,
+                  "icon": null,
+                  "color": "#F29092",
+                  "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                  "is_pinned": false,
+                  "is_completed": false,
+                  "updated_at": "2026-11-09T18:30:00.000Z",
+                  "task_title": "Gym"
+                }
+              ],
+              "resting": [],
+              "commitments": [],
+              "disabled_block_ids": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "get_day",
+      "title": "One day",
+      "method": "GET",
+      "path": "/days/{date}",
+      "description": "Which routine a date loads and what that day looks like. Each day says which routine it loads and why (source: date = set for that date, week = its weekday, default = no week set yet), the blocks that show, the ones resting (turned off that day or covered by a commitment) and its commitments.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The user's local date, yyyy-MM-dd"
+          }
+        },
+        "required": [
+          "date"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "One day",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/days/2026-11-12",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "date": "2026-11-12",
+            "weekday": 4,
+            "weekday_name": "thursday",
+            "routine": {
+              "id": "0a7e0000-0000-4000-8000-000000000001",
+              "name": "Workday"
+            },
+            "free": false,
+            "source": "week",
+            "is_special": true,
+            "blocks": [
+              {
+                "id": "b10c0000-0000-4000-8000-000000000001",
+                "start_minute": 420,
+                "duration_minute": 30,
+                "start_time": "07:00",
+                "end_time": "07:30",
+                "next_day": false,
+                "title": "Read",
+                "note": null,
+                "icon": null,
+                "color": null,
+                "task_id": null,
+                "is_pinned": false,
+                "is_completed": false,
+                "updated_at": "2026-11-09T18:30:00.000Z",
+                "task_title": null
+              }
+            ],
+            "resting": [
+              {
+                "id": "b10c0000-0000-4000-8000-000000000002",
+                "start_minute": 1080,
+                "duration_minute": 60,
+                "start_time": "18:00",
+                "end_time": "19:00",
+                "next_day": false,
+                "title": "Gym",
+                "note": null,
+                "icon": null,
+                "color": "#F29092",
+                "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                "is_pinned": false,
+                "is_completed": false,
+                "updated_at": "2026-11-09T18:30:00.000Z",
+                "task_title": "Gym",
+                "reason": "commitment",
+                "commitment_id": "c0de0000-0000-4000-8000-000000000001"
+              }
+            ],
+            "commitments": [
+              {
+                "id": "c0de0000-0000-4000-8000-000000000001",
+                "date": "2026-11-12",
+                "title": "Dentist",
+                "icon": "🦷",
+                "start_time": "17:30",
+                "end_time": "19:00",
+                "start_minute": 1050,
+                "end_minute": 1140,
+                "skip_overlaps": true,
+                "updated_at": "2026-11-09T18:30:00.000Z"
+              }
+            ],
+            "disabled_block_ids": []
+          }
+        }
+      }
+    },
+    {
+      "name": "set_day",
+      "title": "Change a day",
+      "method": "PUT",
+      "path": "/days/{date}",
+      "description": "Changes what a date loads, like the app's «¿Qué rutina hoy?»: another routine that day only, or every week on that weekday (every_week), a free day, or blocks turned off that day. Picking what the week already gives clears the exception. Returns the day.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The user's local date, yyyy-MM-dd"
+          },
+          "routine_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Routine for that date; null = the week's one; left out = keep the current one"
+          },
+          "free": {
+            "type": "boolean",
+            "description": "No routine that day"
+          },
+          "disabled_block_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "maxItems": 96,
+            "description": "Blocks of that day's routine turned off that day only (the whole list)"
+          },
+          "every_week": {
+            "type": "boolean",
+            "description": "Also give that weekday to the routine (or free) every week"
+          }
+        },
+        "required": [
+          "date"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Change a day",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/days/2026-11-13",
+        "query": null,
+        "body": {
+          "free": true
+        },
+        "response": {
+          "data": {
+            "date": "2026-11-13",
+            "weekday": 5,
+            "weekday_name": "friday",
+            "routine": null,
+            "free": true,
+            "source": "date",
+            "is_special": true,
+            "blocks": [],
+            "resting": [],
+            "commitments": [],
+            "disabled_block_ids": []
+          }
+        }
+      }
+    },
+    {
+      "name": "reset_day",
+      "title": "Reset a day",
+      "method": "DELETE",
+      "path": "/days/{date}",
+      "description": "The date goes back to what its weekday loads. Its commitments stay. Returns the day.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The user's local date, yyyy-MM-dd"
+          }
+        },
+        "required": [
+          "date"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Reset a day",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/days/2026-11-13",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "date": "2026-11-13",
+            "weekday": 5,
+            "weekday_name": "friday",
+            "routine": {
+              "id": "0a7e0000-0000-4000-8000-000000000001",
+              "name": "Workday"
+            },
+            "free": false,
+            "source": "week",
+            "is_special": false,
+            "blocks": [
+              {
+                "id": "b10c0000-0000-4000-8000-000000000001",
+                "start_minute": 420,
+                "duration_minute": 30,
+                "start_time": "07:00",
+                "end_time": "07:30",
+                "next_day": false,
+                "title": "Read",
+                "note": null,
+                "icon": null,
+                "color": null,
+                "task_id": null,
+                "is_pinned": false,
+                "is_completed": false,
+                "updated_at": "2026-11-09T18:30:00.000Z",
+                "task_title": null
+              },
+              {
+                "id": "b10c0000-0000-4000-8000-000000000002",
+                "start_minute": 1080,
+                "duration_minute": 60,
+                "start_time": "18:00",
+                "end_time": "19:00",
+                "next_day": false,
+                "title": "Gym",
+                "note": null,
+                "icon": null,
+                "color": "#F29092",
+                "task_id": "7a5c0000-0000-4000-8000-000000000001",
+                "is_pinned": false,
+                "is_completed": false,
+                "updated_at": "2026-11-09T18:30:00.000Z",
+                "task_title": "Gym"
+              }
+            ],
+            "resting": [],
+            "commitments": [],
+            "disabled_block_ids": []
+          }
+        }
+      }
+    },
+    {
+      "name": "list_commitments",
+      "title": "List commitments",
+      "method": "GET",
+      "path": "/commitments",
+      "description": "Something fixed on one date («Dentist 15:00–16:00»), drawn over that day's routine. With skip_overlaps, the routine blocks it covers rest that day. Oldest change first; pass next_cursor back as cursor for the next page.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Default 50"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "next_cursor from the previous page"
+          },
+          "updated_since": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Only rows changed after this"
+          },
+          "include_deleted": {
+            "type": "boolean"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The user's local calendar date, yyyy-MM-dd"
+          },
+          "from": {
+            "type": "string",
+            "format": "date",
+            "description": "The user's local calendar date, yyyy-MM-dd"
+          },
+          "to": {
+            "type": "string",
+            "format": "date",
+            "description": "The user's local calendar date, yyyy-MM-dd"
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "List commitments",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/commitments",
+        "query": {
+          "from": "2026-11-09",
+          "to": "2026-11-15"
+        },
+        "body": null,
+        "response": {
+          "data": [
+            {
+              "id": "c0de0000-0000-4000-8000-000000000001",
+              "date": "2026-11-12",
+              "title": "Dentist",
+              "icon": "🦷",
+              "start_time": "17:30",
+              "end_time": "19:00",
+              "start_minute": 1050,
+              "end_minute": 1140,
+              "skip_overlaps": true,
+              "updated_at": "2026-11-09T18:30:00.000Z"
+            }
+          ],
+          "next_cursor": null
+        }
+      }
+    },
+    {
+      "name": "get_commitment",
+      "title": "Get a commitment",
+      "method": "GET",
+      "path": "/commitments/{id}",
+      "description": "One commitment by id.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Get a commitment",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/commitments/c0de0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": null,
+        "response": {
+          "data": {
+            "id": "c0de0000-0000-4000-8000-000000000001",
+            "date": "2026-11-12",
+            "title": "Dentist",
+            "icon": "🦷",
+            "start_time": "17:30",
+            "end_time": "19:00",
+            "start_minute": 1050,
+            "end_minute": 1140,
+            "skip_overlaps": true,
+            "updated_at": "2026-11-09T18:30:00.000Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "create_commitment",
+      "title": "Create a commitment",
+      "method": "POST",
+      "path": "/commitments",
+      "status": 201,
+      "description": "Something fixed on one date («Dentist 15:00–16:00»), drawn over that day's routine. With skip_overlaps, the routine blocks it covers rest that day. Returns it as stored.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The user's local calendar date, yyyy-MM-dd"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "icon": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "An emoji, or a built-in icon: assets/images/icons/<name>.png"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "start_time": {
+            "type": "string",
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+            "description": "HH:mm, local time"
+          },
+          "end_time": {
+            "type": "string",
+            "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$",
+            "description": "HH:mm, after start_time; 24:00 at the latest (a commitment stays in its day)"
+          },
+          "skip_overlaps": {
+            "type": "boolean",
+            "description": "The routine blocks it covers do not show that day (default true)"
+          }
+        },
+        "required": [
+          "date",
+          "title",
+          "start_time",
+          "end_time"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Create a commitment",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/commitments",
+        "query": null,
+        "body": {
+          "date": "2026-11-13",
+          "title": "Call with Ana",
+          "icon": "📞",
+          "start_time": "10:00",
+          "end_time": "10:30"
+        },
+        "response": {
+          "data": {
+            "id": "0e5a0000-0000-4000-8000-000000000010",
+            "date": "2026-11-13",
+            "title": "Call with Ana",
+            "icon": "📞",
+            "start_time": "10:00",
+            "end_time": "10:30",
+            "start_minute": 600,
+            "end_minute": 630,
+            "skip_overlaps": true,
+            "updated_at": "2026-11-10T12:00:33.000Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "update_commitment",
+      "title": "Update a commitment",
+      "method": "PATCH",
+      "path": "/commitments/{id}",
+      "description": "Changes only the fields sent.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The user's local calendar date, yyyy-MM-dd"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "icon": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "An emoji, or a built-in icon: assets/images/icons/<name>.png"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "start_time": {
+            "type": "string",
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+            "description": "HH:mm, local time"
+          },
+          "end_time": {
+            "type": "string",
+            "pattern": "^(([01]\\d|2[0-3]):[0-5]\\d|24:00)$",
+            "description": "HH:mm, after start_time; 24:00 at the latest (a commitment stays in its day)"
+          },
+          "skip_overlaps": {
+            "type": "boolean",
+            "description": "The routine blocks it covers do not show that day (default true)"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "status": 200,
+      "annotations": {
+        "title": "Update a commitment",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/commitments/c0de0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": {
+          "end_time": "19:30"
+        },
+        "response": {
+          "data": {
+            "id": "c0de0000-0000-4000-8000-000000000001",
+            "date": "2026-11-12",
+            "title": "Dentist",
+            "icon": "🦷",
+            "start_time": "17:30",
+            "end_time": "19:30",
+            "start_minute": 1050,
+            "end_minute": 1170,
+            "skip_overlaps": true,
+            "updated_at": "2026-11-10T12:00:34.000Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "delete_commitment",
+      "title": "Delete a commitment",
+      "method": "DELETE",
+      "path": "/commitments/{id}",
+      "status": 204,
+      "description": "Removes the commitment; the blocks it covered show again.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Delete a commitment",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "example": {
+        "path": "/commitments/c0de0000-0000-4000-8000-000000000001",
+        "query": null,
+        "body": null,
+        "response": null
+      }
+    }
+  ]
+}

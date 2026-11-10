@@ -87,7 +87,11 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
   min-height: 100%;
+  /* clip corta lo que se sale sin volver body un contenedor de scroll, que con
+     hidden dejaba de funcionar todo position: sticky. hidden queda para
+     navegadores sin clip. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Estilos para notificaciones */

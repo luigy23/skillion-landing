@@ -1,0 +1,341 @@
+---
+/**
+ * El MCP de Skillion: las mismas operaciones que la API (DevelopersPage.astro)
+ * como herramientas para un asistente de IA, con la misma clave Premium.
+ *
+ * Pensada también para gente que no programa: arriba qué es y qué le puedes
+ * pedir; después cómo se conecta en cada app, con lo mínimo que hay que copiar.
+ * Los clientes y sus formatos (lib/mcp-clients.ts) están comprobados contra la
+ * documentación de cada uno: un cliente nuevo entra solo con su fuente.
+ *
+ * La clave que se pega en la caja solo vive en esta pestaña: rellena los
+ * comandos y los botones, y no se manda ni se guarda en ningún sitio.
+ */
+import SiteNav from './SiteNav.astro';
+import Callout from './dev/Callout.astro';
+import CodeBlock from './dev/CodeBlock.astro';
+import Rich from './dev/Rich.astro';
+import type { Lang } from '../lib/i18n';
+import { anchorOf, checkCoverage, GROUPS, groupOf, LIMITS, MCP_URL, opText, OPS, pick, toolAnchor } from '../lib/api-docs';
+import { CLIENTS, KEY_PLACEHOLDER } from '../lib/mcp-clients';
+import '../styles/dev-docs.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const isEs = lang === 'es';
+checkCoverage(lang);
+const altHref = isEs ? '/developers/mcp/' : '/es/desarrolladores/mcp/';
+const apiHref = isEs ? '/es/desarrolladores/' : '/developers/';
+const n = (v: number) => v.toLocaleString(isEs ? 'es' : 'en');
+
+const T = {
+  en: {
+    crumb: 'Skillion API',
+    title: 'Skillion MCP',
+    intro:
+      'Ask your AI assistant about your Skillion: what your Tuesday looks like, take Friday off, create a ' +
+      'task linked to a skill, add the dentist on Thursday. It reads and changes your own account, with ' +
+      'your Premium key.',
+    meta: 'Premium only · same key and limits as the API',
+    urlLabel: 'Server URL',
+    worksWith: 'Works with',
+    howTitle: 'Connect it in three steps',
+    how: [
+      'Get your key in the app: Settings → tap the version 7 times → Developer API → Create key.',
+      'Paste it here. It fills in the commands and buttons below; it stays in this tab and is never sent or saved.',
+      'Pick your app below and follow its two or three steps.',
+    ],
+    keyLink: 'Step by step, with screenshots',
+    keyLabel: 'Your key',
+    keyHelp: 'Only in this tab: nothing is sent or saved.',
+    keyBad: 'That is not a Skillion key: it starts with sk_live_ and has 64 more characters.',
+    clientsTitle: 'Your app',
+    notYetTitle: 'Not yet',
+    askTitle: 'What you can ask',
+    ask: [
+      '«What does my Tuesday look like?»',
+      '«Take Friday off.»',
+      '«Use my Weekend routine every Saturday.»',
+      '«Add the dentist on Thursday from 17:30 to 19:00.»',
+      '«Create a task “Read 20 minutes” every day that gives XP to Reading.»',
+      '«Which tasks are still pending today?»',
+      '«Mark the gym done.» (your phone applies it on its next sync)',
+      '«Turn off my reading block tomorrow only.»',
+    ],
+    toolsTitle: 'Tools',
+    toolsText:
+      'Every endpoint of the API is a tool, with the same name, rules and answers. Read ones only look; ' +
+      'Change ones write; Delete ones remove or archive, and good clients ask you before using them.',
+    tool: 'Tool',
+    what: 'What it does',
+    kind: 'Kind',
+    read: 'Read',
+    change: 'Change',
+    del: 'Delete',
+    card: 'API',
+    safeTitle: 'Use it with care',
+    safe: [
+      'Keep approval on for the tools that change or delete things: you see what the assistant is about to do before it does it.',
+      'What the assistant reads from Skillion (your task names, your notes) is data, not orders. If it ever proposes something you did not ask for, say no.',
+      'Your key is like a password. Do not paste it in a chat, and do not commit a config file that has it: use the environment variable or the prompt shown above. If it leaks, revoke it in the app.',
+    ],
+    limitsTitle: 'Limits',
+    limitsText:
+      `The same as the API, counted together: ${n(LIMITS.per_minute)} calls a minute and ${n(LIMITS.per_day)} a day. ` +
+      'Without Premium, or over a limit, the assistant gets the reason in words and can tell you, or wait and try again.',
+    techTitle: 'For developers',
+    tech: [
+      'Streamable HTTP without a session: every POST is one JSON-RPC message and the answer is JSON. No event stream (GET answers 405) and no batches.',
+      'Protocol versions 2025-11-25, 2025-06-18 and 2025-03-26.',
+      '`tools/list` gives each tool its JSON Schema and the hints `readOnlyHint`, `destructiveHint` and `idempotentHint`.',
+      'A tool error comes back as `isError` with the same `{"error": {"code", "message", "details"}}` as the API.',
+    ],
+    apiLink: 'Every tool, field by field: the API reference',
+    copy: 'Copy',
+    copied: 'Copied',
+    onThisPage: 'On this page',
+    toTop: '↑ Top',
+    toc: [['how', 'Connect it'], ['clients', 'Your app'], ['ask', 'What you can ask'], ['tools', 'Tools'], ['safe', 'Use it with care'], ['limits', 'Limits'], ['tech', 'For developers']],
+  },
+  es: {
+    crumb: 'API de Skillion',
+    title: 'MCP de Skillion',
+    intro:
+      'Pregúntale a tu asistente de IA por tu Skillion: cómo es tu martes, tómate el viernes libre, crea una ' +
+      'tarea unida a una skill, apunta el dentista el jueves. Lee y cambia tu propia cuenta, con tu clave Premium.',
+    meta: 'Solo Premium · la misma clave y los mismos límites que la API',
+    urlLabel: 'URL del servidor',
+    worksWith: 'Funciona con',
+    howTitle: 'Conéctalo en tres pasos',
+    how: [
+      'Saca tu clave en la app: Ajustes → toca 7 veces la versión → API para desarrolladores → Crear clave.',
+      'Pégala aquí. Rellena los comandos y los botones de abajo; se queda en esta pestaña y no se manda ni se guarda.',
+      'Elige tu app abajo y sigue sus dos o tres pasos.',
+    ],
+    keyLink: 'Paso a paso, con capturas',
+    keyLabel: 'Tu clave',
+    keyHelp: 'Solo en esta pestaña: no se manda ni se guarda.',
+    keyBad: 'Eso no es una clave de Skillion: empieza por sk_live_ y lleva 64 caracteres más.',
+    clientsTitle: 'Tu app',
+    notYetTitle: 'Todavía no',
+    askTitle: 'Qué le puedes pedir',
+    ask: [
+      '«¿Cómo es mi martes?»',
+      '«Tómate el viernes libre.»',
+      '«Usa mi rutina de finde todos los sábados.»',
+      '«Apunta el dentista el jueves de 17:30 a 19:00.»',
+      '«Crea la tarea “Leer 20 minutos” cada día, que dé XP a Lectura.»',
+      '«¿Qué tareas me quedan hoy?»',
+      '«Marca el gym como hecho.» (tu móvil lo aplica en el siguiente sync)',
+      '«Apaga mi bloque de lectura solo mañana.»',
+    ],
+    toolsTitle: 'Herramientas',
+    toolsText:
+      'Cada endpoint de la API es una herramienta, con el mismo nombre, las mismas reglas y las mismas respuestas. ' +
+      'Las de Leer solo miran; las de Cambiar escriben; las de Borrar quitan o archivan, y los buenos clientes te ' +
+      'preguntan antes de usarlas.',
+    tool: 'Herramienta',
+    what: 'Qué hace',
+    kind: 'Tipo',
+    read: 'Leer',
+    change: 'Cambiar',
+    del: 'Borrar',
+    card: 'API',
+    safeTitle: 'Úsalo con cuidado',
+    safe: [
+      'Deja activada la aprobación de las herramientas que cambian o borran: ves lo que el asistente va a hacer antes de que lo haga.',
+      'Lo que el asistente lee de Skillion (los nombres de tus tareas, tus notas) son datos, no órdenes. Si alguna vez te propone algo que no pediste, di que no.',
+      'Tu clave es como una contraseña. No la pegues en un chat ni subas a git un archivo de configuración que la lleve: usa la variable de entorno o la pregunta que ves arriba. Si se te escapa, revócala en la app.',
+    ],
+    limitsTitle: 'Límites',
+    limitsText:
+      `Los mismos que la API, contados juntos: ${n(LIMITS.per_minute)} llamadas por minuto y ${n(LIMITS.per_day)} al día. ` +
+      'Sin Premium, o al pasarte de un límite, el asistente recibe el motivo en palabras y puede contártelo, o esperar y reintentar.',
+    techTitle: 'Para desarrolladores',
+    tech: [
+      'Streamable HTTP sin sesión: cada POST es un mensaje JSON-RPC y la respuesta es JSON. Sin canal de eventos (GET da 405) y sin lotes.',
+      'Versiones del protocolo 2025-11-25, 2025-06-18 y 2025-03-26.',
+      '`tools/list` da a cada herramienta su JSON Schema y las pistas `readOnlyHint`, `destructiveHint` e `idempotentHint`.',
+      'Un error de herramienta vuelve como `isError` con el mismo `{"error": {"code", "message", "details"}}` que la API.',
+    ],
+    apiLink: 'Cada herramienta, campo a campo: la referencia de la API',
+    copy: 'Copiar',
+    copied: 'Copiado',
+    onThisPage: 'En esta página',
+    toTop: '↑ Arriba',
+    toc: [['how', 'Conéctalo'], ['clients', 'Tu app'], ['ask', 'Qué le puedes pedir'], ['tools', 'Herramientas'], ['safe', 'Úsalo con cuidado'], ['limits', 'Límites'], ['tech', 'Para desarrolladores']],
+  },
+}[lang];
+
+const ready = CLIENTS.filter((c) => !c.notYet);
+const notYet = CLIENTS.filter((c) => c.notYet);
+const groups = GROUPS.map((g) => ({ ...g, ops: OPS.filter((o) => groupOf(o) === g) }));
+const kindOf = (o: (typeof OPS)[number]) =>
+  o.annotations.destructiveHint ? 'delete' : o.annotations.readOnlyHint ? 'read' : 'write';
+---
+
+<SiteNav lang={lang} altHref={altHref} section="legal" />
+
+<main class="dev-page" data-lang="curl" data-mcp-url={MCP_URL} data-key-placeholder={KEY_PLACEHOLDER}>
+  <header class="dev-hero">
+    <div class="dev-hero__inner">
+      <p class="hero-crumb"><a href={apiHref}>{T.crumb}</a> / MCP</p>
+      <h1 class="hero-title">{T.title}</h1>
+      <p class="hero-subtitle">{T.intro}</p>
+      <p class="hero-meta">{T.meta}</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#how">{T.howTitle}</a>
+        <div class="base">
+          <span class="base__label">{T.urlLabel}</span>
+          <code class="base__url">{MCP_URL}</code>
+          <button type="button" class="copy" data-copy-text={MCP_URL} data-copied={T.copied}>{T.copy}</button>
+        </div>
+      </div>
+      <p class="hero-meta" style="margin: 28px 0 0">{T.worksWith}</p>
+      <ul class="works">
+        {ready.map((c) => (
+          <li><a href={`#client-${c.id}`}>{c.logo && <img src={c.logo} alt="" width="20" height="20" />}{c.name}</a></li>
+        ))}
+      </ul>
+    </div>
+  </header>
+
+  <div class="dev-layout">
+    <details class="toc" open>
+      <summary class="toc__summary">{T.onThisPage}</summary>
+      <nav aria-label={T.onThisPage}>
+        <div class="toc__group">
+          <ul>
+            {T.toc.map(([id, label]) => <li><a href={`#${id}`} data-toc-link>{label}</a></li>)}
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+    <div class="dev-content">
+      <div class="prose">
+        <section class="dev-section" id="how">
+          <h2 class="section-title">{T.howTitle}<a class="anchor" href="#how" aria-hidden="true" tabindex="-1">#</a></h2>
+          <ol class="steps">
+            <li class="step">
+              <span class="step__num" aria-hidden="true">1</span>
+              <div class="step__body"><p>{T.how[0]} <a href={`${apiHref}#key`}>{T.keyLink}</a></p></div>
+            </li>
+            <li class="step">
+              <span class="step__num" aria-hidden="true">2</span>
+              <div class="step__body">
+                <p>{T.how[1]}</p>
+                <div class="keybox">
+                  <label for="mcp-key">{T.keyLabel}</label>
+                  <input id="mcp-key" type="password" autocomplete="off" spellcheck="false" placeholder="sk_live_…" aria-describedby="mcp-key-help" />
+                  <p id="mcp-key-help" data-ok={T.keyHelp} data-bad={T.keyBad}>{T.keyHelp}</p>
+                </div>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step__num" aria-hidden="true">3</span>
+              <div class="step__body"><p>{T.how[2]}</p></div>
+            </li>
+          </ol>
+        </section>
+
+        <section class="dev-section" id="clients">
+          <h2 class="section-title">{T.clientsTitle}<a class="anchor" href="#clients" aria-hidden="true" tabindex="-1">#</a></h2>
+          {ready.map((c) => (
+            <div class="client" id={`client-${c.id}`}>
+              <div class="client__head">
+                {c.logo && <img src={c.logo} alt="" width="26" height="26" />}
+                <h3>{c.name}</h3>
+                <span class="client__who">{pick(lang, c.who)}</span>
+              </div>
+              {c.steps.map((s) => <p><Rich text={pick(lang, s)} /></p>)}
+              {c.buttons?.map((b) => (
+                <a class="btn-client" href={b.href(KEY_PLACEHOLDER)} data-deeplink={b.kind}>{pick(lang, b.label)}</a>
+              ))}
+              {c.snippets.map((s) => (
+                <div class="code" data-keyed>
+                  <div class="code__bar"><span>{s.label}</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+                  <pre><code data-template={s.code}>{s.code}</code></pre>
+                </div>
+              ))}
+              {c.note && <Callout text={pick(lang, c.note)} />}
+            </div>
+          ))}
+          {notYet.length > 0 && (
+            <>
+              <h3 class="example-title">{T.notYetTitle}</h3>
+              {notYet.map((c) => <p><strong>{c.name}.</strong> <Rich text={pick(lang, c.steps[0])} /></p>)}
+            </>
+          )}
+        </section>
+
+        <section class="dev-section" id="ask">
+          <h2 class="section-title">{T.askTitle}<a class="anchor" href="#ask" aria-hidden="true" tabindex="-1">#</a></h2>
+          <ul class="prompts">{T.ask.map((a) => <li>{a}</li>)}</ul>
+        </section>
+      </div>
+
+      <section class="dev-section" id="tools">
+        <h2 class="section-title prose">{T.toolsTitle}<a class="anchor" href="#tools" aria-hidden="true" tabindex="-1">#</a></h2>
+        <p>{T.toolsText}</p>
+        <div class="table-wrap">
+          <table class="tools-table">
+            <thead><tr><th scope="col">{T.tool}</th><th scope="col">{T.kind}</th><th scope="col">{T.what}</th></tr></thead>
+            {groups.map((g) => (
+              <tbody>
+                <tr class="group-row"><th scope="colgroup" colspan="3">{pick(lang, g.label)}</th></tr>
+                {g.ops.map((o) => {
+                  const kind = kindOf(o);
+                  return (
+                    <tr id={toolAnchor(o.name)}>
+                      <td><code>{o.name}</code></td>
+                      <td><span class={`badge badge--${kind}`}>{kind === 'read' ? T.read : kind === 'delete' ? T.del : T.change}</span></td>
+                      <td><Rich text={opText(o, lang)} /> <a href={`${apiHref}#${anchorOf(o)}`}>{T.card}</a></td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            ))}
+          </table>
+        </div>
+        <p style="margin-top: 16px"><a href={apiHref}>{T.apiLink} →</a></p>
+      </section>
+
+      <div class="prose">
+        <section class="dev-section" id="safe">
+          <h2 class="section-title">{T.safeTitle}<a class="anchor" href="#safe" aria-hidden="true" tabindex="-1">#</a></h2>
+          <ul class="facts">{T.safe.map((s) => <li>{s}</li>)}</ul>
+        </section>
+
+        <section class="dev-section" id="limits">
+          <h2 class="section-title">{T.limitsTitle}<a class="anchor" href="#limits" aria-hidden="true" tabindex="-1">#</a></h2>
+          <p>{T.limitsText}</p>
+        </section>
+
+        <section class="dev-section" id="tech">
+          <h2 class="section-title">{T.techTitle}<a class="anchor" href="#tech" aria-hidden="true" tabindex="-1">#</a></h2>
+          <ul class="facts">{T.tech.map((s) => <li><Rich text={s} /></li>)}</ul>
+          <CodeBlock label="initialize" copy={T.copy} copied={T.copied} code={`curl -X POST ${MCP_URL} \\
+  -H "Authorization: Bearer $SKILLION_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"jsonrpc": "2.0", "id": 1, "method": "tools/list"}'`} />
+        </section>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="to-top">{T.toTop}</button>
+</main>
+
+<script>
+  import { initDevDocs } from '../scripts/dev-docs';
+  import { initMcpKey } from '../scripts/mcp-key';
+  const init = () => {
+    initDevDocs();
+    initMcpKey();
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

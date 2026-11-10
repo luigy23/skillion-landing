@@ -1,0 +1,31 @@
+---
+/**
+ * La misma llamada en curl, JavaScript y Python. Se pintan las tres y el CSS
+ * enseña la que diga data-lang en .dev-page: sin JS se ve curl.
+ */
+interface Props {
+  curl: string;
+  js: string;
+  py: string;
+  label: string;
+  copy: string;
+  copied: string;
+}
+const { curl, js, py, label, copy, copied } = Astro.props;
+---
+<div class="code">
+  <div class="code__bar">
+    <span>{label}</span>
+    <span class="code__tools">
+      <span class="langs" role="group" aria-label={label}>
+        <button type="button" class="lang" data-set-lang="curl" aria-pressed="true">curl</button>
+        <button type="button" class="lang" data-set-lang="js" aria-pressed="false">JS</button>
+        <button type="button" class="lang" data-set-lang="py" aria-pressed="false">Python</button>
+      </span>
+      <button type="button" class="copy" data-copied={copied}>{copy}</button>
+    </span>
+  </div>
+  <pre class="pane pane--curl"><code>{curl}</code></pre>
+  <pre class="pane pane--js"><code>{js}</code></pre>
+  <pre class="pane pane--py"><code>{py}</code></pre>
+</div>
