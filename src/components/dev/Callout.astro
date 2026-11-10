@@ -1,0 +1,20 @@
+---
+import Rich from './Rich.astro';
+
+/** Dos niveles: una nota, o un aviso de lo que puede salir mal (warn). */
+interface Props {
+  text: string;
+  warn?: boolean;
+  label?: string;
+}
+const { text, warn = false, label } = Astro.props;
+---
+<div class:list={['callout', warn && 'callout--warn']}>
+  {warn && (
+    <p class="callout__label">
+      <svg class="callout__icon" viewBox="0 0 4 8" width="8" height="16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="5" /><rect x="1" y="6" width="2" height="2" /></svg>
+      {label}
+    </p>
+  )}
+  <p><Rich text={text} /></p>
+</div>

@@ -1,0 +1,105 @@
+---
+/**
+ * La ficha de una operación: método y ruta, su herramienta MCP, qué hace, sus
+ * parámetros (tipo, obligatorio y límites salen del JSON Schema del
+ * servidor), con qué código responde, la llamada en tres lenguajes y la
+ * respuesta real del ejemplo.
+ */
+import type { Lang } from '../../lib/i18n';
+import {
+  anchorOf, curlOf, jsOf, OP_NOTES, opText, opTitle, type Op, type Param, paramsOf, pick, pyOf,
+  responseOf, sameFieldsAs, toolAnchor, typeLabel,
+} from '../../lib/api-docs';
+import Callout from './Callout.astro';
+import Requests from './Requests.astro';
+import Rich from './Rich.astro';
+
+interface Props {
+  op: Op;
+  lang: Lang;
+  mcpHref: string;
+}
+
+const { op, lang, mcpHref } = Astro.props;
+const es = lang === 'es';
+const L = es
+  ? { path: 'Ruta', query: 'Consulta', body: 'Cuerpo', required: 'obligatorio', paging: 'Y los de paginado:',
+      pagingLink: 'limit, cursor, updated_since…', same: 'Los mismos campos que', allOptional: ', todos opcionales.',
+      returns: 'Responde', noBody: 'sin cuerpo', request: 'Petición', response: 'Respuesta', example: 'ejemplo',
+      lines: 'líneas', copy: 'Copiar', copied: 'Copiado', warn: 'Ojo', none: 'Sin parámetros.' }
+  : { path: 'Path', query: 'Query', body: 'Body', required: 'required', paging: 'Plus the paging ones:',
+      pagingLink: 'limit, cursor, updated_since…', same: 'The same fields as', allOptional: ', all optional.',
+      returns: 'Answers', noBody: 'no body', request: 'Request', response: 'Response', example: 'example',
+      lines: 'lines', copy: 'Copy', copied: 'Copied', warn: 'Heads up', none: 'No parameters.' };
+
+const params = paramsOf(op, lang);
+const like = sameFieldsAs(op);
+const body = like ? [] : params.body;
+const sections: [string, Param[]][] = [
+  [L.path, params.path],
+  [L.query, params.query],
+  [L.body, body],
+];
+const response = responseOf(op);
+const lines = response ? response.split('\n').length : 0;
+const notes = OP_NOTES[op.name] ?? [];
+const empty = !params.path.length && !params.query.length && !params.body.length && !params.paging;
+const id = anchorOf(op);
+---
+<article class="op" id={id}>
+  <h3 class="op__title">{opTitle(op, lang)}<a class="anchor" href={`#${id}`} aria-hidden="true" tabindex="-1">#</a></h3>
+  <div class="op__line">
+    <span class={`verb verb-${op.method.toLowerCase()}`}>{op.method}</span>
+    <code class="op__path">/v1{op.path}</code>
+    <a class="op__tool" href={`${mcpHref}#${toolAnchor(op.name)}`} title="MCP">MCP · {op.name}</a>
+  </div>
+  <div class="op__grid">
+    <div class="op__doc">
+      <p><Rich text={opText(op, lang)} /></p>
+      {notes.map((n) => <Callout text={pick(lang, n.text)} warn={n.warn} label={L.warn} />)}
+
+      {sections.filter(([, list]) => list.length).map(([label, list]) => (
+        <>
+          <p class="params-label">{label}</p>
+          <ul class="params">
+            {list.map((p) => (
+              <li class:list={['param', p.child && 'param--child']}>
+                <div class="param__head">
+                  <code class="param__name">{p.name}</code>
+                  <span class="param__type">{typeLabel(p.schema)}</span>
+                  {p.required && <span class="req">{L.required}</span>}
+                  {p.rules.length > 0 && <span class="param__rules">{p.rules.join(' · ')}</span>}
+                </div>
+                <p class="param__text"><Rich text={p.text} /></p>
+              </li>
+            ))}
+          </ul>
+        </>
+      ))}
+      {like && (
+        <>
+          <p class="params-label">{L.body}</p>
+          <p>{L.same} <a href={`#${anchorOf(like)}`}>{opTitle(like, lang).toLowerCase()}</a>{L.allOptional}</p>
+        </>
+      )}
+      {params.paging && (
+        <p>{L.paging} <a href="#paging">{L.pagingLink}</a></p>
+      )}
+      {empty && <p class="params-label">{L.none}</p>}
+
+      <p class="op__returns">
+        {L.returns} <strong>{op.status}</strong>{op.status === 204 ? `, ${L.noBody}.` : '.'}
+      </p>
+    </div>
+
+    <div class="op__code">
+      <Requests label={L.request} curl={curlOf(op)} js={jsOf(op)} py={pyOf(op)} copy={L.copy} copied={L.copied} />
+      {response && (
+        <details class="response" open={lines <= 24 || undefined}>
+          <summary>{L.response} · {op.status} · {L.example}{lines > 24 ? ` · ${lines} ${L.lines}` : ''}</summary>
+          <pre><code>{response}</code></pre>
+        </details>
+      )}
+    </div>
+  </div>
+</article>

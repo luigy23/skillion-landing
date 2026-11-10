@@ -1,23 +1,29 @@
 ---
 /**
- * Documentación de la API pública de Skillion (SCRUM-506).
+ * Documentación de la API pública de Skillion (SCRUM-506). El MCP tiene su
+ * propia página (McpPage.astro) con las mismas operaciones.
  *
  * La API es solo para Premium y la clave se saca de un rincón escondido de
  * Ajustes (tocar 7 veces la versión): esta página es la única que lo cuenta.
  * Los pasos y los rótulos salen de skillapp (settings_version_line.dart,
  * developer_api_settings_entry.dart): si allí cambian, se cambian aquí.
- * No está en el menú de arriba, pero sí en el pie, en llms.txt y con su
- * pareja EN/ES.
  *
- * Todo lo de aquí describe lo que hace de verdad el servidor
- * (skillion-infra/functions-server/functions/api.ts, api-resources.ts y
- * api-routines.ts): si
- * cambia un límite o un campo allí, se cambia aquí en la misma tanda.
+ * Las fichas de cada endpoint salen de src/data/api-reference.json, generado
+ * desde el servidor (lib/api-docs.ts explica cómo): las rutas, los campos, los
+ * límites y las respuestas de ejemplo son los del servidor, no una copia.
  */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import SiteNav from './SiteNav.astro';
+import OpCard from './dev/OpCard.astro';
+import Callout from './dev/Callout.astro';
+import CodeBlock from './dev/CodeBlock.astro';
+import Rich from './dev/Rich.astro';
 import type { Lang } from '../lib/blog';
+import {
+  anchorOf, BASE, checkCoverage, ERRORS, GROUPS, groupOf, LIMITS, OPS, pick,
+} from '../lib/api-docs';
+import '../styles/dev-docs.css';
 
 interface Props {
   lang: Lang;
@@ -25,16 +31,25 @@ interface Props {
 
 const { lang } = Astro.props as Props;
 const isEs = lang === 'es';
+checkCoverage(lang);
+
 const altHref = isEs ? '/developers/' : '/es/desarrolladores/';
-const BASE = 'https://api.skillion.app/functions/v1/api/v1';
+const mcpHref = isEs ? '/es/desarrolladores/mcp/' : '/developers/mcp/';
+const mdHref = isEs ? '/es/desarrolladores.md' : '/developers.md';
+const n = (v: number) => v.toLocaleString(isEs ? 'es' : 'en');
 
 const T = {
   en: {
     title: 'Skillion API',
     intro:
-      'Read and change your own skills, tasks and time-blocking routines from your scripts, shortcuts and ' +
-      'integrations. ' +
-      'Part of Skillion Premium.',
+      'Read and change your own skills, tasks, routines and calendar from your scripts, shortcuts and ' +
+      'integrations. Part of Skillion Premium.',
+    meta: 'Premium only · JSON · Bearer token',
+    baseLabel: 'Base URL',
+    qsCta: 'Start with your first call',
+    mcpLink: 'Use it from an AI assistant (MCP)',
+    mdLink: 'This page as Markdown',
+    copyMd: 'Copy as Markdown',
     keyTitle: 'Get your key',
     keySteps: [
       'Open Skillion and go to Settings.',
@@ -51,115 +66,68 @@ const T = {
     authText: 'Send the key as a `Bearer` token on every request. All bodies are JSON.',
     limitsTitle: 'Limits',
     limits: [
-      ['120 requests per minute', 'per account, all your keys together'],
-      ['10,000 requests per day', 'per account, the day resets at 00:00 UTC'],
-      ['100 items per page', 'default 50'],
+      [`${n(LIMITS.per_minute)} requests per minute`, 'per account: all your keys and the MCP together'],
+      [`${n(LIMITS.per_day)} requests per day`, 'per account, the day resets at 00:00 UTC'],
+      [`${LIMITS.page_max} items per page`, 'default 50'],
       ['64 KB per body', ''],
     ],
     limitsNote:
       'Over a limit you get `429` with a `retry-after` header (seconds). Every answer carries ' +
       '`x-ratelimit-limit` and `x-ratelimit-remaining`.',
-    endpointsTitle: 'Endpoints',
     pagingTitle: 'Lists and paging',
     pagingText:
       'Lists come oldest change first. Pass `next_cursor` back as `cursor` until it is `null`. ' +
       'Deleted and archived items are left out unless you ask for them.',
     paging: [
-      ['limit', '1 to 100, default 50'],
+      ['limit', `1 to ${LIMITS.page_max}, default 50`],
       ['cursor', 'the next_cursor of the previous page'],
       ['updated_since', 'ISO date: only what changed after it'],
       ['include_deleted', 'true to also get deleted items (deleted_at set)'],
       ['include_archived', 'true to also get archived skills and tasks'],
-      ['category_id, status', 'tasks only: filter by category or status'],
-      ['event_type', 'history only, for example taskCompleted'],
     ],
-    tasksTitle: 'Task fields you can set',
-    tasksNote:
-      'Only `title` is required. Anything else (XP, level, status, coins earned) is calculated by the app ' +
-      'and is read-only. Unknown fields are refused with `422`, so a typo never goes unnoticed.',
-    skillsTitle: 'Skill fields you can set',
-    skillsNote:
-      '`level`, `total_xp` (the XP inside the current level) and the streaks are read-only. Free accounts keep ' +
-      '3 active skills, but the API itself is Premium only.',
-    routinesTitle: 'Routines and their blocks',
-    routinesText:
-      'A routine is a day plan of the time blocking screen («Monday», «Work day»…) with its blocks inside. ' +
-      'Plan a whole week with seven `POST /v1/routines`, one per day.',
-    routineFieldsLabel: 'Routine',
-    blockFieldsLabel: 'Each block in `blocks`',
-    routinesNote:
-      '`blocks` is always the whole list: a block with `id` is updated, one without `id` is created and any block ' +
-      'you leave out is deleted. Leave `blocks` out of a `PATCH` to keep them as they are. Blocks come back with ' +
-      '`start_time` and `end_time` («07:30») to read them easily.',
-    routinesWarn:
-      'Which routine your phone shows today is chosen on the phone: the API creates and changes routines but ' +
-      'does not switch the one you see.',
-    completeTitle: 'Completing a task is not instant',
-    completeText:
-      'XP, coins, energy and streaks are calculated by the app, so completing through the API is a request: ' +
-      'you get `202` at once and your phone applies it the next time Skillion syncs (when you open it). ' +
-      'Follow it in `/v1/completions`: `pending` → `claimed` → `applied`, or `rejected` with a reason ' +
-      '(`already_completed`, `insufficient_energy`…).',
-    completeNote:
-      'Pact tasks are completed with a check-in in the app and bad habits are never completed: both answer `409`.',
-    deleteTitle: 'Deleting',
-    deleteText:
-      '`DELETE` does what the app does: skills and recurring tasks are archived (their history stays), ' +
-      'one-off tasks are deleted, and a routine is deleted with its blocks. Either way they disappear from your ' +
-      'phone on its next sync.',
+    errorsTitle: 'Errors',
+    errorsText:
+      '`2xx` worked. `4xx` is something in the request: the body says what. `5xx` is on our side. Errors always ' +
+      'have the same shape, and `details` lists each field that was not valid.',
     syncTitle: 'Good to know',
     sync: [
       'Changes reach your phone on its next sync, usually when you open the app.',
       'If you edit the same task on your phone before it syncs, the phone wins.',
       'Recurring tasks get their next due date from your phone, which knows your time zone and daily reset hour.',
       'Dates are ISO 8601 with a time zone, for example `2026-10-21T18:00:00Z`.',
+      'Calendar dates (days, commitments) are your local date, for example `2026-11-10`.',
+      '`DELETE` does what the app does: skills and recurring tasks are archived (their history stays), the rest is deleted.',
     ],
-    errorsTitle: 'Errors',
-    errorsText: 'Errors always have the same shape. `details` lists each field that was not valid.',
-    errors: [
-      ['400', 'invalid_request / invalid_json', 'bad query parameter or body'],
-      ['401', 'unauthorized', 'missing, malformed or revoked key'],
-      ['403', 'premium_required', 'the account is not Premium'],
-      ['404', 'not_found', 'no such item (or not yours)'],
-      ['409', 'pact_task / bad_habit / too_many_pending', 'the app owns this change'],
-      ['413', 'payload_too_large', 'body over 64 KB'],
-      ['422', 'invalid_field', 'see details'],
-      ['429', 'rate_limited', 'wait retry-after seconds'],
-      ['405', 'method_not_allowed', 'that method does not exist on this path'],
-      ['500', 'internal', 'our fault: try again later'],
-    ],
-    examplesTitle: 'Examples',
-    exCreate: 'Create a recurring task linked to a skill',
-    exComplete: 'Complete it (from a shortcut, a cron, a button)',
+    indexTitle: 'All endpoints',
+    examplesTitle: 'Recipes',
     exList: 'Read everything that changed since yesterday',
-    exWeek: 'Plan your week: one routine per day',
+    exWeek: 'Plan your week: workdays and weekend',
+    exDay: 'Take Friday off, or use another routine that day only',
     field: 'Field',
     rule: 'Rule',
-    method: 'Method',
-    path: 'Path',
-    what: 'What it does',
     param: 'Parameter',
     code: 'Code',
-    baseLabel: 'Base URL',
-    meta: 'Premium only · JSON · Bearer token',
+    what: 'What happened',
+    fix: 'What to do',
     onThisPage: 'On this page',
     copy: 'Copy',
     copied: 'Copied',
-    toc: [
-      ['Get started', [['quickstart', 'Your first call'], ['key', 'Your key'], ['auth', 'Authentication'], ['complete', 'Completing is not instant']]],
-      ['Reference', [['endpoints', 'Endpoints'], ['paging', 'Lists and paging'], ['tasks', 'Task fields'], ['skills', 'Skill fields'], ['routines', 'Routines'], ['errors', 'Errors'], ['limits', 'Limits']]],
-      ['Behaviour', [['delete', 'Deleting'], ['sync', 'Good to know']]],
-      ['Examples', [['examples', 'Four recipes']]],
-    ],
+    toTop: '↑ Top',
+    partStart: 'Get started',
+    partRef: 'Reference',
+    partMore: 'More',
+    toc: {
+      quickstart: 'Your first call', key: 'Your key', auth: 'Authentication', limits: 'Limits',
+      paging: 'Lists and paging', errors: 'Errors', sync: 'Good to know', index: 'All endpoints',
+      mcp: 'AI assistants (MCP)', examples: 'Recipes',
+    },
     shotAlt: [
       'Skillion screenshot with an arrow on the way into Settings',
       'Screenshot of the bottom of Settings with an arrow on the version line',
       'Screenshot of Settings with the new Developer API row',
       'Screenshot of the new key with an arrow on Copy',
     ],
-    groups: { me: 'Account', skills: 'Skills', tasks: 'Tasks', completions: 'Completions', routines: 'Routines', categories: 'Read-only', history: 'Read-only' },
     qsTitle: 'Your first call',
-    qsCta: 'Start with your first call',
     qsSteps: [
       'Get your key in the app: Settings → tap the version 7 times → Developer API.',
       'Ask for your profile:',
@@ -169,17 +137,20 @@ const T = {
     keyComment: '# yours, from the app',
     responseLabel: 'Response · example',
     warnLabel: 'Heads up',
-    required: 'required',
-    moreFields: 'Show {n} more fields',
     help: 'Help? Write to us from the contact page.',
     contact: 'Contact',
   },
   es: {
     title: 'API de Skillion',
     intro:
-      'Lee y cambia tus propias skills, tareas y rutinas de time blocking desde tus scripts, atajos e ' +
-      'integraciones. ' +
-      'Incluida en Skillion Premium.',
+      'Lee y cambia tus propias skills, tareas, rutinas y calendario desde tus scripts, atajos e ' +
+      'integraciones. Incluida en Skillion Premium.',
+    meta: 'Solo Premium · JSON · Token Bearer',
+    baseLabel: 'URL base',
+    qsCta: 'Empieza por tu primera llamada',
+    mcpLink: 'Úsala desde un asistente de IA (MCP)',
+    mdLink: 'Esta página en Markdown',
+    copyMd: 'Copiar como Markdown',
     keyTitle: 'Tu clave',
     keySteps: [
       'Abre Skillion y ve a Ajustes.',
@@ -197,98 +168,68 @@ const T = {
     authText: 'Manda la clave como token `Bearer` en cada petición. Todos los cuerpos van en JSON.',
     limitsTitle: 'Límites',
     limits: [
-      ['120 peticiones por minuto', 'por cuenta, todas tus claves juntas'],
-      ['10.000 peticiones al día', 'por cuenta, el día empieza a las 00:00 UTC'],
-      ['100 elementos por página', '50 por defecto'],
+      [`${n(LIMITS.per_minute)} peticiones por minuto`, 'por cuenta: todas tus claves y el MCP juntos'],
+      [`${n(LIMITS.per_day)} peticiones al día`, 'por cuenta, el día empieza a las 00:00 UTC'],
+      [`${LIMITS.page_max} elementos por página`, '50 por defecto'],
       ['64 KB por cuerpo', ''],
     ],
     limitsNote:
       'Si te pasas recibes `429` con la cabecera `retry-after` (segundos). Cada respuesta lleva ' +
       '`x-ratelimit-limit` y `x-ratelimit-remaining`.',
-    endpointsTitle: 'Endpoints',
     pagingTitle: 'Listas y paginado',
     pagingText:
       'Las listas vienen del cambio más antiguo al más nuevo. Devuelve `next_cursor` como `cursor` hasta que sea ' +
       '`null`. Lo borrado y lo archivado no sale salvo que lo pidas.',
     paging: [
-      ['limit', 'de 1 a 100, 50 por defecto'],
+      ['limit', `de 1 a ${LIMITS.page_max}, 50 por defecto`],
       ['cursor', 'el next_cursor de la página anterior'],
       ['updated_since', 'fecha ISO: solo lo que cambió después'],
       ['include_deleted', 'true para traer también lo borrado (con deleted_at)'],
       ['include_archived', 'true para traer también skills y tareas archivadas'],
-      ['category_id, status', 'solo tareas: filtra por categoría o estado'],
-      ['event_type', 'solo historial, por ejemplo taskCompleted'],
     ],
-    tasksTitle: 'Campos de tarea que puedes poner',
-    tasksNote:
-      'Solo `title` es obligatorio. Lo demás (XP, nivel, estado, monedas ganadas) lo calcula la app y es de solo ' +
-      'lectura. Un campo desconocido da `422`, así que una errata nunca pasa desapercibida.',
-    skillsTitle: 'Campos de skill que puedes poner',
-    skillsNote:
-      '`level`, `total_xp` (el XP dentro del nivel actual) y las rachas son de solo lectura. Las cuentas gratis ' +
-      'mantienen 3 skills activas, pero la API en sí es solo Premium.',
-    routinesTitle: 'Rutinas y sus bloques',
-    routinesText:
-      'Una rutina es un día de la pantalla de time blocking («Lunes», «Día de trabajo»…) con sus bloques dentro. ' +
-      'Una semana entera son siete `POST /v1/routines`, uno por día.',
-    routineFieldsLabel: 'Rutina',
-    blockFieldsLabel: 'Cada bloque de `blocks`',
-    routinesNote:
-      '`blocks` es siempre la lista entera: un bloque con `id` se actualiza, uno sin `id` se crea y el que no ' +
-      'mandes se borra. Si no mandas `blocks` en un `PATCH`, se quedan como están. Los bloques vuelven con ' +
-      '`start_time` y `end_time` («07:30») para leerlos fácil.',
-    routinesWarn:
-      'Qué rutina enseña hoy tu móvil se elige en el móvil: la API crea y cambia rutinas, pero no cambia la que ' +
-      'ves.',
-    completeTitle: 'Completar una tarea no es inmediato',
-    completeText:
-      'El XP, las monedas, la energía y las rachas los calcula la app, así que completar por la API es una ' +
-      'petición: recibes `202` al momento y tu móvil la aplica la próxima vez que Skillion sincroniza (al abrirla). ' +
-      'Síguela en `/v1/completions`: `pending` → `claimed` → `applied`, o `rejected` con el motivo ' +
-      '(`already_completed`, `insufficient_energy`…).',
-    completeNote:
-      'Las tareas de un pacto se completan con un check-in en la app y los malos hábitos nunca se completan: ' +
-      'las dos dan `409`.',
-    deleteTitle: 'Borrar',
-    deleteText:
-      '`DELETE` hace lo mismo que la app: las skills y las tareas recurrentes se archivan (su historial se queda) ' +
-      'y las tareas sueltas se borran, y una rutina se borra con sus bloques. En todos los casos desaparecen de ' +
-      'tu móvil en el siguiente sync.',
+    errorsTitle: 'Errores',
+    errorsText:
+      '`2xx` salió bien. `4xx` es algo de la petición: el cuerpo dice qué. `5xx` es de nuestro lado. Los errores ' +
+      'tienen siempre la misma forma, y `details` dice qué campo no es válido.',
     syncTitle: 'Conviene saber',
     sync: [
       'Los cambios llegan a tu móvil en el siguiente sync, normalmente al abrir la app.',
       'Si editas la misma tarea en el móvil antes de que sincronice, gana el móvil.',
       'Las tareas recurrentes reciben su próxima fecha desde tu móvil, que sabe tu zona horaria y tu hora de reinicio.',
       'Las fechas van en ISO 8601 con zona horaria, por ejemplo `2026-10-21T18:00:00Z`.',
+      'Las fechas de calendario (días, compromisos) son tu fecha local, por ejemplo `2026-11-10`.',
+      '`DELETE` hace lo mismo que la app: las skills y las tareas recurrentes se archivan (su historial se queda) y lo demás se borra.',
     ],
-    errorsTitle: 'Errores',
-    errorsText: 'Los errores tienen siempre la misma forma. `details` dice qué campo no es válido.',
-    errors: [
-      ['400', 'invalid_request / invalid_json', 'parámetro o cuerpo incorrecto'],
-      ['401', 'unauthorized', 'clave ausente, mal formada o revocada'],
-      ['403', 'premium_required', 'la cuenta no es Premium'],
-      ['404', 'not_found', 'no existe (o no es tuyo)'],
-      ['409', 'pact_task / bad_habit / too_many_pending', 'ese cambio es de la app'],
-      ['413', 'payload_too_large', 'cuerpo de más de 64 KB'],
-      ['422', 'invalid_field', 'mira details'],
-      ['429', 'rate_limited', 'espera retry-after segundos'],
-      ['405', 'method_not_allowed', 'ese método no existe en esa ruta'],
-      ['500', 'internal', 'fallo nuestro: prueba más tarde'],
-    ],
-    examplesTitle: 'Ejemplos',
-    exCreate: 'Crear una tarea recurrente unida a una skill',
-    exComplete: 'Completarla (desde un atajo, un cron, un botón)',
+    indexTitle: 'Todos los endpoints',
+    examplesTitle: 'Recetas',
     exList: 'Leer todo lo que cambió desde ayer',
-    exWeek: 'Organizar la semana: una rutina por día',
+    exWeek: 'Organizar la semana: días de trabajo y finde',
+    exDay: 'Tomarte el viernes libre, o usar otra rutina solo ese día',
     field: 'Campo',
     rule: 'Regla',
-    method: 'Método',
-    path: 'Ruta',
-    what: 'Qué hace',
     param: 'Parámetro',
     code: 'Código',
+    what: 'Qué pasó',
+    fix: 'Qué hacer',
+    onThisPage: 'En esta página',
+    copy: 'Copiar',
+    copied: 'Copiado',
+    toTop: '↑ Arriba',
+    partStart: 'Empezar',
+    partRef: 'Referencia',
+    partMore: 'Más',
+    toc: {
+      quickstart: 'Tu primera llamada', key: 'Tu clave', auth: 'Autenticación', limits: 'Límites',
+      paging: 'Listas y paginado', errors: 'Errores', sync: 'Conviene saber', index: 'Todos los endpoints',
+      mcp: 'Asistentes de IA (MCP)', examples: 'Recetas',
+    },
+    shotAlt: [
+      'Captura de Skillion con la flecha en la entrada a Ajustes',
+      'Captura del final de Ajustes con la flecha en la línea de la versión',
+      'Captura de Ajustes con la fila nueva API para desarrolladores',
+      'Captura de la clave nueva con la flecha en Copiar',
+    ],
     qsTitle: 'Tu primera llamada',
-    qsCta: 'Empieza por tu primera llamada',
     qsSteps: [
       'Saca tu clave en la app: Ajustes → toca 7 veces la versión → API para desarrolladores.',
       'Pide tu perfil:',
@@ -298,130 +239,29 @@ const T = {
     keyComment: '# la tuya, de la app',
     responseLabel: 'Respuesta · ejemplo',
     warnLabel: 'Ojo',
-    required: 'obligatorio',
-    moreFields: 'Ver {n} campos más',
     help: '¿Dudas? Escríbenos desde la página de contacto.',
     contact: 'Contacto',
-    baseLabel: 'URL base',
-    meta: 'Solo Premium · JSON · Token Bearer',
-    onThisPage: 'En esta página',
-    copy: 'Copiar',
-    copied: 'Copiado',
-    toc: [
-      ['Empezar', [['quickstart', 'Tu primera llamada'], ['key', 'Tu clave'], ['auth', 'Autenticación'], ['complete', 'Completar no es inmediato']]],
-      ['Referencia', [['endpoints', 'Endpoints'], ['paging', 'Listas y paginado'], ['tasks', 'Campos de tarea'], ['skills', 'Campos de skill'], ['routines', 'Rutinas'], ['errors', 'Errores'], ['limits', 'Límites']]],
-      ['Comportamiento', [['delete', 'Borrar'], ['sync', 'Conviene saber']]],
-      ['Ejemplos', [['examples', 'Cuatro recetas']]],
-    ],
-    shotAlt: [
-      'Captura de Skillion con la flecha en la entrada a Ajustes',
-      'Captura del final de Ajustes con la flecha en la línea de la versión',
-      'Captura de Ajustes con la fila nueva API para desarrolladores',
-      'Captura de la clave nueva con la flecha en Copiar',
-    ],
-    groups: { me: 'Cuenta', skills: 'Skills', tasks: 'Tareas', completions: 'Completados', routines: 'Rutinas', categories: 'Solo lectura', history: 'Solo lectura' },
   },
 }[lang];
 
-const endpoints: [string, string, string, string][] = [
-  ['GET', '/me', 'Your level, XP, coins, energy and the limits', 'Tu nivel, XP, monedas, energía y los límites'],
-  ['GET', '/skills', 'List skills', 'Lista las skills'],
-  ['POST', '/skills', 'Create a skill', 'Crea una skill'],
-  ['GET', '/skills/{id}', 'One skill', 'Una skill'],
-  ['PATCH', '/skills/{id}', 'Change a skill', 'Cambia una skill'],
-  ['DELETE', '/skills/{id}', 'Archive a skill', 'Archiva una skill'],
-  ['GET', '/tasks', 'List tasks, each with its skills', 'Lista las tareas, cada una con sus skills'],
-  ['POST', '/tasks', 'Create a task', 'Crea una tarea'],
-  ['GET', '/tasks/{id}', 'One task', 'Una tarea'],
-  ['PATCH', '/tasks/{id}', 'Change a task', 'Cambia una tarea'],
-  ['DELETE', '/tasks/{id}', 'Delete or archive a task', 'Borra o archiva una tarea'],
-  ['POST', '/tasks/{id}/complete', 'Ask the app to complete it (202)', 'Pide a la app que la complete (202)'],
-  ['GET', '/completions', 'Your completion requests and what happened', 'Tus peticiones de completar y qué pasó'],
-  ['GET', '/routines', 'List routines, each with its blocks', 'Lista las rutinas, cada una con sus bloques'],
-  ['POST', '/routines', 'Create a routine with its blocks', 'Crea una rutina con sus bloques'],
-  ['GET', '/routines/{id}', 'One routine', 'Una rutina'],
-  ['PATCH', '/routines/{id}', 'Change a routine or its blocks', 'Cambia una rutina o sus bloques'],
-  ['DELETE', '/routines/{id}', 'Delete a routine and its blocks', 'Borra una rutina y sus bloques'],
-  ['GET', '/categories', 'Your categories (read-only)', 'Tus categorías (solo lectura)'],
-  ['GET', '/history', 'Your history: completions, level-ups… (read-only)', 'Tu historial: completados, subidas de nivel… (solo lectura)'],
-]
-
-const taskFields: [string, string, string][] = [
-  ['title', 'text, 1–128', 'texto, 1–128'],
-  ['description', 'text up to 2,000 or null', 'texto hasta 2.000 o null'],
-  ['category_id', 'one of your categories; default: your first default one', 'una de tus categorías; por defecto, la primera predeterminada'],
-  ['skills', '[{"skill_id": "…", "xp": -100…100}], up to 20; xp defaults to 10, negative takes XP away', '[{"skill_id": "…", "xp": -100…100}], hasta 20; xp vale 10 por defecto, negativo resta XP'],
-  ['difficulty', 'very_easy, easy, medium (default), hard, very_hard', 'very_easy, easy, medium (por defecto), hard, very_hard'],
-  ['priority', '1–5, default 3', '1–5, 3 por defecto'],
-  ['energy_cost', '-50…50, default -1 (negative spends energy, positive gives it)', '-50…50, -1 por defecto (negativo gasta energía, positivo la da)'],
-  ['coins', '0–100, default 10', '0–100, 10 por defecto'],
-  ['health_effect', '-50…50', '-50…50'],
-  ['estimated_duration', 'seconds, 0–86,400', 'segundos, 0–86.400'],
-  ['is_recurring', 'true / false', 'true / false'],
-  ['recurrence_pattern', 'daily, weekly, monthly, yearly, custom (needed if recurring)', 'daily, weekly, monthly, yearly, custom (obligatorio si es recurrente)'],
-  ['custom_days', '"1,3,5": 1 = Monday … 7 = Sunday (for custom)', '"1,3,5": 1 = lunes … 7 = domingo (para custom)'],
-  ['recurrence_target', '1–99 times per period', '1–99 veces por periodo'],
-  ['recurrence_day_of_month', '1–31 (monthly, yearly)', '1–31 (monthly, yearly)'],
-  ['recurrence_month', '1–12 (yearly)', '1–12 (yearly)'],
-  ['recurrence_end_date', 'ISO date', 'fecha ISO'],
-  ['deadline', 'ISO date, only for one-off tasks', 'fecha ISO, solo para tareas no recurrentes'],
-  ['daily_deadline_time', '"HH:mm"', '"HH:mm"'],
-  ['reminder_mode', 'auto (default), at_deadline, before_15, before_60, morning, custom, none', 'auto (por defecto), at_deadline, before_15, before_60, morning, custom, none'],
-  ['reminder_minute', '0–1439, minute of the day (with custom)', '0–1439, minuto del día (con custom)'],
-  ['is_penalty', 'true: lose rewards when the deadline passes', 'true: pierdes recompensa si pasa el plazo'],
-  ['icon', 'an emoji, or assets/images/icons/<name>.png', 'un emoji, o assets/images/icons/<nombre>.png'],
-  ['color', '#RRGGBB', '#RRGGBB'],
-]
-
-const skillFields: [string, string, string][] = [
-  ['name', 'text, 1–32 (required)', 'texto, 1–32 (obligatorio)'],
-  ['description', 'text up to 500 or null', 'texto hasta 500 o null'],
-  ['icon', 'an emoji, or assets/images/icons/<name>.png', 'un emoji, o assets/images/icons/<nombre>.png'],
-  ['color', '#RRGGBB or null', '#RRGGBB o null'],
-  ['is_active', 'true / false', 'true / false'],
-]
-
-// skillion-infra functions/api-routines.ts: las mismas reglas que la pantalla
-// de time blocking (rejilla de 5 minutos, sin solapes).
-const routineFields: [string, string, string][] = [
-  ['name', 'text, 1–64 (required)', 'texto, 1–64 (obligatorio)'],
-  ['blocks', 'list of up to 96 blocks (below)', 'lista de hasta 96 bloques (abajo)'],
-  ['is_default', 'true: the one the app falls back to; marking one unmarks the others. If you have none yet, the new one is', 'true: la que usa la app por defecto; marcar una desmarca las demás. Si aún no tienes ninguna, la nueva lo es'],
-  ['icon', 'an emoji, or assets/images/icons/<name>.png, or null', 'un emoji, o assets/images/icons/<nombre>.png, o null'],
-  ['color', '#RRGGBB or null', '#RRGGBB o null'],
-]
-
-const blockFields: [string, string, string][] = [
-  ['start_minute', 'minutes from midnight, 0–2879 in steps of 5 (420 = 07:00; 1440 and up is the next day, for a routine that runs past midnight)', 'minutos desde medianoche, 0–2879 de 5 en 5 (420 = 07:00; 1440 o más es el día siguiente, para una rutina que pasa de medianoche)'],
-  ['duration_minute', '5–1440 in steps of 5', '5–1440 de 5 en 5'],
-  ['title', 'text, 1–128; required unless the block has task_id', 'texto, 1–128; obligatorio si el bloque no lleva task_id'],
-  ['task_id', 'one of your tasks: the block is that task', 'una de tus tareas: el bloque es esa tarea'],
-  ['note', 'text up to 2,000 or null', 'texto hasta 2.000 o null'],
-  ['icon', 'an emoji, or assets/images/icons/<name>.png, or null', 'un emoji, o assets/images/icons/<nombre>.png, o null'],
-  ['color', '#RRGGBB or null', '#RRGGBB o null'],
-  ['is_pinned', 'true: «Start now» does not move it', 'true: «Empezar ahora» no lo mueve'],
-  ['id', 'only to change a block the routine already has', 'solo para cambiar un bloque que la rutina ya tiene'],
-]
-
 const authExample = `curl ${BASE}/me \\
-  -H "Authorization: Bearer sk_live_…"`
+  -H "Authorization: Bearer sk_live_…"`;
 
-const createExample = `curl -X POST ${BASE}/tasks \\
-  -H "Authorization: Bearer $SKILLION_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "title": "Gym",
-    "is_recurring": true,
-    "recurrence_pattern": "custom",
-    "custom_days": "1,3,5",
-    "difficulty": "hard",
-    "skills": [{ "skill_id": "<skill id>", "xp": 20 }]
-  }'`
+const quickstartExample = `export SKILLION_KEY="sk_live_…"   ${T.keyComment}
 
-const completeExample = `curl -X POST ${BASE}/tasks/<task id>/complete \\
-  -H "Authorization: Bearer $SKILLION_KEY"
+curl ${BASE}/me \\
+  -H "Authorization: Bearer $SKILLION_KEY"`;
 
-# 202 → { "data": { "id": "…", "status": "pending", … } }`
+const me = OPS.find((o) => o.name === 'get_me')!;
+const meExample = JSON.stringify(me.example.response, null, 2);
+
+const errorExample = `{
+  "error": {
+    "code": "invalid_field",
+    "message": "Some fields are not valid.",
+    "details": { "custom_days": "must be weekdays like \\"1,3,5\\" …" }
+  }
+}`;
 
 const listExample = `const since = new Date(Date.now() - 86_400_000).toISOString()
 let cursor = null
@@ -433,69 +273,39 @@ do {
   const page = await res.json()
   for (const task of page.data) console.log(task.title, task.status)
   cursor = page.next_cursor
-} while (cursor)`
+} while (cursor)`;
 
-const weekExample = `const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-for (const name of days) {
-  const weekend = name === 'Saturday' || name === 'Sunday'
-  const res = await fetch('${BASE}/routines', {
-    method: 'POST',
-    headers: { Authorization: \`Bearer \${process.env.SKILLION_KEY}\`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name,
-      blocks: [
-        { start_minute: weekend ? 540 : 420, duration_minute: 30, title: 'Read' },
-        { start_minute: 1080, duration_minute: 60, title: 'Gym', color: '#F29092' },
-        { start_minute: 1380, duration_minute: 60, title: 'Wind down' },
-      ],
-    }),
-  })
-  if (!res.ok) console.error(name, (await res.json()).error)
-}`
+const weekExample = `const api = (path, body) => fetch('${BASE}' + path, {
+  method: 'POST',
+  headers: { Authorization: \`Bearer \${process.env.SKILLION_KEY}\`, 'Content-Type': 'application/json' },
+  body: JSON.stringify(body),
+}).then((res) => res.json())
 
-const quickstartExample = `export SKILLION_KEY="sk_live_…"   ${T.keyComment}
+await api('/routines', {
+  name: 'Workday',
+  weekdays: [1, 2, 3, 4, 5],
+  blocks: [
+    { start_minute: 420, duration_minute: 30, title: 'Read' },
+    { start_minute: 1080, duration_minute: 60, title: 'Gym', color: '#F29092' },
+  ],
+})
+await api('/routines', {
+  name: 'Weekend',
+  weekdays: [6, 7],
+  blocks: [{ start_minute: 600, duration_minute: 90, title: 'Long walk' }],
+})`;
 
-curl ${BASE}/me \\
-  -H "Authorization: Bearer $SKILLION_KEY"`
+const dayExample = `# Friday 13 November off
+curl -X PUT ${BASE}/days/2026-11-13 \\
+  -H "Authorization: Bearer $SKILLION_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{ "free": true }'
 
-// Forma real de GET /me (skillion-infra functions/api.ts, ruta 'me'); los
-// valores son de ejemplo.
-const meExample = `{
-  "data": {
-    "level": 7,
-    "total_xp": 140,
-    "xp_to_next_level": 350,
-    "coins": 820,
-    "energy_points": 64,
-    "max_energy": 100,
-    "health_points": 100,
-    "max_health": 100,
-    "nickname": "Luna",
-    "updated_at": "2026-10-21T18:00:00Z"
-  },
-  "limits": { "per_minute": 120, "per_day": 10000, "page_max": 100 }
-}`
-
-// Los campos de tarea que casi todo el mundo usa van a la vista; el resto,
-// plegados. Solo title es obligatorio.
-const COMMON_TASK_FIELDS = new Set([
-  'title', 'description', 'category_id', 'skills', 'difficulty',
-  'is_recurring', 'recurrence_pattern', 'custom_days', 'deadline',
-])
-const commonTaskFields = taskFields.filter(([f]) => COMMON_TASK_FIELDS.has(f))
-const moreTaskFields = taskFields.filter(([f]) => !COMMON_TASK_FIELDS.has(f))
-
-const errorExample = `{
-  "error": {
-    "code": "invalid_field",
-    "message": "Some fields are not valid.",
-    "details": { "custom_days": "must be weekdays like \\"1,3,5\\" …" }
-  }
-}`
-
-// Las comillas invertidas de los textos marcan código: rich() los parte y la
-// plantilla pinta los trozos impares como <code>.
-const rich = (text: string) => text.split('`');
+# The Weekend routine that day only (add "every_week": true for every Friday)
+curl -X PUT ${BASE}/days/2026-11-13 \\
+  -H "Authorization: Bearer $SKILLION_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{ "routine_id": "<weekend routine id>" }'`;
 
 // Las capturas de los pasos llegan aparte (public/images/developers/). Hasta
 // que existan, el paso sale sin hueco: mejor eso que un recuadro vacío.
@@ -505,19 +315,19 @@ const shots = T.keySteps.map((_, i) => {
 });
 const hasShots = shots.some(Boolean);
 
-// Endpoints agrupados por recurso, en el orden de la tabla.
-const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints }[]>((acc, row) => {
-  const label = T.groups[row[1].split('/')[1] as keyof typeof T.groups];
-  const last = acc[acc.length - 1];
-  if (last && last.label === label) last.rows.push(row);
-  else acc.push({ label, rows: [row] });
-  return acc;
-}, []);
+const groups = GROUPS.map((g) => ({ ...g, ops: OPS.filter((o) => groupOf(o) === g) }));
+
+const toc: [string, [string, string, boolean?][]][] = [
+  [T.partStart, [['quickstart', T.toc.quickstart], ['key', T.toc.key], ['auth', T.toc.auth], ['limits', T.toc.limits],
+    ['paging', T.toc.paging], ['errors', T.toc.errors], ['sync', T.toc.sync]]],
+  [T.partRef, [['index', T.toc.index], ...groups.map((g) => [g.id, pick(lang, g.label)] as [string, string])]],
+  [T.partMore, [[mcpHref, T.toc.mcp, true], ['examples', T.toc.examples]]],
+];
 ---
 
 <SiteNav lang={lang} altHref={altHref} section="legal" />
 
-<main class="dev-page">
+<main class="dev-page" data-lang="curl">
   <header class="dev-hero">
     <div class="dev-hero__inner">
       <h1 class="hero-title">{T.title}</h1>
@@ -531,6 +341,11 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
           <button type="button" class="copy" data-copy-text={BASE} data-copied={T.copied}>{T.copy}</button>
         </div>
       </div>
+      <p class="hero-links">
+        <a href={mcpHref}>{T.mcpLink} →</a>
+        <a href={mdHref}>{T.mdLink}</a>
+        <button type="button" class="copy" data-copy-url={mdHref} data-copied={T.copied}>{T.copyMd}</button>
+      </p>
     </div>
   </header>
 
@@ -538,12 +353,14 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
     <details class="toc" open>
       <summary class="toc__summary">{T.onThisPage}</summary>
       <nav aria-label={T.onThisPage}>
-        {T.toc.map(([group, items]) => (
+        {toc.map(([group, items]) => (
           <div class="toc__group">
             <p class="toc__label">{group}</p>
             <ul>
-              {items.map(([id, label]) => (
-                <li><a href={`#${id}`} data-toc-link>{label}</a></li>
+              {items.map(([id, label, out]) => (
+                <li>{out
+                  ? <a href={id} class="toc__out">{label}</a>
+                  : <a href={`#${id}`} data-toc-link>{label}</a>}</li>
               ))}
             </ul>
           </div>
@@ -553,103 +370,128 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
 
     <div class="dev-content">
       {/* ---------- EMPEZAR ---------- */}
-      <section class="dev-section" id="quickstart">
-        <h2 class="section-title">{T.qsTitle}<a class="anchor" href="#quickstart" aria-hidden="true" tabindex="-1">#</a></h2>
-        <ol class="steps">
-          <li class="step">
-            <span class="step__num" aria-hidden="true">1</span>
-            <div class="step__body">
-              <p>{T.qsSteps[0]} <a href="#key">{T.qsMore}</a></p>
-              <div class="callout callout--warn">
-                <p class="callout__label"><svg class="callout__icon" viewBox="0 0 4 8" width="8" height="16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="5" /><rect x="1" y="6" width="2" height="2" /></svg>{T.warnLabel}</p>
-                <p>{T.keyNeed}</p>
-              </div>
-            </div>
-          </li>
-          <li class="step">
-            <span class="step__num" aria-hidden="true">2</span>
-            <div class="step__body">
-              <p>{T.qsSteps[1]}</p>
-              <div class="code">
-                <div class="code__bar"><span>curl</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
-                <pre><code>{quickstartExample}</code></pre>
-              </div>
-            </div>
-          </li>
-          <li class="step">
-            <span class="step__num" aria-hidden="true">3</span>
-            <div class="step__body">
-              <p>{T.qsSteps[2]}</p>
-              <div class="code">
-                <div class="code__bar"><span>{T.responseLabel}</span></div>
-                <pre><code>{meExample}</code></pre>
-              </div>
-            </div>
-          </li>
-        </ol>
-      </section>
-
-      <section class="dev-section" id="key">
-        <h2 class="section-title">{T.keyTitle}<a class="anchor" href="#key" aria-hidden="true" tabindex="-1">#</a></h2>
-        <ol class:list={['steps', hasShots && 'steps--shots']}>
-          {T.keySteps.map((step, i) => (
+      <div class="prose">
+        <section class="dev-section" id="quickstart">
+          <h2 class="section-title">{T.qsTitle}<a class="anchor" href="#quickstart" aria-hidden="true" tabindex="-1">#</a></h2>
+          <ol class="steps">
             <li class="step">
-              <span class="step__num" aria-hidden="true">{i + 1}</span>
+              <span class="step__num" aria-hidden="true">1</span>
               <div class="step__body">
-                <p>{step}</p>
-                {shots[i] && (
-                  <img
-                    class="step__shot"
-                    src={shots[i]}
-                    alt={T.shotAlt[i]}
-                    width="1179"
-                    height="2556"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                )}
+                <p>{T.qsSteps[0]} <a href="#key">{T.qsMore}</a></p>
+                <Callout warn label={T.warnLabel} text={T.keyNeed} />
               </div>
             </li>
-          ))}
-        </ol>
-        <div class="callout callout--warn">
-          <p class="callout__label"><svg class="callout__icon" viewBox="0 0 4 8" width="8" height="16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="5" /><rect x="1" y="6" width="2" height="2" /></svg>{T.warnLabel}</p>
-          <p>{T.keySecret}</p>
-        </div>
-      </section>
+            <li class="step">
+              <span class="step__num" aria-hidden="true">2</span>
+              <div class="step__body">
+                <p>{T.qsSteps[1]}</p>
+                <CodeBlock label="curl" code={quickstartExample} copy={T.copy} copied={T.copied} />
+              </div>
+            </li>
+            <li class="step">
+              <span class="step__num" aria-hidden="true">3</span>
+              <div class="step__body">
+                <p>{T.qsSteps[2]}</p>
+                <div class="code">
+                  <div class="code__bar"><span>{T.responseLabel}</span></div>
+                  <pre><code>{meExample}</code></pre>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </section>
 
-      <section class="dev-section" id="auth">
-        <h2 class="section-title">{T.authTitle}<a class="anchor" href="#auth" aria-hidden="true" tabindex="-1">#</a></h2>
-        <p>{rich(T.authText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-        <div class="code">
-          <div class="code__bar"><span>curl</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
-          <pre><code>{authExample}</code></pre>
-        </div>
-      </section>
+        <section class="dev-section" id="key">
+          <h2 class="section-title">{T.keyTitle}<a class="anchor" href="#key" aria-hidden="true" tabindex="-1">#</a></h2>
+          <ol class:list={['steps', hasShots && 'steps--shots']}>
+            {T.keySteps.map((step, i) => (
+              <li class="step">
+                <span class="step__num" aria-hidden="true">{i + 1}</span>
+                <div class="step__body">
+                  <p>{step}</p>
+                  {shots[i] && (
+                    <img class="step__shot" src={shots[i]} alt={T.shotAlt[i]} width="1179" height="2556" loading="lazy" decoding="async" />
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+          <Callout warn label={T.warnLabel} text={T.keySecret} />
+        </section>
 
-      <section class="dev-section" id="complete">
-        <h2 class="section-title">{T.completeTitle}<a class="anchor" href="#complete" aria-hidden="true" tabindex="-1">#</a></h2>
-        <div class="callout callout--warn">
-          <p class="callout__label"><svg class="callout__icon" viewBox="0 0 4 8" width="8" height="16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="5" /><rect x="1" y="6" width="2" height="2" /></svg>{T.warnLabel}</p>
-          <p>{rich(T.completeText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-        </div>
-        <p class="callout">{rich(T.completeNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-      </section>
+        <section class="dev-section" id="auth">
+          <h2 class="section-title">{T.authTitle}<a class="anchor" href="#auth" aria-hidden="true" tabindex="-1">#</a></h2>
+          <p><Rich text={T.authText} /></p>
+          <CodeBlock label="curl" code={authExample} copy={T.copy} copied={T.copied} />
+        </section>
+
+        <section class="dev-section" id="limits">
+          <h2 class="section-title">{T.limitsTitle}<a class="anchor" href="#limits" aria-hidden="true" tabindex="-1">#</a></h2>
+          <dl class="limits">
+            {T.limits.map(([a, b]) => (
+              <div class="limits__row">
+                <dt>{a}</dt>
+                {b && <dd>{b}</dd>}
+              </div>
+            ))}
+          </dl>
+          <Callout text={T.limitsNote} />
+        </section>
+
+        <section class="dev-section" id="paging">
+          <h2 class="section-title">{T.pagingTitle}<a class="anchor" href="#paging" aria-hidden="true" tabindex="-1">#</a></h2>
+          <p><Rich text={T.pagingText} /></p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">{T.param}</th><th scope="col">{T.rule}</th></tr></thead>
+              <tbody>{T.paging.map(([p, r]) => <tr><td><code>{p}</code></td><td>{r}</td></tr>)}</tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="dev-section" id="errors">
+          <h2 class="section-title">{T.errorsTitle}<a class="anchor" href="#errors" aria-hidden="true" tabindex="-1">#</a></h2>
+          <p><Rich text={T.errorsText} /></p>
+          <CodeBlock label="JSON" code={errorExample} copy={T.copy} copied={T.copied} />
+          <div class="table-wrap">
+            <table class="errors-table">
+              <thead><tr><th scope="col">HTTP</th><th scope="col">{T.code}</th><th scope="col">{T.what}</th><th scope="col">{T.fix}</th></tr></thead>
+              <tbody>
+                {ERRORS.map((e) => (
+                  <tr>
+                    <td class="num">{e.http}</td>
+                    <td><code>{e.code}</code></td>
+                    <td><Rich text={pick(lang, e.what)} /></td>
+                    <td><Rich text={pick(lang, e.fix)} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="dev-section" id="sync">
+          <h2 class="section-title">{T.syncTitle}<a class="anchor" href="#sync" aria-hidden="true" tabindex="-1">#</a></h2>
+          <ul class="facts">
+            {T.sync.map((s) => <li><Rich text={s} /></li>)}
+          </ul>
+        </section>
+      </div>
 
       {/* ---------- REFERENCIA ---------- */}
-      <section class="dev-section" id="endpoints">
-        <h2 class="section-title">{T.endpointsTitle}<a class="anchor" href="#endpoints" aria-hidden="true" tabindex="-1">#</a></h2>
+      <p class="part-title">{T.partRef}</p>
+      <section class="dev-section prose" id="index">
+        <h2 class="section-title">{T.indexTitle}<a class="anchor" href="#index" aria-hidden="true" tabindex="-1">#</a></h2>
         <div class="table-wrap">
-          <table class="endpoints">
-            <thead><tr><th scope="col">{T.method}</th><th scope="col">{T.path}</th><th scope="col">{T.what}</th></tr></thead>
-            {endpointGroups.map((group) => (
+          <table class="idx">
+            {groups.map((g) => (
               <tbody>
-                <tr class="group-row"><th scope="colgroup" colspan="3">{group.label}</th></tr>
-                {group.rows.map(([m, p, en, es]) => (
+                <tr class="group-row"><th scope="colgroup" colspan="3"><a href={`#${g.id}`}>{pick(lang, g.label)}</a></th></tr>
+                {g.ops.map((op) => (
                   <tr>
-                    <td><span class={`verb verb-${m.toLowerCase()}`}>{m}</span></td>
-                    <td><code>/v1{p}</code></td>
-                    <td>{isEs ? es : en}</td>
+                    <td><a href={`#${anchorOf(op)}`}><span class={`verb verb-${op.method.toLowerCase()}`}>{op.method}</span></a></td>
+                    <td><a href={`#${anchorOf(op)}`}><code>/v1{op.path}</code></a></td>
+                    <td><a href={`#${anchorOf(op)}`} class="tool">{op.name}</a></td>
                   </tr>
                 ))}
               </tbody>
@@ -658,967 +500,33 @@ const endpointGroups = endpoints.reduce<{ label: string; rows: typeof endpoints 
         </div>
       </section>
 
-      <section class="dev-section" id="paging">
-        <h2 class="section-title">{T.pagingTitle}<a class="anchor" href="#paging" aria-hidden="true" tabindex="-1">#</a></h2>
-        <p>{rich(T.pagingText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th scope="col">{T.param}</th><th scope="col">{T.rule}</th></tr></thead>
-            <tbody>{T.paging.map(([p, r]) => <tr><td><code>{p}</code></td><td>{r}</td></tr>)}</tbody>
-          </table>
-        </div>
-      </section>
+      {groups.map((g) => (
+        <section class="dev-section" id={g.id}>
+          <h2 class="section-title prose">{pick(lang, g.label)}<a class="anchor" href={`#${g.id}`} aria-hidden="true" tabindex="-1">#</a></h2>
+          <p><Rich text={pick(lang, g.intro)} /></p>
+          {g.ops.map((op) => <OpCard op={op} lang={lang} mcpHref={mcpHref} />)}
+        </section>
+      ))}
 
-      <section class="dev-section" id="tasks">
-        <h2 class="section-title">{T.tasksTitle}<a class="anchor" href="#tasks" aria-hidden="true" tabindex="-1">#</a></h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
-            <tbody>
-              {commonTaskFields.map(([f, en, es]) => (
-                <tr>
-                  <td><code>{f}</code>{f === 'title' && <span class="req">{T.required}</span>}</td>
-                  <td>{isEs ? es : en}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <details class="more">
-          <summary>{T.moreFields.replace('{n}', String(moreTaskFields.length))}</summary>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
-              <tbody>{moreTaskFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
-            </table>
-          </div>
-        </details>
-        <p class="callout">{rich(T.tasksNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-      </section>
-
-      <section class="dev-section" id="skills">
-        <h2 class="section-title">{T.skillsTitle}<a class="anchor" href="#skills" aria-hidden="true" tabindex="-1">#</a></h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
-            <tbody>{skillFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
-          </table>
-        </div>
-        <p class="callout">{rich(T.skillsNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-      </section>
-
-      <section class="dev-section" id="routines">
-        <h2 class="section-title">{T.routinesTitle}<a class="anchor" href="#routines" aria-hidden="true" tabindex="-1">#</a></h2>
-        <p>{rich(T.routinesText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-        <h3 class="example-title">{T.routineFieldsLabel}</h3>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
-            <tbody>{routineFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
-          </table>
-        </div>
-        <h3 class="example-title">{rich(T.blockFieldsLabel).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</h3>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th scope="col">{T.field}</th><th scope="col">{T.rule}</th></tr></thead>
-            <tbody>{blockFields.map(([f, en, es]) => <tr><td><code>{f}</code></td><td>{isEs ? es : en}</td></tr>)}</tbody>
-          </table>
-        </div>
-        <p class="callout">{rich(T.routinesNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-        <div class="callout callout--warn">
-          <p class="callout__label"><svg class="callout__icon" viewBox="0 0 4 8" width="8" height="16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="2" height="5" /><rect x="1" y="6" width="2" height="2" /></svg>{T.warnLabel}</p>
-          <p>{T.routinesWarn}</p>
-        </div>
-      </section>
-
-      <section class="dev-section" id="errors">
-        <h2 class="section-title">{T.errorsTitle}<a class="anchor" href="#errors" aria-hidden="true" tabindex="-1">#</a></h2>
-        <p>{rich(T.errorsText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-        <div class="code">
-          <div class="code__bar"><span>JSON</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
-          <pre><code>{errorExample}</code></pre>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th scope="col">HTTP</th><th scope="col">{T.code}</th><th scope="col">{T.what}</th></tr></thead>
-            <tbody>{T.errors.map(([h, c, w]) => <tr><td class="num">{h}</td><td><code>{c}</code></td><td>{w}</td></tr>)}</tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="dev-section" id="limits">
-        <h2 class="section-title">{T.limitsTitle}<a class="anchor" href="#limits" aria-hidden="true" tabindex="-1">#</a></h2>
-        <dl class="limits">
-          {T.limits.map(([a, b]) => (
-            <div class="limits__row">
-              <dt>{a}</dt>
-              {b && <dd>{b}</dd>}
-            </div>
-          ))}
-        </dl>
-        <p class="callout">{rich(T.limitsNote).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-      </section>
-
-      {/* ---------- COMPORTAMIENTO ---------- */}
-      <section class="dev-section" id="delete">
-        <h2 class="section-title">{T.deleteTitle}<a class="anchor" href="#delete" aria-hidden="true" tabindex="-1">#</a></h2>
-        <p>{rich(T.deleteText).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</p>
-      </section>
-
-      <section class="dev-section" id="sync">
-        <h2 class="section-title">{T.syncTitle}<a class="anchor" href="#sync" aria-hidden="true" tabindex="-1">#</a></h2>
-        <ul class="facts">
-          {T.sync.map((s) => <li>{rich(s).map((seg, i) => (i % 2 ? <code>{seg}</code> : seg))}</li>)}
-        </ul>
-      </section>
-
-      {/* ---------- EJEMPLOS ---------- */}
-      <section class="dev-section" id="examples">
+      {/* ---------- RECETAS ---------- */}
+      <section class="dev-section prose" id="examples">
         <h2 class="section-title">{T.examplesTitle}<a class="anchor" href="#examples" aria-hidden="true" tabindex="-1">#</a></h2>
-        <h3 class="example-title">{T.exCreate}</h3>
-        <div class="code">
-          <div class="code__bar"><span>curl</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
-          <pre><code>{createExample}</code></pre>
-        </div>
-        <h3 class="example-title">{T.exComplete}</h3>
-        <div class="code">
-          <div class="code__bar"><span>curl</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
-          <pre><code>{completeExample}</code></pre>
-        </div>
         <h3 class="example-title">{T.exList}</h3>
-        <div class="code">
-          <div class="code__bar"><span>JavaScript</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
-          <pre><code>{listExample}</code></pre>
-        </div>
+        <CodeBlock label="JavaScript" code={listExample} copy={T.copy} copied={T.copied} />
         <h3 class="example-title">{T.exWeek}</h3>
-        <div class="code">
-          <div class="code__bar"><span>JavaScript</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
-          <pre><code>{weekExample}</code></pre>
-        </div>
+        <CodeBlock label="JavaScript" code={weekExample} copy={T.copy} copied={T.copied} />
+        <h3 class="example-title">{T.exDay}</h3>
+        <CodeBlock label="curl" code={dayExample} copy={T.copy} copied={T.copied} />
       </section>
 
       <p class="help">{T.help} <a href={isEs ? '/es/contact/' : '/contact/'}>{T.contact}</a></p>
     </div>
   </div>
+  <button type="button" class="to-top">{T.toTop}</button>
 </main>
 
 <script>
-  function initDevDocs() {
-    const root = document.querySelector<HTMLElement>('.dev-page');
-    // Con el ClientRouter esto corre en la carga y en cada astro:page-load:
-    // sin la marca, volver a la página duplicaría los listeners.
-    if (!root || root.dataset.bound === 'true') return;
-    root.dataset.bound = 'true';
-
-    root.querySelectorAll<HTMLButtonElement>('.copy').forEach((button) => {
-      const label = button.textContent ?? '';
-      button.addEventListener('click', async () => {
-        const text =
-          button.dataset.copyText ?? button.closest('.code')?.querySelector('pre')?.innerText ?? '';
-        try {
-          await navigator.clipboard.writeText(text);
-        } catch {
-          return;
-        }
-        button.textContent = button.dataset.copied ?? label;
-        button.classList.add('is-copied');
-        window.setTimeout(() => {
-          button.textContent = label;
-          button.classList.remove('is-copied');
-        }, 1600);
-      });
-    });
-
-    // En móvil el índice empieza plegado y se pliega al elegir sección; en
-    // escritorio es la columna fija y siempre está abierto.
-    const toc = root.querySelector<HTMLDetailsElement>('details.toc');
-    const narrow = window.matchMedia('(max-width: 1023px)');
-    if (toc && narrow.matches) toc.open = false;
-    toc?.querySelectorAll('a').forEach((link) =>
-      link.addEventListener('click', () => {
-        if (narrow.matches) toc.open = false;
-      }),
-    );
-
-    // Marca en el índice la sección que se está leyendo.
-    const links = new Map(
-      Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')).map((a) => [
-        a.hash.slice(1),
-        a,
-      ]),
-    );
-    // Arriba del todo ninguna sección ha entrado aún en la franja: la primera
-    // es la que se va a leer.
-    links.values().next().value?.setAttribute('aria-current', 'location');
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          links.forEach((a) => a.removeAttribute('aria-current'));
-          links.get(entry.target.id)?.setAttribute('aria-current', 'location');
-        }
-      },
-      { rootMargin: '0px 0px -70% 0px' },
-    );
-    root.querySelectorAll('.dev-section').forEach((section) => observer.observe(section));
-  }
-
+  import { initDevDocs } from '../scripts/dev-docs';
   initDevDocs();
   document.addEventListener('astro:page-load', initDevDocs);
 </script>
-
-<style>
-  /* Tipografía con un papel por fuente (NN/g, COGA, guía de la BDA):
-     - Press Start 2P solo donde es marca y va grande: el título y los números
-       de los pasos. A 8–11 px se leía mal y no tiene mayúsculas con tilde.
-     - Nunito para todo lo que se lee o se pulsa: títulos, índice, botones.
-     - JetBrains Mono para el código, las rutas y los métodos. */
-  .dev-page {
-    background: #0f1526;
-    color: #c9d6f5;
-    font-family: 'Nunito', 'Poppins', sans-serif;
-  }
-
-  .dev-page ::selection {
-    background: #ffc53d;
-    color: #0a0f1f;
-  }
-
-  .dev-page :focus-visible {
-    outline: 3px solid #ffc53d;
-    outline-offset: 2px;
-  }
-
-  /* El único amarillo subrayado de la página es un enlace: el código ya no
-     comparte color con ellos. */
-  .dev-page a:not(.btn-primary) {
-    color: #ffc53d;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 3px;
-  }
-
-  .dev-page a:not(.btn-primary):hover {
-    color: #ffe08a;
-  }
-
-  /* ---------- CABECERA ---------- */
-  .dev-hero {
-    background: linear-gradient(#141b32 0%, #0f1526 100%);
-    border-bottom: 4px solid #1b2547;
-  }
-
-  .dev-hero__inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 64px 24px 48px;
-  }
-
-  .hero-title {
-    margin: 0 0 16px;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: clamp(20px, 3vw, 28px);
-    font-weight: 400;
-    line-height: 1.5;
-    color: #ffe6a0;
-    text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
-  }
-
-  .hero-subtitle {
-    margin: 0 0 8px;
-    max-width: 58ch;
-    font-size: clamp(16px, 2vw, 18px);
-    font-weight: 700;
-    line-height: 1.55;
-    color: #c9d6f5;
-    text-wrap: pretty;
-  }
-
-  /* Texto, no etiquetas: con marco parecían botones y no hacían nada. */
-  .hero-meta {
-    margin: 0 0 28px;
-    font-size: 15px;
-    font-weight: 700;
-    color: #8fa6dd;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 16px 28px;
-  }
-
-  /* El único botón principal de la página: lleva al primer paso. */
-  .btn-primary {
-    display: inline-block;
-    padding: 13px 18px;
-    font-size: 16px;
-    font-weight: 900;
-    line-height: 1.2;
-    color: #2a1a06;
-    text-decoration: none;
-    background: #ffc53d;
-    border: 4px solid #0a0f1f;
-    box-shadow: 6px 6px 0 rgba(5, 8, 18, 0.45);
-    transition: transform 120ms ease-out, box-shadow 120ms ease-out, background-color 120ms ease-out;
-  }
-
-  .btn-primary:hover {
-    background: #ffd365;
-    transform: translate(-1px, -1px);
-    box-shadow: 7px 7px 0 rgba(5, 8, 18, 0.45);
-  }
-
-  .btn-primary:active {
-    transform: translate(3px, 3px);
-    box-shadow: 3px 3px 0 rgba(5, 8, 18, 0.45);
-  }
-
-  .base {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .base__label {
-    font-size: 14px;
-    font-weight: 700;
-    color: #8fa6dd;
-  }
-
-  .dev-page .base__url {
-    padding: 8px 12px;
-    overflow-wrap: anywhere;
-    font-size: 13px;
-    color: #dceafe;
-    background: #0a0f1f;
-    border: 3px solid #1b2547;
-  }
-
-  /* ---------- BOTÓN COPIAR (secundario) ---------- */
-  .copy {
-    padding: 6px 10px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 900;
-    line-height: 1.2;
-    color: #dceafe;
-    background: #1b2547;
-    border: 3px solid #0a0f1f;
-    box-shadow: inset 0 0 0 2px #3f5da8;
-    cursor: pointer;
-  }
-
-  .copy:hover {
-    color: #ffffff;
-    box-shadow: inset 0 0 0 2px #8fa6dd;
-  }
-
-  .copy:active {
-    transform: translateY(1px);
-  }
-
-  .copy.is-copied {
-    color: #0a2b28;
-    background: #8fe3da;
-    box-shadow: none;
-  }
-
-  /* ---------- ESQUELETO: ÍNDICE + CONTENIDO ---------- */
-  .dev-layout {
-    display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: 64px;
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 48px 24px 80px;
-  }
-
-  /* El índice va en su propio panel, más oscuro que la página y con el
-     mismo marco que las tarjetas del sitio: sin él se confundía con el
-     contenido, porque los dos estaban sobre el mismo fondo. */
-  .toc {
-    position: sticky;
-    top: 24px;
-    align-self: start;
-    max-height: calc(100vh - 48px);
-    padding: 18px 10px 18px 12px;
-    overflow-y: auto;
-    background: #0a0f1f;
-    border: 4px solid #1b2547;
-    box-shadow: 6px 6px 0 rgba(5, 8, 18, 0.45);
-    scrollbar-width: thin;
-    scrollbar-color: #3f5da8 transparent;
-  }
-
-  /* En escritorio el índice es una columna, no un desplegable. */
-  .toc__summary {
-    display: none;
-  }
-
-  .toc__group + .toc__group {
-    margin-top: 20px;
-  }
-
-  .toc__label {
-    margin: 0 0 6px;
-    padding: 0 6px 8px;
-    font-size: 13px;
-    font-weight: 900;
-    line-height: 1.4;
-    color: #8fa6dd;
-    border-bottom: 2px solid #1b2547;
-  }
-
-  .toc ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .dev-page .toc a {
-    position: relative;
-    display: block;
-    padding: 6px 10px 6px 18px;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.4;
-    color: #a9b9e3;
-    text-decoration: none;
-  }
-
-  .dev-page .toc a:hover {
-    color: #ffffff;
-  }
-
-  .dev-page .toc a[aria-current] {
-    color: #ffe6a0;
-    background: #1b2547;
-  }
-
-  /* Un píxel de 6 × 6 marca la sección actual. */
-  .toc a[aria-current]::before {
-    content: '';
-    position: absolute;
-    left: 6px;
-    top: 50%;
-    width: 6px;
-    height: 6px;
-    margin-top: -3px;
-    background: #ffc53d;
-  }
-
-  .dev-content {
-    min-width: 0;
-    max-width: 760px;
-  }
-
-  /* ---------- SECCIONES ---------- */
-  .dev-section {
-    scroll-margin-top: 24px;
-  }
-
-  .dev-section + .dev-section {
-    margin-top: 72px;
-  }
-
-  /* Más grande que el cuerpo, con tildes y en minúscula: es lo que se escanea. */
-  .section-title {
-    margin: 0 0 20px;
-    padding-bottom: 12px;
-    font-size: 24px;
-    font-weight: 900;
-    line-height: 1.25;
-    color: #ffe6a0;
-    border-bottom: 3px solid #1b2547;
-    text-wrap: balance;
-  }
-
-  .dev-page .anchor {
-    margin-left: 12px;
-    color: #3f5da8;
-    text-decoration: none;
-    opacity: 0;
-    transition: opacity 150ms ease-out;
-  }
-
-  .section-title:hover .anchor {
-    opacity: 1;
-  }
-
-  .example-title {
-    margin: 32px 0 12px;
-    font-size: 17px;
-    font-weight: 900;
-    color: #dceafe;
-  }
-
-  .dev-content p,
-  .dev-content li {
-    max-width: 68ch;
-    font-size: 16px;
-    line-height: 1.65;
-  }
-
-  .dev-content p {
-    margin: 0 0 16px;
-  }
-
-  /* ---------- AVISOS ----------
-     Dos niveles: .callout es una nota y .callout--warn es lo que puede salir
-     mal (sin Premium, clave filtrada, completar que no es inmediato). */
-  .dev-content .callout {
-    max-width: none;
-    margin: 20px 0 0;
-    padding: 14px 16px;
-    font-size: 15px;
-    color: #a9b9e3;
-    background: #141b32;
-    border: 3px solid #1b2547;
-  }
-
-  .dev-content .callout--warn {
-    color: #f3ecd6;
-    background: rgba(255, 197, 61, 0.08);
-    border-color: rgba(255, 197, 61, 0.55);
-  }
-
-  .dev-content .callout--warn p {
-    max-width: none;
-    margin: 0;
-    font-size: 15px;
-  }
-
-  .dev-content .callout__label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 0 6px;
-    font-weight: 900;
-    color: #ffc53d;
-  }
-
-  .callout__icon {
-    flex: none;
-    fill: #ffc53d;
-  }
-
-  /* ---------- PASOS ----------
-     El mismo raíl y los mismos nodos cuadrados que la línea de tiempo de
-     /updates: un paso es un nodo, y el raíl dice que van en orden. */
-  .steps {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .step {
-    position: relative;
-    display: grid;
-    grid-template-columns: 38px minmax(0, 1fr);
-    gap: 18px;
-    padding-bottom: 24px;
-  }
-
-  .step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 17px;
-    top: 38px;
-    bottom: 0;
-    width: 4px;
-    background: #1b2547;
-  }
-
-  .step__num {
-    display: grid;
-    place-items: center;
-    width: 38px;
-    height: 38px;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 12px;
-    line-height: 1;
-    color: #ffc53d;
-    background: #1b2547;
-    border: 4px solid #0a0f1f;
-    box-shadow: inset 0 0 0 3px #3f5da8;
-  }
-
-  .step__body {
-    min-width: 0;
-  }
-
-  .step__body > p {
-    margin: 6px 0 0;
-  }
-
-  .step__body .code {
-    margin-top: 12px;
-  }
-
-  .step__body .callout {
-    margin-top: 12px;
-  }
-
-  .steps--shots .step__body {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 200px;
-    gap: 24px;
-    align-items: start;
-  }
-
-  .step__shot {
-    width: 100%;
-    height: auto;
-    border: 4px solid #0a0f1f;
-    box-shadow: 6px 6px 0 rgba(5, 8, 18, 0.45);
-  }
-
-  /* ---------- LÍMITES ---------- */
-  .limits {
-    margin: 0;
-    border: 3px solid #1b2547;
-  }
-
-  .limits__row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px 14px;
-    padding: 12px 14px;
-  }
-
-  .limits__row + .limits__row {
-    border-top: 2px solid #1b2547;
-  }
-
-  .limits dt {
-    font-weight: 900;
-    color: #ffe6a0;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .limits dd {
-    margin: 0;
-    font-size: 15px;
-    color: #a9b9e3;
-  }
-
-  .facts {
-    margin: 0;
-    padding-left: 22px;
-    list-style: square;
-  }
-
-  .facts li {
-    margin-bottom: 10px;
-  }
-
-  .facts li::marker {
-    color: #ffc53d;
-  }
-
-  /* ---------- CÓDIGO ---------- */
-  .dev-page code {
-    font-family: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
-    font-size: 0.88em;
-    color: #dceafe;
-  }
-
-  /* Código dentro del texto: una caja mínima, sin el amarillo de los enlaces.
-     Hijo directo, para no alcanzar el <code> de un <pre> dentro de un paso. */
-  .dev-content :is(p, li) > code {
-    padding: 1px 5px;
-    background: #141b32;
-    border: 1px solid #2c3a66;
-    overflow-wrap: anywhere;
-  }
-
-  .code {
-    margin: 16px 0 20px;
-    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35);
-  }
-
-  .code__bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    min-height: 44px;
-    padding: 6px 6px 6px 14px;
-    font-family: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
-    font-size: 12px;
-    line-height: 1.4;
-    color: #8fa6dd;
-    background: #141b32;
-    border: 3px solid #1b2547;
-    border-bottom: 0;
-  }
-
-  pre {
-    margin: 0;
-    padding: 18px;
-    overflow-x: auto;
-    background: #0a0f1f;
-    border: 3px solid #1b2547;
-    scrollbar-width: thin;
-    scrollbar-color: #3f5da8 #0a0f1f;
-  }
-
-  .dev-page pre code {
-    font-size: 13px;
-    line-height: 1.6;
-    white-space: pre;
-  }
-
-  /* ---------- TABLAS ----------
-     Se desplazan dentro de su caja: la página nunca scrollea en horizontal. */
-  .table-wrap {
-    overflow-x: auto;
-    border: 3px solid #1b2547;
-    scrollbar-width: thin;
-    scrollbar-color: #3f5da8 #0f1526;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 15px;
-    font-variant-numeric: tabular-nums;
-  }
-
-  th,
-  td {
-    padding: 10px 12px;
-    text-align: left;
-    vertical-align: top;
-    border-bottom: 2px solid #1b2547;
-  }
-
-  thead th {
-    font-size: 14px;
-    font-weight: 900;
-    color: #8fa6dd;
-    background: #141b32;
-  }
-
-  .group-row th {
-    padding-top: 14px;
-    font-size: 14px;
-    font-weight: 900;
-    color: #ffc53d;
-    background: #0f1730;
-  }
-
-  td:first-child {
-    white-space: nowrap;
-  }
-
-  /* El nombre del campo o la ruta es lo que se busca en la tabla: en turquesa
-     para que se encuentre de un vistazo, y no en amarillo, que es de enlace. */
-  .dev-page td code {
-    color: #8fe3da;
-  }
-
-  td.num {
-    font-weight: 900;
-    color: #ffe6a0;
-  }
-
-  .req {
-    margin-left: 8px;
-    padding: 1px 6px;
-    font-size: 12px;
-    font-weight: 900;
-    color: #2a1a06;
-    background: #ffc53d;
-  }
-
-  .verb {
-    display: inline-block;
-    min-width: 58px;
-    padding: 2px 6px;
-    font-family: 'JetBrains Mono', Menlo, monospace;
-    font-size: 12px;
-    font-weight: 700;
-    text-align: center;
-    color: #0a0f1f;
-  }
-
-  .verb-get { background: #8fe3da; }
-  .verb-post { background: #ffc53d; }
-  .verb-patch { background: #b9a2ff; }
-  .verb-delete { background: #ff8a8a; }
-
-  /* Los campos poco usados, plegados: a la vista solo lo que casi todos ponen. */
-  .more {
-    margin-top: 12px;
-  }
-
-  .more summary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    font-size: 14px;
-    font-weight: 900;
-    color: #dceafe;
-    background: #1b2547;
-    border: 3px solid #0a0f1f;
-    box-shadow: inset 0 0 0 2px #3f5da8;
-    cursor: pointer;
-    list-style: none;
-  }
-
-  .more summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .more summary::before {
-    content: '+';
-    color: #ffc53d;
-  }
-
-  .more[open] summary::before {
-    content: '−';
-  }
-
-  .more summary:hover {
-    color: #ffffff;
-    box-shadow: inset 0 0 0 2px #8fa6dd;
-  }
-
-  .more .table-wrap {
-    margin-top: 12px;
-  }
-
-  .dev-content .help {
-    margin-top: 72px;
-    color: #8fa6dd;
-  }
-
-  /* ---------- PANTALLAS ESTRECHAS ----------
-     El índice deja de ser columna y pasa a desplegable encima del contenido. */
-  @media (max-width: 1023px) {
-    .dev-layout {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 32px;
-      padding-top: 32px;
-    }
-
-    .toc {
-      position: static;
-      max-height: none;
-      padding: 0;
-    }
-
-    .toc__summary {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px;
-      font-size: 15px;
-      font-weight: 900;
-      color: #ffe6a0;
-      cursor: pointer;
-      list-style: none;
-    }
-
-    .toc__summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .toc__summary::after {
-      content: '+';
-      color: #ffc53d;
-    }
-
-    .toc[open] .toc__summary::after {
-      content: '−';
-    }
-
-    .toc nav {
-      padding: 0 8px 16px;
-    }
-
-    .dev-content {
-      max-width: none;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .dev-hero__inner {
-      padding: 44px 16px 36px;
-    }
-
-    .dev-layout {
-      padding: 24px 16px 56px;
-    }
-
-    .section-title {
-      font-size: 21px;
-    }
-
-    .step {
-      gap: 14px;
-    }
-
-    .steps--shots .step__body {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .step__shot {
-      max-width: 240px;
-    }
-
-    /* Endpoints en dos líneas: método y ruta arriba, qué hace debajo. En tres
-       columnas la descripción quedaba en 60 px y se cortaba. */
-    .endpoints thead {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-    }
-
-    .endpoints tbody tr:not(.group-row) {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      align-items: center;
-      column-gap: 10px;
-      padding: 10px 12px;
-      border-bottom: 2px solid #1b2547;
-    }
-
-    .endpoints tbody tr:not(.group-row) td {
-      padding: 0;
-      border: 0;
-    }
-
-    .endpoints tbody tr:not(.group-row) td:nth-child(2) code {
-      overflow-wrap: anywhere;
-    }
-
-    .endpoints tbody tr:not(.group-row) td:last-child {
-      grid-column: 1 / -1;
-      margin-top: 6px;
-    }
-
-    .endpoints .group-row th {
-      display: block;
-    }
-
-    .dev-section + .dev-section {
-      margin-top: 56px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .btn-primary,
-    .dev-page .anchor {
-      transition: none;
-    }
-  }
-</style>
