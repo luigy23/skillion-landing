@@ -3,13 +3,15 @@
  * contra la documentación de esa app (su enlace va en `source`): si una app
  * cambia su formato, se cambia aquí y en ningún otro sitio.
  *
- * La clave va como cabecera `Authorization: Bearer sk_live_…`. Los ejemplos
- * llevan KEY_PLACEHOLDER y la caja de la página lo cambia por la clave de
+ * Dos maneras: iniciando sesión (`signIn`: basta la dirección; el servidor
+ * hace el OAuth y pide la clave en su propia página) o con la clave como
+ * cabecera `Authorization: Bearer sk_live_…` en la configuración. Los ejemplos
+ * de esta segunda llevan KEY_PLACEHOLDER y la caja de la página lo cambia por la clave de
  * verdad en el navegador (scripts/mcp-key.ts), con las mismas funciones de
  * enlace que usa el build.
  *
  * Los logos son de Simple Icons 16.37.0 (CC0), en public/icons/clients/; sin
- * logo los que Simple Icons no tiene (OpenAI y Grok).
+ * logo los que Simple Icons no tiene (ChatGPT, Codex y Grok).
  */
 import reference from '../data/api-reference.json';
 
@@ -46,6 +48,8 @@ export type Client = {
   buttons?: { kind: keyof typeof LINKS; label: Text; href: (key: string) => string }[];
   note?: Text;
   source: string[];
+  /** Se conecta iniciando sesión: basta la URL (OAuth). Sin esto, con la clave en su configuración. */
+  signIn?: boolean;
   /** Todavía no se puede: va en «Todavía no» con su motivo en steps[0]. */
   notYet?: boolean;
 };
@@ -53,7 +57,79 @@ export type Client = {
 const json = (v: unknown) => JSON.stringify(v, null, 2);
 const K = KEY_PLACEHOLDER;
 
-export const CLIENTS: Client[] = [
+const ALL: Client[] = [
+  // ---- Iniciando sesión: basta la dirección del servidor (OAuth).
+  {
+    id: 'chatgpt', name: 'ChatGPT', signIn: true,
+    who: ['on the web', 'en la web'],
+    steps: [
+      ['Open `chatgpt.com/plugins`, tap the plus button and choose «Add custom MCP server». Name it Skillion, paste the address in «Server URL», pick «OAuth» as authentication, confirm «I understand and want to continue» and tap «Create as a plugin».',
+        'Abre `chatgpt.com/plugins`, toca el botón del más y elige «Add custom MCP server». Ponle de nombre Skillion, pega la dirección en «Server URL», elige «OAuth» como autenticación, confirma «I understand and want to continue» y toca «Create as a plugin».'],
+      ['Install the plugin it creates. In a new chat, type `@` and pick Skillion.',
+        'Instala el plugin que crea. En un chat nuevo, escribe `@` y elige Skillion.'],
+    ],
+    snippets: [],
+    note: ['OpenAI is opening this plan by plan: if you do not see «Add custom MCP server», your account does not have it yet. Some plans only let a server like this read, not change.',
+      'OpenAI lo va abriendo por planes: si no ves «Add custom MCP server», tu cuenta aún no lo tiene. Algunos planes solo dejan que un servidor así lea, no que cambie.'],
+    source: ['https://developers.openai.com/api/docs/guides/custom-mcp-server', 'https://developers.openai.com/plugins/deploy/connect-chatgpt'],
+  },
+  {
+    id: 'claude', name: 'Claude', logo: '/icons/clients/claude.svg', signIn: true,
+    who: ['web, desktop and phone · every plan, Free too', 'web, escritorio y móvil · todos los planes, también el gratis'],
+    steps: [
+      ['On claude.ai or in the desktop app: Customize → Connectors → «+ Add» → «Add custom connector». Name it Skillion, paste the address, tap «Continue» and then «Add». If the connector shows «Connect», tap it.',
+        'En claude.ai o en la app de escritorio: Personalizar → Conectores → «+ Añadir» → «Añadir conector personalizado». Ponle de nombre Skillion, pega la dirección, toca «Continuar» y después «Añadir». Si el conector muestra «Conectar», tócalo.'],
+      ['In each chat: «+» in the message box → Connectors → turn Skillion on. Once connected on the web or desktop, you have it on your phone too.',
+        'En cada chat: «+» en la caja del mensaje → Conectores → activa Skillion. Una vez conectado en la web o el escritorio, lo tienes también en el móvil.'],
+    ],
+    snippets: [],
+    note: ['The Free plan allows one custom connector.', 'El plan gratis permite un conector personalizado.'],
+    source: ['https://claude.com/docs/connectors/custom/add-unlisted.md', 'https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp'],
+  },
+  {
+    id: 'gemini-app', name: 'Gemini', logo: '/icons/clients/googlegemini.svg', signIn: true,
+    who: ['United States only, for now', 'solo en Estados Unidos, por ahora'],
+    steps: [
+      ['On a computer, at `gemini.google.com`: Settings → Connected Apps → under «Custom apps», add the address and tap «Next». In a prompt, type `@` and pick Skillion. Once connected, it also works in the phone app.',
+        'En un ordenador, en `gemini.google.com`: Settings → Connected Apps → en «Custom apps», añade la dirección y toca «Next». En un mensaje, escribe `@` y elige Skillion. Una vez conectado, funciona también en la app del móvil.'],
+    ],
+    snippets: [],
+    note: ['Google asks for a personal account (not work or school), 18 or over, in the US, in English and with «Keep Activity» on.',
+      'Google pide una cuenta personal (no de trabajo ni de estudios), ser mayor de 18, estar en EE. UU., en inglés y con «Keep Activity» activado.'],
+    source: ['https://support.google.com/gemini/answer/17209137'],
+  },
+  {
+    id: 'lechat', name: 'Le Chat · Mistral', logo: '/icons/clients/mistralai.svg', signIn: true,
+    who: ['free accounts too', 'también en cuentas gratis'],
+    steps: [
+      ['Open «Connectors» in the sidebar → «+ Add Connector» → the «Custom MCP Connector» tab. Connector name: `skillion` (no spaces). Paste the address in «Server URL» and tap «Connect».',
+        'Abre «Connectors» en la barra lateral → «+ Add Connector» → la pestaña «Custom MCP Connector». Connector name: `skillion` (sin espacios). Pega la dirección en «Server URL» y toca «Connect».'],
+      ['In each chat: the «+» icon or `/` → Tools → turn it on.', 'En cada chat: el icono «+» o `/` → Tools → actívalo.'],
+    ],
+    snippets: [],
+    source: ['https://docs.mistral.ai/vibe/work/connectors/mcp-connectors'],
+  },
+  {
+    id: 'grok-app', name: 'Grok', signIn: true,
+    who: ['on the web', 'en la web'],
+    steps: [
+      ['Open `grok.com/connectors` → «New Connector» → «Custom» (in some accounts: «+ Add Connector» → «Other»), paste the address and follow the sign-in.',
+        'Abre `grok.com/connectors` → «New Connector» → «Custom» (en algunas cuentas: «+ Add Connector» → «Other»), pega la dirección y sigue el inicio de sesión.'],
+    ],
+    snippets: [],
+    source: ['https://docs.x.ai/grok/connectors', 'https://docs.x.ai/grok/connector-management'],
+  },
+  {
+    id: 'perplexity', name: 'Perplexity', logo: '/icons/clients/perplexity.svg', signIn: true,
+    who: ['Pro, Max and Enterprise', 'Pro, Max y Enterprise'],
+    steps: [
+      ['«Plugins» in the sidebar (or Customize → Connectors) → «Add custom» → «Add MCP connector» → «Remote». Name: Skillion; paste the address in «MCP server URL», tick the acknowledgement box and tap «Add». Then tap the connector\'s card to sign in.',
+        '«Plugins» en la barra lateral (o Customize → Connectors) → «Add custom» → «Add MCP connector» → «Remote». Name: Skillion; pega la dirección en «MCP server URL», marca la casilla de aviso y toca «Add». Después toca la tarjeta del conector para iniciar sesión.'],
+    ],
+    snippets: [],
+    source: ['https://www.perplexity.ai/help-center/en/articles/13915507-adding-custom-remote-connectors'],
+  },
+  // ---- Con la clave en su configuración.
   {
     id: 'claude-desktop', name: 'Claude Desktop', logo: '/icons/clients/claude.svg',
     who: ['desktop app', 'app de escritorio'],
@@ -144,31 +220,28 @@ export const CLIENTS: Client[] = [
     source: ['https://lmstudio.ai/docs/app/mcp'],
   },
   {
-    id: 'grok', name: 'Grok · xAI API',
+    id: 'grok', name: 'xAI API',
     who: ['for developers', 'para desarrolladores'],
     steps: [['In a call to the xAI API, add Skillion as a remote MCP tool:', 'En una llamada a la API de xAI, añade Skillion como herramienta MCP remota:']],
     snippets: [{ label: 'tools', code: json([{ type: 'mcp', server_url: URL, server_label: 'skillion', headers: { Authorization: `Bearer ${K}` } }]) }],
     source: ['https://docs.x.ai/docs/guides/tools/remote-mcp-tools'],
   },
   {
-    id: 'chatgpt', name: 'ChatGPT', notYet: true,
+    id: 'copilot', name: 'Microsoft Copilot', notYet: true,
     who: ['', ''],
-    steps: [['ChatGPT only connects servers that sign you in with OAuth, and Skillion\'s MCP uses a key for now.',
-      'ChatGPT solo conecta servidores que te hacen iniciar sesión con OAuth, y el MCP de Skillion usa una clave por ahora.']],
-    snippets: [], source: ['https://developers.openai.com/plugins/build/auth'],
-  },
-  {
-    id: 'claude-web', name: 'claude.ai', notYet: true,
-    who: ['', ''],
-    steps: [['Custom connectors with a key are in beta for a few accounts. If yours has «Request headers»: Add custom connector → No sign-in → header `authorization` with `Bearer sk_live_…`. If not, use Claude Desktop.',
-      'Los conectores con clave están en beta para pocas cuentas. Si la tuya tiene «Request headers»: Add custom connector → No sign-in → cabecera `authorization` con `Bearer sk_live_…`. Si no, usa Claude Desktop.']],
-    snippets: [], source: ['https://claude.com/docs/connectors/custom/add-unlisted.md'],
-  },
-  {
-    id: 'apps', name: 'Gemini, grok.com, kimi.com', notYet: true,
-    who: ['', ''],
-    steps: [['Their web and phone apps do not say yet how to connect a server with a key. Their terminal tools above do work.',
-      'Sus apps web y del móvil aún no dicen cómo conectar un servidor con clave. Sus herramientas de terminal de arriba sí funcionan.']],
-    snippets: [], source: ['https://support.google.com/gemini/answer/17209137', 'https://docs.x.ai/grok/connectors'],
+    steps: [['The Copilot app for consumers has no way to add a server of your own.',
+      'La app de Copilot para particulares no deja añadir un servidor propio.']],
+    snippets: [], source: ['https://support.microsoft.com/en-us/microsoft-copilot/connecting-microsoft-copilot-to-other-services'],
   },
 ];
+
+// El orden en que la gente los usa: primero las apps de chat, después las herramientas.
+const ORDER = [
+  'chatgpt', 'gemini-app', 'claude', 'lechat', 'grok-app', 'perplexity',
+  'claude-code', 'codex', 'claude-desktop', 'gemini', 'cursor', 'vscode', 'kimi', 'windsurf', 'lmstudio', 'grok',
+];
+
+export const CLIENTS: Client[] = [...ALL].sort((a, b) => {
+  const [x, y] = [ORDER.indexOf(a.id), ORDER.indexOf(b.id)];
+  return (x < 0 ? ORDER.length : x) - (y < 0 ? ORDER.length : y);
+});

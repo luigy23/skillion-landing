@@ -12,6 +12,16 @@
       "permanent": true
     },
     {
+      "source": "/developers/mcp/",
+      "destination": "/developers/",
+      "permanent": false
+    },
+    {
+      "source": "/es/desarrolladores/mcp/",
+      "destination": "/es/desarrolladores/",
+      "permanent": false
+    },
+    {
       "source": "/(.*)",
       "has": [
         {

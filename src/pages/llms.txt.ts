@@ -52,11 +52,11 @@ export const GET: APIRoute = async ({ site }) => {
     `- [Preguntas frecuentes](${abs('/es/preguntas-frecuentes/')}): las mismas respuestas en español.`,
     `- [What's New](${abs('/updates/')}): release notes for every published version.`,
     `- [Contact](${abs('/contact/')}): how to reach the team.`,
-    `- [Developers](${abs('/developers/')}): the Skillion API (Premium): read and change your own skills, tasks, routines, calendar days and commitments with a personal key; every endpoint with its parameters, limits, paging and examples.`,
-    `- [Desarrolladores](${abs('/es/desarrolladores/')}): la misma documentación en español.`,
-    `- [Developers, as Markdown](${abs('/developers.md')}): the whole API reference in one Markdown file: every endpoint with its parameters, an example call and its real answer.`,
-    `- [Skillion MCP](${abs('/developers/mcp/')}): connect Skillion to an AI assistant (Claude Code, Codex, Gemini CLI, Cursor, VS Code…) with the same Premium key; every API endpoint is a tool.`,
-    `- [MCP de Skillion](${abs('/es/desarrolladores/mcp/')}): lo mismo en español.`,
+    `- [Skillion MCP](${abs('/developers/')}): connect Skillion to an AI assistant (ChatGPT, Claude, Gemini, Cursor, Codex…): sign in with just the server URL, or use a Premium key; every API endpoint is a tool.`,
+    `- [MCP de Skillion](${abs('/es/desarrolladores/')}): lo mismo en español.`,
+    `- [Skillion API](${abs('/developers/api/')}): read and change your own skills, tasks, routines, calendar days and commitments with a personal key; every endpoint with its parameters, limits, paging and examples.`,
+    `- [API de Skillion](${abs('/es/desarrolladores/api/')}): la misma documentación en español.`,
+    `- [Skillion API, as Markdown](${abs('/developers.md')}): the whole API reference in one Markdown file: every endpoint with its parameters, an example call and its real answer.`,
     '',
   ];
 
