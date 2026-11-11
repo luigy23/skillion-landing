@@ -1,0 +1,90 @@
+---
+/**
+ * Cómo sacar la clave en la app, paso a paso. Va en las dos páginas (MCP y
+ * API): es lo primero que necesita cualquiera, programe o no.
+ *
+ * Los pasos y los rótulos salen de skillapp (settings_version_line.dart,
+ * developer_api_settings_entry.dart): si allí cambian, se cambian aquí. Las
+ * capturas llegan aparte (public/images/developers/paso-N-<lang>.png); hasta
+ * que existan, el paso sale sin hueco.
+ */
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import type { Lang } from '../../lib/i18n';
+import Callout from './Callout.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const T = {
+  en: {
+    title: 'Get your key',
+    steps: [
+      'Open Skillion and go to Settings.',
+      'Scroll to the bottom and tap the line «Version …» seven times in a row, with less than 2 seconds between taps. Your phone vibrates and you see «Developer options unlocked».',
+      'A new row appears in Settings: «Developer API». Open it.',
+      'Tap «Create key», give it a name and tap «Create». Then tap «Copy»: the key is shown only once. You can have up to 5 active keys and revoke any of them on that screen.',
+    ],
+    need:
+      'You need Skillion Premium and a registered account (not a guest one). Without Premium the row shows a ' +
+      'lock and opens the paywall.',
+    secret:
+      'Treat a key like a password: anyone with it can change your tasks. If one leaks, revoke it on that same screen.',
+    warn: 'Heads up',
+    alt: [
+      'Skillion screenshot with an arrow on the way into Settings',
+      'Screenshot of the bottom of Settings with an arrow on the version line',
+      'Screenshot of Settings with the new Developer API row',
+      'Screenshot of the new key with an arrow on Copy',
+    ],
+  },
+  es: {
+    title: 'Tu clave',
+    steps: [
+      'Abre Skillion y ve a Ajustes.',
+      'Baja hasta el final y toca siete veces seguidas la línea «Versión …», con menos de 2 segundos entre toque y toque. El móvil vibra y sale «Opciones de desarrollador activadas».',
+      'En Ajustes aparece una fila nueva: «API para desarrolladores». Ábrela.',
+      'Toca «Crear clave», ponle un nombre y toca «Crear». Después toca «Copiar»: la clave solo se enseña una vez. Puedes tener hasta 5 activas y revocar cualquiera desde esa pantalla.',
+    ],
+    need:
+      'Necesitas Skillion Premium y una cuenta registrada (no de invitado). Sin Premium la fila sale con candado ' +
+      'y abre la pantalla de suscripción.',
+    secret:
+      'Trata la clave como una contraseña: quien la tenga puede cambiar tus tareas. Si se te escapa, revócala en ' +
+      'esa misma pantalla.',
+    warn: 'Ojo',
+    alt: [
+      'Captura de Skillion con la flecha en la entrada a Ajustes',
+      'Captura del final de Ajustes con la flecha en la línea de la versión',
+      'Captura de Ajustes con la fila nueva API para desarrolladores',
+      'Captura de la clave nueva con la flecha en Copiar',
+    ],
+  },
+}[lang];
+
+const shots = T.steps.map((_, i) => {
+  const file = `/images/developers/paso-${i + 1}-${lang}.png`;
+  return existsSync(join(process.cwd(), 'public', file)) ? file : null;
+});
+const hasShots = shots.some(Boolean);
+---
+<section class="dev-section" id="key">
+  <h2 class="section-title">{T.title}<a class="anchor" href="#key" aria-hidden="true" tabindex="-1">#</a></h2>
+  <Callout warn label={T.warn} text={T.need} />
+  <ol class:list={['steps', hasShots && 'steps--shots']} style="margin-top: 20px">
+    {T.steps.map((step, i) => (
+      <li class="step">
+        <span class="step__num" aria-hidden="true">{i + 1}</span>
+        <div class="step__body">
+          <p>{step}</p>
+          {shots[i] && (
+            <img class="step__shot" src={shots[i]} alt={T.alt[i]} width="1179" height="2556" loading="lazy" decoding="async" />
+          )}
+        </div>
+      </li>
+    ))}
+  </ol>
+  <Callout warn label={T.warn} text={T.secret} />
+</section>

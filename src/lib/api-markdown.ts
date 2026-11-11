@@ -25,7 +25,7 @@ export function apiMarkdown(lang: Lang, site: URL): string {
     '',
     `- ${es ? 'URL base' : 'Base URL'}: ${BASE}`,
     `- ${es ? 'Autenticación' : 'Authentication'}: \`Authorization: Bearer sk_live_…\` (${es ? 'la clave sale de la app: Ajustes → toca 7 veces la versión → API para desarrolladores' : 'get it in the app: Settings → tap the version 7 times → Developer API'})`,
-    `- MCP: ${MCP_URL} (${es ? 'mismas operaciones, misma clave' : 'same operations, same key'}): ${abs(es ? '/es/desarrolladores/mcp/' : '/developers/mcp/')}`,
+    `- MCP: ${MCP_URL} (${es ? 'mismas operaciones, misma clave' : 'same operations, same key'}): ${abs(es ? '/es/desarrolladores/' : '/developers/')}`,
     `- ${es ? 'Límites' : 'Limits'}: ${n(LIMITS.per_minute)}/min, ${n(LIMITS.per_day)}/${es ? 'día' : 'day'} (UTC), ${LIMITS.page_max} ${es ? 'por página' : 'per page'}, 64 KB ${es ? 'por cuerpo' : 'per body'}. ${es ? 'Al pasarte: 429 con retry-after.' : 'Over a limit: 429 with retry-after.'}`,
     `- ${es ? 'Listas' : 'Lists'}: ${es ? 'del cambio más antiguo al más nuevo; devuelve `next_cursor` como `cursor` hasta que sea null. Filtros comunes: limit, cursor, updated_since, include_deleted, include_archived.' : 'oldest change first; pass `next_cursor` back as `cursor` until it is null. Common filters: limit, cursor, updated_since, include_deleted, include_archived.'}`,
     `- ${es ? 'Fechas' : 'Dates'}: ${es ? 'ISO 8601 con zona; las de calendario (días, compromisos) son la fecha local, yyyy-MM-dd.' : 'ISO 8601 with a time zone; calendar dates (days, commitments) are the local date, yyyy-MM-dd.'}`,

@@ -1,0 +1,29 @@
+---
+/**
+ * El selector de arriba de las docs: MCP (lo principal, para cualquiera con un
+ * asistente de IA) y API (para quien programa). /developers es el MCP.
+ */
+import type { Lang } from '../../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  current: 'mcp' | 'api';
+}
+
+const { lang, current } = Astro.props;
+const es = lang === 'es';
+const tabs = [
+  { id: 'mcp', href: es ? '/es/desarrolladores/' : '/developers/', name: 'MCP',
+    what: es ? 'Para tu asistente de IA' : 'For your AI assistant' },
+  { id: 'api', href: es ? '/es/desarrolladores/api/' : '/developers/api/', name: 'API',
+    what: es ? 'Para tu código' : 'For your code' },
+];
+---
+<nav class="dev-tabs" aria-label={es ? 'Documentación' : 'Documentation'}>
+  {tabs.map((t) => (
+    <a class="dev-tab" href={t.href} aria-current={t.id === current ? 'page' : undefined}>
+      <span class="dev-tab__name">{t.name}</span>
+      <span class="dev-tab__what">{t.what}</span>
+    </a>
+  ))}
+</nav>

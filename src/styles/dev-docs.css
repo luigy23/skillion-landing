@@ -419,7 +419,7 @@
 
 /* ---------- MCP ---------- */
 .dev-page .works { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 0; padding: 0; list-style: none; }
-.dev-page .works a {
+.dev-page .works__chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -431,7 +431,7 @@
   background: var(--deep);
   border: 3px solid var(--line);
 }
-.dev-page .works a:hover { color: #fff; border-color: #3f5da8; }
+.dev-page .works__chip:hover { color: #fff; border-color: #3f5da8; }
 .dev-page .works img { width: 20px; height: 20px; }
 .dev-page .client { scroll-margin-top: 24px; margin-top: 40px; }
 .dev-page .client__head { display: flex; align-items: center; gap: 12px; margin: 0 0 10px; }
@@ -584,4 +584,43 @@
   .dev-page .btn-primary,
   .dev-page .anchor,
   .dev-page .to-top { transition: none; }
+}
+
+/* ---------- SELECTOR MCP | API ---------- */
+.dev-page .dev-tabs { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 32px; }
+.dev-page .dev-tab {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 18px;
+  color: var(--ink-2);
+  text-decoration: none;
+  background: var(--deep);
+  border: 4px solid var(--line);
+}
+.dev-page .dev-tab:hover { color: #fff; border-color: #3f5da8; }
+.dev-page .dev-tab__name { font-family: 'Press Start 2P', 'Courier New', monospace; font-size: 13px; color: var(--bright); }
+.dev-page .dev-tab__what { font-size: 15px; font-weight: 800; }
+.dev-page .dev-tab[aria-current] { color: #2a1a06; background: var(--gold); border-color: var(--deep); box-shadow: var(--shadow); }
+.dev-page .dev-tab[aria-current] .dev-tab__name { color: #2a1a06; }
+
+/* La otra puerta, al final de cada página. */
+.dev-page .next-door {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 760px;
+  margin-top: 72px;
+  padding: 20px;
+  background: var(--panel);
+  border: 4px solid var(--line);
+}
+.dev-page .next-door p { margin: 0 !important; font-weight: 700; color: var(--bright); }
+
+@media (max-width: 640px) {
+  .dev-page .dev-tabs { flex-wrap: nowrap; gap: 8px; margin-bottom: 24px; }
+  .dev-page .dev-tab { flex: 1 1 0; flex-direction: column; gap: 4px; min-width: 0; padding: 10px 12px; }
+  .dev-page .dev-tab__what { font-size: 13px; }
 }

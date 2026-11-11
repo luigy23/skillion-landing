@@ -1,12 +1,14 @@
 ---
 /**
- * El MCP de Skillion: las mismas operaciones que la API (DevelopersPage.astro)
- * como herramientas para un asistente de IA, con la misma clave Premium.
+ * El MCP de Skillion, que es la portada de /developers: las mismas operaciones
+ * que la API (DevelopersPage.astro, en /developers/api) como herramientas para
+ * un asistente de IA, con la misma clave Premium.
  *
- * Pensada también para gente que no programa: arriba qué es y qué le puedes
- * pedir; después cómo se conecta en cada app, con lo mínimo que hay que copiar.
- * Los clientes y sus formatos (lib/mcp-clients.ts) están comprobados contra la
- * documentación de cada uno: un cliente nuevo entra solo con su fuente.
+ * Pensada para gente que no programa. Dos maneras de conectarlo, en este orden:
+ * iniciando sesión (pegas la URL en ChatGPT o Claude y das permiso en nuestra
+ * página) o con la clave en la configuración de una herramienta de terminal o
+ * un editor. Los clientes y sus pasos (lib/mcp-clients.ts) están comprobados
+ * contra la documentación de cada uno: uno nuevo entra solo con su fuente.
  *
  * La clave que se pega en la caja solo vive en esta pestaña: rellena los
  * comandos y los botones, y no se manda ni se guarda en ningún sitio.
@@ -14,6 +16,8 @@
 import SiteNav from './SiteNav.astro';
 import Callout from './dev/Callout.astro';
 import CodeBlock from './dev/CodeBlock.astro';
+import DevTabs from './dev/DevTabs.astro';
+import KeySteps from './dev/KeySteps.astro';
 import Rich from './dev/Rich.astro';
 import type { Lang } from '../lib/i18n';
 import { anchorOf, checkCoverage, GROUPS, groupOf, LIMITS, MCP_URL, opText, OPS, pick, toolAnchor } from '../lib/api-docs';
@@ -27,33 +31,40 @@ interface Props {
 const { lang } = Astro.props;
 const isEs = lang === 'es';
 checkCoverage(lang);
-const altHref = isEs ? '/developers/mcp/' : '/es/desarrolladores/mcp/';
-const apiHref = isEs ? '/es/desarrolladores/' : '/developers/';
+const altHref = isEs ? '/developers/' : '/es/desarrolladores/';
+const apiHref = isEs ? '/es/desarrolladores/api/' : '/developers/api/';
 const n = (v: number) => v.toLocaleString(isEs ? 'es' : 'en');
 
 const T = {
   en: {
-    crumb: 'Skillion API',
     title: 'Skillion MCP',
     intro:
-      'Ask your AI assistant about your Skillion: what your Tuesday looks like, take Friday off, create a ' +
-      'task linked to a skill, add the dentist on Thursday. It reads and changes your own account, with ' +
-      'your Premium key.',
-    meta: 'Premium only · same key and limits as the API',
+      'Ask ChatGPT, Gemini, Claude or your AI assistant about your Skillion: what your Tuesday looks like, take Friday ' +
+      'off, create a task linked to a skill, add the dentist on Thursday. It reads and changes your own account.',
+    meta: 'Part of Skillion Premium',
     urlLabel: 'Server URL',
     worksWith: 'Works with',
-    howTitle: 'Connect it in three steps',
-    how: [
-      'Get your key in the app: Settings → tap the version 7 times → Developer API → Create key.',
-      'Paste it here. It fills in the commands and buttons below; it stays in this tab and is never sent or saved.',
-      'Pick your app below and follow its two or three steps.',
+    cta: 'Connect it',
+    signinTitle: 'The easy way: sign in',
+    signinText:
+      'In ChatGPT, Gemini, Claude and other apps you only paste one address. No files, no terminal.',
+    signin: [
+      'Copy the address of Skillion\'s server:',
+      'Add it in your app as a new connector (below, where exactly in each one).',
+      'A Skillion page opens and asks for your key. Paste it, tap Allow and you are connected. To disconnect later, revoke that key in the app.',
     ],
-    keyLink: 'Step by step, with screenshots',
+    keyLink: 'How to get your key',
+    clientsTitle: 'With your key in the settings',
+    clientsText:
+      'For terminal tools and code editors. Paste your key here and every command and button below carries it.',
+    clientsAlso:
+      'Claude Code, Cursor, VS Code, Codex and Gemini CLI can sign in too: add only the address, with no header, and they open the Skillion page.',
     keyLabel: 'Your key',
     keyHelp: 'Only in this tab: nothing is sent or saved.',
     keyBad: 'That is not a Skillion key: it starts with sk_live_ and has 64 more characters.',
-    clientsTitle: 'Your app',
     notYetTitle: 'Not yet',
+    apiDoor: 'Do you code? The same 38 operations as a REST API, field by field.',
+    apiDoorCta: 'Go to the API',
     askTitle: 'What you can ask',
     ask: [
       '«What does my Tuesday look like?»',
@@ -80,7 +91,7 @@ const T = {
     safe: [
       'Keep approval on for the tools that change or delete things: you see what the assistant is about to do before it does it.',
       'What the assistant reads from Skillion (your task names, your notes) is data, not orders. If it ever proposes something you did not ask for, say no.',
-      'Your key is like a password. Do not paste it in a chat, and do not commit a config file that has it: use the environment variable or the prompt shown above. If it leaks, revoke it in the app.',
+      'Your key is like a password. Paste it only on the Skillion page (its address starts with api.skillion.app) or in your own settings, never in a chat, and do not commit a config file that has it. If it leaks, revoke it in the app.',
     ],
     limitsTitle: 'Limits',
     limitsText:
@@ -98,29 +109,37 @@ const T = {
     copied: 'Copied',
     onThisPage: 'On this page',
     toTop: '↑ Top',
-    toc: [['how', 'Connect it'], ['clients', 'Your app'], ['ask', 'What you can ask'], ['tools', 'Tools'], ['safe', 'Use it with care'], ['limits', 'Limits'], ['tech', 'For developers']],
+    toc: [['signin', 'Sign in (easy)'], ['clients', 'With your key'], ['key', 'Get your key'], ['ask', 'What you can ask'], ['tools', 'Tools'], ['safe', 'Use it with care'], ['limits', 'Limits'], ['tech', 'For developers']],
   },
   es: {
-    crumb: 'API de Skillion',
     title: 'MCP de Skillion',
     intro:
-      'Pregúntale a tu asistente de IA por tu Skillion: cómo es tu martes, tómate el viernes libre, crea una ' +
-      'tarea unida a una skill, apunta el dentista el jueves. Lee y cambia tu propia cuenta, con tu clave Premium.',
-    meta: 'Solo Premium · la misma clave y los mismos límites que la API',
+      'Pregúntale a ChatGPT, a Gemini, a Claude o a tu asistente de IA por tu Skillion: cómo es tu martes, tómate el viernes ' +
+      'libre, crea una tarea unida a una skill, apunta el dentista el jueves. Lee y cambia tu propia cuenta.',
+    meta: 'Incluido en Skillion Premium',
     urlLabel: 'URL del servidor',
     worksWith: 'Funciona con',
-    howTitle: 'Conéctalo en tres pasos',
-    how: [
-      'Saca tu clave en la app: Ajustes → toca 7 veces la versión → API para desarrolladores → Crear clave.',
-      'Pégala aquí. Rellena los comandos y los botones de abajo; se queda en esta pestaña y no se manda ni se guarda.',
-      'Elige tu app abajo y sigue sus dos o tres pasos.',
+    cta: 'Conéctalo',
+    signinTitle: 'La forma fácil: inicia sesión',
+    signinText:
+      'En ChatGPT, Gemini, Claude y otras apps solo pegas una dirección. Sin archivos ni terminal.',
+    signin: [
+      'Copia la dirección del servidor de Skillion:',
+      'Añádela en tu app como un conector nuevo (abajo, dónde exactamente en cada una).',
+      'Se abre una página de Skillion que te pide tu clave. Pégala, toca Permitir y ya está conectado. Para desconectarlo después, revoca esa clave en la app.',
     ],
-    keyLink: 'Paso a paso, con capturas',
+    keyLink: 'Cómo sacar tu clave',
+    clientsTitle: 'Con tu clave en la configuración',
+    clientsText:
+      'Para herramientas de terminal y editores de código. Pega aquí tu clave y todos los comandos y botones de abajo la llevan.',
+    clientsAlso:
+      'Claude Code, Cursor, VS Code, Codex y Gemini CLI también saben iniciar sesión: añade solo la dirección, sin cabecera, y abren la página de Skillion.',
     keyLabel: 'Tu clave',
     keyHelp: 'Solo en esta pestaña: no se manda ni se guarda.',
     keyBad: 'Eso no es una clave de Skillion: empieza por sk_live_ y lleva 64 caracteres más.',
-    clientsTitle: 'Tu app',
     notYetTitle: 'Todavía no',
+    apiDoor: '¿Programas? Las mismas 38 operaciones como API REST, campo a campo.',
+    apiDoorCta: 'Ir a la API',
     askTitle: 'Qué le puedes pedir',
     ask: [
       '«¿Cómo es mi martes?»',
@@ -148,7 +167,7 @@ const T = {
     safe: [
       'Deja activada la aprobación de las herramientas que cambian o borran: ves lo que el asistente va a hacer antes de que lo haga.',
       'Lo que el asistente lee de Skillion (los nombres de tus tareas, tus notas) son datos, no órdenes. Si alguna vez te propone algo que no pediste, di que no.',
-      'Tu clave es como una contraseña. No la pegues en un chat ni subas a git un archivo de configuración que la lleve: usa la variable de entorno o la pregunta que ves arriba. Si se te escapa, revócala en la app.',
+      'Tu clave es como una contraseña. Pégala solo en la página de Skillion (su dirección empieza por api.skillion.app) o en tu propia configuración, nunca en un chat, y no subas a git un archivo que la lleve. Si se te escapa, revócala en la app.',
     ],
     limitsTitle: 'Límites',
     limitsText:
@@ -166,11 +185,13 @@ const T = {
     copied: 'Copiado',
     onThisPage: 'En esta página',
     toTop: '↑ Arriba',
-    toc: [['how', 'Conéctalo'], ['clients', 'Tu app'], ['ask', 'Qué le puedes pedir'], ['tools', 'Herramientas'], ['safe', 'Úsalo con cuidado'], ['limits', 'Límites'], ['tech', 'Para desarrolladores']],
+    toc: [['signin', 'Iniciar sesión (fácil)'], ['clients', 'Con tu clave'], ['key', 'Tu clave'], ['ask', 'Qué le puedes pedir'], ['tools', 'Herramientas'], ['safe', 'Úsalo con cuidado'], ['limits', 'Límites'], ['tech', 'Para desarrolladores']],
   },
 }[lang];
 
 const ready = CLIENTS.filter((c) => !c.notYet);
+const bySignIn = ready.filter((c) => c.signIn);
+const byKey = ready.filter((c) => !c.signIn);
 const notYet = CLIENTS.filter((c) => c.notYet);
 const groups = GROUPS.map((g) => ({ ...g, ops: OPS.filter((o) => groupOf(o) === g) }));
 const kindOf = (o: (typeof OPS)[number]) =>
@@ -179,15 +200,15 @@ const kindOf = (o: (typeof OPS)[number]) =>
 
 <SiteNav lang={lang} altHref={altHref} section="legal" />
 
-<main class="dev-page" data-lang="curl" data-mcp-url={MCP_URL} data-key-placeholder={KEY_PLACEHOLDER}>
+<main class="dev-page" data-lang="curl" data-api-href={apiHref}>
   <header class="dev-hero">
     <div class="dev-hero__inner">
-      <p class="hero-crumb"><a href={apiHref}>{T.crumb}</a> / MCP</p>
+      <DevTabs lang={lang} current="mcp" />
       <h1 class="hero-title">{T.title}</h1>
       <p class="hero-subtitle">{T.intro}</p>
       <p class="hero-meta">{T.meta}</p>
       <div class="hero-actions">
-        <a class="btn-primary" href="#how">{T.howTitle}</a>
+        <a class="btn-primary" href="#signin">{T.cta}</a>
         <div class="base">
           <span class="base__label">{T.urlLabel}</span>
           <code class="base__url">{MCP_URL}</code>
@@ -197,7 +218,7 @@ const kindOf = (o: (typeof OPS)[number]) =>
       <p class="hero-meta" style="margin: 28px 0 0">{T.worksWith}</p>
       <ul class="works">
         {ready.map((c) => (
-          <li><a href={`#client-${c.id}`}>{c.logo && <img src={c.logo} alt="" width="20" height="20" />}{c.name}</a></li>
+          <li><a class="works__chip" href={`#client-${c.id}`}>{c.logo && <img src={c.logo} alt="" width="20" height="20" />}{c.name}</a></li>
         ))}
       </ul>
     </div>
@@ -210,6 +231,7 @@ const kindOf = (o: (typeof OPS)[number]) =>
         <div class="toc__group">
           <ul>
             {T.toc.map(([id, label]) => <li><a href={`#${id}`} data-toc-link>{label}</a></li>)}
+            <li><a href={apiHref} class="toc__out">API</a></li>
           </ul>
         </div>
       </nav>
@@ -217,34 +239,54 @@ const kindOf = (o: (typeof OPS)[number]) =>
 
     <div class="dev-content">
       <div class="prose">
-        <section class="dev-section" id="how">
-          <h2 class="section-title">{T.howTitle}<a class="anchor" href="#how" aria-hidden="true" tabindex="-1">#</a></h2>
+        {/* ---------- LA FORMA FÁCIL: INICIAR SESIÓN ---------- */}
+        <section class="dev-section" id="signin">
+          <h2 class="section-title">{T.signinTitle}<a class="anchor" href="#signin" aria-hidden="true" tabindex="-1">#</a></h2>
+          <p>{T.signinText}</p>
           <ol class="steps">
             <li class="step">
               <span class="step__num" aria-hidden="true">1</span>
-              <div class="step__body"><p>{T.how[0]} <a href={`${apiHref}#key`}>{T.keyLink}</a></p></div>
-            </li>
-            <li class="step">
-              <span class="step__num" aria-hidden="true">2</span>
               <div class="step__body">
-                <p>{T.how[1]}</p>
-                <div class="keybox">
-                  <label for="mcp-key">{T.keyLabel}</label>
-                  <input id="mcp-key" type="password" autocomplete="off" spellcheck="false" placeholder="sk_live_…" aria-describedby="mcp-key-help" />
-                  <p id="mcp-key-help" data-ok={T.keyHelp} data-bad={T.keyBad}>{T.keyHelp}</p>
+                <p>{T.signin[0]}</p>
+                <div class="code">
+                  <div class="code__bar"><span>{T.urlLabel}</span><button type="button" class="copy" data-copied={T.copied}>{T.copy}</button></div>
+                  <pre><code>{MCP_URL}</code></pre>
                 </div>
               </div>
             </li>
             <li class="step">
+              <span class="step__num" aria-hidden="true">2</span>
+              <div class="step__body"><p>{T.signin[1]}</p></div>
+            </li>
+            <li class="step">
               <span class="step__num" aria-hidden="true">3</span>
-              <div class="step__body"><p>{T.how[2]}</p></div>
+              <div class="step__body"><p>{T.signin[2]} <a href="#key">{T.keyLink}</a></p></div>
             </li>
           </ol>
+          {bySignIn.map((c) => (
+            <div class="client" id={`client-${c.id}`}>
+              <div class="client__head">
+                {c.logo && <img src={c.logo} alt="" width="26" height="26" />}
+                <h3>{c.name}</h3>
+                <span class="client__who">{pick(lang, c.who)}</span>
+              </div>
+              {c.steps.map((s) => <p><Rich text={pick(lang, s)} /></p>)}
+              {c.note && <Callout text={pick(lang, c.note)} />}
+            </div>
+          ))}
         </section>
 
+        {/* ---------- CON LA CLAVE EN LA CONFIGURACIÓN ---------- */}
         <section class="dev-section" id="clients">
           <h2 class="section-title">{T.clientsTitle}<a class="anchor" href="#clients" aria-hidden="true" tabindex="-1">#</a></h2>
-          {ready.map((c) => (
+          <p>{T.clientsText}</p>
+          <div class="keybox">
+            <label for="mcp-key">{T.keyLabel}</label>
+            <input id="mcp-key" type="password" autocomplete="off" spellcheck="false" placeholder="sk_live_…" aria-describedby="mcp-key-help" />
+            <p id="mcp-key-help" data-ok={T.keyHelp} data-bad={T.keyBad}>{T.keyHelp}</p>
+          </div>
+          <Callout text={T.clientsAlso} />
+          {byKey.map((c) => (
             <div class="client" id={`client-${c.id}`}>
               <div class="client__head">
                 {c.logo && <img src={c.logo} alt="" width="26" height="26" />}
@@ -271,6 +313,8 @@ const kindOf = (o: (typeof OPS)[number]) =>
             </>
           )}
         </section>
+
+        <KeySteps lang={lang} />
 
         <section class="dev-section" id="ask">
           <h2 class="section-title">{T.askTitle}<a class="anchor" href="#ask" aria-hidden="true" tabindex="-1">#</a></h2>
@@ -324,6 +368,10 @@ const kindOf = (o: (typeof OPS)[number]) =>
   -d '{"jsonrpc": "2.0", "id": 1, "method": "tools/list"}'`} />
         </section>
       </div>
+      <div class="next-door">
+        <p>{T.apiDoor}</p>
+        <a class="btn-primary" href={apiHref}>{T.apiDoorCta}</a>
+      </div>
     </div>
   </div>
   <button type="button" class="to-top">{T.toTop}</button>
@@ -332,7 +380,15 @@ const kindOf = (o: (typeof OPS)[number]) =>
 <script>
   import { initDevDocs } from '../scripts/dev-docs';
   import { initMcpKey } from '../scripts/mcp-key';
+  // /developers era la API: un enlace viejo a una de sus secciones sigue llegando.
+  const API_ANCHOR = /^(get|post|patch|put|delete)-|^(quickstart|auth|paging|errors|sync|index|account|tasks|subtasks|skills|categories|history|routines|week|days|commitments|examples)$/;
   const init = () => {
+    const root = document.querySelector<HTMLElement>('.dev-page[data-api-href]');
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (root && id && API_ANCHOR.test(id) && !document.getElementById(id)) {
+      location.replace(root.dataset.apiHref + '#' + id);
+      return;
+    }
     initDevDocs();
     initMcpKey();
   };
