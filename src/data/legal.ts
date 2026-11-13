@@ -24,7 +24,7 @@ export interface LegalBlock {
   p?: string;
   /** Lista de puntos. */
   ul?: string[];
-  /** Subtitulo dentro de un apartado. La privacidad usa once. */
+  /** Subtitulo dentro de un apartado. La privacidad usa doce. */
   sub?: string;
   /** Tercer nivel. Solo lo usan los tres servicios de terceros. */
   sub2?: string;
@@ -378,6 +378,20 @@ const privacyEn: LegalDoc = {
             'Avatar configuration',
           ],
         },
+        { sub: '1.4 Calendar Data (Optional)' },
+        { p: 'Skillion only touches your calendar if you connect it in Routines. You can use the calendar already on your phone, or connect a Google account.' },
+        {
+          ul: [
+            '<strong>What we read:</strong> the list of your calendars and, for the ones you choose, your events from yesterday to 14 days ahead (title, date and time, and whether you declined it or marked it as free)',
+            '<strong>Why:</strong> to show your events inside your day, next to your routine, so your time blocks make room for them',
+            '<strong>Where it stays:</strong> on your device. Your events are not sent to our servers. A copy may be kept on your device so your day still shows without internet',
+            '<strong>What we write:</strong> only if you turn it on, Skillion creates one calendar called "Skillion" and writes your routine blocks to it. It never changes or deletes your own events or calendars',
+            '<strong>Google account:</strong> if you connect one, we also receive its email address, to show you which account is connected. The access Google grants is stored on your device',
+          ],
+        },
+        { p: 'We do not use calendar data for advertising, we do not share it with anyone, and we do not use it to train AI models.' },
+        { p: 'Skillion\'s use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a>, including the Limited Use requirements.' },
+        { p: 'You can stop at any time: tap <strong>Disconnect</strong> in Routines, under Calendar. That stops Skillion from reading your calendar and deletes the copy of your events from your device. You can also remove Skillion\'s permission from your <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">Google Account</a>.' },
       ],
     },
     {
@@ -549,7 +563,7 @@ const privacyEn: LegalDoc = {
     { key: 'Website', value: 'https://skillion.app', href: 'https://skillion.app' },
     { key: 'App', value: 'Skillion - Available on iOS and Android' },
   ],
-  updatedNote: 'Last Updated: January 1, 2025',
+  updatedNote: 'Last Updated: November 12, 2026',
 };
 
 const privacyEs: LegalDoc = {
@@ -604,6 +618,20 @@ const privacyEs: LegalDoc = {
             'Configuración del avatar',
           ],
         },
+        { sub: '1.4 Datos del Calendario (Opcional)' },
+        { p: 'Skillion solo toca tu calendario si lo conectas en Rutinas. Puedes usar el calendario que ya tiene tu teléfono o conectar una cuenta de Google.' },
+        {
+          ul: [
+            '<strong>Qué leemos:</strong> la lista de tus calendarios y, de los que elijas, tus eventos desde ayer hasta 14 días adelante (título, fecha y hora, y si lo rechazaste o lo marcaste como disponible)',
+            '<strong>Para qué:</strong> para mostrar tus eventos dentro de tu día, junto a tu rutina, y que tus bloques de tiempo les dejen su rato',
+            '<strong>Dónde se queda:</strong> en tu dispositivo. Tus eventos no se envían a nuestros servidores. Puede guardarse una copia en tu dispositivo para que tu día se vea sin internet',
+            '<strong>Qué escribimos:</strong> solo si lo activas, Skillion crea un calendario llamado «Skillion» y escribe en él los bloques de tu rutina. Nunca cambia ni borra tus propios eventos o calendarios',
+            '<strong>Cuenta de Google:</strong> si conectas una, también recibimos su correo electrónico, para mostrarte qué cuenta está conectada. El acceso que concede Google se guarda en tu dispositivo',
+          ],
+        },
+        { p: 'No usamos los datos del calendario para publicidad, no los compartimos con nadie y no los usamos para entrenar modelos de IA.' },
+        { p: 'El uso que hace Skillion de la información recibida de las API de Google cumple la <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer">Política de Datos de Usuario de los Servicios de API de Google</a>, incluidos los requisitos de Uso Limitado.' },
+        { p: 'Puedes parar cuando quieras: toca <strong>Desconectar</strong> en Rutinas, dentro de Calendario. Skillion deja de leer tu calendario y se borra la copia de tus eventos de tu dispositivo. También puedes quitarle el permiso a Skillion desde tu <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">Cuenta de Google</a>.' },
       ],
     },
     {
@@ -775,7 +803,7 @@ const privacyEs: LegalDoc = {
     { key: 'Sitio Web', value: 'https://skillion.app', href: 'https://skillion.app' },
     { key: 'App', value: 'Skillion - Disponible en iOS y Android' },
   ],
-  updatedNote: 'Última Actualización: 1 de enero de 2025',
+  updatedNote: 'Última Actualización: 12 de noviembre de 2026',
 };
 
 export const PRIVACY: Record<Lang, LegalDoc> = { en: privacyEn, es: privacyEs };
