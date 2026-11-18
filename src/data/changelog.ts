@@ -44,9 +44,75 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
   {
+    version: '3.0.0',
+    date: '2026-11-17',
+    highlight: true,
+    entries: [
+      {
+        icon: '🤝',
+        tag: 'feature',
+        title: {
+          en: 'Pacts in groups and teams',
+          es: 'Pactos en grupo y por equipos',
+        },
+        description: {
+          en: 'A pact can now have 3 to 10 people, free for all, or teams of 2 vs 2 and 3 vs 3. The top three make the podium, and we suggest ideas when you set the prize.',
+          es: 'Un pacto ya puede ser de 3 a 10 personas, todos contra todos, o por equipos de 2 vs 2 y 3 vs 3. Los tres primeros suben al podio, y al poner el premio te damos ideas.',
+        },
+      },
+      {
+        icon: '🏆',
+        tag: 'feature',
+        title: {
+          en: 'Achievements',
+          es: 'Logros',
+        },
+        description: {
+          en: 'A new tab on your profile with 15 achievements, like Early Bird or Perfect Week. Each one gives you XP when you unlock it.',
+          es: 'Una pestaña nueva en tu perfil con 15 logros, como Madrugador o Semana perfecta. Cada uno te da XP al desbloquearlo.',
+        },
+      },
+      {
+        icon: '📅',
+        tag: 'feature',
+        title: {
+          en: 'Your calendar in your day',
+          es: 'Tu calendario en tu día',
+        },
+        description: {
+          en: 'In Time Blocking, connect your phone\'s calendar and your events show up next to your routine. If you want, your routine shows up in your calendar app too.',
+          es: 'En Time Blocking, conecta el calendario del teléfono y tus eventos aparecen junto a tu rutina. Si quieres, tu rutina también aparece en tu app de calendario.',
+        },
+      },
+      {
+        icon: '📊',
+        tag: 'improvement',
+        title: {
+          en: 'Stats, redesigned',
+          es: 'Estadísticas renovadas',
+        },
+        description: {
+          en: 'Your profile has new Stats: how much XP you earn and where it comes from, the tasks you complete and your top skills. The Logbook got a new look too.',
+          es: 'Tu perfil estrena Estadísticas: cuánta XP ganas y de dónde sale, las tareas que completas y tus mejores habilidades. La Bitácora también cambió de cara.',
+        },
+      },
+      {
+        icon: '💪',
+        tag: 'improvement',
+        title: {
+          en: 'Skills, redesigned',
+          es: 'Habilidades con nuevo diseño',
+        },
+        description: {
+          en: 'See your skills\' podium and each one\'s activity this week. Press and hold a skill to see its options.',
+          es: 'Mira el podio de tus habilidades y la actividad de cada una en la semana. Mantén pulsada una habilidad para ver sus opciones.',
+        },
+      },
+    ],
+  },
+  {
     version: '2.15.0',
     date: '2026-11-09',
-    highlight: true,
     entries: [
       {
         icon: '🕐',
