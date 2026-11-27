@@ -44,9 +44,75 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
   {
+    version: '3.1.0',
+    date: '2026-11-27',
+    highlight: true,
+    entries: [
+      {
+        icon: '📋',
+        tag: 'feature',
+        title: {
+          en: 'Tasks, redesigned',
+          es: 'Tareas con nuevo diseño',
+        },
+        description: {
+          en: 'At the top, your avatar with level, health and energy, which folds away as you scroll. Clearer cards and today’s pacts first in the list, so you can check in without leaving. Swipe a task to archive, edit or delete it.',
+          es: 'Arriba, tu avatar con nivel, vida y energía, que se recoge al bajar. Tarjetas más claras y tus pactos de hoy al principio de la lista, para hacer el check-in sin salir. Desliza una tarea para archivarla, editarla o borrarla.',
+        },
+      },
+      {
+        icon: '↩️',
+        tag: 'feature',
+        title: {
+          en: 'Undo right away',
+          es: 'Deshaz al momento',
+        },
+        description: {
+          en: 'When you complete a task, «Undo» shows for a few seconds. On a weekly goal or an unlimited task, press and hold the box to take back the latest one.',
+          es: 'Al completar una tarea aparece «Deshacer» unos segundos. En una meta semanal o una tarea sin límite, mantén pulsada la casilla para quitar la última.',
+        },
+      },
+      {
+        icon: '📅',
+        tag: 'improvement',
+        title: {
+          en: 'Weekly goals, day by day',
+          es: 'Metas semanales, día a día',
+        },
+        description: {
+          en: '«3 times per week» counts once a day and the task returns tomorrow. Did it twice today? Tap its box again.',
+          es: '«3 veces por semana» cuenta una vez al día y la tarea vuelve mañana. ¿La hiciste dos veces hoy? Toca su casilla otra vez.',
+        },
+      },
+      {
+        icon: '🔥',
+        tag: 'fix',
+        title: {
+          en: 'Fairer streaks',
+          es: 'Rachas más justas',
+        },
+        description: {
+          en: 'Days a task isn’t due no longer break its streak: a Monday-to-Friday task doesn’t lose it over the weekend.',
+          es: 'Los días en que una tarea no toca ya no cortan su racha: una tarea de lunes a viernes no la pierde el fin de semana.',
+        },
+      },
+      {
+        icon: '🎁',
+        tag: 'feature',
+        title: {
+          en: 'Redeem a code',
+          es: 'Canjear un código',
+        },
+        description: {
+          en: 'Tap the gift in the Store, type a code we give you and get energy, health, XP or items.',
+          es: 'Toca el regalo de la tienda, escribe un código que te demos y recibe energía, salud, XP u objetos.',
+        },
+      },
+    ],
+  },
+  {
     version: '3.0.0',
     date: '2026-11-17',
-    highlight: true,
     entries: [
       {
         icon: '🤝',
